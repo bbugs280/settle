@@ -1,0 +1,21 @@
+<ion-view title="Balance">
+  <ion-content class="padding">
+
+      <table width="100%" style="font-size: large;font-family: Verdana ;">
+          <tr>
+
+              <td>
+                  {{user.get('email')}}
+              </td>
+              <td>
+                  <b>${{user.get('balances')[0].amount}}</b>
+              </td>
+          </tr>
+      </table>
+      <ion-list>
+          <ion-item ng-repeat="balance in balances">
+              {{balance}}
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

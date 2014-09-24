@@ -1,0 +1,44 @@
+<ion-view title="Login">
+    <ion-content class="has-header">
+
+        <form ng-submit="login(user)">
+            <div class="list" align="center">
+                <label class="item item-input">
+                    <input type="text" placeholder="Email" ng-model="user.email">
+                </label>
+
+                <label class="item item-input">
+                    <input type="password" placeholder="Password" ng-model="user.password">
+                </label>
+
+                <button class="button button-dark" type="submit" style="width: 100%">
+                    Go!
+                </button>
+                <button class="button button-dark" style="width: 100%" ng-click="goTosignUp()">
+                Sign Up
+                </button>
+                <button class="button button-dark" style="width: 100%" ng-click="forgotPassword(user)">
+                Forget Password?
+                </button>
+                <!--<table width="100%">-->
+
+                 <!--<tr>-->
+                     <!--<td width="50%">-->
+                         <!--<button class="button button-dark" style="width: 100%" ng-click="goTosignUp()">-->
+                             <!--Sign Up-->
+                         <!--</button>-->
+                     <!--</td>-->
+                     <!--<td>-->
+                         <!--<button class="button button-dark" style="width: 100%" ng-click="forgotPassword(user)">-->
+                             <!--Forget Password?-->
+                         <!--</button>-->
+                     <!--</td>-->
+                 <!--</tr>-->
+
+
+                <!--</table>-->
+            </div>
+        </form>
+
+    </ion-content>
+</ion-view>
