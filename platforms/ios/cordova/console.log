@@ -1,0 +1,228 @@
+2014-09-09 11:36:24.839 settle[46267:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 11:36:25.318 settle[46267:70b] Unlimited access to network resources
+2014-09-09 11:36:28.412 settle[46267:70b] [CDVTimer][keyboard] 0.046015ms
+2014-09-09 11:36:28.413 settle[46267:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 11:36:28.413 settle[46267:70b] [CDVTimer][statusbar] 0.524998ms
+2014-09-09 11:36:28.414 settle[46267:70b] [CDVTimer][TotalPluginStartup] 1.649022ms
+2014-09-09 11:36:29.446 settle[46267:70b] Resetting plugins due to page load.
+2014-09-09 11:36:30.565 settle[46267:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/dash
+2014-09-09 21:32:10.746 settle[48206:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 21:32:10.930 settle[48206:70b] Unlimited access to network resources
+2014-09-09 21:32:12.835 settle[48206:70b] [CDVTimer][keyboard] 0.066042ms
+2014-09-09 21:32:12.836 settle[48206:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 21:32:12.837 settle[48206:70b] [CDVTimer][statusbar] 0.515997ms
+2014-09-09 21:32:12.837 settle[48206:70b] [CDVTimer][TotalPluginStartup] 1.598001ms
+2014-09-09 21:32:14.497 settle[48206:70b] Resetting plugins due to page load.
+2014-09-09 21:32:15.291 settle[48206:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/dash
+2014-09-09 22:17:31.761 settle[48863:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 22:17:31.936 settle[48863:70b] Unlimited access to network resources
+2014-09-09 22:17:32.265 settle[48863:70b] [CDVTimer][keyboard] 0.045002ms
+2014-09-09 22:17:32.266 settle[48863:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 22:17:32.266 settle[48863:70b] [CDVTimer][statusbar] 0.303984ms
+2014-09-09 22:17:32.266 settle[48863:70b] [CDVTimer][TotalPluginStartup] 1.076996ms
+2014-09-09 22:17:32.337 settle[48863:70b] Resetting plugins due to page load.
+2014-09-09 22:17:32.707 settle[48863:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/dash
+2014-09-09 22:17:32.736 settle[48863:70b] THREAD WARNING: ['Device'] took '14.443848' ms. Plugin should use a background thread.
+2014-09-09 22:21:33.122 settle[49173:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 22:21:33.127 settle[49173:70b] Unlimited access to network resources
+2014-09-09 22:21:33.157 settle[49173:70b] [CDVTimer][keyboard] 0.046015ms
+2014-09-09 22:21:33.158 settle[49173:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 22:21:33.158 settle[49173:70b] [CDVTimer][statusbar] 0.461042ms
+2014-09-09 22:21:33.159 settle[49173:70b] [CDVTimer][TotalPluginStartup] 1.509011ms
+2014-09-09 22:21:33.362 settle[49173:70b] Resetting plugins due to page load.
+2014-09-09 22:21:33.488 settle[49173:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/balance
+2014-09-09 22:29:05.568 settle[49830:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 22:29:05.605 settle[49830:70b] Unlimited access to network resources
+2014-09-09 22:29:05.625 settle[49830:70b] [CDVTimer][keyboard] 0.046015ms
+2014-09-09 22:29:05.626 settle[49830:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 22:29:05.626 settle[49830:70b] [CDVTimer][statusbar] 0.451982ms
+2014-09-09 22:29:05.627 settle[49830:70b] [CDVTimer][TotalPluginStartup] 1.408041ms
+2014-09-09 22:29:05.883 settle[49830:70b] Resetting plugins due to page load.
+2014-09-09 22:29:06.002 settle[49830:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/balance
+2014-09-09 22:44:37.246 settle[50248:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-09 22:44:37.290 settle[50248:70b] Unlimited access to network resources
+2014-09-09 22:44:37.322 settle[50248:70b] [CDVTimer][keyboard] 0.046015ms
+2014-09-09 22:44:37.323 settle[50248:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-09 22:44:37.323 settle[50248:70b] [CDVTimer][statusbar] 0.378966ms
+2014-09-09 22:44:37.323 settle[50248:70b] [CDVTimer][TotalPluginStartup] 1.237988ms
+2014-09-09 22:44:37.386 settle[50248:70b] Resetting plugins due to page load.
+2014-09-09 22:44:37.786 settle[50248:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/balance
+2014-09-10 23:12:58.051 settle[54329:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-10 23:12:58.207 settle[54329:70b] Unlimited access to network resources
+2014-09-10 23:13:00.186 settle[54329:70b] [CDVTimer][keyboard] 18.863976ms
+2014-09-10 23:13:00.187 settle[54329:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-10 23:13:00.187 settle[54329:70b] [CDVTimer][statusbar] 0.347018ms
+2014-09-10 23:13:00.187 settle[54329:70b] [CDVTimer][TotalPluginStartup] 19.948006ms
+2014-09-10 23:13:01.269 settle[54329:70b] Resetting plugins due to page load.
+2014-09-10 23:13:02.559 settle[54329:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/balance
+2014-09-11 22:18:30.316 settle[56298:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-11 22:18:30.640 settle[56298:70b] Unlimited access to network resources
+2014-09-11 22:18:34.243 settle[56298:70b] [CDVTimer][keyboard] 0.061989ms
+2014-09-11 22:18:34.244 settle[56298:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-11 22:18:34.244 settle[56298:70b] [CDVTimer][statusbar] 0.429988ms
+2014-09-11 22:18:34.245 settle[56298:70b] [CDVTimer][TotalPluginStartup] 1.468003ms
+2014-09-11 22:18:38.962 settle[56298:70b] Resetting plugins due to page load.
+2014-09-11 22:18:41.685 settle[56298:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/user/login
+2014-09-11 23:00:48.321 settle[56648:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-11 23:00:48.336 settle[56648:70b] Unlimited access to network resources
+2014-09-11 23:00:48.356 settle[56648:70b] [CDVTimer][keyboard] 0.043035ms
+2014-09-11 23:00:48.356 settle[56648:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-11 23:00:48.357 settle[56648:70b] [CDVTimer][statusbar] 0.504017ms
+2014-09-11 23:00:48.357 settle[56648:70b] [CDVTimer][TotalPluginStartup] 1.478970ms
+2014-09-11 23:00:48.897 settle[56648:70b] Resetting plugins due to page load.
+2014-09-11 23:00:49.224 settle[56648:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab
+2014-09-11 23:00:49.249 settle[56648:70b] THREAD WARNING: ['Device'] took '11.267822' ms. Plugin should use a background thread.
+2014-09-15 00:03:49.105 settle[6582:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-15 00:03:49.110 settle[6582:70b] Unlimited access to network resources
+2014-09-15 00:03:49.126 settle[6582:70b] [CDVTimer][keyboard] 0.045002ms
+2014-09-15 00:03:49.126 settle[6582:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-15 00:03:49.127 settle[6582:70b] [CDVTimer][statusbar] 0.425994ms
+2014-09-15 00:03:49.127 settle[6582:70b] [CDVTimer][TotalPluginStartup] 1.402974ms
+2014-09-15 00:03:49.185 settle[6582:70b] Resetting plugins due to page load.
+2014-09-15 00:03:49.737 settle[6582:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/balance
+2014-09-15 00:03:49.769 settle[6582:70b] THREAD WARNING: ['Device'] took '14.380859' ms. Plugin should use a background thread.
+2014-09-15 00:04:09.271 settle[6582:70b] controller - BalanceCtrl start
+2014-09-15 00:04:16.680 settle[6582:70b] controller - BalanceCtrl start
+2014-09-15 00:05:20.674 settle[6582:70b] controller - BalanceCtrl start
+2014-09-15 00:05:34.627 settle[6582:70b] controller - BalanceCtrl start
+2014-09-15 00:09:22.723 settle[6930:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-15 00:09:22.729 settle[6930:70b] Unlimited access to network resources
+2014-09-15 00:09:22.742 settle[6930:70b] [CDVTimer][keyboard] 0.051022ms
+2014-09-15 00:09:22.742 settle[6930:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-15 00:09:22.742 settle[6930:70b] [CDVTimer][statusbar] 0.366986ms
+2014-09-15 00:09:22.743 settle[6930:70b] [CDVTimer][TotalPluginStartup] 1.157999ms
+2014-09-15 00:09:22.774 settle[6930:70b] Resetting plugins due to page load.
+2014-09-15 00:09:22.971 settle[6930:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/login
+2014-09-15 00:15:33.578 settle[6930:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 00:15:33.579 settle[6930:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 00:15:33.579 settle[6930:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 00:15:33.579 settle[6930:70b] controller - success login
+2014-09-15 00:15:33.579 settle[6930:70b] controller - redirected success login
+2014-09-15 00:15:37.356 settle[6930:70b] controller - BalanceCtrl start
+2014-09-15 00:15:37.356 settle[6930:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-15 00:15:37.357 settle[6930:70b] true
+2014-09-15 00:15:37.678 settle[6930:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 00:15:37.679 settle[6930:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 00:15:37.679 settle[6930:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 00:15:37.679 settle[6930:70b] controller - success login
+2014-09-15 00:15:37.679 settle[6930:70b] controller - redirected success login
+2014-09-15 00:15:39.641 settle[6930:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 00:15:41.470 settle[6930:70b] 1
+2014-09-15 00:15:42.160 settle[6930:70b] 11
+2014-09-15 00:15:42.506 settle[6930:70b] 112
+2014-09-15 00:15:42.653 settle[6930:70b] 1121
+2014-09-15 00:15:42.812 settle[6930:70b] 11212
+2014-09-15 00:15:43.329 settle[6930:70b] 112123
+2014-09-15 00:15:43.577 settle[6930:70b] 1121233
+2014-09-15 00:16:08.966 settle[6930:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
+2014-09-15 00:16:09.792 settle[6930:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 00:16:12.285 settle[6930:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 00:16:14.724 settle[6930:70b] 9
+2014-09-15 00:16:14.786 settle[6930:70b] 90
+2014-09-15 08:16:11.966 settle[6930:70b] controller - BalanceCtrl start
+2014-09-15 08:16:11.966 settle[6930:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-15 08:16:11.966 settle[6930:70b] true
+2014-09-15 08:16:49.496 settle[6930:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 08:16:49.497 settle[6930:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 08:16:49.497 settle[6930:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 08:16:49.497 settle[6930:70b] controller - success login
+2014-09-15 08:16:49.497 settle[6930:70b] controller - redirected success login
+2014-09-15 08:16:50.838 settle[6930:70b] controller - BalanceCtrl start
+2014-09-15 08:16:50.838 settle[6930:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-15 08:16:50.838 settle[6930:70b] true
+2014-09-15 08:16:51.179 settle[6930:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 08:16:51.180 settle[6930:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 08:16:51.180 settle[6930:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 08:16:51.180 settle[6930:70b] controller - success login
+2014-09-15 08:16:51.180 settle[6930:70b] controller - redirected success login
+2014-09-15 08:16:54.854 settle[6930:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 08:16:57.786 settle[6930:70b] 5
+2014-09-15 08:16:58.344 settle[6930:70b] 50
+2014-09-15 23:46:15.602 settle[10685:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-15 23:46:15.666 settle[10685:70b] Unlimited access to network resources
+2014-09-15 23:46:15.771 settle[10685:70b] [CDVTimer][keyboard] 0.046015ms
+2014-09-15 23:46:15.771 settle[10685:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-15 23:46:15.772 settle[10685:70b] [CDVTimer][statusbar] 0.559986ms
+2014-09-15 23:46:15.772 settle[10685:70b] [CDVTimer][TotalPluginStartup] 1.571000ms
+2014-09-15 23:46:16.921 settle[10685:70b] Resetting plugins due to page load.
+2014-09-15 23:46:17.353 settle[10685:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/login
+2014-09-15 23:48:43.267 settle[10685:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:48:43.268 settle[10685:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:48:43.268 settle[10685:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 23:48:43.268 settle[10685:70b] controller - success login
+2014-09-15 23:48:43.268 settle[10685:70b] controller - redirected success login
+2014-09-15 23:48:48.810 settle[10685:70b] controller - BalanceCtrl start
+2014-09-15 23:48:48.810 settle[10685:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-15 23:48:48.810 settle[10685:70b] true
+2014-09-15 23:48:49.139 settle[10685:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:48:49.139 settle[10685:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:48:49.139 settle[10685:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 23:48:49.140 settle[10685:70b] controller - success login
+2014-09-15 23:48:49.140 settle[10685:70b] controller - redirected success login
+2014-09-15 23:48:50.927 settle[10685:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 23:48:53.567 settle[10685:70b] _yxm2znku5|yeung.vincent@gmail.com|1
+2014-09-15 23:48:55.251 settle[10685:70b] _nv6nss396|yeung.vincent@gmail.com|12
+2014-09-15 23:48:55.406 settle[10685:70b] _mzisr1qu1|yeung.vincent@gmail.com|121
+2014-09-15 23:49:09.698 settle[10685:70b] _5is87xkhx|yeung.vincent@gmail.com|undefined
+2014-09-15 23:49:31.496 settle[10685:70b] _cbske1dkb|yeung.vincent@gmail.com|121
+2014-09-15 23:49:31.589 settle[10685:70b] _amzctnycr|yeung.vincent@gmail.com|12
+2014-09-15 23:49:31.687 settle[10685:70b] _hihct48sy|yeung.vincent@gmail.com|1
+2014-09-15 23:49:31.836 settle[10685:70b] _j075tyzrs|yeung.vincent@gmail.com|null
+2014-09-15 23:50:53.953 settle[11413:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-15 23:50:53.958 settle[11413:70b] Unlimited access to network resources
+2014-09-15 23:50:53.971 settle[11413:70b] [CDVTimer][keyboard] 0.047982ms
+2014-09-15 23:50:53.971 settle[11413:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-09-15 23:50:53.972 settle[11413:70b] [CDVTimer][statusbar] 0.488997ms
+2014-09-15 23:50:53.972 settle[11413:70b] [CDVTimer][TotalPluginStartup] 1.455009ms
+2014-09-15 23:50:53.999 settle[11413:70b] Resetting plugins due to page load.
+2014-09-15 23:50:54.173 settle[11413:70b] Finished load of: file:///Users/vincent/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/15220EDB-BBEA-4333-8C53-EA46760E9857/settle.app/www/index.html#/tab/login
+2014-09-15 23:51:45.554 settle[11413:70b] service - sucess login : user JSON {"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:51:45.555 settle[11413:70b] service - sucess login : current JSON{"email":"yeung.vincent@gmail.com","emailVerified":true,"username":"yeung.vincent@gmail.com","objectId":"rAHhqgjznr","createdAt":"2014-09-14T12:40:02.051Z","updatedAt":"2014-09-14T12:52:25.479Z"}
+2014-09-15 23:51:45.555 settle[11413:70b] service - sucess login : user name yeung.vincent@gmail.com
+2014-09-15 23:51:45.555 settle[11413:70b] controller - success login
+2014-09-15 23:51:45.555 settle[11413:70b] controller - redirected success login
+2014-09-15 23:51:46.354 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-15 23:51:50.550 settle[11413:70b] _vffqpqk3k|yeung.vincent@gmail.com|1
+2014-09-15 23:51:51.978 settle[11413:70b] _ts3wxkm8g|yeung.vincent@gmail.com|18
+2014-09-15 23:51:52.730 settle[11413:70b] _j9anu958f|yeung.vincent@gmail.com|189
+2014-09-15 23:51:53.518 settle[11413:70b] _b9xaq88nt|yeung.vincent@gmail.com|1896
+2014-09-15 23:52:18.388 settle[11413:70b] _v7148qukm|yeung.vincent@gmail.com|189
+2014-09-15 23:52:19.768 settle[11413:70b] _a7vvo0kkg|yeung.vincent@gmail.com|18
+2014-09-15 23:52:20.441 settle[11413:70b] _fzviozc7s|yeung.vincent@gmail.com|1
+2014-09-15 23:52:21.176 settle[11413:70b] _i7q7n88fn|yeung.vincent@gmail.com|
+2014-09-15 23:52:25.708 settle[11413:70b] _zmixs2krl|yeung.vincent@gmail.com|3
+2014-09-15 23:52:26.292 settle[11413:70b] _u32o3ak5a|yeung.vincent@gmail.com|36
+2014-09-15 23:52:27.090 settle[11413:70b] _t148subdx|yeung.vincent@gmail.com|369
+2014-09-16 08:21:53.629 settle[11413:70b] controller - BalanceCtrl start
+2014-09-16 08:21:53.652 settle[11413:70b] THREAD WARNING: ['Console'] took '23.235107' ms. Plugin should use a background thread.
+2014-09-16 08:21:53.652 settle[11413:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-16 08:21:53.652 settle[11413:70b] true
+2014-09-16 08:21:54.642 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 08:22:16.670 settle[11413:70b] controller - BalanceCtrl start
+2014-09-16 08:22:16.670 settle[11413:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-16 08:22:16.671 settle[11413:70b] true
+2014-09-16 08:22:18.874 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 08:22:22.977 settle[11413:70b] _8txb0ko0b|yeung.vincent@gmail.com|2
+2014-09-16 08:22:23.927 settle[11413:70b] _voq398o3k|yeung.vincent@gmail.com|20
+2014-09-16 08:22:24.465 settle[11413:70b] _09zc3i68m|yeung.vincent@gmail.com|200
+2014-09-16 20:18:51.411 settle[11413:70b] controller - BalanceCtrl start
+2014-09-16 20:18:51.429 settle[11413:70b] THREAD WARNING: ['Console'] took '17.714844' ms. Plugin should use a background thread.
+2014-09-16 20:18:51.429 settle[11413:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-16 20:18:51.430 settle[11413:70b] true
+2014-09-16 20:18:52.840 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 20:18:54.079 settle[11413:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
+2014-09-16 20:18:56.520 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 20:18:57.664 settle[11413:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
+2014-09-16 20:18:59.115 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 20:19:01.669 settle[11413:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
+2014-09-16 20:19:02.521 settle[11413:70b] controller - BalanceCtrl start
+2014-09-16 20:19:02.521 settle[11413:70b] LOADING BALANCE PAGE: yeung.vincent@gmail.com
+2014-09-16 20:19:02.521 settle[11413:70b] true
+2014-09-16 20:19:05.403 settle[11413:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
+2014-09-16 20:19:06.166 settle[11413:70b] LOADING Send PAGE: yeung.vincent@gmail.com
+2014-09-16 20:19:35.926 settle[11413:70b] _pezzrc3ja|yeung.vincent@gmail.com|2
+2014-09-16 20:19:36.739 settle[11413:70b] _aajsvk9he|yeung.vincent@gmail.com|21
+2014-09-16 20:19:37.325 settle[11413:70b] _w1xxnuixx|yeung.vincent@gmail.com|214
+2014-09-16 20:19:37.750 settle[11413:70b] _as4e86cqk|yeung.vincent@gmail.com|2145
+2014-09-16 20:19:38.369 settle[11413:70b] _nsjgaqcfx|yeung.vincent@gmail.com|21458
+2014-09-16 20:19:40.952 settle[11413:70b] LOADING Receive PAGE: yeung.vincent@gmail.com
