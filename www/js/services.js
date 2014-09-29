@@ -42,28 +42,12 @@ angular.module('starter.services', [])
                   user.login(username, password, callback(user));
 
             },
-            // Login a user using Facebook
-//            FB_login : function FB_login(callback) {
-//                Parse.FacebookUtils.logIn(null, {
-//                    success: function(user) {
-//                        if (!user.existed()) {
-//                            alert("User signed up and logged in through Facebook!");
-//                        } else {
-//                            alert("User logged in through Facebook!");
-//                        }
-//                        loggedInUser = user;
-//                        callback(user);
-//                    },
-//                    error: function(user, error) {
-//                        alert("User cancelled the Facebook login or did not fully authorize.");
-//                    }
-//                });
-//            },
+
 
             // Register a user
             signUp : function signUp(email, password, callback) {
                 var user = new User();
-                user.signUp(email,password,callback(user));
+                user.signUp(email, email,password,callback(user));
             },
 
             // Logout current user
@@ -78,6 +62,36 @@ angular.module('starter.services', [])
                  return user.getCurrentUser();
             },
 
+            recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user){
+                var tran = new transaction();
+                tran.set("tranId", id);
+                tran.set("amount", Number(amount));
+                tran.set("from", from);
+                tran.set("to", to);
+                tran.set("note", note);
+                tran.set("location", location);
+
+                tran.isTranIdExist(tranId, function(hasTranId){
+                    if (hasTranId){
+                        alert("Invalid QRCode!");
+                    }else{
+                        //Save Transaction
+                        tran.save(function(){
+                            //Found out who is your friend
+                            var friendEmail = tran.getFriendEmail(user.email);
+
+                            //Update Friend Records e.g. Balance and Friend list
+
+                            //Update your Records e.g. Balance and Friend list
+                        })
+
+
+
+
+                    }
+                })
+
+            },
 
             saveTransaction : function saveTransaction (id, amount, from, to, note, location){
                 var transaction = Parse.Object.extend("transaction");

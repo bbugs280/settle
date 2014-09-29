@@ -32,6 +32,8 @@ function Transaction(){
         });
     }
 
+
+
     this.isTranIdExist = function (tranId, callback){
         var transaction = Parse.Object.extend("transaction");
         var query = new Parse.Query(transaction);
@@ -52,8 +54,15 @@ function Transaction(){
     }
 
 
+
     this.getFriendEmail = function (youremail){
-        return;
+        if (this.from==youremail){
+            return this.to;
+
+        }else{
+            return this.from;
+
+        }
     }
 
 }

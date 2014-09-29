@@ -106,7 +106,7 @@ angular.module('starter.controllers', [])
                 var note="";
                 //var location=ParseService.getLocation();
                 var location;
-
+//TODO write to call recordQRCode
                 ParseService.saveTransaction(id,amount,from,$scope.user.getEmail(),note,location);
 
                 display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
