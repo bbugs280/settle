@@ -1,32 +1,33 @@
 describe("DAO User", function() {
-   ;
-    describe("Login: ", function(){
-        var user;
 
+    describe("Login: ", function(){
+
+        var checkuser;
         beforeEach(function(done){
-            user = new User();
+            var user = new User();
             user.login('test-user','1', function (result) {
-                    user = result;
-                    done();
+                checkuser = result;
+                done();
             })
 
         });
 
         it("should login successful", function() {
-            expect(user).toBeDefined();
-            expect(user.username).toMatch('test-user');
-            expect(user.email).toMatch('test@test.com');
+//            expect(checkuser).toBeDefined();
+            expect(checkuser.get('username')).toMatch('test-user');
+            expect(checkuser.get('email')).toMatch('test@test.com');
 
         });
     })
 
     describe("get USER by email: ", function(){
-        var user;
+
         var checkresult;
         beforeEach(function(done){
-            user = new User();
+            var user = new User();
             checkresult = new User();
             user.getUserByEmail('test@test.com', function (result) {
+
                 checkresult = result;
                 done();
             })
@@ -35,7 +36,7 @@ describe("DAO User", function() {
 
         it("should get User successful", function() {
 //            console.log("check : "+checkresult.email);
-            expect(checkresult).toBeDefined();
+//            expect(checkresult).toBeDefined();
             expect(checkresult.username).toMatch('test-user');
             expect(checkresult.email).toMatch('test@test.com');
 //            expect(checkresult.credit).toMatch(0);
@@ -46,10 +47,10 @@ describe("DAO User", function() {
     })
 
     describe("get USER by email : ", function(){
-        var user;
+
         var checkresult;
         beforeEach(function(done){
-            user = new User();
+            var user = new User();
             checkresult = new User();
             user.getUserByEmail('', function (result) {
                 console.log("check should be undefined: "+checkresult.email);
@@ -59,40 +60,50 @@ describe("DAO User", function() {
 
         });
 
-        it("should get Empty", function() {
-            expect(checkresult).toBeNull;
-
+        it("should get Null", function() {
+            expect(checkresult).toBeNull();
         });
     })
 
     describe("get Balance by email: ", function(){
-        var user;
-        var checkresult;
+
+        var checkCredit;
+        var checkDebit;
+        var checkBalance;
         beforeEach(function(done){
-            user = new User();
+            var user = new User();
             checkresult = new User();
-            user.getBalanceByEmail('test@test.com', function (result) {
-                checkresult = result;
+            user.getBalanceByEmail('test@test.com', function (result, result2, result3) {
+
+                checkCredit = result;
+                checkDebit = result2;
+                checkBalance = result3;
+
                 done();
             })
         });
 
         it("should get balance with Zeros ", function() {
 //            console.log("check : "+checkresult.email);
-            expect(checkresult.credit).toMatch(Number(0));
-            expect(checkresult.debit).toMatch(Number(0));
-            expect(checkresult.balance).toMatch(Number(0));
+
+            expect(checkCredit).toMatch(Number(0));
+            expect(checkDebit).toMatch(Number(0));
+            expect(checkBalance).toMatch(Number(0));
         });
     })
 
     describe("get Balance by email: ", function(){
-        var user;
-        var checkresult;
+
+        var checkCredit;
+        var checkDebit;
+        var checkBalance;
         beforeEach(function(done){
-            user = new User();
+            var user = new User();
             checkresult = new User();
-            user.getBalanceByEmail('test-balance@test.com', function (result) {
-                checkresult = result;
+            user.getBalanceByEmail('test-balance@test.com', function (result, result2, result3) {
+                checkCredit = result;
+                checkDebit = result2;
+                checkBalance = result3;
                 done();
             })
 
@@ -100,65 +111,74 @@ describe("DAO User", function() {
 
         it("should get balance with correct Credit, Debit, Balance ", function() {
 //            console.log("check : "+checkresult.email);
-            expect(checkresult.credit).toMatch(Number(123));
-            expect(checkresult.debit).toMatch(Number(123));
-            expect(checkresult.balance).toMatch(Number(0));
+            expect(checkCredit).toMatch(Number(123));
+            expect(checkDebit).toMatch(Number(123));
+            expect(checkBalance).toMatch(Number(0));
 
         });
     })
 
     describe("Update Existing Balance: ", function(){
-        var user;
-        var checkUser;
-        beforeEach(function(done){
-            user = new User();
+        var checkCredit;
+        var checkDebit;
+        var checkBalance;
 
-            user.balanceId = 'bfwbd4NJwr';
-            user.email = 'test-balance2@test.com';
-            user.credit=Number(123);
-            user.debit=Number(101);
-            user.updateBalance(function (result) {
-                checkUser = result;
+        beforeEach(function(done){
+            var user = new User();
+
+            user.setBalanceId("bfwbd4NJwr");
+            user.setEmail('test-balance2@test.com');
+            user.setCredit(Number(123));
+            user.setDebit(Number(101));
+            user.updateBalance(function (result, result2, result3) {
+                checkCredit = result;
+                checkDebit = result2;
+                checkBalance = result3;
                 done();
             })
 
         });
 
         it("should save successful", function() {
-            expect(checkUser.credit).toEqual(Number(123));
-            expect(checkUser.debit).toEqual(Number(101));
-            expect(checkUser.balance).toEqual(Number(22));
+            expect(checkCredit).toMatch(Number(123));
+            expect(checkDebit).toMatch(Number(101));
+            expect(checkBalance).toMatch(Number(22));
 
         });
 
     })
 
     describe("Update Balance that not created: ", function(){
-        var user;
-        var checkUser;
+
+        var checkCredit;
+        var checkDebit;
+        var checkBalance;
         beforeEach(function(done){
-            user = new User();
-            user.email = 'test-balance3@test.com';
-            user.credit = Number(120);
-            user.debit = Number(100);
+            var user = new User();
+
+            user.setEmail('test-balance3@test.com');
+            user.setCredit(Number(120));
+            user.setDebit(Number(100));
             console.log("before calling update balance");
 
-            user.updateBalance(function (result) {
-                console.log("Update Balance successs????");
-                checkUser = result;
+            user.updateBalance(function (result, result2, result3) {
+                checkCredit = result;
+                checkDebit = result2;
+                checkBalance = result3;
                 done();
             })
 
         });
 
         it("should save successful", function() {
-            expect(checkUser.credit).toEqual(Number(120));
-            expect(checkUser.debit).toEqual(Number(100));
-            expect(checkUser.balance).toEqual(Number(20));
+            expect(checkCredit).toMatch(Number(120));
+            expect(checkDebit).toMatch(Number(100));
+            expect(checkBalance).toMatch(Number(20));
 
         });
 
     })
+
 //    describe("Save: ", function(){
 //
 //        var user;
@@ -218,26 +238,29 @@ describe("DAO User", function() {
 //    })
 
     describe("ADD Friend: ", function(){
-        var user;
+
         var checkresult;
 
         beforeEach(function(done){
-            user = new User();
-            user.username="test-user";
-            user.email="test@test.com";
+            var user1 = new User();
+//            user1.="test-user";
+            user1.setEmail("test@test.com");
 
-            user.addFriend("friend@gmail.com",function (result) {
-                user.username="test-user";
-                user.email="test@test.com";
-                user.addFriend("friend2@gamil.com", function(result){
-                    user.username="test-user";
-                    user.email="test@test.com";
-                    user.addFriend("friend2@gamil.com", function(result){
-                        checkresult = result;
-                        done();
-                    });
+            user1.addFriend("friend@gmail.com",function (result) {
+                checkresult=result;
+                console.log('Test - Added 1st Friend success'+result);
+                user1 = new User();
+                user1.username="test-user";
+                user1.email="test@test.com";
+                user1.addFriend("f2@gmail.com", function (result){
+                    console.log('Test - Added 2nd Friend success'+result);
+                    console.log('Test - Added 2nd Friend success typeof '+typeof result);
+                    done();
                 })
-                })
+
+
+
+            });
         });
 
 

@@ -233,15 +233,16 @@ function User(){
         query.find({
             success: function(result) {
                 // The object was retrieved successfully.
-                console.log("get friends - have result success count "+result.length);
+                console.log("get friends - success count "+result.length);
                 if (result.length>0){
-
+//TODO no entered there?
                     this.friendlistId=result[0].id;
                     this.friends = result[0].get('friends');
 
                     console.log("get friends -  have result friend == "+this.friends.length);
                     callback(result[0]);
-                }else{
+                }else if (result.length==0){
+                    console.log("get friends -  NO  result friend ");
                     callback(null);
                 }
 
@@ -254,22 +255,27 @@ function User(){
         });
     }
 
-    this.addFriend = function(email,callback){
+    this.addFriend = function(friendemail,callback){
         var Friendlist = Parse.Object.extend("friendlist");
         var friendlist = new Friendlist();
-
+//        this.email = email;
         //get Friends from db
+        console.log("addFriend - this.email BEFORE =="+this.email);
         this.getFriends(function(result){
-
+            console.log("addFriend - this.email AFTER=="+this.email);
+            //TODO why is this email not set properly
+            console.log("addFriend - this.friendListId =="+this.friendlistId);
             if (result==null){
                 friendlist = new Friendlist();
+                console.log("addFriend - Not found result in DB");
             }else{
                 friendlist = result;
                 console.log("addFriend - found result "+ JSON.stringify(friendlist));
             }
-            friendlist.addUnique('friends', email);
-            //TODO why is this email not set properly
-            console.log("addFriend - this.email =="+this.email);
+            friendlist.addUnique('friends', friendemail);
+
+
+            friendlist.id = this.friendlistId;
             friendlist.set('email', this.email);
             friendlist.save(null,{
                 success : function(result){
@@ -279,7 +285,7 @@ function User(){
                         this.friends[i]=friendlist.get('friends')[i];
                     }
                     this.friends.sort();
-                    console.log("Friend List updated "+result.friends)
+                    console.log("Friend List updated "+this.friends)
                     callback(this.friends);
                 },error : function(error){
                     alert("Error: " + error.code + " " + error.message);

@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
 .factory('Common', function(){
 
-        var secret_passphrase = "pei kim donut";
+        var secret_passphrase = "pei-kim-donut";
 
         return {
             getID: function () {
@@ -39,10 +39,10 @@ angular.module('starter.services', [])
 
             login : function login(username, password, callback) {
                   var user = new User();
-                  user.login(username, password, callback(user));
-
+                  user.login(username, password, function(result){
+                      callback( result);
+                  });
             },
-
 
             // Register a user
             signUp : function signUp(email, password, callback) {
@@ -62,32 +62,32 @@ angular.module('starter.services', [])
                  return user.getCurrentUser();
             },
 
-            recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user){
-                var tran = new transaction();
-                tran.set("tranId", id);
-                tran.set("amount", Number(amount));
-                tran.set("from", from);
-                tran.set("to", to);
-                tran.set("note", note);
-                tran.set("location", location);
+            recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user, callback){
+                var tran = new Transaction();
+                tran.tranId = tranId;
+                tran.amount = amount;
+                tran.from = from;
+                tran.to = to;
+                tran.note = note;
+                tran.location = location;
+
 
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
                         alert("Invalid QRCode!");
                     }else{
                         //Save Transaction
+                        console.log("recordQRCode - Valid QRCode")
                         tran.save(function(){
                             //Found out who is your friend
-                            var friendEmail = tran.getFriendEmail(user.email);
+                            console.log("recordQRCode - Valid QRCode - User "+user);
+                            var friendEmail = tran.getFriendEmail(user.getEmail());
 
                             //Update Friend Records e.g. Balance and Friend list
 
                             //Update your Records e.g. Balance and Friend list
+
                         })
-
-
-
-
                     }
                 })
 

@@ -1,4 +1,4 @@
-describe("Angular Services", function() {
+PlayerSpec-ref.jsdescribe("Angular Services", function() {
 
 
 
