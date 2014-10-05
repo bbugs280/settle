@@ -1,5 +1,5 @@
 
-var User = (function () {
+var SUser = (function () {
     // private static
 
     // constructor
@@ -8,11 +8,11 @@ var User = (function () {
         // private
         var objectId='';
         var username='';
-        var email='';
-        var credit;
-        var debit;
+        var youremail='';
+        var credit=Number(0);
+        var debit=Number(0);
         var balanceId='';
-        var balance;
+        var balance=Number(0);
         var friendlistId='';
         var friends=[];
         var createdAt;
@@ -21,7 +21,9 @@ var User = (function () {
 
         this.getObjectId = function(){return objectId;};
         this.getUsername = function(){return username;};
-        this.getEmail = function(){return email;};
+        this.getEmail = function(){
+            console.log("SUser - getEmail = "+youremail);
+            return youremail;};
         this.getCredit = function(){return credit;};
         this.getDebit = function(){return debit;};
         this.getBalanceId = function(){return balanceId;};
@@ -31,6 +33,11 @@ var User = (function () {
         this.getCreatedAt  = function(){return createdAt;};
         this.getUpdatedAt = function(){return updatedAt;};
 
+        this.setObjectId = function (value){
+            if (typeof value != 'string')
+                throw 'objectId must be a string';
+            balanceId = value;
+        }
         this.setBalanceId = function (value){
             if (typeof value != 'string')
                 throw 'balanceId must be a string';
@@ -47,13 +54,19 @@ var User = (function () {
                 throw 'credit must be a number';
             credit = value;
         }
+        this.setUsername =  function(value){
+            if (typeof value != 'string')
+                throw 'username must be a string';
+            username = value;
+        }
         this.setEmail =  function(value){
+            console.log("setEmail value = "+value);
             if (typeof value != 'string')
                 throw 'email must be a string';
             if (value.length < 6 || value.length > 30)
                 throw 'email must be 6-30 characters long.';
-            email = value;
-        };
+            youremail = value;
+        }
 
     };
 
@@ -70,7 +83,7 @@ var User = (function () {
                 success: function (result) {
                     console.log("service - sucess login : user JSON " + JSON.stringify(result));
                     username = result.getUsername();
-                    email = result.getEmail();
+                    youremail = result.getEmail();
                     console.log("login - successful checking callback is passed " + typeof callback);
                     if (typeof callback === 'function') {
                         //TODO load friends and balance?
@@ -112,9 +125,15 @@ var User = (function () {
                     console.log(" have result success ? " + result.length);
                     if (result.length > 0) {
 
+//                        this.setObjectId(result[0].id);
+//                        this.setUsername(result[0].get('username'));
+                        cls.setEmail(result[0].get("email"));
                         objectId = result[0].id;
                         username = result[0].get('username');
-                        email = result[0].get("email");
+//                        youremail = result[0].get("email");
+console.log("getUserByEmail -  this.username = "+username);
+console.log("getUserByEmail -  result[0].get(email"+result[0].get("email"));
+console.log("getUserByEmail -  this.email = "+youremail);
 
                         callback(this);
                     } else {
@@ -128,35 +147,39 @@ var User = (function () {
                 }
             });
         },
-        getBalanceByEmail: function (emailp, callback) {
+        getBalanceByEmail: function (emailp1, callback) {
             var Balance = Parse.Object.extend("balance");
             var query = new Parse.Query(Balance);
+            var emailp = emailp1;
+            console.log("getBalanceByEmail - begin call email = "+emailp);
             query.equalTo("email", emailp);
             query.find({
                 success: function (result) {
                     // The object was retrieved successfully.
-                    console.log(" have result success ? " + result.length);
+                    console.log("getBalanceByEmail -  have result success ? " + result.length);
                     if (result.length > 0) {
 
                         balanceId = result[0].id;
-//                        email = emailp;
+                        youremail = emailp;
                         credit = result[0].get("credit");
                         debit = result[0].get("debit");
                         balance = credit - debit;
 
-                        console.log(" have result success recal balance" + balance);
-                        console.log(" have result success credit" + credit);
-                        console.log(" have result success debit" + debit);
+                        console.log("getBalanceByEmail -  have result success email" + youremail);
+                        console.log("getBalanceByEmail -  have result success recal balance" + balance);
+                        console.log("getBalanceByEmail -  have result success credit" + credit);
+                        console.log("getBalanceByEmail -  have result success debit" + debit);
                     } else {
-//                        email = emailp;
+                        youremail = emailp;
                         credit = 0;
                         debit = 0;
                         balance = credit - debit;
 
-                        console.log(" no balance set to zeros ");
+                        console.log("getBalanceByEmail -  no balance set to zeros ");
+                        console.log("getBalanceByEmail -  no balance set to zeros email = " + youremail);
 
                     }
-                    callback(credit,debit,balance);
+                    callback(credit,debit,balance,this.balanceId);
                 },
                 error: function (object, error) {
 
@@ -167,15 +190,20 @@ var User = (function () {
         updateBalance: function (callback) {
 //            var credit = credit;
             var emailp = this.getEmail();
-            console.log("Start Update Balance" + this.getEmail());
-            console.log("Start Update Balance credit " + credit);
-            console.log("Start Update Balance debit " + this.getDebit());
+            var credit = this.getCredit();
+            var debit = this.getDebit();
+
+            //TODO balanceID is empty all the time
+            console.log("updateBalance - Start Update Balance email =" + emailp);
+            console.log("updateBalance - Start Update Balance credit =" + credit);
+            console.log("updateBalance - Start Update Balance debit =" + debit);
 //TODO why this.* doesn't work?
-            this.getBalanceByEmail(emailp, function (result) {
-                console.log("Get Updated Balance See if Balance existed | balance ID== " + result.balanceId);
-                console.log("get Update Balance" + emailp);
-                console.log("get Update Balance credit " + credit);
-                console.log("get Update Balance debit " + debit);
+            this.getBalanceByEmail(emailp, function (creditp,debitp,balancep, balanceId) {
+//                console.log("Get Updated Balance See if Balance existed | balance ID== " + result.balanceId);
+                console.log("updateBalance - get Update Balance email =" + emailp);
+                console.log("updateBalance - get Update Balance credit =" + credit);
+                console.log("updateBalance - get Update Balance debit =" + debit);
+                console.log("updateBalance - get Update Balance ID =" + balanceId);
                 var Balance = Parse.Object.extend("balance");
                 var pbalance = new Balance();
                 pbalance.id = balanceId;
@@ -206,8 +234,8 @@ var User = (function () {
         getFriendList: function (callback) {
             var Friendlist = Parse.Object.extend("friendlist");
             var query = new Parse.Query(Friendlist);
-            query.equalTo("email",email);
-            console.log("getFriends - this.email ==" + email);
+            query.equalTo("email",youremail);
+            console.log("getFriends - this.email ==" + youremail);
             query.find({
                 success: function (result) {
                     // The object was retrieved successfully.
@@ -234,9 +262,9 @@ var User = (function () {
             var friendlist = new Friendlist();
 //        this.email = email;
             //get Friends from db
-            console.log("addFriend - this.email BEFORE ==" + email);
+            console.log("addFriend - this.email BEFORE ==" + youremail);
             this.getFriendList(function (result) {
-                console.log("addFriend - this.email AFTER==" + email);
+                console.log("addFriend - this.email AFTER==" + youremail);
 
                 if (result == null) {
                     friendlist = new Friendlist();
@@ -252,7 +280,7 @@ var User = (function () {
                     friendlist.id = friendlistId;
                 }
 
-                friendlist.set('email', email);
+                friendlist.set('email', youremail);
                 friendlist.save(null, {
                     success: function (result) {
                         //refresh user object

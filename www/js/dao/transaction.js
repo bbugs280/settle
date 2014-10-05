@@ -56,11 +56,33 @@ function Transaction(){
 
 
     this.getFriendEmail = function (youremail){
+        console.log("getFriendEmail - arg email = "+ youremail);
+        console.log("getFriendEmail - from email = "+ this.from);
+        console.log("getFriendEmail - to email = "+ this.to);
         if (this.from==youremail){
+            console.log("return getFriendEmail - to email = "+ this.to);
             return this.to;
+        }else{
+            console.log("return getFriendEmail - to email = "+ this.from);
+            return this.from;
+        }
+    }
+
+    this.getYourCredit = function (youremail){
+        if (this.from==youremail){
+            return 0;
 
         }else{
-            return this.from;
+            return this.amount;
+
+        }
+    }
+    this.getYourDebit = function (youremail){
+        if (this.from==youremail){
+            return this.amount;
+
+        }else{
+            return 0;
 
         }
     }

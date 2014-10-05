@@ -73,7 +73,7 @@ describe("DAO User", function() {
         beforeEach(function(done){
             var user = new User();
             checkresult = new User();
-            user.getBalanceByEmail('test@test.com', function (result, result2, result3) {
+            user.getBalanceByEmail('test@test.com', function (result, result2, result3, result4) {
 
                 checkCredit = result;
                 checkDebit = result2;
@@ -100,7 +100,7 @@ describe("DAO User", function() {
         beforeEach(function(done){
             var user = new User();
             checkresult = new User();
-            user.getBalanceByEmail('test-balance@test.com', function (result, result2, result3) {
+            user.getBalanceByEmail('test-balance@test.com', function (result, result2, result3, result4) {
                 checkCredit = result;
                 checkDebit = result2;
                 checkBalance = result3;
@@ -125,12 +125,12 @@ describe("DAO User", function() {
 
         beforeEach(function(done){
             var user = new User();
-
+console.log("test-balance2@test.com start")
             user.setBalanceId("bfwbd4NJwr");
             user.setEmail('test-balance2@test.com');
             user.setCredit(Number(123));
             user.setDebit(Number(101));
-            user.updateBalance(function (result, result2, result3) {
+            user.updateBalance(function (result, result2, result3, result4) {
                 checkCredit = result;
                 checkDebit = result2;
                 checkBalance = result3;
@@ -244,7 +244,8 @@ describe("DAO User", function() {
         beforeEach(function(done){
             var user1 = new User();
 //            user1.="test-user";
-            user1.setEmail("test@test.com");
+            var friendcount =
+            user1.setEmail("test-friend@test.com");
 
             user1.addFriend("friend@gmail.com",function (result) {
                 checkresult=result;
@@ -257,8 +258,6 @@ describe("DAO User", function() {
                     console.log('Test - Added 2nd Friend success typeof '+typeof result);
                     done();
                 })
-
-
 
             });
         });

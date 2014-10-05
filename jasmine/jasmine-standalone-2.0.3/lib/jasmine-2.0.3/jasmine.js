@@ -104,6 +104,7 @@ getJasmineRequireObj().base = (function (jasmineGlobal) {
     j$.MAX_PRETTY_PRINT_ARRAY_LENGTH = 100;
     j$.DEFAULT_TIMEOUT_INTERVAL = 5000;
 
+
     j$.getGlobal = function() {
       return jasmineGlobal;
     };

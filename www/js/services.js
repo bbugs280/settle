@@ -70,8 +70,9 @@ angular.module('starter.services', [])
                 tran.to = to;
                 tran.note = note;
                 tran.location = location;
-
-
+                console.log("recordQRCode - before tran save - User Email = "+user.getEmail());
+                console.log("recordQRCode - before tran save - exist credit = "+ user.getCredit());
+                console.log("recordQRCode - before tran save - exist debit = "+ user.getDebit());
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
                         alert("Invalid QRCode!");
@@ -80,12 +81,68 @@ angular.module('starter.services', [])
                         console.log("recordQRCode - Valid QRCode")
                         tran.save(function(){
                             //Found out who is your friend
-                            console.log("recordQRCode - Valid QRCode - User "+user);
+                            console.log("recordQRCode - after tran save - User Email = "+user.getEmail());
+
                             var friendEmail = tran.getFriendEmail(user.getEmail());
-
-                            //Update Friend Records e.g. Balance and Friend list
-
+                            //TODO email is empty!!!
+                            console.log("recordQRCode - get friend email "+ friendEmail);
                             //Update your Records e.g. Balance and Friend list
+                            //1. Update Balance
+                            var yourcredit = tran.getYourCredit(user.email);
+                            var yourdebit = tran.getYourDebit(user.email);
+                            var newcredit = user.getCredit() + yourcredit;
+                            var newdebit = user.getDebit() + yourdebit;
+                            user.setCredit(newcredit);
+                            user.setDebit(newdebit);
+                            console.log("recordQRCode - exist credit "+ user.getCredit());
+                            console.log("recordQRCode - exist debit "+ user.getDebit());
+                            console.log("recordQRCode - tran credit "+ yourcredit);
+                            console.log("recordQRCode - tran debit "+ yourdebit);
+                            console.log("recordQRCode - new credit "+ newcredit);
+                            console.log("recordQRCode - new debit "+ newdebit);
+
+                            user.updateBalance(function(result1){
+                                console.log("recordQRCode - Complete Update Your Own Balance");
+                                //2. Add friend
+                                user.addFriend(friendEmail, function(result2){
+                                    console.log("recordQRCode - Complete Update Your Own Friend list");
+
+                                    //Update Friend Records e.g. Balance and Friend list
+                                    //1. Get Friend from DB
+                                    var friendUser = new SUser();
+                                    friendUser.getUserByEmail(friendEmail, function(getFriendResult){
+                                        //2. Update Balance
+                                        friendUser.setEmail(friendEmail);
+
+                                        var yourcredit = tran.getYourCredit(friendEmail);
+                                        var yourdebit = tran.getYourDebit(friendEmail);
+                                        var newcredit = user.getCredit() + yourcredit;
+                                        var newdebit = user.getDebit() + yourdebit;
+                                        friendUser.setCredit(newcredit);
+                                        friendUser.setDebit(newdebit);
+                                        console.log("recordQRCode - friend email "+ friendEmail);
+                                        console.log("recordQRCode - friend exist credit "+ friendUser.getCredit());
+                                        console.log("recordQRCode - friend exist debit "+ friendUser.getDebit());
+                                        console.log("recordQRCode - friend tran credit "+ yourcredit);
+                                        console.log("recordQRCode - friend tran debit "+ yourdebit);
+                                        console.log("recordQRCode - friend new credit "+ newcredit);
+                                        console.log("recordQRCode - friend new debit "+ newdebit);
+
+                                        friendUser.setCredit(newcredit);
+                                        friendUser.setDebit(newdebit);
+                                        friendUser.updateBalance(function(friendBalanceResult){
+                                            //3. Add friend
+                                            friendUser.addFriend(user.email, function(friendUserAddFriendResult){
+                                                callback(user);
+                                            })
+                                        })
+
+                                    })
+
+                                });
+                            });
+
+
 
                         })
                     }
