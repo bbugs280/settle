@@ -1,24 +1,4 @@
 
-var SUser = Parse.Object.extend("User", {
-    // Instance methods
-    hasSuperHumanStrength: function () {
-        return this.get("strength") > 18;
-    },
-    // Instance properties go in an initialize method
-    initialize: function (attrs, options) {
-        this.sound = "Rawr"
-    }
-}, {
-    // Class methods
-    spawn: function(strength) {
-        var monster = new Monster();
-        monster.set("strength", strength);
-        return monster;
-    }
-});
-
-
-
 var SUser = (function () {
     // private static
 
