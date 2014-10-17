@@ -1,5 +1,5 @@
 function Transaction(){
-    Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
+
     this.transaction = Parse.Object.extend("transaction");
     this.objectId;
     this.tranId;

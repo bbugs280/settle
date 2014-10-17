@@ -38,27 +38,27 @@ angular.module('starter.services', [])
             // Login a user
 
             login : function login(username, password, callback) {
-                  var user = new User();
-                  user.login(username, password, function(result){
+//                  var user = new SUser();
+                  Parse.User.logIn(username, password, function(result){
                       callback( result);
                   });
             },
 
             // Register a user
             signUp : function signUp(email, password, callback) {
-                var user = new User();
+                var user = new SUser();
                 user.signUp(email, email,password,callback(user));
             },
 
             // Logout current user
             logout : function logout() {
-                var user = new User();
+                var user = new SUser();
                 user.logout();
             },
 
             // Get current logged in user
             getUser : function getUser() {
-                 var user = new User();
+                 var user = new SUser();
                  return user.getCurrentUser();
             },
 

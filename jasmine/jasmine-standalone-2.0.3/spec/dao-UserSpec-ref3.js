@@ -4,7 +4,7 @@ describe("DAO User", function() {
 
         var checkuser;
         beforeEach(function(done){
-            var user = new User();
+            var user = new SUser();
             user.login('test-user','1', function (result) {
                 checkuser = result;
                 done();
@@ -24,8 +24,8 @@ describe("DAO User", function() {
 
         var checkresult;
         beforeEach(function(done){
-            var user = new User();
-            checkresult = new User();
+            var user = new SUser();
+            checkresult = new SUser();
             user.getUserByEmail('test@test.com', function (result) {
 
                 checkresult = result;
@@ -37,8 +37,8 @@ describe("DAO User", function() {
         it("should get User successful", function() {
 //            console.log("check : "+checkresult.email);
 //            expect(checkresult).toBeDefined();
-            expect(checkresult.username).toMatch('test-user');
-            expect(checkresult.email).toMatch('test@test.com');
+            expect(checkresult.getUsername()).toMatch('test-user');
+            expect(checkresult.getEmail()).toMatch('test@test.com');
 //            expect(checkresult.credit).toMatch(0);
 //            expect(checkresult.debit).toMatch(0);
 //            expect(checkresult.balance).toMatch(0);
@@ -50,8 +50,8 @@ describe("DAO User", function() {
 
         var checkresult;
         beforeEach(function(done){
-            var user = new User();
-            checkresult = new User();
+            var user = new SUser();
+            checkresult = new SUser();
             user.getUserByEmail('', function (result) {
                 console.log("check should be undefined: "+checkresult.email);
                 checkresult = result;
@@ -71,8 +71,8 @@ describe("DAO User", function() {
         var checkDebit;
         var checkBalance;
         beforeEach(function(done){
-            var user = new User();
-            checkresult = new User();
+            var user = new SUser();
+            checkresult = new SUser();
             user.getBalanceByEmail('test@test.com', function (result, result2, result3, result4) {
 
                 checkCredit = result;
@@ -98,8 +98,8 @@ describe("DAO User", function() {
         var checkDebit;
         var checkBalance;
         beforeEach(function(done){
-            var user = new User();
-            checkresult = new User();
+            var user = new SUser();
+            checkresult = new SUser();
             user.getBalanceByEmail('test-balance@test.com', function (result, result2, result3, result4) {
                 checkCredit = result;
                 checkDebit = result2;
@@ -124,7 +124,7 @@ describe("DAO User", function() {
         var checkBalance;
 
         beforeEach(function(done){
-            var user = new User();
+            var user = new SUser();
 console.log("test-balance2@test.com start")
             user.setBalanceId("bfwbd4NJwr");
             user.setEmail('test-balance2@test.com');
@@ -154,7 +154,7 @@ console.log("test-balance2@test.com start")
         var checkDebit;
         var checkBalance;
         beforeEach(function(done){
-            var user = new User();
+            var user = new SUser();
 
             user.setEmail('test-balance3@test.com');
             user.setCredit(Number(120));
@@ -242,7 +242,7 @@ console.log("test-balance2@test.com start")
         var checkresult;
 
         beforeEach(function(done){
-            var user1 = new User();
+            var user1 = new SUser();
 //            user1.="test-user";
             var friendcount =
             user1.setEmail("test-friend@test.com");
@@ -250,7 +250,7 @@ console.log("test-balance2@test.com start")
             user1.addFriend("friend@gmail.com",function (result) {
                 checkresult=result;
                 console.log('Test - Added 1st Friend success'+result);
-                user1 = new User();
+                user1 = new SUser();
                 user1.username="test-user";
                 user1.email="test@test.com";
                 user1.addFriend("f2@gmail.com", function (result){
