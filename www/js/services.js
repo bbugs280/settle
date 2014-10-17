@@ -38,8 +38,8 @@ angular.module('starter.services', [])
             // Login a user
 
             login : function login(username, password, callback) {
-                  var user = new SUser();
-                  user.login(username, password, function(result){
+//                  var user = new SUser();
+                  Parse.User.logIn(username, password, function(result){
                       callback( result);
                   });
             },
