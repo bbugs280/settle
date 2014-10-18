@@ -21,6 +21,29 @@ describe("DAO User", function() {
         });
     })
 
+//    describe("SignUP: ", function(){
+//
+//        var checkuser;
+//        beforeEach(function(done){
+//
+//            var user = new SUser();
+//            user.set("username", 'test-signup');
+//            user.set("password", '1');
+//            user.set("email", 'test-signup@gmail.com');
+//            user.signUp(null, function (result) {
+//                checkuser = result;
+//                done();
+//            })
+//
+//        });
+//
+//        it("should signUP successful", function() {
+//            expect(checkuser.get('username')).toMatch('test-signup');
+//            expect(checkuser.get('email')).toMatch('test-signup@gmail.com');
+//
+//        });
+//    })
+
     describe("get USER by email: ", function(){
         var user = new SUser();
         var checkresult;
