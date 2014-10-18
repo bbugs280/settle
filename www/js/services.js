@@ -47,7 +47,18 @@ angular.module('starter.services', [])
             // Register a user
             signUp : function signUp(email, password, callback) {
                 var user = new SUser();
-                user.signUp(email, email,password,callback(user));
+                user.set("username", email);
+                user.set("password", password);
+                user.set("email", email);
+                user.signUp(null, {
+                    success: function (user) {
+                        callback(user);
+                    },
+                    error: function (user, error) {
+                        // Show the error message somewhere and let the user try again.
+                        throw("Error: " + error.code + " " + error.message);
+                    }
+                });
             },
 
             // Logout current user
@@ -59,7 +70,7 @@ angular.module('starter.services', [])
             // Get current logged in user
             getUser : function getUser() {
                  var user = new SUser();
-                 return user.getCurrentUser();
+                 return user.current();
             },
 
             recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user, callback){

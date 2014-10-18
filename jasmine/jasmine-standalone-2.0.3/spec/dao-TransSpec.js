@@ -38,15 +38,16 @@ describe("DAO Transaction Services", function() {
     describe("save", function(){
         var checkTran;
         beforeEach(function(done){
-            tran = new Transaction();
-            tran.tranId = "test";
-            tran.amount= Number(0);
-            tran.from="test-from";
-            tran.to ="test-to";
-            tran.note = "test-note";
-//            tran..location", this.location);
-            tran.save( function (result) {
+            var tran = new Transaction();
+            tran.set('tranId','test');
+            tran.set('amount',Number(0));
+            tran.set('from','test-from');
+            tran.set('to','test-to');
+            tran.set('note','test-note');
+
+            tran.save(null, function (result) {
                 checkTran = result;
+                console.log("test tran save  =" + result.get('tranId'));
                 done();
 
             });

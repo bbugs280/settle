@@ -161,12 +161,12 @@ var SUser = Parse.User.extend({
 //        this.objectId='';
 //        this.username='';
 //        this.email='';
-        this.credit=Number(0);
-        this.debit=Number(0);
-        this.balanceId='';
-        this.balance=Number(0);
-        this.friendlistId='';
-        this.friends=[];
+//        this.credit=Number(0);
+//        this.debit=Number(0);
+//        this.balanceId='';
+//        this.balance=Number(0);
+//        this.friendlistId='';
+//        this.friends=[];
 //        this.createdAt;
 //        this.updatedAt;
     }
