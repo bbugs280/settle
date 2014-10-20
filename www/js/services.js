@@ -62,7 +62,7 @@ angular.module('starter.services', [])
                     },
                     error: function (user, error) {
                         // Show the error message somewhere and let the user try again.
-                        throw("Error: " + error.code + " " + error.message);
+                        alert("Error: " + error.code + " " + error.message);
                     }
                 });
             },

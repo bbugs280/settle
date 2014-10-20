@@ -30,55 +30,74 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
 
     // setup an abstract state for the tabs directive
+
+
     .state('tab', {
-      url: "/tab",
+      url: '/tab',
       abstract: true,
       templateUrl: "templates/tabs.html"
     })
 
     // Each tab has its own nav history stack:
 
-    .state('tab.dash', {
-      url: '/dash',
+    .state('tab.balance', {
+      url: '/balance',
       views: {
-        'tab-dash': {
-          templateUrl: 'templates/tab-dash.html',
-          controller: 'DashCtrl'
+        'tab-balance': {
+          templateUrl: 'templates/tab-balance.html',
+          controller: 'BalanceCtrl'
         }
       }
     })
 
-    .state('tab.friends', {
-      url: '/friends',
+    .state('tab.send', {
+      url: '/send',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/tab-friends.html',
-          controller: 'FriendsCtrl'
+        'tab-send': {
+          templateUrl: 'templates/tab-send.html',
+          controller: 'SendCtrl'
         }
       }
     })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
-        }
-      }
-    })
-
-    .state('tab.account', {
-      url: '/account',
-      views: {
-        'tab-account': {
-          templateUrl: 'templates/tab-account.html',
-          controller: 'AccountCtrl'
-        }
-      }
+    .state('tab.receive', {
+          url: '/receive',
+          views: {
+              'tab-receive': {
+                  templateUrl: 'templates/tab-receive.html',
+                  controller: 'ReceiveCtrl'
+              }
+          }
+     })
+    .state('tab.setup', {
+          url:'/setup',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/user-setup.html',
+                  controller: 'SetupCtrl'
+              }
+          }
+     })
+      .state('tab.sigup', {
+          url:'/signup',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/user-signup.html',
+                  controller: 'SignUpCtrl'
+              }
+          }
+      })
+    .state('tab.login', {
+          url:'/login',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/user-login.html',
+                  controller: 'LoginCtrl'
+              }
+          }
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/balance');
 
 });
 

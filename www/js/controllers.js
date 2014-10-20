@@ -4,13 +4,13 @@ angular.module('starter.controllers', [])
 
         console.log("controller - BalanceCtrl start");
 
-
+        $scope.balance = Parse.Object.extend("balance");
+        $scope.transactions = [];
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
             // do stuff with the user
             console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
             $scope.user = ParseService.getUser();
-
 
             if ($scope.user.get('emailVerified')==false){
                 alert("Please verify  your email, check your mailbox.");
@@ -22,14 +22,18 @@ angular.module('starter.controllers', [])
 
         //Load User Balance
         var user = new SUser();
+
         user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
+//            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
+            $scope.$apply();
         })
 
         //Load recent transactions
         var tran = new Transaction();
         tran.getRelatedTran(ParseService.getUser().get('email'), function(transactions){
             $scope.transactions = transactions;
+            $scope.$apply();
         })
 
 })
@@ -128,6 +132,7 @@ angular.module('starter.controllers', [])
 
             ParseService.signUp(user.email, user.password, function(user) {
                 // When service call is finished, navigate to items page
+                alert("Account Signup Successful");
                 $location.path('/tab/login');
             })
         };
