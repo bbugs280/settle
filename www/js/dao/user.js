@@ -110,12 +110,12 @@ var SUser = Parse.User.extend({
             console.log("get friends - success count " + result.length);
             if (result.length > 0) {
                 r = result[0];
-
                 console.log("get friends -  have result friend == " + r.get('friends').length);
                 callback(r);
             } else if (result.length == 0) {
                 console.log("get friends -  NO  result friend ");
-                callback(null);
+                r.set('email', email);
+                callback(r);
             }
 
         },

@@ -1,5 +1,27 @@
 var Transaction = Parse.Object.extend("transaction",{
 
+        //TODO query function to get all related transactions
+        getRelatedTran : function(email, callback){
+            var fromQuery = new Parse.Query("transaction");
+            fromQuery.equalTo("from", email);
+
+            var toQuery = new Parse.Query("transaction");
+            toQuery.equalTo("to", email);
+
+            var mainQuery = Parse.Query.or(fromQuery, toQuery);
+            mainQuery.find({
+                success: function(results) {
+                    // results contains a list of players that either have won a lot of games or won only a few games.
+                    console.log("Transaction - getRelatedTran Returned No of records = "+results.length);
+                    callback(results);
+                },
+                error: function(error) {
+                    // There was an error.
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            });
+
+        },
         isTranIdExist : function (tranId, callback){
             var transaction = Parse.Object.extend("transaction");
             var query = new Parse.Query(transaction);

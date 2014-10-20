@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
             // do stuff with the user
-            console.log("LOADING BALANCE PAGE: "+ParseService.getUser().getUsername());
+            console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
             $scope.user = ParseService.getUser();
 
 
@@ -20,23 +20,17 @@ angular.module('starter.controllers', [])
             $location.path('tab/login');
         }
 
-//        //Load User Balance
-//        ParseService.calcBalance($scope.user.get('email'), function(result) {
-//            $scope.$apply(function () {
-//
-//                $scope.balance = result;
-//                console.log($scope.balance.email);
-//            })
-//        });
-//
-//        //Load Friends Balance
-//        ParseService.getFriends($scope.user.get('email'), function(emaillist){
-//            $scope.balances = ParseService.getFriendBalances(emaillist);
-//            $scope.balances = ParseService.balances;
-//
-//        } );
+        //Load User Balance
+        var user = new SUser();
+        user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
+            $scope.balance = balance;
+        })
 
-
+        //Load recent transactions
+        var tran = new Transaction();
+        tran.getRelatedTran(ParseService.getUser().get('email'), function(transactions){
+            $scope.transactions = transactions;
+        })
 
 })
 
@@ -49,8 +43,6 @@ angular.module('starter.controllers', [])
         } else {
             $location.path('tab/login');
         }
-
-
         var qrcode = new QRCode("qrcode", {
             text: "",
             width: 128,
@@ -68,8 +60,6 @@ angular.module('starter.controllers', [])
             qrcode.clear(); // clear the code.
 
             qrcode.makeCode(sendString.toString()); // make another code.
-
-
         }
 
 })
@@ -77,7 +67,7 @@ angular.module('starter.controllers', [])
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
             // do stuff with the user
-            console.log("LOADING Receive PAGE: "+ParseService.getUser().getUsername());
+
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
@@ -106,11 +96,13 @@ angular.module('starter.controllers', [])
                 var note="";
                 //var location=ParseService.getLocation();
                 var location;
-//TODO write to call recordQRCode
-                ParseService.saveTransaction(id,amount,from,$scope.user.getEmail(),note,location);
 
-                display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
-                          "From : <b>" + from +"</b>";
+                ParseService.recordQRCode(id,amount,from,$scope.user.getEmail(),note,location, function(r){
+                    console.log("Controllers Receive - recordQRCode Successfully");
+                    display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
+                        "From : <b>" + from +"</b>";
+                });
+
             }
 
             document.getElementById("info").innerHTML = display;
@@ -145,9 +137,8 @@ angular.module('starter.controllers', [])
         console.log("controller - SetupCtrl start");
         if (ParseService.getUser()) {
             // do stuff with the user
-            console.log("LOADING BALANCE PAGE: "+ParseService.getUser().getUsername());
-            $scope.user = ParseService.getUser();
 
+            $scope.user = ParseService.getUser();
 
             if ($scope.user.get('emailVerified')==false){
                 alert("Please verify  your email, check your mailbox.");

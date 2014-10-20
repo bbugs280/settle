@@ -16,52 +16,68 @@ describe("Angular Services", function() {
         });
 
         it('should be able to Login with an account', function() {
-
                 expect(checkuser).not.toBeNull();
                 expect(checkuser).not.toBeUndefined();
                 expect(checkuser.getUsername()).toMatch('test-user');
             });
-
-
     });
 
     describe("Parse Service - recordQRCode ", function() {
         var ParseService;
-        var checkresult = new SUser();
-        var user = new SUser();
+        var fromBal;
+        var toBal;
+        var fromFriends;
+        var toFriends;
+        var checkTran;
 
         beforeEach(function(done) {
             var $injector = angular.injector([ 'starter.services' ]);
             ParseService = $injector.get('ParseService');
             var Common = $injector.get('Common');
+            var user = new SUser();
+            user.getUserByEmail('test-recordqr@test.com', function(user){
+                console.log("Test Service - RecordQRCode user email = " + user.get('email'));
+                ParseService.recordQRCode(Common.getID(), Number(100), 'test-recordqr@test.com', 'test-recordqr2@test.com', 'note', null, user, function (tran) {
+                    checkTran=tran;
+                    user.getBalanceByEmail('test-recordqr@test.com', function(frombal){
+                        fromBal=frombal;
+                        user.getBalanceByEmail('test-recordqr2@test.com', function(tobal){
+                            toBal = tobal;
+                            user.getFriendList('test-recordqr@test.com',function(fromfd){
+                                fromFriends = fromfd;
+                                user.getFriendList('test-recordqr2@test.com', function(tofd){
+                                    toFriends = tofd;
+                                    done();
+                                })
+                            })
 
-            user.getUserByEmail('test-recordqr@test.com', function(result){
-                checkresult = result;
-                console.log("Test recordQRCode - User Email = "+user.getEmail());
-                console.log("Test recordQRCode - User name = "+user.getUsername());
-                console.log("Test recordQRCode - User Credit = "+user.getCredit());
-//                console.log("Test recordQRCode - Valid QRCode - User debit "+checkresult.deb);
-                ParseService.recordQRCode(Common.getID(), Number(100), 'test-recordqr@test.com', 'test-recordqr2@test.com', 'note', null, user, function (result2) {
-                    console.log("Test recordQRCode - success - User email"+user.getEmail());
-                    console.log("Test recordQRCode - success - User credit "+user.getCredit());
-                    checkresult = result2;
-                    done();
+                        })
+                    })
                 })
             });
-
 
 
         });
 
         it('should be able to save a transaction, update friends, update balance', function() {
-
-            expect(user).not.toBeNull();
-            expect(user).not.toBeUndefined();
-//            expect(user.getUsername()).toMatch('test-user');
-            expect(user.getCredit()).toMatch(Number(100));
-
+            //from user has correct balance
+            expect(fromBal.get('balance')).toEqual(Number(-100));
+            //from user has correct friend in friendlist
+            expect(toBal.get('balance')).toEqual(Number(100));
+            //to user has correct balance
+            expect(fromFriends.get('friends').length).toEqual(1);
+            //to user has correct friend in friendlist
+            expect(toFriends.get('friends').length).toEqual(1);
         });
 
+        afterEach(function(done){
+            fromBal.destroy();
+            toBal.destroy();
+            fromFriends.destroy();
+            toFriends.destroy();
+            checkTran.destroy();
+            done();
+        });
 
     });
 });

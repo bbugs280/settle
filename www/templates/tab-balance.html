@@ -1,20 +1,25 @@
-<ion-view title="Balance">
+<ion-view title=" Balance - $ {{balance.get('balance')}}">
   <ion-content class="padding">
 
-      <table width="100%" style="font-size: large;font-family: Verdana ;">
-          <tr>
+      <!--<table width="100%" style="font-size: large;font-family: Verdana ;">-->
+          <!--<tr>-->
 
-              <td>
-                  {{user.get('email')}}
-              </td>
-              <td>
-                  <b>${{user.get('balances')[0].amount}}</b>
-              </td>
-          </tr>
-      </table>
-      <ion-list>
-          <ion-item ng-repeat="balance in balances">
-              {{balance}}
+              <!--<td>-->
+                  <!--{{user.get('email')}}-->
+              <!--</td>-->
+              <!--<td>-->
+                  <!--<b>{{balance.get('balance')}}</b>-->
+              <!--</td>-->
+          <!--</tr>-->
+      <!--</table>-->
+
+      <ion-list title="recent transactions" can-swipe="listCanSwipe">
+          
+          <div class='item item-divider'>
+              Recent Transaction
+          </div>
+          <ion-item ng-repeat="transaction in transactions" class="item-thumbnail-left">
+             tran - {{transaction.get('amount')}}
           </ion-item>
       </ion-list>
   </ion-content>

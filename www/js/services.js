@@ -39,9 +39,15 @@ angular.module('starter.services', [])
 
             login : function login(username, password, callback) {
 //                  var user = new SUser();
-                  Parse.User.logIn(username, password, function(result){
-                      callback( result);
-                  });
+                  Parse.User.logIn(username, password,
+                      {
+                          success : function(user){
+                              callback(user);
+                          },
+                            error : function (user, error){
+                            alert("Error: " + error.message);
+                          }
+                      });
             },
 
             // Register a user
@@ -63,223 +69,104 @@ angular.module('starter.services', [])
 
             // Logout current user
             logout : function logout() {
-                var user = new SUser();
-                user.logout();
+//                var user = new SUser();
+//                user.logOut();
+                Parse.User.logOut();
             },
 
             // Get current logged in user
             getUser : function getUser() {
-                 var user = new SUser();
-                 return user.current();
+//                 var user = new SUser();
+                 return Parse.User.current();
             },
 
             recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user, callback){
                 var tran = new Transaction();
-                tran.tranId = tranId;
-                tran.amount = amount;
-                tran.from = from;
-                tran.to = to;
-                tran.note = note;
-                tran.location = location;
-                console.log("recordQRCode - before tran save - User Email = "+user.getEmail());
-                console.log("recordQRCode - before tran save - exist credit = "+ user.getCredit());
-                console.log("recordQRCode - before tran save - exist debit = "+ user.getDebit());
+
+                tran.set('tranId',tranId);
+                tran.set('amount',amount);
+                tran.set('from',from);
+                tran.set('to',to);
+                tran.set('note',note);
+                tran.set('location',location);
+
+                console.log("recordQRCode - before tran save ");
+
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
                         alert("Invalid QRCode!");
                     }else{
                         //Save Transaction
-                        console.log("recordQRCode - Valid QRCode")
-                        tran.save(function(){
-                            //Found out who is your friend
-                            console.log("recordQRCode - after tran save - User Email = "+user.getEmail());
+                        console.log("recordQRCode - Valid QRCode");
+                        tran.save(null,
+                            {
+                                success: function(tran){
+                                    //Found out who is your friend
+                                    console.log("recordQRCode - after tran save - User Email = "+user.get('email'));
 
-                            var friendEmail = tran.getFriendEmail(user.getEmail());
-                            //TODO email is empty!!!
-                            console.log("recordQRCode - get friend email "+ friendEmail);
-                            //Update your Records e.g. Balance and Friend list
-                            //1. Update Balance
-                            var yourcredit = tran.getYourCredit(user.email);
-                            var yourdebit = tran.getYourDebit(user.email);
-                            var newcredit = user.getCredit() + yourcredit;
-                            var newdebit = user.getDebit() + yourdebit;
-                            user.setCredit(newcredit);
-                            user.setDebit(newdebit);
-                            console.log("recordQRCode - exist credit "+ user.getCredit());
-                            console.log("recordQRCode - exist debit "+ user.getDebit());
-                            console.log("recordQRCode - tran credit "+ yourcredit);
-                            console.log("recordQRCode - tran debit "+ yourdebit);
-                            console.log("recordQRCode - new credit "+ newcredit);
-                            console.log("recordQRCode - new debit "+ newdebit);
+                                    var friendEmail = tran.getFriendEmail(user.getEmail());
+                                    console.log("recordQRCode - get friend email "+ friendEmail);
+                                    //Update your Records e.g. Balance and Friend list
 
-                            user.updateBalance(function(result1){
-                                console.log("recordQRCode - Complete Update Your Own Balance");
-                                //2. Add friend
-                                user.addFriend(friendEmail, function(result2){
-                                    console.log("recordQRCode - Complete Update Your Own Friend list");
+                                    var trancredit = tran.getYourCredit(user.get('email'));
+                                    var trandebit = tran.getYourDebit(user.get('email'));
+                                    // First update your own records
+                                    //1. get Your Balance
+                                    user.getBalanceByEmail(user.get('email'),function(yourbal){
+                                        var yourcredit = trancredit + yourbal.get('credit');
+                                        var yourdebit = trandebit + yourbal.get('debit');
+                                        //2. update Your Balance
+                                        yourbal.set('credit', yourcredit);
+                                        yourbal.set('debit', yourdebit);
+        //                                yourbal.set('balance', yourcredit - yourdebit);
+                                        user.updateBalance(yourbal,function(r){
+                                            console.log("recordQRCode - your balance saved");
+                                            // 3. Add friend
+                                            user.getFriendList(user.get('email'), function(friendlist){
+                                                console.log("recordQRCode - your friendlist found");
+                                                user.addFriend(friendlist, friendEmail, function(friends){
+                                                    console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
+                                                    console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
+                                                    //Now update your friend Records
+                                                    //1. get Friend Balance
+                                                    user.getBalanceByEmail(friendEmail,function(friendbal){
+                                                        var friendcredit = trandebit + friendbal.get('credit');
+                                                        var frienddebit = trancredit + friendbal.get('debit');
+                                                        //2. update Friend Balance
+                                                        friendbal.set('credit', friendcredit);
+                                                        friendbal.set('debit', frienddebit);
+                                                        //                                friendbal.set('balance', friendcredit - frienddebit);
+                                                        user.updateBalance(friendbal,function(r){
+                                                            console.log("recordQRCode - friend balance saved");
+                                                            console.log("recordQRCode - friend before get friendlist email = "+friendEmail);
+                                                            // 3. Add friend
+                                                            user.getFriendList(friendEmail, function(friendfriendlist){
+                                                                console.log("recordQRCode - friend friendlist found");
+                                                                user.addFriend(friendfriendlist, user.get('email'), function(friends){
+                                                                    console.log("recordQRCode - friend's friendlist saved with friends no = "+friends.get('friends').length);
+                                                                    console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
+                                                                    callback(tran);
+                                                                });
+                                                            });
 
-                                    //Update Friend Records e.g. Balance and Friend list
-                                    //1. Get Friend from DB
-                                    var friendUser = new SUser();
-                                    friendUser.getUserByEmail(friendEmail, function(getFriendResult){
-                                        //2. Update Balance
-                                        friendUser.setEmail(friendEmail);
+                                                        })
+                                                    });
 
-                                        var yourcredit = tran.getYourCredit(friendEmail);
-                                        var yourdebit = tran.getYourDebit(friendEmail);
-                                        var newcredit = user.getCredit() + yourcredit;
-                                        var newdebit = user.getDebit() + yourdebit;
-                                        friendUser.setCredit(newcredit);
-                                        friendUser.setDebit(newdebit);
-                                        console.log("recordQRCode - friend email "+ friendEmail);
-                                        console.log("recordQRCode - friend exist credit "+ friendUser.getCredit());
-                                        console.log("recordQRCode - friend exist debit "+ friendUser.getDebit());
-                                        console.log("recordQRCode - friend tran credit "+ yourcredit);
-                                        console.log("recordQRCode - friend tran debit "+ yourdebit);
-                                        console.log("recordQRCode - friend new credit "+ newcredit);
-                                        console.log("recordQRCode - friend new debit "+ newdebit);
+                                                });
+                                            });
 
-                                        friendUser.setCredit(newcredit);
-                                        friendUser.setDebit(newdebit);
-                                        friendUser.updateBalance(function(friendBalanceResult){
-                                            //3. Add friend
-                                            friendUser.addFriend(user.email, function(friendUserAddFriendResult){
-                                                callback(user);
-                                            })
                                         })
-
                                     })
 
-                                });
-                            });
 
+                            },error:function(error){
+                                alert('Failed to create new object, with error code: ' + error.message);
+                                callback(null);
+                            }
 
-
-                        })
+                    });
                     }
-                })
-
-            },
-
-            saveTransaction : function saveTransaction (id, amount, from, to, note, location){
-                var transaction = Parse.Object.extend("transaction");
-                var tran = new transaction();
-                var Friend = Parse.Object.extend("User");
-                var friend = new Friend();
-
-                var friendemail="";
-
-                tran.set("tranId", id);
-                tran.set("amount", Number(amount));
-                tran.set("from", from);
-                tran.set("to", to);
-                tran.set("note", note);
-                tran.set("location", location);
-
-                console.log("set all properties" + JSON.stringify(tran));
-                if (tran.get('from')==this.getUser().get('email')){
-                    friendemail = tran.get('to');
-                }else{
-                    friendemail = tran.get('from');
-                }
-
-                //Check if TranID already exist
-                var query = new Parse.Query(transaction);
-                query.equalTo("tranId", id);
-
-                var friendQuery = new Parse.Query(Friend);
-                friendQuery.equalTo("email",friendemail);
-
-                friendQuery.find().then(function(result) {
-
-                    friend = result;
-                    console.log("Found friend! " + JSON.stringify(friend));
-                    return friend;
-                }).then(function(){
-                    return query.find();
-                }).then(function(results){
-                    //Check if TranID already exist
-                    if (results.length==0) {
-                        //If not record found, save to server
-                        return tran.save();
-                    }else{
-                        alert("Invalid QRCode");
-
-                    }
-
-                }).then(function(tran){
-                    //If tran save successfully, update MY balance
-                    console.log("Update My Balance");
-                    var balances = Parse.User.current().get('balances');
-                    var balance = new Parse.Object();
-                    var credit = 0 ;
-                    var debit = 0;
-                    var balanceamount = 0;
-                    console.log("After get Balances");
-
-                    if (balances){
-                        credit = balances[0].get('credit');
-                        debit = balances[0].get('debit');
-                        balanceamount = balances[0].get('amount');
-                        console.log("has existing balance before save: "+balances[0]);
-
-                    }
-                    console.log("check tran! "+JSON.stringify(tran));
-                    if (tran.get('from')==ParseService.getUser().get('email')){
-                        debit = debit + amount;
-                    }else{
-                        credit = credit + amount;
-                    }
-                    balanceamount = credit - debit;
-                    balance.set('amount', balanceamount);
-                    balance.set('credit', credit);
-                    balance.set('debit', debit);
-                    //balances.addUnique(balance);
-                    Parse.User.current().set('balance',balanceamount);
-//                    Parse.User.current().addUnique('balances', balance);
-                    console.log("balance before save: "+JSON.stringify(balance));
-                    console.log("balance before save: "+balances);
-                    Parse.User.current().save();
-                    //If tran save successfully, update Friend balance
-                    console.log("Update Friend Balance");
-                    console.log("check friend! "+JSON.stringify(friend));
-                    var friendbalances = friend.get('balances');
-//                    var friendbalances = friend.getFriendBalances();
-                    if (friendbalances){
-                        var credit = balances[0].get('credit');
-                        var debit = balances[0].get('debit');
-                         balanceamount = balances[0].get('amount');
-
-                        if (tran.get('from')==this.getUser().get('email')){
-                            credit = credit + amount;
-                        }else{
-                            debit = debit + amount;
-                        }
-                        balanceamount = credit - debit;
-                        friendbalances[0].set('amount', balanceamount);
-                    }
-                    friend.set('balances', balances);
-                    return tran;
-                }).then(function(tran){
-                    //If update balance is ok, check if MY friend list is up2date.
-                    //If update balance is ok, check if friend's friend list is up2date.
-                    if (tran.get('from')==this.getUser().get('email')) {
-                        ParseService.User.current().addUnique('friends', tran.get('to'));
-                        friend.addUnique('friends', tran.get('from'));
-                    }else{
-                        ParseService.User.current().addUnique('friends', tran.get('from'));
-                        friend.addUnique('friends', tran.get('to'));
-                    }
-                    console.log("User : "+JSON.stringify(ParseService.User.current()));
-                    console.log("Friend : "+JSON.stringify(friend));
-                    ParseService.User.current().save();
-                    friend.save();
-                }), function (error){
-                    // Execute any logic that should take place if the save fails.
-                    // error is a Parse.Error with an error code and message.
-                    alert('Failed to Receive Amount, with error code: ' + error.message);
-                };
-
+                 });
             },
 
             getLocation : function getLocation (){
@@ -292,100 +179,7 @@ angular.module('starter.services', [])
                     }
                 });
             }
-            ,
 
-            getTranByFrom : function getTranByFrom(from,callback){
-                var transaction = Parse.Object.extend("transaction");
-
-                var query = new Parse.Query(transaction);
-                query.equalTo("from", from);
-                query.find({
-                        success: function (results) {
-                            console.log("# of rec in From: "+results.length);
-                            callback(results);
-                        },
-                    error: function (error) {
-                        alert("Error: " + error.code + " " + error.message);
-                    }
-                })
-            }
-            ,
-            getTranByTo: function getTranByTo(to, callback){
-                var transaction = Parse.Object.extend("transaction");
-
-                var query = new Parse.Query(transaction);
-                query.equalTo("to", to);
-                query.find({
-                    success: function (results) {
-                        console.log("# of rec in To: "+results.length);
-                        callback(results);
-                    },
-                    error: function (error) {
-                        alert("Error: " + error.code + " " + error.message);
-                    }
-                })
-            }
-            ,
-            calcBalance : function calcBalance (email,callback){
-                var balance = {email:'',credit:0,debit:0,amount:0}; //properties are email, credit, debit, balance
-                balance.email=email;
-
-                ParseService.getTranByFrom(email, function(fromTrans){
-                    for (var i = 0; i < fromTrans.length; i++) {
-
-                        balance.credit=balance.credit+ fromTrans[i].get('amount');
-
-                    }
-
-                        ParseService.getTranByTo(email, function(toTrans){
-                            for (var i = 0; i < toTrans.length; i++) {
-
-                                balance.debit=balance.debit+toTrans[i].get('amount');
-                            }
-
-                            balance.amount = balance.credit - balance.debit;
-
-                            callback(balance);
-
-                        })
-                })
-            }
-            ,
-            getFriends: function getFriends(myemail,callback){
-                var emailList=[];
-                ParseService.getTranByFrom(myemail, function(fromTrans){
-                    for (var i = 0; i < fromTrans.length; i++) {
-
-                        emailList.push(fromTrans[i].get('to'));
-
-                    }
-
-                    ParseService.getTranByTo(myemail, function(toTrans){
-                        for (var i = 0; i < toTrans.length; i++) {
-
-                            emailList.push(fromTrans[i].get('from'));
-                        }
-
-                        console.log("email list : "+emailList);
-
-                        callback(emailList);
-
-                    })
-                })
-            }
-            ,
-            getFriendBalances : function getFriendBalances(friendEmails){
-
-                for (var i = 0; i < friendEmails.length; i++) {
-                    this.calcBalance(friendEmails[i], function(balance){
-                        balances.push(balance);
-                        console.log("Balances: "+ JSON.stringify(balances));
-
-                    });
-                }
-                //callback(balances);
-                return balances;
-            }
 
         };
 
