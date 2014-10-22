@@ -3,21 +3,37 @@
         <form ng-submit="">
             <div class="list" align="center">
             <label class="item item-input">
-                <input type="email" readonly placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
+                <input type="email"  placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
             </label>
             <!--<ion-toggle ng-model="user.emailVerified" readonly toggle-class="toggle-calm" value="{{user.get('emailVerified')}}">Email verified</ion-toggle>-->
 
             <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}" onkeyup="pwStrength.value = checkPassStrength(this.value)">
+                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}"
+                       onload="passwordMeter(this.value);"
+                       onkeyup="passwordMeter(this.value);">
             </label>
             <label class="item item-input">
                 <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="{{user.get('password')}}">
             </label>
             <!--<div class="alert alert-error" id="passwordStrength"></div>-->
                 <label style="font-size: small" class="item item-input">
-                    password strength:
-                    <input id="pwStrength" type="text"  ng-model="user.password_strength"
-                           onchange="this.value=='strong'?alert('green')">
+                    <b>password strength: &nbsp;</b>
+                    <input id="pwStrength" type="text" style="font-size: small;font-style:bold" ng-model="user.password_strength" value="">
+                    <script>
+                        function passwordMeter(password){
+                            pwStrength.value = checkPassStrength(password);
+
+                            if (pwStrength.value=='weak')
+                                pwStrength.style.color="red";
+
+                            if (pwStrength.value=='good')
+                                pwStrength.style.color="orange";
+
+                            if (pwStrength.value=='strong')
+                                pwStrength.style.color="green";
+                        }
+
+                    </script>
                 </label>
 
             <button class="button button-dark" ng-click="saveSetup(user)" style="width: 100%">

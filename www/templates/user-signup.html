@@ -6,12 +6,31 @@
                 <input type="email" placeholder="Email" ng-model="user.email">
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="user.password">
+                <input type="password" placeholder="Password" ng-model="user.password" onkeyup="passwordMeter(this.value);">
             </label>
             <label class="item item-input">
                 <input type="password" placeholder="Confirm Password" ng-model="user.con_password">
             </label>
-            <button class="button button-dark" type="submit" style="width: 100%">
+                <label style="font-size: small" class="item item-input">
+                    <b>password strength: &nbsp;</b>
+                    <input id="pwStrength" type="text" style="font-size: small;font-style:bold" ng-model="user.password_strength" value="">
+                    <script>
+                        function passwordMeter(password){
+                            pwStrength.value = checkPassStrength(password);
+
+                            if (pwStrength.value=='weak')
+                                pwStrength.style.color="red";
+
+                            if (pwStrength.value=='good')
+                                pwStrength.style.color="orange";
+
+                            if (pwStrength.value=='strong')
+                                pwStrength.style.color="green";
+                        }
+
+                    </script>
+                </label>
+            <button class="button button-dark" type="button" ng-click="signUp(user)" style="width: 100%">
                 Go!
             </button>
             </div>

@@ -129,11 +129,22 @@ angular.module('starter.controllers', [])
 .controller('SignUpCtrl', function($scope,$location, ParseService) {
         // Called when the form is submitted
 
-        $scope.signUp = function(user) {
+        $scope.signUp = function(userp) {
+            alert(userp.password);
+            alert(userp.email);
+            alert(userp.password_strength);
+            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+                alert("Please Enter Password with At least one upper case and numeric ");
+                throw("Weak Password");
+            }
 
-            if (user.password != user.con_password){ alert("invalid password");  return "Invalid Password"}
+            if (userp.password!=userp.con_password){
+                alert("Invalid Password");
+                throw("Invalid Password");
+            }
 
-            ParseService.signUp(user.email, user.password, function(user) {
+
+            ParseService.signUp(userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
                 alert("Account Signup Successful");
                 $location.path('/tab/login');
@@ -160,6 +171,15 @@ angular.module('starter.controllers', [])
 
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
+            alert(userp.email);
+            alert(userp.password);
+
+            alert(userp.password_strength);
+            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+                alert("Please Enter Password with At least one upper case and numeric ");
+                throw("Weak Password");
+            }
+
             if (userp.password!=userp.con_password){
                 alert("Invalid Password");
                 throw("Invalid Password");

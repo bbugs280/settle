@@ -82,7 +82,8 @@ angular.module('starter.services', [])
 
             recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user, callback){
                 var tran = new Transaction();
-
+                var success_snd = new Audio("../../www/js/sound/beep-success.wav"); // buffers automatically when created
+                var error_snd = new Audio("../../www/js/sound/beep-error.wav"); // buffers automatically when created
                 tran.set('tranId',tranId);
                 tran.set('amount',amount);
                 tran.set('from',from);
@@ -94,6 +95,7 @@ angular.module('starter.services', [])
 
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
+                        error_snd.play();
                         alert("Invalid QRCode!");
                     }else{
                         //Save Transaction
@@ -146,6 +148,9 @@ angular.module('starter.services', [])
                                                                     console.log("recordQRCode - friend's friendlist saved with friends no = "+friends.get('friends').length);
                                                                     console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
                                                                     callback(tran);
+                                                                    //Play Sound
+
+                                                                    success_snd.play();
                                                                 });
                                                             });
 
@@ -161,6 +166,7 @@ angular.module('starter.services', [])
 
                             },error:function(error){
                                 alert('Failed to create new object, with error code: ' + error.message);
+                                error_snd.play();
                                 callback(null);
                             }
 
