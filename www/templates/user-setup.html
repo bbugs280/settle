@@ -1,20 +1,29 @@
-<ion-view title="Setup">
+<ion-view title="User Setup">
     <ion-content class="has-header">
         <form ng-submit="">
             <div class="list" align="center">
             <label class="item item-input">
-                <input type="email" placeholder="Email" ng-model="user.email" value="{{$scope.user.get('email')}}">
+                <input type="email" readonly placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
+            </label>
+            <!--<ion-toggle ng-model="user.emailVerified" readonly toggle-class="toggle-calm" value="{{user.get('emailVerified')}}">Email verified</ion-toggle>-->
+
+            <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}" onkeyup="pwStrength.value = checkPassStrength(this.value)">
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="user.password">
+                <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="{{user.get('password')}}">
             </label>
-            <label class="item item-input">
-                <input type="password" placeholder="Confirm Password" ng-model="user.con_password">
-            </label>
-            <button class="button button-dark" type="submit" style="width: 100%">
-                Go!
+            <!--<div class="alert alert-error" id="passwordStrength"></div>-->
+                <label style="font-size: small" class="item item-input">
+                    password strength:
+                    <input id="pwStrength" type="text"  ng-model="user.password_strength"
+                           onchange="this.value=='strong'?alert('green')">
+                </label>
+
+            <button class="button button-dark" ng-click="saveSetup(user)" style="width: 100%">
+                Save
             </button>
-                <button class="button button-dark"  ng-click="logout()" style="width: 100%">Logout</button>
+            <button class="button button-dark"  ng-click="logout()" style="width: 100%">Logout</button>
             </div>
         </form>
 

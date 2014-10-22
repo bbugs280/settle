@@ -15,9 +15,11 @@ angular.module('starter.controllers', [])
             if ($scope.user.get('emailVerified')==false){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
+                $route.refresh();
             }
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
 
         //Load User Balance
@@ -46,6 +48,7 @@ angular.module('starter.controllers', [])
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
         var qrcode = new QRCode("qrcode", {
             text: "",
@@ -71,10 +74,10 @@ angular.module('starter.controllers', [])
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
             // do stuff with the user
-
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
 
         var scanner = cordova.require("cordova/plugin/BarcodeScanner");
@@ -134,6 +137,7 @@ angular.module('starter.controllers', [])
                 // When service call is finished, navigate to items page
                 alert("Account Signup Successful");
                 $location.path('/tab/login');
+                $route.refresh();
             })
         };
 })
@@ -141,21 +145,41 @@ angular.module('starter.controllers', [])
 
         console.log("controller - SetupCtrl start");
         if (ParseService.getUser()) {
-            // do stuff with the user
-
             $scope.user = ParseService.getUser();
-
+            console.log("setup user = "+$scope.user.get('email'));
+//            $scope.$apply();
             if ($scope.user.get('emailVerified')==false){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
+                $route.refresh();
             }
         } else {
             $location.path('tab/login');
+            $route.refresh();
+        }
+
+        $scope.saveSetup = function(userp){
+            var user = ParseService.getUser();
+            if (userp.password!=userp.con_password){
+                alert("Invalid Password");
+                throw("Invalid Password");
+            }
+            user.set('password',userp.password);
+            user.save(null,{
+                success: function(user){
+                    alert("Setup saved!");
+
+                },error:function(user, error){
+                    alert(error.message);
+                }
+            })
+
         }
 
         $scope.logout = function(){
             ParseService.logout();
             $location.path('/tab/login');
+            $route.refresh();
         };
 
 
@@ -164,6 +188,7 @@ angular.module('starter.controllers', [])
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
+            $route.refresh();
         }
 
         $scope.forgotPassword = function(user){
@@ -183,8 +208,10 @@ angular.module('starter.controllers', [])
 
             ParseService.login(user.email, user.password, function(user){
             console.log("controller - success login");
+                $scope.user = user;
 
                 $location.path('/tab/balance');
+                $route.refresh();
                 console.log("controller - redirected success login");
             });
         }
