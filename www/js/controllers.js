@@ -158,7 +158,7 @@ angular.module('starter.controllers', [])
         if (ParseService.getUser()) {
             $scope.user = ParseService.getUser();
             console.log("setup user = "+$scope.user.get('email'));
-//            $scope.$apply();
+            $scope.$apply();
             if ($scope.user.get('emailVerified')==false){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
@@ -208,7 +208,7 @@ angular.module('starter.controllers', [])
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
-            $route.refresh();
+//            $route.refresh();
         }
 
         $scope.forgotPassword = function(user){
@@ -229,7 +229,7 @@ angular.module('starter.controllers', [])
             ParseService.login(user.email, user.password, function(user){
             console.log("controller - success login");
                 $scope.user = user;
-
+                $scope.$apply();
                 $location.path('/tab/balance');
                 $route.refresh();
                 console.log("controller - redirected success login");
