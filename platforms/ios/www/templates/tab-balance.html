@@ -1,31 +1,39 @@
-<ion-view title=" Your Balance - ${{balance.get('balance')}}">
-  <ion-content >
-
+<ion-view title="balance">
+  <ion-content>
       <ion-list>
+          <ion-item class="item"><b>your current balance is $
+              <span ng-if="balance.get('balance')<0">
+              <span style="color: red">{{balance.get('balance')}}</span></b>
+              </span>
+              <span ng-if="balance.get('balance')>0">
+                  <span style="color: dimgray">{{balance.get('balance')}}</span></b>
+              </span>
+          </ion-item>
           <ion-item class="item item-divider">recent transactions</ion-item>
           <ion-item class="item" style="font-size: medium;" ng-repeat="tran in transactions">
-              <div ng-if="tran.get('from')==user.get('email')">
-                  <!--<i class="ion-android-arrow-down-right"></i>-->
+              <span ng-if="tran.get('from')==user.get('email')">
+
                   <i class="ion-ios7-upload-outline"></i>
                   send
-                  <font color="red"><b>-${{tran.get('amount')}}</b></font>
-                  to
-                  <font style="font-style: italic;"><b>{{tran.get('to')}}</b></font>
-                  <br>
-                  <font style="font-style: italic;font-size: small">on {{tran.createdAt.toLocaleDateString()}}</font>
-              </div>
-              <div ng-if="tran.get('to')==user.get('email')">
-                  <!--<i class="ion-android-arrow-up-right"></i>-->
+                  <span style="color:red"><b>-${{tran.get('amount')}}</b></span>
+                  <span style="font-style: italic;font-size: small">
+                    <br>
+                    to <b>{{tran.get('to')}}</b></span>
+              </span>
+              <span ng-if="tran.get('to')==user.get('email')">
+
                   <i class="ion-ios7-download-outline"></i>
                   received
-                  <b>${{tran.get('amount')}}</b>
-                  from
-                  <font style="font-style: italic"><b>{{tran.get('from')}}</b></font>
-                  <br>
-                  <font style="font-style: italic;font-size: small">on {{tran.createdAt.toLocaleDateString()}}</font>
-              </div>
-              <!--{{(tran.get('from')==user.get('email')?tran.get('to'):tran.get('from')}}-->
+                  <span style="color:darkslategray"><b>${{tran.get('amount')}}</b></span>
+                  <span style="font-style: italic;font-size: small">
+                    <br>
+                    from <b>{{tran.get('from')}}</b></span>
 
+
+              </span>
+                  <span style="font-style: italic;font-size: small;color:gray">
+                      <br>on {{tran.createdAt.toLocaleDateString()}}
+                  </span>
           </ion-item>
       </ion-list>
   </ion-content>

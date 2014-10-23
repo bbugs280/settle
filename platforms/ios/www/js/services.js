@@ -62,7 +62,7 @@ angular.module('starter.services', [])
                     },
                     error: function (user, error) {
                         // Show the error message somewhere and let the user try again.
-                        throw("Error: " + error.code + " " + error.message);
+                        alert("Error: " + error.code + " " + error.message);
                     }
                 });
             },
@@ -83,25 +83,29 @@ angular.module('starter.services', [])
             recordQRCode : function recordQRCode(tranId, amount, from, to, note, location, user, callback){
                 var tran = new Transaction();
 
+
                 tran.set('tranId',tranId);
-                tran.set('amount',amount);
+                tran.set('amount',Number(amount));
                 tran.set('from',from);
                 tran.set('to',to);
                 tran.set('note',note);
                 tran.set('location',location);
 
-                console.log("recordQRCode - before tran save ");
+
 
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
+                        error_snd.play();
                         alert("Invalid QRCode!");
                     }else{
                         //Save Transaction
-                        console.log("recordQRCode - Valid QRCode");
+                        console.log("recordQRCode - Valid QRCode with TranID = " + tran.get('tranId'));
+                        console.log("recordQRCode - before tran save : " + tran.get('tranId') +" | "+ tran.get('amount') +" | "+ tran.get('from') +" | "+ tran.get('to') +" | "+ tran.get('note') +" | "+ user.get('email'));
                         tran.save(null,
                             {
                                 success: function(tran){
                                     //Found out who is your friend
+                                    console.log("recordQRCode - Saved Tran successfully with TranID = " + tran.get('tranId'));
                                     console.log("recordQRCode - after tran save - User Email = "+user.get('email'));
 
                                     var friendEmail = tran.getFriendEmail(user.getEmail());
@@ -145,7 +149,11 @@ angular.module('starter.services', [])
                                                                 user.addFriend(friendfriendlist, user.get('email'), function(friends){
                                                                     console.log("recordQRCode - friend's friendlist saved with friends no = "+friends.get('friends').length);
                                                                     console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
+                                                                    //Play Sound
+                                                                    success_snd.play();
+
                                                                     callback(tran);
+
                                                                 });
                                                             });
 
@@ -159,8 +167,9 @@ angular.module('starter.services', [])
                                     })
 
 
-                            },error:function(error){
-                                alert('Failed to create new object, with error code: ' + error.message);
+                            },error:function(object, error){
+                                alert('Failed to create new object, with error code: ' + error.code + error.message + " tranId: "+ object.get('trandId'));
+                                error_snd.play();
                                 callback(null);
                             }
 
@@ -169,12 +178,12 @@ angular.module('starter.services', [])
                  });
             },
 
-            getLocation : function getLocation (){
+            getLocation : function getLocation (callback){
                 Parse.GeoPoint.current({
                     success: function (point) {
                         //use current location
                         console.log("location"+point);
-                        return point;
+                        callback(point);
 
                     }
                 });

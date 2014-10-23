@@ -12,7 +12,10 @@ angular.module('starter.controllers', [])
             console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
             $scope.user = ParseService.getUser();
 
-            if ($scope.user.get('emailVerified')==false){
+            if ($scope.user.get('emailVerified')==false
+                //Temp for bypass Email Verification
+                 && $scope.user.get('username').indexOf('test')!=0
+                ){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
                 $route.refresh();
@@ -72,6 +75,15 @@ angular.module('starter.controllers', [])
 })
 .controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
         //var currentUser = Parse.User.current();
+
+
+
+        var location;
+        ParseService.getLocation(function(r){
+            location=r;
+        });
+
+
         if (ParseService.getUser()) {
             // do stuff with the user
             $scope.user = ParseService.getUser();
@@ -96,34 +108,35 @@ angular.module('starter.controllers', [])
 
             if (res.length==1){
                 display = "This is NOT a 'Settle' QRCode!!"
+                document.getElementById("info").innerHTML = display;
             }else{
                 var id = res[0];
                 var from = res[1];
                 var amount = res[2];
                 var note="";
-                //var location=ParseService.getLocation();
-                var location;
 
-                ParseService.recordQRCode(id,amount,from,$scope.user.getEmail(),note,location, function(r){
+
+                ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
                     console.log("Controllers Receive - recordQRCode Successfully");
                     display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
                         "From : <b>" + from +"</b>";
+                    document.getElementById("info").innerHTML = display;
+
+                    $route.reload();
                 });
 
             }
-
-            document.getElementById("info").innerHTML = display;
-            //console.log(result);
-            /*
-             if (args.format == "QR_CODE") {
-             window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
-             }
-             */
         }, function (error) {
             console.log("Scanning failed: ", error);
         } );
 
-
+        $scope.rescan = function(){
+            console.log("Receive page reloading");
+//            $location.path('/tab/receive');
+//            $route.reload();
+            $window.location.reload();
+            console.log("Receive page reloaded");
+        }
 })
 
 .controller('SignUpCtrl', function($scope,$location, ParseService) {
@@ -159,14 +172,17 @@ angular.module('starter.controllers', [])
             $scope.user = ParseService.getUser();
             console.log("setup user = "+$scope.user.get('email'));
             $scope.$apply();
-            if ($scope.user.get('emailVerified')==false){
+            if ($scope.user.get('emailVerified')==false
+                //Temp for bypass Email Verification
+                && $scope.user.get('username').indexOf('test')!=0
+                ){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
                 $route.refresh();
             }
         } else {
             $location.path('tab/login');
-            $route.refresh();
+//            $route.refresh();
         }
 
         $scope.saveSetup = function(userp){
@@ -199,7 +215,7 @@ angular.module('starter.controllers', [])
         $scope.logout = function(){
             ParseService.logout();
             $location.path('/tab/login');
-            $route.refresh();
+
         };
 
 

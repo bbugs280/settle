@@ -34,16 +34,21 @@
     <script src="js/services.js"></script>
       <script src="js/dao/user.js"></script>
       <script src="js/dao/transaction.js"></script>
-
+      <script src="js/dao/password-check.js"></script>
+<!--load sounds-->
+      <script>
+        var success_snd = new Audio("js/sound/beep-success.wav"); // buffers automatically when created
+        var error_snd = new Audio("js/sound/beep-error.wav"); // buffers automatically when created
+      </script>
   </head>
   <body ng-app="starter" animation="slide-left-right-ios7" class="platform-ios platform-cordova platform-webview">
     <!-- 
       The nav bar that will be updated as we navigate between views.
     -->
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
-      <ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">
-        Back
-      </ion-nav-back-button>
+      <!--<ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">-->
+        <!--Back-->
+      <!--</ion-nav-back-button>-->
     </ion-nav-bar>
     <!-- 
       The views will be rendered in the <ion-nav-view> directive below

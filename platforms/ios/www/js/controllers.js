@@ -12,12 +12,17 @@ angular.module('starter.controllers', [])
             console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
             $scope.user = ParseService.getUser();
 
-            if ($scope.user.get('emailVerified')==false){
+            if ($scope.user.get('emailVerified')==false
+                //Temp for bypass Email Verification
+                 && $scope.user.get('username').indexOf('test')!=0
+                ){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
+                $route.refresh();
             }
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
 
         //Load User Balance
@@ -46,6 +51,7 @@ angular.module('starter.controllers', [])
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
         var qrcode = new QRCode("qrcode", {
             text: "",
@@ -69,12 +75,21 @@ angular.module('starter.controllers', [])
 })
 .controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
         //var currentUser = Parse.User.current();
+
+
+
+        var location;
+        ParseService.getLocation(function(r){
+            location=r;
+        });
+
+
         if (ParseService.getUser()) {
             // do stuff with the user
-
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
+            $route.refresh();
         }
 
         var scanner = cordova.require("cordova/plugin/BarcodeScanner");
@@ -93,46 +108,60 @@ angular.module('starter.controllers', [])
 
             if (res.length==1){
                 display = "This is NOT a 'Settle' QRCode!!"
+                document.getElementById("info").innerHTML = display;
             }else{
                 var id = res[0];
                 var from = res[1];
                 var amount = res[2];
                 var note="";
-                //var location=ParseService.getLocation();
-                var location;
 
-                ParseService.recordQRCode(id,amount,from,$scope.user.getEmail(),note,location, function(r){
+
+                ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
                     console.log("Controllers Receive - recordQRCode Successfully");
                     display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
                         "From : <b>" + from +"</b>";
+                    document.getElementById("info").innerHTML = display;
+
+                    $route.reload();
                 });
 
             }
-
-            document.getElementById("info").innerHTML = display;
-            //console.log(result);
-            /*
-             if (args.format == "QR_CODE") {
-             window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
-             }
-             */
         }, function (error) {
             console.log("Scanning failed: ", error);
         } );
 
-
+        $scope.rescan = function(){
+            console.log("Receive page reloading");
+//            $location.path('/tab/receive');
+//            $route.reload();
+            $window.location.reload();
+            console.log("Receive page reloaded");
+        }
 })
 
 .controller('SignUpCtrl', function($scope,$location, ParseService) {
         // Called when the form is submitted
 
-        $scope.signUp = function(user) {
+        $scope.signUp = function(userp) {
+            alert(userp.password);
+            alert(userp.email);
+            alert(userp.password_strength);
+            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+                alert("Please Enter Password with At least one upper case and numeric ");
+                throw("Weak Password");
+            }
 
-            if (user.password != user.con_password){ alert("invalid password");  return "Invalid Password"}
+            if (userp.password!=userp.con_password){
+                alert("Invalid Password");
+                throw("Invalid Password");
+            }
 
-            ParseService.signUp(user.email, user.password, function(user) {
+
+            ParseService.signUp(userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
+                alert("Account Signup Successful");
                 $location.path('/tab/login');
+                $route.refresh();
             })
         };
 })
@@ -140,21 +169,53 @@ angular.module('starter.controllers', [])
 
         console.log("controller - SetupCtrl start");
         if (ParseService.getUser()) {
-            // do stuff with the user
-
             $scope.user = ParseService.getUser();
-
-            if ($scope.user.get('emailVerified')==false){
+            console.log("setup user = "+$scope.user.get('email'));
+            $scope.$apply();
+            if ($scope.user.get('emailVerified')==false
+                //Temp for bypass Email Verification
+                && $scope.user.get('username').indexOf('test')!=0
+                ){
                 alert("Please verify  your email, check your mailbox.");
                 $location.path('tab/login');
+                $route.refresh();
             }
         } else {
             $location.path('tab/login');
+//            $route.refresh();
+        }
+
+        $scope.saveSetup = function(userp){
+            var user = ParseService.getUser();
+            alert(userp.email);
+            alert(userp.password);
+
+            alert(userp.password_strength);
+            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+                alert("Please Enter Password with At least one upper case and numeric ");
+                throw("Weak Password");
+            }
+
+            if (userp.password!=userp.con_password){
+                alert("Invalid Password");
+                throw("Invalid Password");
+            }
+            user.set('password',userp.password);
+            user.save(null,{
+                success: function(user){
+                    alert("Setup saved!");
+
+                },error:function(user, error){
+                    alert(error.message);
+                }
+            })
+
         }
 
         $scope.logout = function(){
             ParseService.logout();
             $location.path('/tab/login');
+
         };
 
 
@@ -163,6 +224,7 @@ angular.module('starter.controllers', [])
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
+//            $route.refresh();
         }
 
         $scope.forgotPassword = function(user){
@@ -182,8 +244,10 @@ angular.module('starter.controllers', [])
 
             ParseService.login(user.email, user.password, function(user){
             console.log("controller - success login");
-
+                $scope.user = user;
+                $scope.$apply();
                 $location.path('/tab/balance');
+                $route.refresh();
                 console.log("controller - redirected success login");
             });
         }

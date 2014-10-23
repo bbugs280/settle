@@ -1,4 +1,4 @@
-<ion-view title="User Setup">
+<ion-view title="user setup">
     <ion-content class="has-header">
         <form ng-submit="">
             <div class="list" align="center">
@@ -13,27 +13,13 @@
                        onkeyup="passwordMeter(this.value);">
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="{{user.get('password')}}">
+                <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="">
             </label>
-            <!--<div class="alert alert-error" id="passwordStrength"></div>-->
-                <label style="font-size: small" class="item item-input">
-                    <b>password strength: &nbsp;</b>
-                    <input id="pwStrength" type="text" style="font-size: small;font-style:bold" ng-model="user.password_strength" value="">
-                    <script>
-                        function passwordMeter(password){
-                            pwStrength.value = checkPassStrength(password);
 
-                            if (pwStrength.value=='weak')
-                                pwStrength.style.color="red";
+                <label class="item item-input">
+                    <!--<span style="text-align: left;font-size: small" class="input-label">password strength: </span>-->
+                    <input id="pwStrength" placeholder="Password Strength" readonly type="text" style="font-size: small;font-style:bold;" ng-model="user.password_strength" value="">
 
-                            if (pwStrength.value=='good')
-                                pwStrength.style.color="orange";
-
-                            if (pwStrength.value=='strong')
-                                pwStrength.style.color="green";
-                        }
-
-                    </script>
                 </label>
 
             <button class="button button-dark" ng-click="saveSetup(user)" style="width: 100%">

@@ -1,4 +1,4 @@
-<ion-view title="Signup">
+<ion-view title="signup">
     <ion-content class="has-header">
         <form ng-submit="signUp(user)">
             <div class="list" align="center">
@@ -11,24 +11,10 @@
             <label class="item item-input">
                 <input type="password" placeholder="Confirm Password" ng-model="user.con_password">
             </label>
-                <label style="font-size: small" class="item item-input">
-                    <b>password strength: &nbsp;</b>
-                    <input id="pwStrength" type="text" style="font-size: small;font-style:bold" ng-model="user.password_strength" value="">
-                    <script>
-                        function passwordMeter(password){
-                            pwStrength.value = checkPassStrength(password);
+                <label class="item item-input">
+                    <!--<span style="text-align: left;font-size: small" class="input-label">password strength: </span>-->
+                    <input id="pwStrength" placeholder="Password Strength" readonly type="text" style="font-size: small;font-style:bold;" ng-model="user.password_strength" value="">
 
-                            if (pwStrength.value=='weak')
-                                pwStrength.style.color="red";
-
-                            if (pwStrength.value=='good')
-                                pwStrength.style.color="orange";
-
-                            if (pwStrength.value=='strong')
-                                pwStrength.style.color="green";
-                        }
-
-                    </script>
                 </label>
             <button class="button button-dark" type="button" ng-click="signUp(user)" style="width: 100%">
                 Go!
