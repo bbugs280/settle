@@ -25,28 +25,6 @@ angular.module('starter.controllers', [])
             $route.refresh();
         }
 
-        //setting spinner
-        var opts = {
-            lines: 13, // The number of lines to draw
-            length: 15, // The length of each line
-            width: 6, // The line thickness
-            radius: 10, // The radius of the inner circle
-            corners: 1, // Corner roundness (0..1)
-            rotate: 0, // The rotation offset
-            direction: 1, // 1: clockwise, -1: counterclockwise
-            color: '#000', // #rgb or #rrggbb or array of colors
-            speed: 1, // Rounds per second
-            trail: 60, // Afterglow percentage
-            shadow: false, // Whether to render a shadow
-            hwaccel: false, // Whether to use hardware acceleration
-            className: 'spinner', // The CSS class to assign to the spinner
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: '50%', // Top position relative to parent
-            left: '50%' // Left position relative to parent
-        };
-        var target = document.getElementById('spinner');
-        var spinner = new Spinner(opts).spin(target);
-
         //Load User Balance
         var user = new SUser();
 
@@ -61,11 +39,38 @@ angular.module('starter.controllers', [])
         tran.getRelatedTran(ParseService.getUser().get('email'), function(transactions){
             $scope.transactions = transactions;
             $scope.$apply();
-            spinner.stop();
+            document.getElementById("tran_loading").style.visibility = 'hidden';
         })
 
 })
 
+.controller('BalanceDetailCtrl', function($scope, $location, ParseService) {
+        if (ParseService.getUser()) {
+            // do stuff with the user
+            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
+            $scope.user = ParseService.getUser();
+        } else {
+            $location.path('tab/login');
+            $route.refresh();
+        }
+        //Load User Balance
+        var user = new SUser();
+        user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
+            $scope.balance = balance;
+            $scope.$apply();
+        })
+
+        //Load Friends Balance
+        user.getFriendList(ParseService.getUser().get('email'),function(friendlist){
+            console.log("BalanceDetailCtrl got Friend list = "+friendlist.get('friends').length);
+            user.getBalanceByEmails(friendlist.get('friends'), function(balances){
+                $scope.balances = balances;
+                $scope.$apply();
+                document.getElementById("tran_loading").style.visibility = 'hidden';
+            })
+        })
+
+})
 .controller('SendCtrl', function($scope, $location, ParseService, Common) {
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
@@ -97,6 +102,15 @@ angular.module('starter.controllers', [])
 
 })
 .controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
+
+        $scope.showloading = function(){
+            document.getElementById("scan_loading").style.visibility = 'visible';
+        }
+
+        $scope.hideloading = function(){
+            document.getElementById("scan_loading").style.visibility = 'hidden';
+        }
+
         if (ParseService.getUser()) {
             // do stuff with the user
             $scope.user = ParseService.getUser();
@@ -104,27 +118,7 @@ angular.module('starter.controllers', [])
             $location.path('tab/login');
             $route.refresh();
         }
-        //setting spinner
-        var opts = {
-            lines: 13, // The number of lines to draw
-            length: 15, // The length of each line
-            width: 6, // The line thickness
-            radius: 10, // The radius of the inner circle
-            corners: 1, // Corner roundness (0..1)
-            rotate: 0, // The rotation offset
-            direction: 1, // 1: clockwise, -1: counterclockwise
-            color: '#000', // #rgb or #rrggbb or array of colors
-            speed: 1, // Rounds per second
-            trail: 60, // Afterglow percentage
-            shadow: false, // Whether to render a shadow
-            hwaccel: false, // Whether to use hardware acceleration
-            className: 'spinner', // The CSS class to assign to the spinner
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: '30%', // Top position relative to parent
-            left: '50%' // Left position relative to parent
-        };
-        var target = document.getElementById('info');
-        var spinner = new Spinner(opts).spin(target);
+
 
         var location;
         ParseService.getLocation(function(r){
@@ -134,7 +128,8 @@ angular.module('starter.controllers', [])
 
         $scope.scan = function(){
             document.getElementById("info").innerHTML="";
-            spinner.spin(target);
+//            spinner.spin(target);
+            $scope.showloading();
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
             scanner.scan( function (result) {
 
@@ -144,7 +139,7 @@ angular.module('starter.controllers', [])
                     "cancelled: " + result.cancelled + "\n");
 
                 if (result.cancelled == 1){
-                    spinner.stop();
+                    $scope.hideloading();
                     throw "Scanning Canceled";
                 }
 
@@ -156,8 +151,9 @@ angular.module('starter.controllers', [])
                 if (res.length==1){
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
-                    spinner.stop();
+                    $scope.hideloading();
                 }else{
+
                     var id = res[0];
                     var from = res[1];
                     var amount = res[2];
@@ -176,37 +172,28 @@ angular.module('starter.controllers', [])
                             display = "<BR><b> " + r.message +"</b>";
                             document.getElementById("info").innerHTML = display;
                         }
-
-                        spinner.stop();
+                        $scope.hideloading();
 
                     });
 
                 }
             }, function (error) {
-                spinner.stop();
+
+                $scope.hideloading();
                 console.log("Scanning failed: ", error);
             } );
         }
 
         $scope.scan();
 
-        $scope.rescan = function(){
-            console.log("Receive page reloading");
-//            $location.path('/tab/receive');
-//            $route.reload();
-            $scope.scan();
-            console.log("Receive page reloaded");
-        }
 })
 
 .controller('SignUpCtrl', function($scope,$location, ParseService) {
         // Called when the form is submitted
 
         $scope.signUp = function(userp) {
-            alert(userp.password);
-            alert(userp.email);
-            alert(userp.password_strength);
-            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+
+            if (scorePassword(userp.password) <= 60){
                 alert("Please Enter Password with At least one upper case and numeric ");
                 throw("Weak Password");
             }
@@ -247,11 +234,8 @@ angular.module('starter.controllers', [])
 
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
-            alert(userp.email);
-            alert(userp.password);
 
-            alert(userp.password_strength);
-            if (userp.password_strength == 'weak' || userp.password_strength == undefined){
+            if (scorePassword(userp.password) <= 60){
                 alert("Please Enter Password with At least one upper case and numeric ");
                 throw("Weak Password");
             }

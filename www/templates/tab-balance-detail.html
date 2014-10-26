@@ -1,0 +1,30 @@
+<ion-view title="balance detail">
+  <ion-content>
+      <ion-list>
+          <ion-item class="item"> <b>your current balance is $ </b>
+              <span ng-if="balance.get('balance')<0">
+              <span style="color: red"><b>{{balance.get('balance')}}</b></span>
+              </span>
+              <span ng-if="balance.get('balance')>=0">
+                  <span style="color:olivedrab"><b>{{balance.get('balance')}}</b></span>
+              </span>
+          </ion-item>
+          <ion-item class="item item-divider item-icon-right">
+              your friends balance
+              <i id="tran_loading" class="icon ion-loading-d"></i>
+          </ion-item>
+          <ion-item class="item" style="font-size: medium;" ng-repeat="bal in balances">
+              <span>
+                  {{bal.get('email')}} <b>balance is $</b>
+              </span>
+              <span ng-if="bal.get('balance')<0">
+              <span style="color: red"><b>{{bal.get('balance')}}</b></span>
+              </span>
+              <span ng-if="bal.get('balance')>=0">
+                  <span style="color:olivedrab"><b>{{bal.get('balance')}}</b></span>
+              </span>
+
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

@@ -49,7 +49,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-
+      .state('tab.balance-detail', {
+          url:'/balance-detail',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/tab-balance-detail.html',
+                  controller: 'BalanceDetailCtrl'
+              }
+          }
+      })
     .state('tab.send', {
       url: '/send',
       views: {
@@ -77,7 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               }
           }
      })
-      .state('tab.sigup', {
+      .state('tab.signup', {
           url:'/signup',
           views:{
               'tab-setup':{

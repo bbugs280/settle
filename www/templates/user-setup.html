@@ -8,19 +8,13 @@
             <!--<ion-toggle ng-model="user.emailVerified" readonly toggle-class="toggle-calm" value="{{user.get('emailVerified')}}">Email verified</ion-toggle>-->
 
             <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}"
-                       onload="passwordMeter(this.value);"
-                       onkeyup="passwordMeter(this.value);">
+                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}">
+
             </label>
             <label class="item item-input">
                 <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="">
             </label>
 
-                <label class="item item-input">
-                    <!--<span style="text-align: left;font-size: small" class="input-label">password strength: </span>-->
-                    <input id="pwStrength" placeholder="Password Strength" readonly type="text" style="font-size: small;font-style:bold;" ng-model="user.password_strength" value="">
-
-                </label>
 
             <button class="button button-dark" ng-click="saveSetup(user)" style="width: 100%">
                 Save

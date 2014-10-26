@@ -185,9 +185,11 @@ angular.module('starter.services', [])
                 Parse.GeoPoint.current({
                     success: function (point) {
                         //use current location
-                        console.log("location"+point);
+                        console.log("location succes: "+ point);
                         callback(point);
 
+                    },error: function (error){
+                        console.log("location error : "+error.message);
                     }
                 });
             }

@@ -1,19 +1,23 @@
 <ion-view title="balance">
-  <ion-content >
+  <ion-content>
       <ion-list>
-          <ion-item class="item"> <b>your current balance is $
+          <ion-item class="item item-icon-right" href="#/tab/balance-detail"> <b>your current balance is $</b>
               <span ng-if="balance.get('balance')<0">
-              <span style="color: red">{{balance.get('balance')}}</span></b>
+              <span style="color: red"><b>{{balance.get('balance')}}</b></span>
               </span>
               <span ng-if="balance.get('balance')>=0">
-                  <span style="color: dimgray">{{balance.get('balance')}}</span></b>
+                  <span style="color:olivedrab"><b>{{balance.get('balance')}}</b></span>
               </span>
+              <i class="icon ion-ios7-arrow-forward"></i>
           </ion-item>
-          <ion-item class="item item-divider">recent transactions</ion-item>
+          <ion-item class="item item-divider item-icon-right">
+              recent transactions
+              <i id="tran_loading" class="icon ion-loading-d"></i>
+           </ion-item>
           <ion-item class="item" style="font-size: medium;" ng-repeat="tran in transactions">
               <span ng-if="tran.get('from')==user.get('email')">
 
-                  <i class="ion-ios7-upload-outline"></i>
+                  <i class="icon ion-ios7-upload-outline"></i>
                   send
                   <span style="color:red"><b>-${{tran.get('amount')}}</b></span>
                   <span style="font-style: italic;font-size: small">
@@ -22,9 +26,9 @@
               </span>
               <span ng-if="tran.get('to')==user.get('email')">
 
-                  <i class="ion-ios7-download-outline"></i>
+                  <i class="icon ion-ios7-download-outline"></i>
                   received
-                  <span style="color:darkslategray"><b>${{tran.get('amount')}}</b></span>
+                  <span style="color:olivedrab"><b>${{tran.get('amount')}}</b></span>
                   <span style="font-style: italic;font-size: small">
                     <br>
                     from <b>{{tran.get('from')}}</b></span>

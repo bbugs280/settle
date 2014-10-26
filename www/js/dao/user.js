@@ -44,30 +44,14 @@ var SUser = Parse.User.extend({
             // The object was retrieved successfully.
             console.log("getBalanceByEmail -  have result success ? " + result.length);
             if (result.length > 0) {
-
-//                r.id = result[0].id;
                 r = result[0];
                 r.set('balance', r.get('credit')- r.get('debit'));
-//
-//                credit = result[0].get("credit");
-//                debit = result[0].get("debit");
-//                balance = credit - debit;
 
-                console.log("getBalanceByEmail -  have result success email" + r.get('email'));
-                console.log("getBalanceByEmail -  have result success recal balance" + r.get('balance'));
-                console.log("getBalanceByEmail -  have result success credit" + r.get('credit'));
-                console.log("getBalanceByEmail -  have result success debit" + r.get('debit'));
             } else {
                 r.set('email', emailp);
                 r.set('credit',0);
                 r.set('debit',0);
                 r.set('balance', r.get('credit')- r.get('debit'));
-
-                console.log("getBalanceByEmail -  no balance set to zeros ");
-                console.log("getBalanceByEmail -  no balance success email" + r.get('email'));
-                console.log("getBalanceByEmail -  no balance  success recal balance" + r.get('balance'));
-                console.log("getBalanceByEmail - no balance  success credit" + r.get('credit'));
-                console.log("getBalanceByEmail -  no balance  success debit" + r.get('debit'));
 
             }
             callback(r);
@@ -78,6 +62,21 @@ var SUser = Parse.User.extend({
         }
     });
 },
+    getBalanceByEmails : function (emailarray, callback) {
+        var Balance = Parse.Object.extend("balance");
+        var query = new Parse.Query(Balance);
+        query.containedIn("email", emailarray);
+        query.find({
+            success: function (balances) {
+                console.log("getBalanceByEmails -  have result success ? " + balances.length);
+                callback(balances);
+            },
+            error: function ( error) {
+                throw("Error: "  + error.message);
+            }
+        });
+    },
+
     updateBalance : function (bal, callback) {
 
         var Balance = Parse.Object.extend("balance");
