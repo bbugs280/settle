@@ -25,6 +25,28 @@ angular.module('starter.controllers', [])
             $route.refresh();
         }
 
+        //setting spinner
+        var opts = {
+            lines: 13, // The number of lines to draw
+            length: 15, // The length of each line
+            width: 6, // The line thickness
+            radius: 10, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#000', // #rgb or #rrggbb or array of colors
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: '50%', // Top position relative to parent
+            left: '50%' // Left position relative to parent
+        };
+        var target = document.getElementById('spinner');
+        var spinner = new Spinner(opts).spin(target);
+
         //Load User Balance
         var user = new SUser();
 
@@ -39,6 +61,7 @@ angular.module('starter.controllers', [])
         tran.getRelatedTran(ParseService.getUser().get('email'), function(transactions){
             $scope.transactions = transactions;
             $scope.$apply();
+            spinner.stop();
         })
 
 })
@@ -47,7 +70,7 @@ angular.module('starter.controllers', [])
         //var currentUser = Parse.User.current();
         if (ParseService.getUser()) {
             // do stuff with the user
-            console.log("LOADING Send PAGE: "+ParseService.getUser().getUsername());
+            console.log("LOADING Send PAGE: "+ParseService.getUser().get('email'));
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
@@ -63,7 +86,7 @@ angular.module('starter.controllers', [])
         });
 
         $scope.makeQRCode = function (send){
-            var sendString = Common.getID()+"|"+ParseService.getUser().getEmail() +"|"+ send.amount;
+            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -74,16 +97,6 @@ angular.module('starter.controllers', [])
 
 })
 .controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
-        //var currentUser = Parse.User.current();
-
-
-
-        var location;
-        ParseService.getLocation(function(r){
-            location=r;
-        });
-
-
         if (ParseService.getUser()) {
             // do stuff with the user
             $scope.user = ParseService.getUser();
@@ -91,50 +104,97 @@ angular.module('starter.controllers', [])
             $location.path('tab/login');
             $route.refresh();
         }
+        //setting spinner
+        var opts = {
+            lines: 13, // The number of lines to draw
+            length: 15, // The length of each line
+            width: 6, // The line thickness
+            radius: 10, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#000', // #rgb or #rrggbb or array of colors
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: '30%', // Top position relative to parent
+            left: '50%' // Left position relative to parent
+        };
+        var target = document.getElementById('info');
+        var spinner = new Spinner(opts).spin(target);
 
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-
-        scanner.scan( function (result) {
-
-            console.log("Scanner result: \n" +
-                "text: " + result.text + "\n" +
-                "format: " + result.format + "\n" +
-                "cancelled: " + result.cancelled + "\n");
-
-            //Decrypt Result String
-            var resultString = Common.decrypt(result.text);
-            var res = resultString.split("|");
-            var display = "";
-
-            if (res.length==1){
-                display = "This is NOT a 'Settle' QRCode!!"
-                document.getElementById("info").innerHTML = display;
-            }else{
-                var id = res[0];
-                var from = res[1];
-                var amount = res[2];
-                var note="";
+        var location;
+        ParseService.getLocation(function(r){
+            location=r;
+        });
 
 
-                ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
-                    console.log("Controllers Receive - recordQRCode Successfully");
-                    display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
-                        "From : <b>" + from +"</b>";
+        $scope.scan = function(){
+            document.getElementById("info").innerHTML="";
+            spinner.spin(target);
+            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            scanner.scan( function (result) {
+
+                console.log("Scanner result: \n" +
+                    "text: " + result.text + "\n" +
+                    "format: " + result.format + "\n" +
+                    "cancelled: " + result.cancelled + "\n");
+
+                if (result.cancelled == 1){
+                    spinner.stop();
+                    throw "Scanning Canceled";
+                }
+
+                //Decrypt Result String
+                var resultString = Common.decrypt(result.text);
+                var res = resultString.split("|");
+                var display = "";
+
+                if (res.length==1){
+                    display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
+                    spinner.stop();
+                }else{
+                    var id = res[0];
+                    var from = res[1];
+                    var amount = res[2];
+                    var note="";
 
-                    $route.reload();
-                });
 
-            }
-        }, function (error) {
-            console.log("Scanning failed: ", error);
-        } );
+                    ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
+                        console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                        if (r.message== undefined){
+                            console.log("Controllers Receive - recordQRCode Successfully");
+                            display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
+                                "From : <b>" + from +"</b>";
+                            document.getElementById("info").innerHTML = display;
+                        }else{
+                            console.log("Controllers Receive - recordQRCode Failed");
+                            display = "<BR><b> " + r.message +"</b>";
+                            document.getElementById("info").innerHTML = display;
+                        }
+
+                        spinner.stop();
+
+                    });
+
+                }
+            }, function (error) {
+                spinner.stop();
+                console.log("Scanning failed: ", error);
+            } );
+        }
+
+        $scope.scan();
 
         $scope.rescan = function(){
             console.log("Receive page reloading");
 //            $location.path('/tab/receive');
 //            $route.reload();
-            $window.location.reload();
+            $scope.scan();
             console.log("Receive page reloaded");
         }
 })

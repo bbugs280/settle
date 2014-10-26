@@ -8,12 +8,11 @@ angular.module('starter.services', [])
             getID: function () {
                 return '_' + Math.random().toString(36).substr(2, 9);
             },
-
             encrypt : function(message){
-                return CryptoJS.AES.encrypt(message, secret_passphrase);
+                return CryptoJS.Rabbit.encrypt(message, secret_passphrase);
             },
             decrypt : function(encrypted){
-                return CryptoJS.AES.decrypt(encrypted, secret_passphrase).toString(CryptoJS.enc.Utf8);
+                return CryptoJS.Rabbit.decrypt(encrypted, secret_passphrase).toString(CryptoJS.enc.Utf8);
             }
 
         }
@@ -96,7 +95,11 @@ angular.module('starter.services', [])
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
                         error_snd.play();
-                        alert("Invalid QRCode!");
+//                        throw ("Invalid QRCode!");
+                        console.log("recordQRCode - InValid QRCode with TranID = " + tranId);
+                        var error = new Error();
+                        error.message = "Invalid QRCode";
+                        callback(error);
                     }else{
                         //Save Transaction
                         console.log("recordQRCode - Valid QRCode with TranID = " + tran.get('tranId'));
@@ -170,7 +173,7 @@ angular.module('starter.services', [])
                             },error:function(object, error){
                                 alert('Failed to create new object, with error code: ' + error.code + error.message + " tranId: "+ object.get('trandId'));
                                 error_snd.play();
-                                callback(null);
+                                callback(error);
                             }
 
                     });

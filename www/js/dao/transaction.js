@@ -10,6 +10,7 @@ var Transaction = Parse.Object.extend("transaction",{
 
             var mainQuery = Parse.Query.or(fromQuery, toQuery);
             mainQuery.addDescending("createdAt");
+            mainQuery.limit(5);
             mainQuery.find({
                 success: function(results) {
                     // results contains a list of players that either have won a lot of games or won only a few games.
