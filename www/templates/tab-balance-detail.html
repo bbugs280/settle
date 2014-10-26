@@ -8,6 +8,9 @@
               <span ng-if="balance.get('balance')>=0">
                   <span style="color:olivedrab"><b>{{balance.get('balance')}}</b></span>
               </span>
+              <BR>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')}}</b></span>
           </ion-item>
           <ion-item class="item item-divider item-icon-right">
               your friends balance
@@ -23,7 +26,9 @@
               <span ng-if="bal.get('balance')>=0">
                   <span style="color:olivedrab"><b>{{bal.get('balance')}}</b></span>
               </span>
-
+              <BR>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{bal.get('credit')}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{bal.get('debit')}}</b></span>
           </ion-item>
       </ion-list>
   </ion-content>
