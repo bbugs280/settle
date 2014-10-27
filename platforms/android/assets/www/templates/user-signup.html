@@ -1,0 +1,25 @@
+<ion-view title="signup">
+    <ion-content class="has-header">
+        <form ng-submit="signUp(user)">
+            <div class="list" align="center">
+            <label class="item item-input">
+                <input type="email" placeholder="Email" ng-model="user.email">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="user.password">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Confirm Password" ng-model="user.con_password">
+            </label>
+                <!--<label class="item item-input">-->
+                    <!--<!--<span style="text-align: left;font-size: small" class="input-label">password strength: </span>-->
+                    <!--<input id="pwStrength" placeholder="Password Strength" readonly type="text" style="font-size: small;font-style:bold;" ng-model="user.password_strength" value="">-->
+
+                <!--</label>-->
+            <button class="button button-dark" type="button" ng-click="signUp(user)" style="width: 100%">
+                Go!
+            </button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,28 @@
+<ion-view title="user setup">
+    <ion-content class="has-header">
+        <form ng-submit="">
+            <div class="list" align="center">
+            <label class="item item-input">
+                <input type="email" readonly placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
+            </label>
+            <!--<ion-toggle ng-model="user.emailVerified" readonly toggle-class="toggle-calm" value="{{user.get('emailVerified')}}">Email verified</ion-toggle>-->
+
+            <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="user.password" value="{{user.get('password')}}">
+
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Confirm Password" ng-model="user.con_password" value="">
+            </label>
+
+
+            <button class="button button-dark" ng-click="saveSetup(user)" style="width: 100%">
+                Save
+            </button>
+            <button class="button button-dark"  ng-click="logout()" style="width: 100%">Logout</button>
+            </div>
+        </form>
+
+
+    </ion-content>
+</ion-view>
