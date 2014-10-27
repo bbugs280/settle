@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 
         //Load User Balance
         var user = new SUser();
-
+        document.getElementById("tran_loading").style.visibility = 'visible';
         user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
 //            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
