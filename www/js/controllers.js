@@ -91,7 +91,7 @@ angular.module('starter.controllers', [])
         });
 
         $scope.makeQRCode = function (send){
-            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount;
+            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"";
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -157,15 +157,15 @@ angular.module('starter.controllers', [])
                     var id = res[0];
                     var from = res[1];
                     var amount = res[2];
-                    var note="";
+                    var note=res[3];
 
 
                     ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
-                        console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                        //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                         if (r.message== undefined){
                             console.log("Controllers Receive - recordQRCode Successfully");
-                            display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
-                                "From : <b>" + from +"</b>";
+                            display = "<BR>Received : $" + amount +"<br><br>" +
+                                "From : " + from +"";
                             document.getElementById("info").innerHTML = display;
                         }else{
                             console.log("Controllers Receive - recordQRCode Failed");
@@ -204,7 +204,7 @@ angular.module('starter.controllers', [])
             }
 
 
-            ParseService.signUp(userp.email, userp.password, function(user) {
+            ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
                 alert("Account Signup Successful");
                 $location.path('/tab/login');
@@ -264,29 +264,76 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('LoginCtrl', function($scope, $location, ParseService) {
+.controller('LoginCtrl', function($scope, $ionicPopup, $location, ParseService) {
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
 //            $route.refresh();
         }
 
-        $scope.forgotPassword = function(user){
+        $scope.forgotPassword = function(){
+            // An elaborate, custom popup
+            //$scope.forgotpassword.email = "";
 
-            Parse.User.requestPasswordReset(user.email, {
-                success: function() {
-                    // Password reset request was sent successfully
-                    alert("Please check your email, and reset your password")
-                },
-                error: function(error) {
-                    // Show the error message somewhere
-                    alert("Error: " + error.code + " " + error.message);
-                }
+            //var myPopup=$ionicPopup.prompt({
+            //    title: 'Reset Password',
+            //    template: 'Enter your email',
+            //    inputType: 'text',
+            //    inputPlaceholder: 'Email'
+            //}).then(function(email) {
+            //    console.log(email);
+            //                        Parse.User.requestPasswordReset(email, {
+            //                            success: function() {
+            //                                // Password reset request was sent successfully
+            //                                alert("Please check your email, and reset your password")
+            //                            },
+            //                            error: function(error) {
+            //                                // Show the error message somewhere
+            //                                alert("Error: " + error.code + " " + error.message);
+            //                            }
+            //                        });
+            //});
+
+
+            var passwordPopup = $ionicPopup.show({
+                template: '<input type="email" ng-model="forgotpassword.email">',
+                title: 'Enter your email',
+                subTitle: 'An email will be sent to reset your password',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Reset</b>',
+                        type: 'button-stable',
+                        onTap: function(e) {
+                            alert(e);
+                            alert($scope.forgotpassword.email);
+                            //alert($scope.userp.email);
+                            if (!$scope.forgotpassword.email) {
+                                Parse.User.requestPasswordReset(forgotpassword.email, {
+                                    success: function() {
+                                        // Password reset request was sent successfully
+                                        alert("Please check your email, and reset your password")
+                                    },
+                                    error: function(error) {
+                                        // Show the error message somewhere
+                                        alert("Error: " + error.code + " " + error.message);
+                                    }
+                                });
+                            } else {
+                                return $scope.forgotpassword.email;
+                            }
+                        }
+                    },
+                ]
             });
+
+
         }
+
         $scope.login = function (user){
 
-            ParseService.login(user.email, user.password, function(user){
+            ParseService.login(user.username, user.password, function(user){
             console.log("controller - success login");
                 $scope.user = user;
                 $scope.$apply();
