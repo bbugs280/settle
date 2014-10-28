@@ -130,7 +130,8 @@ angular.module('starter.controllers', [])
             document.getElementById("info").innerHTML="";
 //            spinner.spin(target);
             $scope.showloading();
-            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+//            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            var scanner = cordova.require("cordova.plugins.barcodeScanner");
             scanner.scan( function (result) {
 
                 console.log("Scanner result: \n" +
