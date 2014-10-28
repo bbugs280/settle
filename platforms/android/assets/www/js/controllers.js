@@ -161,7 +161,7 @@ angular.module('starter.controllers', [])
 
 
                     ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
-                        console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                        //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                         if (r.message== undefined){
                             console.log("Controllers Receive - recordQRCode Successfully");
                             display = "<BR>Received :<b> $" + amount +"</b><br><br>" +
