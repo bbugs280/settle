@@ -9,9 +9,9 @@ module.exports = [
     },
     {
         "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
-        "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
+        "id": "com.phonegap.plugins.barcodescanner.barcodescanner",
         "clobbers": [
-            "cordova.plugins.barcodeScanner"
+            "plugins.barcodeScanner"
         ]
     },
     {

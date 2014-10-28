@@ -11,12 +11,14 @@
               Generate QRCode
           </button>
       </div>
-
+      <label class="item item-input">
+          <input type="text" placeholder="Remark" ng-model="send.note" ng-change="makeQRCode(send)">
+      </label>
       <br>
       <!--<canvas id="qrcode" ></canvas>-->
       <div id="qrcode" style="width: 150px; height: 150px; border: 5px solid; border-radius: 5px;border-color: lightgray;padding: 5px 5px 5px 5px;margin-left: auto ;margin-right: auto ;"></div>
       <br>
-      <div style="width: 300px;margin-left: auto ;margin-right: auto;">Let your friend to scan this QRCode to send </div>
+      <div style="width: 100%;margin-left: auto ;margin-right: auto;text-align: center">Let your friend to scan this QRCode to send </div>
   </ion-content>
 </ion-view>
 

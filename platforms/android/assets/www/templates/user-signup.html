@@ -2,6 +2,9 @@
     <ion-content class="has-header">
         <form ng-submit="signUp(user)">
             <div class="list" align="center">
+                <label class="item item-input">
+                    <input type="text" placeholder="Username" ng-model="user.name">
+                </label>
             <label class="item item-input">
                 <input type="email" placeholder="Email" ng-model="user.email">
             </label>

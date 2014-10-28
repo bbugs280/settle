@@ -2,6 +2,9 @@
     <ion-content class="has-header">
         <form ng-submit="">
             <div class="list" align="center">
+                <label class="item item-input">
+                    <input type="email" readonly placeholder="Email" ng-model="user.name" value="{{user.get('username')}}">
+                </label>
             <label class="item item-input">
                 <input type="email" readonly placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
             </label>
