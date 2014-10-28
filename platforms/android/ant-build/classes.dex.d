@@ -4,15 +4,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$3.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/BuildConfig.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$array.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$attr.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$color.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$dimen.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$drawable.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$id.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$layout.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$menu.class \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$raw.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$string.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R$xml.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionicframework/settle473300/R.class \
