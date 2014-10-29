@@ -101,25 +101,25 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('ReceiveCtrl', function($scope, $cordovaBackgroundGeolocation,$location,ParseService, Common) {
+.controller('ReceiveCtrl', function($scope, $location,ParseService, Common) {
 
         var location;
-        var options = {
-            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
-        };
+//        var options = {
+//            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
+//        };
 
         // `configure` calls `start` internally
-        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
-            location = loc;
-            console.log(location);
+//        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
+//            location = loc;
+//            console.log(location);
+//
+//        }, function (err) {
+//            console.error(err);
+//        });
 
-        }, function (err) {
-            console.error(err);
-        });
-
-        $scope.stopBackgroundGeolocation = function () {
-            $cordovaBackgroundGeolocation.stop();
-        };
+//        $scope.stopBackgroundGeolocation = function () {
+//            $cordovaBackgroundGeolocation.stop();
+//        };
         $scope.showloading = function(){
             document.getElementById("scan_loading").style.visibility = 'visible';
         }
