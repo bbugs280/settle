@@ -1,6 +1,5 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-gen/com/ionicframework/settle473300/R.java \
  : /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable/icon.png \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable/notification.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-hdpi/icon.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-land-hdpi/screen.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-land-ldpi/screen.png \
@@ -16,7 +15,6 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/values/strings.xml \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/xml/config.xml \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable/icon.png \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable/notification.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-hdpi/icon.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-land-hdpi/screen.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-land-ldpi/screen.png \

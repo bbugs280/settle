@@ -1,15 +1,12 @@
-# view AndroidManifest.xml #generated:12
+# view AndroidManifest.xml #generated:11
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:24
+# view AndroidManifest.xml #generated:23
 -keep class com.google.zxing.client.android.HelpActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:18
+# view AndroidManifest.xml #generated:17
 -keep class com.google.zxing.client.android.encode.EncodeActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:6
+# view AndroidManifest.xml #generated:5
 -keep class com.ionicframework.settle473300.settle { <init>(...); }
-
-# view AndroidManifest.xml #generated:30
--keep class com.tenforwardconsulting.cordova.bgloc.LocationUpdateService { <init>(...); }
 

@@ -35,14 +35,13 @@
                     <!--<br>-->
                     from <b>{{tran.get('from')}}</b></span>
 
-
               </span>
                   <span style="font-style: italic;font-size: small;color:gray">
                       <br>on {{tran.createdAt.toLocaleDateString()}}
                   </span>
               <span ng-if="tran.get('note')!=''">
                   <span style="font-style: italic;font-size: small;color:gray">
-                      with a note: <span style="color:darkblue">{{tran.get('note')}}</span>
+                      ( <span style="color:darkblue">{{tran.get('note')}} </span>)
                   </span>
               </span>
 

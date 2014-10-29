@@ -101,25 +101,25 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('ReceiveCtrl', function($scope, $cordovaBackgroundGeolocation,$location,ParseService, Common) {
-
+.controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
+        console.log("Receive Ctrl start");
         var location;
-        var options = {
-            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
-        };
+//        var options = {
+//            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
+//        };
 
         // `configure` calls `start` internally
-        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
-            location = loc;
-            console.log(location);
+//        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
+//            location = loc;
+//            console.log(location);
+//
+//        }, function (err) {
+//            console.error(err);
+//        });
 
-        }, function (err) {
-            console.error(err);
-        });
-
-        $scope.stopBackgroundGeolocation = function () {
-            $cordovaBackgroundGeolocation.stop();
-        };
+//        $scope.stopBackgroundGeolocation = function () {
+//            $cordovaBackgroundGeolocation.stop();
+//        };
         $scope.showloading = function(){
             document.getElementById("scan_loading").style.visibility = 'visible';
         }
@@ -130,23 +130,24 @@ angular.module('starter.controllers', [])
 
         if (ParseService.getUser()) {
             // do stuff with the user
+            console.log("Receive Ctrl logged in ");
             $scope.user = ParseService.getUser();
         } else {
             $location.path('tab/login');
             $route.refresh();
         }
 
-        //ParseService.getLocation(function(r){
-        //    location=r;
-        //});
-
+        ParseService.getLocation(function(r){
+            location=r;
+        });
 
         $scope.scan = function(){
+            console.log("Receive Ctrl enter scan");
             document.getElementById("info").innerHTML="";
-//            spinner.spin(target);
+
             $scope.showloading();
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-//            var scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
+
             scanner.scan( function (result) {
 
                 console.log("Scanner result: \n" +
@@ -181,7 +182,8 @@ angular.module('starter.controllers', [])
                         if (r.message== undefined){
                             console.log("Controllers Receive - recordQRCode Successfully");
                             display = "<BR>Received : $" + amount +"<br><br>" +
-                                "From : " + from +"";
+                                "From : " + from +""
+                                +"<BR>Note : "+note;
                             document.getElementById("info").innerHTML = display;
                         }else{
                             console.log("Controllers Receive - recordQRCode Failed");

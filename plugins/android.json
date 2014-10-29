@@ -542,6 +542,9 @@
         },
         "com.phonegap.plugins.barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.settle473300"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.ionicframework.settle473300"
         }
     },
     "dependent_plugins": {}

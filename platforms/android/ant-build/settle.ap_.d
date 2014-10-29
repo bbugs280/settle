@@ -1,6 +1,5 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/settle.ap_ \
  : /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable/icon.png \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable/notification.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-hdpi/icon.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-land-hdpi/screen.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/drawable-land-ldpi/screen.png \
@@ -16,7 +15,6 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/values/strings.xml \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/res/xml/config.xml \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable/icon.png \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable/notification.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-hdpi/icon.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-land-hdpi/screen.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/res/drawable-land-ldpi/screen.png \
@@ -205,13 +203,10 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/jsqrcode-combined.min.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.transistorsoft.cordova.background-geolocation \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www/keyboard.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.transistorsoft.cordova.background-geolocation/www \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.transistorsoft.cordova.background-geolocation/www/BackgroundGeoLocation.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-all.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \

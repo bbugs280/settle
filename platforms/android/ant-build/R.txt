@@ -1,6 +1,5 @@
 int drawable icon 0x7f020000
-int drawable notification 0x7f020001
-int drawable screen 0x7f020002
+int drawable screen 0x7f020001
 int string app_name 0x7f040000
 int string app_picker_name 0x7f040001
 int string bookmark_picker_name 0x7f040002

@@ -109,10 +109,10 @@ angular.module('starter.services', [])
                                 success: function(tran){
                                     //Found out who is your friend
                                     console.log("recordQRCode - Saved Tran successfully with TranID = " + tran.get('tranId'));
-                                    console.log("recordQRCode - after tran save - User Email = "+user.get('email'));
+                                    console.log("recordQRCode - after tran save ");
 
                                     var friendEmail = tran.getFriendEmail(user.getEmail());
-                                    console.log("recordQRCode - get friend email "+ friendEmail);
+//                                    console.log("recordQRCode - get friend email "+ friendEmail);
                                     //Update your Records e.g. Balance and Friend list
 
                                     var trancredit = tran.getYourCredit(user.get('email'));
@@ -128,46 +128,50 @@ angular.module('starter.services', [])
         //                                yourbal.set('balance', yourcredit - yourdebit);
                                         user.updateBalance(yourbal,function(r){
                                             console.log("recordQRCode - your balance saved");
-                                            // 3. Add friend
-                                            user.getFriendList(user.get('email'), function(friendlist){
-                                                console.log("recordQRCode - your friendlist found");
-                                                user.addFriend(friendlist, friendEmail, function(friends){
-                                                    console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
-                                                    console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
-                                                    //Now update your friend Records
-                                                    //1. get Friend Balance
-                                                    user.getBalanceByEmail(friendEmail,function(friendbal){
-                                                        var friendcredit = trandebit + friendbal.get('credit');
-                                                        var frienddebit = trancredit + friendbal.get('debit');
-                                                        //2. update Friend Balance
-                                                        friendbal.set('credit', friendcredit);
-                                                        friendbal.set('debit', frienddebit);
-                                                        //                                friendbal.set('balance', friendcredit - frienddebit);
-                                                        user.updateBalance(friendbal,function(r){
-                                                            console.log("recordQRCode - friend balance saved");
-                                                            console.log("recordQRCode - friend before get friendlist email = "+friendEmail);
-                                                            // 3. Add friend
-                                                            user.getFriendList(friendEmail, function(friendfriendlist){
-                                                                console.log("recordQRCode - friend friendlist found");
-                                                                user.addFriend(friendfriendlist, user.get('email'), function(friends){
-                                                                    console.log("recordQRCode - friend's friendlist saved with friends no = "+friends.get('friends').length);
-                                                                    console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
-                                                                    //Play Sound
-                                                                    success_snd.play();
-
-                                                                    callback(tran);
-
-                                                                });
-                                                            });
-
-                                                        })
-                                                    });
-
-                                                });
-                                            });
 
                                         })
-                                    })
+                                        // 3. Add friend
+                                        user.getFriendList(user.get('email'), function(friendlist){
+                                            console.log("recordQRCode - your friendlist found");
+                                            user.addFriend(friendlist, friendEmail, function(friends){
+//                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
+                                                console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
+
+
+                                            });
+                                        });
+
+                                        //Now update your friend Records
+                                        //1. get Friend Balance
+                                        user.getBalanceByEmail(friendEmail,function(friendbal){
+                                            var friendcredit = trandebit + friendbal.get('credit');
+                                            var frienddebit = trancredit + friendbal.get('debit');
+                                            //2. update Friend Balance
+                                            friendbal.set('credit', friendcredit);
+                                            friendbal.set('debit', frienddebit);
+                                            //friendbal.set('balance', friendcredit - frienddebit);
+                                            user.updateBalance(friendbal,function(r){
+                                                console.log("recordQRCode - friend balance saved");
+//                                                console.log("recordQRCode - friend before get friendlist email = "+friendEmail);
+
+
+                                            })
+                                        });
+
+                                        // 3. Add friend
+                                        user.getFriendList(friendEmail, function(friendfriendlist){
+                                            console.log("recordQRCode - friend friendlist found");
+                                            user.addFriend(friendfriendlist, user.get('email'), function(friends){
+//                                                console.log("recordQRCode - friend's friendlist saved with friends no = "+friends.get('friends').length);
+                                                console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
+                                                //Play Sound
+                                                success_snd.play();
+
+                                                callback(tran);
+
+                                            });
+                                        });
+                                    });
 
 
                             },error:function(object, error){
