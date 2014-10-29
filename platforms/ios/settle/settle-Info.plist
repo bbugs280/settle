@@ -77,5 +77,13 @@
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
       <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string></string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app requires background location tracking</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>location</string>
+    </array>
   </dict>
 </plist>

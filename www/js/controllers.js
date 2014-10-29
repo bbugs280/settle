@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('BalanceDetailCtrl', function($scope, $location, ParseService) {
+.controller('BalanceAllCtrl', function($scope, $location, ParseService) {
         if (ParseService.getUser()) {
             // do stuff with the user
             console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
@@ -101,8 +101,25 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
+.controller('ReceiveCtrl', function($scope, $cordovaBackgroundGeolocation,$location,ParseService, Common) {
 
+        var location;
+        var options = {
+            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
+        };
+
+        // `configure` calls `start` internally
+        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
+            location = loc;
+            console.log(location);
+
+        }, function (err) {
+            console.error(err);
+        });
+
+        $scope.stopBackgroundGeolocation = function () {
+            $cordovaBackgroundGeolocation.stop();
+        };
         $scope.showloading = function(){
             document.getElementById("scan_loading").style.visibility = 'visible';
         }
@@ -119,11 +136,9 @@ angular.module('starter.controllers', [])
             $route.refresh();
         }
 
-
-        var location;
-        ParseService.getLocation(function(r){
-            location=r;
-        });
+        //ParseService.getLocation(function(r){
+        //    location=r;
+        //});
 
 
         $scope.scan = function(){
