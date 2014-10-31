@@ -181,9 +181,10 @@ angular.module('starter.controllers', [])
                         //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                         if (r.message== undefined){
                             console.log("Controllers Receive - recordQRCode Successfully");
+
                             display = "<BR>Received : $" + amount +"<br><br>" +
-                                "From : " + from +""
-                                +"<BR>Note : "+note;
+                                "From : " + from +"<BR><BR>"
+                                +"Note : "+note;
                             document.getElementById("info").innerHTML = display;
                         }else{
                             console.log("Controllers Receive - recordQRCode Failed");
