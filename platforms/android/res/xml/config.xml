@@ -14,10 +14,11 @@
     </feature>
     <name>settle</name>
     <description>
-        An Ionic Framework and Cordova project.
+      - Micro Cash Management between Friends
+      - No need to settle with real cash!
     </description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+    <author email="yeung.vincent@gmail.com" href="">
+      Bumble Team
     </author>
     <content src="index.html" />
     <access origin="*" />
