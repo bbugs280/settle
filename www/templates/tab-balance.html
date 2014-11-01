@@ -4,10 +4,10 @@
           <ion-item class="item " >
               Your Current Balance is $
               <span ng-if="balance.get('balance')<0">
-              <span style="color: red">{{balance.get('balance')}}</span>
+              <span style="color: red">{{balance.get('balance')| number:2}}</span>
               </span>
               <span ng-if="balance.get('balance')>=0">
-                  <span style="color:olivedrab">{{balance.get('balance')}}</span>
+                  <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
               </span>
 
           </ion-item>
@@ -21,7 +21,7 @@
               <span ng-if="tran.get('from')==user.get('email')">
                   <i class="icon ion-ios7-upload-outline"></i>
                   sent
-                  <span style="color:red">-${{tran.get('amount')}}</span>
+                  <span style="color:red">-${{tran.get('amount')| number:2}}</span>
                   <span style="font-style: italic;font-size: small">
                     <!--<br>-->
                     to <b>{{tran.get('to')}}</b></span>
@@ -30,7 +30,7 @@
 
                   <i class="icon ion-ios7-download-outline"></i>
                   received
-                  <span style="color:olivedrab">${{tran.get('amount')}}</span>
+                  <span style="color:olivedrab">${{tran.get('amount')| number:2}}</span>
                   <span style="font-style: italic;font-size: small">
                     <!--<br>-->
                     from <b>{{tran.get('from')}}</b></span>
@@ -39,7 +39,7 @@
                   <span style="font-style: italic;font-size: small;color:gray">
                       <br>on {{tran.createdAt.toLocaleDateString()}}
                   </span>
-              <span ng-if="tran.get('note')!=''">
+              <span ng-if="tran.get('note')!='' && tran.get('note')!='undefined'">
                   <span style="font-style: italic;font-size: small;color:gray">
                       ( <span style="color:darkblue">{{tran.get('note')}} </span>)
                   </span>
