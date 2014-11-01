@@ -12,14 +12,14 @@ angular.module('starter.controllers', [])
             console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
             $scope.user = ParseService.getUser();
 
-            if ($scope.user.get('emailVerified')==false
-                //Temp for bypass Email Verification
-                 && $scope.user.get('username').indexOf('test')!=0
-                ){
-                alert("Please verify  your email, check your mailbox.");
-                $location.path('tab/login');
-                $route.refresh();
-            }
+//            if ($scope.user.get('emailVerified')==false
+//                //Temp for bypass Email Verification
+//                 && $scope.user.get('username').indexOf('test')!=0
+//                ){
+//                alert("Please verify  your email, check your mailbox.");
+//                $location.path('tab/login');
+//                $route.refresh();
+//            }
         } else {
             $location.path('tab/login');
             $route.refresh();
@@ -238,14 +238,14 @@ angular.module('starter.controllers', [])
             $scope.user = ParseService.getUser();
             console.log("setup user = "+$scope.user.get('email'));
             $scope.$apply();
-            if ($scope.user.get('emailVerified')==false
-                //Temp for bypass Email Verification
-                && $scope.user.get('username').indexOf('test')!=0
-                ){
-                alert("Please verify  your email, check your mailbox.");
-                $location.path('tab/login');
-                $route.refresh();
-            }
+//            if ($scope.user.get('emailVerified')==false
+//                //Temp for bypass Email Verification
+//                && $scope.user.get('username').indexOf('test')!=0
+//                ){
+//                alert("Please verify  your email, check your mailbox.");
+//                $location.path('tab/login');
+//                $route.refresh();
+//            }
         } else {
             $location.path('tab/login');
 //            $route.refresh();
@@ -283,7 +283,7 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('LoginCtrl', function($scope, $ionicPopup, $location, ParseService) {
+.controller('LoginCtrl', function( $scope, $ionicPopup, $location, ParseService) {
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
@@ -292,30 +292,11 @@ angular.module('starter.controllers', [])
 
         $scope.forgotPassword = function(){
             // An elaborate, custom popup
-            //$scope.forgotpassword.email = "";
-
-            //var myPopup=$ionicPopup.prompt({
-            //    title: 'Reset Password',
-            //    template: 'Enter your email',
-            //    inputType: 'text',
-            //    inputPlaceholder: 'Email'
-            //}).then(function(email) {
-            //    console.log(email);
-            //                        Parse.User.requestPasswordReset(email, {
-            //                            success: function() {
-            //                                // Password reset request was sent successfully
-            //                                alert("Please check your email, and reset your password")
-            //                            },
-            //                            error: function(error) {
-            //                                // Show the error message somewhere
-            //                                alert("Error: " + error.code + " " + error.message);
-            //                            }
-            //                        });
-            //});
+            $scope.resetpassword = {};
 
 
             var passwordPopup = $ionicPopup.show({
-                template: '<input type="email" ng-model="forgotpassword.email">',
+                template: '<input type="email" ng-model="resetpassword.email">',
                 title: 'Enter your email',
                 subTitle: 'An email will be sent to reset your password',
                 scope: $scope,
@@ -325,25 +306,25 @@ angular.module('starter.controllers', [])
                         text: '<b>Reset</b>',
                         type: 'button-stable',
                         onTap: function(e) {
-                            alert(e);
-                            alert($scope.forgotpassword.email);
-                            //alert($scope.userp.email);
-                            if (!$scope.forgotpassword.email) {
-                                Parse.User.requestPasswordReset(forgotpassword.email, {
+
+                            if (!$scope.resetpassword.email) {
+                                e.preventDefault();
+
+                            } else {
+                                Parse.User.requestPasswordReset($scope.resetpassword.email, {
                                     success: function() {
                                         // Password reset request was sent successfully
                                         alert("Please check your email, and reset your password")
                                     },
                                     error: function(error) {
                                         // Show the error message somewhere
-                                        alert("Error: " + error.code + " " + error.message);
+                                        alert("Error:  " + error.message);
                                     }
                                 });
-                            } else {
-                                return $scope.forgotpassword.email;
+//                                return $scope.resetpassword.email;
                             }
                         }
-                    },
+                    }
                 ]
             });
 
@@ -357,7 +338,8 @@ angular.module('starter.controllers', [])
                 $scope.user = user;
                 $scope.$apply();
                 $location.path('/tab/balance');
-                $route.refresh();
+//                $route.refresh();
+
                 console.log("controller - redirected success login");
             });
         }

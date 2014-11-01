@@ -1,7 +1,7 @@
 <ion-view title="Login">
     <ion-content class="has-header">
 
-        <form ng-submit="login(user)">
+        <form >
             <div class="list" align="center">
                 <label class="item item-input">
                     <input type="text" placeholder="Username" ng-model="user.username">
@@ -11,13 +11,13 @@
                     <input type="password" placeholder="Password" ng-model="user.password">
                 </label>
 
-                <button class="button button-stable" type="submit" style="width: 100%">
+                <button class="button button-stable" style="width: 100%" ng-click="login(user)">
                     Go!
                 </button>
                 <button class="button button-stable" style="width: 100%" ng-click="goTosignUp()">
                 Sign Up
                 </button>
-                <button class="button button-stable" style="width: 100%" ng-click="forgotPassword(user)">
+                <button class="button button-stable" style="width: 100%" ng-click="forgotPassword()">
                 Forget Password?
                 </button>
                 <!--<table width="100%">-->
