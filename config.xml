@@ -17,7 +17,5 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
-  <!--<uses-permission android:name="android.permission.INTERNET" />-->
-  <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
 </widget>
 

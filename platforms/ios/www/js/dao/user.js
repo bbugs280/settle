@@ -156,6 +156,7 @@ var SUser = Parse.User.extend({
 
 },
 
+
     // Instance properties go in an initialize method
     initialize: function (attrs, options) {
 //        this.objectId='';

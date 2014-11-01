@@ -4,14 +4,14 @@
           <ion-item class="item item-icon-right" href="#/tab/balance">
               Your Current Balance is $
               <span ng-if="balance.get('balance')<0">
-              <span style="color: red">{{balance.get('balance')}}</span>
+              <span style="color: red">{{balance.get('balance') | number:2}}</span>
               </span>
               <span ng-if="balance.get('balance')>=0">
-                  <span style="color:olivedrab">{{balance.get('balance')}}</span>
+                  <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
               </span>
               <BR>
-              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')}}</b></span>
-              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')}}</b></span>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>
               <i class="icon ion-ios7-arrow-forward"></i>
           </ion-item>
           <ion-item class="item item-divider item-icon-right" >
@@ -23,14 +23,14 @@
                   {{bal.get('email')}} balance is $
               </span>
               <span ng-if="bal.get('balance')<0">
-              <span style="color: red">{{bal.get('balance')}}</span>
+              <span style="color: red">{{bal.get('balance')| number:2}}</span>
               </span>
               <span ng-if="bal.get('balance')>=0">
-                  <span style="color:olivedrab">{{bal.get('balance')}}</span>
+                  <span style="color:olivedrab">{{bal.get('balance')| number:2}}</span>
               </span>
               <BR>
-              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{bal.get('credit')}}</b></span>
-              <span style="font-size: x-small;color:gray">and debit is <b>$-{{bal.get('debit')}}</b></span>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{bal.get('credit')| number:2}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{bal.get('debit')| number:2}}</b></span>
           </ion-item>
       </ion-list>
   </ion-content>
