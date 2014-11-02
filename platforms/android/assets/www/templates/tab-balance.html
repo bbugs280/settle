@@ -1,4 +1,4 @@
-<ion-view title="Balance & Transactions">
+<ion-view title="Transactions for {{selectedGroup}}">
   <ion-content>
       <ion-list>
           <ion-item class="item " >
@@ -24,7 +24,7 @@
                   <span style="color:red">-${{tran.get('amount')| number:2}}</span>
                   <span style="font-style: italic;font-size: small">
                     <!--<br>-->
-                    to <b>{{tran.get('to')}}</b></span>
+                    to <b>{{tran.get('friendname')}}</b></span>
               </span>
               <span ng-if="tran.get('to')==user.get('email')">
 
@@ -33,7 +33,7 @@
                   <span style="color:olivedrab">${{tran.get('amount')| number:2}}</span>
                   <span style="font-style: italic;font-size: small">
                     <!--<br>-->
-                    from <b>{{tran.get('from')}}</b></span>
+                    from <b>{{tran.get('friendname')}}</b></span>
 
               </span>
                   <span style="font-style: italic;font-size: small;color:gray">

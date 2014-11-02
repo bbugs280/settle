@@ -1,42 +1,107 @@
 angular.module('starter.controllers', [])
+.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
 
-.controller('BalanceCtrl', function($scope, $location, ParseService) {
+        $rootScope.showMenu = function () {
+            if (!$scope.friendlists)
+                $rootScope.loadGroup();
 
-        console.log("controller - BalanceCtrl start");
+            $ionicSideMenuDelegate.toggleLeft();
+        };
 
+        $rootScope.warnNoGroup = function(){
+
+            var alertPopup = $ionicPopup.alert({
+                title: 'First Choose a Group',
+                template: 'Or, Add a new Group on the left menu'
+            });
+            alertPopup.then(function(res) {
+                console.log('Group will be selected: ' + res);
+            });
+            $rootScope.showMenu();
+        }
+
+        $scope.setGroup = function (groupname){
+            $rootScope.selectedGroup = groupname;
+            $state.transitionTo($state.current, $stateParams, {
+                reload: true,
+                inherit: false,
+                notify: true
+            });
+
+            $ionicSideMenuDelegate.toggleLeft();
+        }
+
+        $scope.addGroup = function (){
+            $scope.data = {};
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.group">',
+                title: 'Add Group',
+                subTitle: 'Please enter group name',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.data.group) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                //Save new Friend list
+                                var Friendlist = Parse.Object.extend("friendlist");
+                                var fl = new Friendlist();
+                                fl.set('group',$scope.data.group);
+                                fl.set('email',ParseService.getUser().get('email'));
+                                fl.save(null,{
+                                    success: function (result) {
+                                        console.log("Add New Group Successfully");
+                                        $rootScope.loadGroup();
+                                    }, error: function (error) {
+                                        alert("Error: " + error.code + " " + error.message);
+                                    }
+                                })
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.editGroup = function(){
+
+        }
+
+        $rootScope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), function(friendlists){
+                $scope.friendlists = friendlists;
+                $scope.$apply();
+            })
+        }
+
+
+})
+.controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
+
+        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
-        //var currentUser = Parse.User.current();
-        if (ParseService.getUser()) {
-            // do stuff with the user
-            console.log("LOADING BALANCE PAGE: "+ParseService.getUser().get('username'));
-            $scope.user = ParseService.getUser();
+        $scope.user = ParseService.getUser();
 
-            if ($scope.user.get('emailVerified')==false
-                //Temp for bypass Email Verification
-                 && $scope.user.get('username').indexOf('test')!=0
-                ){
-                alert("Please verify  your email, check your mailbox.");
-                $location.path('tab/login');
-                $route.refresh();
-            }
-        } else {
-            $location.path('tab/login');
-            $route.refresh();
-        }
 
         //Load User Balance
         var user = new SUser();
         document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($rootScope.selectedGroup,ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
-//            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
+            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
         })
 
         //Load recent transactions
         var tran = new Transaction();
-        tran.getRelatedTran(ParseService.getUser().get('email'), function(transactions){
+        tran.getRelatedTran($rootScope.selectedGroup,ParseService.getUser().get('email'), function(transactions){
             $scope.transactions = transactions;
             $scope.$apply();
             document.getElementById("tran_loading").style.visibility = 'hidden';
@@ -45,25 +110,25 @@ angular.module('starter.controllers', [])
 })
 
 .controller('BalanceAllCtrl', function($scope, $location, ParseService) {
-        if (ParseService.getUser()) {
-            // do stuff with the user
-            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
-            $scope.user = ParseService.getUser();
-        } else {
-            $location.path('tab/login');
-            $route.refresh();
-        }
+//        if (ParseService.getUser()) {
+//            // do stuff with the user
+//            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
+//            $scope.user = ParseService.getUser();
+//        } else {
+//            $location.path('tab/login');
+//            $route.refresh();
+//        }
         //Load User Balance
         var user = new SUser();
-        user.getBalanceByEmail(ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($scope.selectedGroup, ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
             $scope.$apply();
         })
 
         //Load Friends Balance
-        user.getFriendList(ParseService.getUser().get('email'),function(friendlist){
-            console.log("BalanceDetailCtrl got Friend list = "+friendlist.get('friends').length);
-            user.getBalanceByEmails(friendlist.get('friends'), function(balances){
+        user.getFriendList($scope.selectedGroup,ParseService.getUser().get('email'),function(friendlist){
+            console.log("BalanceDetailCtrl got Friend list = ");
+            user.getBalanceByEmails($scope.selectedGroup,friendlist.get('friends'), function(balances){
                 $scope.balances = balances;
                 $scope.$apply();
                 document.getElementById("tran_loading").style.visibility = 'hidden';
@@ -71,29 +136,31 @@ angular.module('starter.controllers', [])
         })
 
 })
-.controller('SendCtrl', function($scope, $location, ParseService, Common) {
-        //var currentUser = Parse.User.current();
-        if (ParseService.getUser()) {
-            // do stuff with the user
-            console.log("LOADING Send PAGE: "+ParseService.getUser().get('email'));
-            $scope.user = ParseService.getUser();
-        } else {
-            $location.path('tab/login');
-            $route.refresh();
-        }
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+
+
+
         var qrcode = new QRCode("qrcode", {
             text: "",
             width: 128,
             height: 128,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            correctLevel: QRCode.CorrectLevel.L
         });
 
         $scope.makeQRCode = function (send){
-            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"";
+
+            if (!$rootScope.selectedGroup){
+                $rootScope.warnNoGroup();
+                throw "No Group Error";
+            }
+
+
+            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
+
 
             qrcode.clear(); // clear the code.
 
@@ -103,6 +170,7 @@ angular.module('starter.controllers', [])
 })
 .controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
+        $scope.user = ParseService.getUser();
         var location;
 //        var options = {
 //            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
@@ -128,14 +196,6 @@ angular.module('starter.controllers', [])
             document.getElementById("scan_loading").style.visibility = 'hidden';
         }
 
-        if (ParseService.getUser()) {
-            // do stuff with the user
-            console.log("Receive Ctrl logged in ");
-            $scope.user = ParseService.getUser();
-        } else {
-            $location.path('tab/login');
-            $route.refresh();
-        }
 
         ParseService.getLocation(function(r){
             location=r;
@@ -175,25 +235,35 @@ angular.module('starter.controllers', [])
                     var from = res[1];
                     var amount = res[2];
                     var note=res[3];
+                    var group=res[4];
+                    var friendemail;
+                    if (from == $scope.user.get('email')){
+                        friendemail = to;
+                    }else{
+                        friendemail = from;
+                    }
+                    var user = new SUser();
+                    user.getUserByEmail(friendemail, function(friend){
+                        ParseService.recordQRCode(group, id,amount,from,$scope.user.get('email'),note,location, $scope.user,friend, function(r){
+                            //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                            if (r.message== undefined){
+                                console.log("Controllers Receive - recordQRCode Successfully");
 
+                                display = "<BR>Received : $" + amount +"<br><br>" +
+                                    "Group : " + group +"<BR><BR>"+
+                                    "From : " + from +"<BR><BR>"
+                                    +"Note : "+note;
+                                document.getElementById("info").innerHTML = display;
+                            }else{
+                                console.log("Controllers Receive - recordQRCode Failed");
+                                display = "<BR><b> " + r.message +"</b>";
+                                document.getElementById("info").innerHTML = display;
+                            }
+                            $scope.hideloading();
 
-                    ParseService.recordQRCode(id,amount,from,$scope.user.get('email'),note,location, $scope.user,function(r){
-                        //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
-                        if (r.message== undefined){
-                            console.log("Controllers Receive - recordQRCode Successfully");
+                        });
+                    })
 
-                            display = "<BR>Received : $" + amount +"<br><br>" +
-                                "From : " + from +"<BR><BR>"
-                                +"Note : "+note;
-                            document.getElementById("info").innerHTML = display;
-                        }else{
-                            console.log("Controllers Receive - recordQRCode Failed");
-                            display = "<BR><b> " + r.message +"</b>";
-                            document.getElementById("info").innerHTML = display;
-                        }
-                        $scope.hideloading();
-
-                    });
 
                 }
             }, function (error) {
@@ -207,7 +277,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SignUpCtrl', function($scope,$location, ParseService) {
+.controller('SignUpCtrl', function($scope,$location,$state, ParseService) {
         // Called when the form is submitted
 
         $scope.signUp = function(userp) {
@@ -225,32 +295,28 @@ angular.module('starter.controllers', [])
 
             ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
-                alert("Account Signup Successful");
-                $location.path('/tab/login');
-                $route.refresh();
+//                alert("Account Signup Successful");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Account Setup Successful',
+                    template: 'Please login'
+                });
+                alertPopup.then(function(res) {
+//                    console.log('Group will be selected: ' + res);
+                });
+
+                $state.transitionTo('tab.login', '', {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                });
             })
         };
 })
-.controller('SetupCtrl', function($scope, $location, ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, ParseService) {
 
         console.log("controller - SetupCtrl start");
-        if (ParseService.getUser()) {
-            $scope.user = ParseService.getUser();
-            console.log("setup user = "+$scope.user.get('email'));
-            $scope.$apply();
-            if ($scope.user.get('emailVerified')==false
-                //Temp for bypass Email Verification
-                && $scope.user.get('username').indexOf('test')!=0
-                ){
-                alert("Please verify  your email, check your mailbox.");
-                $location.path('tab/login');
-                $route.refresh();
-            }
-        } else {
-            $location.path('tab/login');
-//            $route.refresh();
-        }
 
+        $scope.user = ParseService.getUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
 
@@ -277,13 +343,17 @@ angular.module('starter.controllers', [])
 
         $scope.logout = function(){
             ParseService.logout();
-            $location.path('/tab/login');
+            $state.transitionTo('tab.balanceall', '', {
+                reload: true,
+                inherit: false,
+                notify: true
+            });
 
         };
 
 
 })
-.controller('LoginCtrl', function($scope, $ionicPopup, $location, ParseService) {
+.controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 
         $scope.goTosignUp = function(){
             $location.path('/tab/signup');
@@ -292,30 +362,11 @@ angular.module('starter.controllers', [])
 
         $scope.forgotPassword = function(){
             // An elaborate, custom popup
-            //$scope.forgotpassword.email = "";
-
-            //var myPopup=$ionicPopup.prompt({
-            //    title: 'Reset Password',
-            //    template: 'Enter your email',
-            //    inputType: 'text',
-            //    inputPlaceholder: 'Email'
-            //}).then(function(email) {
-            //    console.log(email);
-            //                        Parse.User.requestPasswordReset(email, {
-            //                            success: function() {
-            //                                // Password reset request was sent successfully
-            //                                alert("Please check your email, and reset your password")
-            //                            },
-            //                            error: function(error) {
-            //                                // Show the error message somewhere
-            //                                alert("Error: " + error.code + " " + error.message);
-            //                            }
-            //                        });
-            //});
+            $scope.resetpassword = {};
 
 
             var passwordPopup = $ionicPopup.show({
-                template: '<input type="email" ng-model="forgotpassword.email">',
+                template: '<input type="email" ng-model="resetpassword.email">',
                 title: 'Enter your email',
                 subTitle: 'An email will be sent to reset your password',
                 scope: $scope,
@@ -325,25 +376,25 @@ angular.module('starter.controllers', [])
                         text: '<b>Reset</b>',
                         type: 'button-stable',
                         onTap: function(e) {
-                            alert(e);
-                            alert($scope.forgotpassword.email);
-                            //alert($scope.userp.email);
-                            if (!$scope.forgotpassword.email) {
-                                Parse.User.requestPasswordReset(forgotpassword.email, {
+
+                            if (!$scope.resetpassword.email) {
+                                e.preventDefault();
+
+                            } else {
+                                Parse.User.requestPasswordReset($scope.resetpassword.email, {
                                     success: function() {
                                         // Password reset request was sent successfully
                                         alert("Please check your email, and reset your password")
                                     },
                                     error: function(error) {
                                         // Show the error message somewhere
-                                        alert("Error: " + error.code + " " + error.message);
+                                        alert("Error:  " + error.message);
                                     }
                                 });
-                            } else {
-                                return $scope.forgotpassword.email;
+//                                return $scope.resetpassword.email;
                             }
                         }
-                    },
+                    }
                 ]
             });
 
@@ -354,10 +405,16 @@ angular.module('starter.controllers', [])
 
             ParseService.login(user.username, user.password, function(user){
             console.log("controller - success login");
-                $scope.user = user;
-                $scope.$apply();
-                $location.path('/tab/balance');
-                $route.refresh();
+                $rootScope.user = user;
+                $rootScope.$apply();
+                $location.path('/tab/balanceall');
+//                $route.refresh();
+                $state.transitionTo('tab.balanceall', '', {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                });
+                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }

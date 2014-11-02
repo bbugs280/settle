@@ -1,4 +1,4 @@
-<ion-view title="Balances">
+<ion-view title="Balances for {{selectedGroup}}">
   <ion-content>
       <ion-list>
           <ion-item class="item item-icon-right" href="#/tab/balance">
@@ -20,7 +20,7 @@
           </ion-item>
           <ion-item class="item" style="font-size: medium;" ng-repeat="bal in balances">
               <span>
-                  {{bal.get('email')}} balance is $
+                  {{bal.get('username')}} balance is $
               </span>
               <span ng-if="bal.get('balance')<0">
               <span style="color: red">{{bal.get('balance')| number:2}}</span>
@@ -31,6 +31,7 @@
               <BR>
               <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{bal.get('credit')| number:2}}</b></span>
               <span style="font-size: x-small;color:gray">and debit is <b>$-{{bal.get('debit')| number:2}}</b></span>
+
           </ion-item>
       </ion-list>
   </ion-content>

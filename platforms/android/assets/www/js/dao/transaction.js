@@ -1,7 +1,7 @@
 var Transaction = Parse.Object.extend("transaction",{
 
         //TODO query function to get all related transactions
-        getRelatedTran : function(email, callback){
+        getRelatedTran : function(group, email, callback){
             var fromQuery = new Parse.Query("transaction");
             fromQuery.equalTo("from", email);
 
@@ -9,12 +9,13 @@ var Transaction = Parse.Object.extend("transaction",{
             toQuery.equalTo("to", email);
 
             var mainQuery = Parse.Query.or(fromQuery, toQuery);
+            mainQuery.equalTo("group", group);
             mainQuery.addDescending("createdAt");
             mainQuery.limit(5);
             mainQuery.find({
                 success: function(results) {
-                    // results contains a list of players that either have won a lot of games or won only a few games.
                     console.log("Transaction - getRelatedTran Returned No of records = "+results.length);
+
                     callback(results);
                 },
                 error: function(error) {
@@ -72,10 +73,18 @@ var Transaction = Parse.Object.extend("transaction",{
 
             }
         },
+        getFriendName : function (){
+
+            var user = new SUser();
+            user.getUserByEmail(this.getFriendEmail, function(frienduser){
+                this.set('friendname', frienduser.get('username'));
+            })
+        },
 
  // Instance properties go in an initialize method
     initialize : function (attrs, options) {
-//        this.objectId='';
+//        this.friendname='';
+//        this.getFriendName();
     }
 },
 {

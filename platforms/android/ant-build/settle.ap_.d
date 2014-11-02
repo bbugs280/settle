@@ -111,10 +111,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/common.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/password-check.js \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/transaction-ref.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/transaction.js \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/user-ref.js \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/user-ref3.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/user.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-error.wav \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-success.wav \
@@ -274,6 +271,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/side-menu.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-all.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
