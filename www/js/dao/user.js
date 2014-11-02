@@ -32,14 +32,17 @@ var SUser = Parse.User.extend({
         }
     });
     },
-    getBalanceByEmail : function (emailp1, callback) {
+    getBalanceByEmail : function (group, emailp1, callback) {
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
     var emailp = emailp1;
+    query.equalTo("email", emailp);
+    query.equalTo("group", group);
+
     var r = new Balance();
     console.log("getBalanceByEmail - begin call email = "+emailp);
-    query.equalTo("email", emailp);
-    query.find({
+
+        query.find({
         success: function (result) {
             // The object was retrieved successfully.
             console.log("getBalanceByEmail -  have result success ? " + result.length);
@@ -62,11 +65,14 @@ var SUser = Parse.User.extend({
         }
     });
 },
-    getBalanceByEmails : function (emailarray, callback) {
+    getBalanceByEmails : function (group, emailarray, callback) {
         var Balance = Parse.Object.extend("balance");
         var query = new Parse.Query(Balance);
-        query.addAscending("balance");
+
         query.containedIn("email", emailarray);
+        query.equalTo("group", group);
+
+        query.addAscending("balance");
         query.find({
             success: function (balances) {
                 console.log("getBalanceByEmails -  have result success ? " + balances.length);
@@ -98,23 +104,29 @@ var SUser = Parse.User.extend({
 
 
 },
-    getFriendList: function (email, callback) {
+    getFriendList: function (group,email, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
     var r = new Friendlist();
     var query = new Parse.Query(Friendlist);
     query.equalTo("email",email);
-    console.log("getFriends - this.email ==" + email);
+    query.equalTo("group",group);
+    console.log("getFriendList - this.email ==" + email);
+    console.log("getFriendList - this.group ==" + group);
     query.find({
         success: function (result) {
             // The object was retrieved successfully.
-            console.log("get friends - success count " + result.length);
+            console.log("getFriendList - success this.email ==" + email);
+            console.log("getFriendList - success this.group ==" + group);
+            console.log("getFriendList - success count " + result.length);
+
             if (result.length > 0) {
                 r = result[0];
-                console.log("get friends -  have result friend == " + r.get('friends').length);
+
                 callback(r);
             } else if (result.length == 0) {
-                console.log("get friends -  NO  result friend ");
+                console.log("getFriendList -  NO  result friend ");
                 r.set('email', email);
+                r.set('group', group);
                 callback(r);
             }
 
@@ -123,7 +135,27 @@ var SUser = Parse.User.extend({
             throw("Error: " + error.code + " " + error.message);
         }
     });
+
 },
+    getFriendListAll: function (email, callback) {
+        var Friendlist = Parse.Object.extend("friendlist");
+
+        var query = new Parse.Query(Friendlist);
+        query.equalTo("email",email);
+        console.log("getFriends - this.email ==" + email);
+        query.addAscending('group');
+        query.find({
+            success: function (result) {
+                // The object was retrieved successfully.
+                console.log("getFriendListAll - success count " + result.length);
+                callback(result);
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+
+    },
     addFriend : function (friendlist, friendemail, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
 
