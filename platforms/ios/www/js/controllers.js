@@ -229,7 +229,9 @@ angular.module('starter.controllers', [])
                 if (res.length==1){
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
+//                    $scope.scanresult.message = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all.";
                     $scope.hideloading();
+//                    $scope.$apply();
                 }else{
 
                     var id = res[0];
@@ -249,14 +251,25 @@ angular.module('starter.controllers', [])
                             //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                             if (r.message== undefined){
                                 console.log("Controllers Receive - recordQRCode Successfully");
+//                                $scope.scanresult.group = group;
+//                                $scope.scanresult.from = from;
+//                                $scope.scanresult.amount = Number(amount);
+//                                $scope.scanresult.note = note;
+//                                $scope.$apply();
 
                                 display = "<BR>Received : $" + amount +"<br><br>" +
                                     "Group : " + group +"<BR><BR>"+
-                                    "From : " + from +"<BR><BR>"
-                                    +"Note : "+note;
+                                    "From : " + from +"<BR><BR>";
+
+
+                                if (note!='undefined'){
+                                    display+="Note : "+note;
+                                }
                                 document.getElementById("info").innerHTML = display;
                             }else{
                                 console.log("Controllers Receive - recordQRCode Failed");
+//                                $scope.scanresult.message = r.message;
+//                                $scope.$apply();
                                 display = "<BR><b> " + r.message +"</b>";
                                 document.getElementById("info").innerHTML = display;
                             }
