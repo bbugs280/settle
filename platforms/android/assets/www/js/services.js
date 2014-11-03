@@ -90,8 +90,16 @@ angular.module('starter.services', [])
                 tran.set('to',to);
                 tran.set('note',note);
                 tran.set('location',location);
-                //TODO
-                tran.set('friendname',friend.get('username'));
+
+                if (from==user.get('email')){
+                    tran.set('fromname',user.get('username'));
+                    tran.set('toname',friend.get('username'));
+                }else{
+                    tran.set('fromname',friend.get('username'));
+                    tran.set('toname',user.get('username'));
+                }
+
+
 
 
 

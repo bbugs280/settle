@@ -9,8 +9,18 @@
               <div id="info" style="font-size: large;width: 300px; height: 300px; border: 5px solid; border-radius: 10px;border-color: #ffffff;padding: 5px 5px 5px 5px;margin-left: auto ;margin-right: auto ;">
               </div>
           </ion-item>
+          <!--<span ng-if="scanresult.message!=undefined">-->
+            <!--<ion-item>{{scanresult.message}}</ion-item>-->
+          <!--</span>-->
+
+          <!--<span ng-if="scanresult.message==undefined">-->
+              <!--<ion-item>Received $ {{scanresult.amount| number:2}}</ion-item>-->
+              <!--<ion-item>Group: {{scanresult.group}}</ion-item>-->
+              <!--<ion-item>From: {{scanresult.from}}</ion-item>-->
+              <!--<ion-item><span ng-if="scanresult.note!=undefined">Note: {{scanresult.note}}</span></ion-item>-->
+          <!--</span>-->
       </ion-list>
-      <button class="button button-stable" style="width: 100%;margin-left: auto;margin-right: auto;" ng-click="scan()">
+      <button class="button button-block button-stable" ng-click="scan()">
           Scan Again
       </button>
 

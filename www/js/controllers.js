@@ -438,6 +438,18 @@ angular.module('starter.controllers', [])
         $scope.login = function (user){
 
             ParseService.login(user.username, user.password, function(user){
+
+                if(user.message){
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Error',
+                        template: user.message
+                    });
+                    alertPopup.then(function(res) {
+
+                    });
+                }
+
+
             console.log("controller - success login");
                 $rootScope.user = user;
                 $rootScope.$apply();

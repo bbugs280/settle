@@ -44,7 +44,9 @@ angular.module('starter.services', [])
                               callback(user);
                           },
                             error : function (user, error){
-                            alert("Error: " + error.message);
+
+                              callback(error);
+//                            alert("Error: " + error.message);
                           }
                       });
             },
