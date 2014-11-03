@@ -1,13 +1,13 @@
 
-<ion-view title="Send">
+<ion-view title="Send for {{selectedGroup}}">
   <ion-content class="has-header">
       <div class="item item-input-inset">
           <label class=" item-input-wrapper ">
               <!--$<input type="tel" placeholder=" Amount" ng-change="makeQRCode(send)" ng-model="send.amount">-->
               $<input type="tel" placeholder=" Amount" ng-model="send.amount" ng-blur="makeQRCode(send)">
           </label>
-          <button class="button button-small" ng-click="makeQRCode(send)">
-              <i class="ion-grid"></i>
+          <button class="button button-small ion-grid" ng-click="makeQRCode(send)">
+              <!--<i class="ion-grid"></i>-->
               Generate QRCode
           </button>
       </div>

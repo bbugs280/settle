@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$rootScope,$state,$ionicPopup) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,7 +19,42 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
+  // UI Router Authentication Check
+  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+
+     if (toState.data.authenticate && !Parse.User.current()){
+          // User isn’t authenticated
+
+          $state.transitionTo("tab.login");
+          event.preventDefault();
+     }
+
+     //Check If Group is selected
+     if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
+//         console.log("selected group = "+$rootScope.selectedGroup);
+            $rootScope.warnNoGroup();
+     }
+
+  });
+
+//  $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
+//      console.log("$stateChangeSuccess");
+//      //Check If Group is selected
+//      if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
+////         console.log("selected group = "+$rootScope.selectedGroup);
+//          $rootScope.showMenu();
+//          var alertPopup = $ionicPopup.alert({
+//              title: 'First Choose a Group',
+//              template: 'Or, Add a new Group on the left menu'
+//          });
+//          alertPopup.then(function(res) {
+//              console.log('Group will be selected: ' + res);
+//          });
+//
+//      }
+//  });
 })
+
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -46,6 +81,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   templateUrl: 'templates/tab-balance-all.html',
                   controller: 'BalanceAllCtrl'
               }
+          },
+          data: {
+              authenticate: true,
+              needgroup: true
           }
       })
     .state('tab.balance', {
@@ -55,7 +94,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           templateUrl: 'templates/tab-balance.html',
           controller: 'BalanceCtrl'
         }
-      }
+      },
+      data: {
+            authenticate: true,
+          needgroup: true
+
+        }
     })
 
     .state('tab.send', {
@@ -65,7 +109,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           templateUrl: 'templates/tab-send.html',
           controller: 'SendCtrl'
         }
-      }
+      },
+          data: {
+              authenticate: true,
+              needgroup: true
+          }
     })
     .state('tab.receive', {
           url: '/receive',
@@ -74,6 +122,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   templateUrl: 'templates/tab-receive.html',
                   controller: 'ReceiveCtrl'
               }
+          },
+          data: {
+              authenticate: true,
+              needgroup: false
           }
      })
     .state('tab.setup', {
@@ -83,6 +135,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   templateUrl: 'templates/user-setup.html',
                   controller: 'SetupCtrl'
               }
+          },
+          data: {
+              authenticate: true,
+              needgroup: false
           }
      })
     .state('tab.signup', {
@@ -92,6 +148,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   templateUrl: 'templates/user-signup.html',
                   controller: 'SignUpCtrl'
               }
+          },
+          data: {
+              authenticate: false,
+              needgroup: false
           }
      })
     .state('tab.login', {
@@ -101,9 +161,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   templateUrl: 'templates/user-login.html',
                   controller: 'LoginCtrl'
               }
+          },
+          data: {
+              authenticate: false,
+              needgroup: false
           }
-    });
-
+    })
+        .state('side', {
+            url:'/side',
+            views:{
+                'side-menu':{
+                    templateUrl: 'templates/side-menu.html',
+                    controller: 'NavCtrl'
+                }
+            },
+            data: {
+                authenticate: false,
+                needgroup: false
+            }
+        });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/balanceall');
 
