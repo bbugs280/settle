@@ -82,6 +82,11 @@
             </header>
             <ion-content has-header="true">
                 <ion-list ng-controller="NavCtrl" can-swipe="listCanSwipe">
+                    <ion-refresher
+                            pulling-icon="icon ion-arrow-down-c"
+                            refreshing-icon="icon ion-loading-c"
+                            on-refresh="loadGroup()">
+                    </ion-refresher>
                     <ion-item class="item "></ion-item>
                     <ion-item class="item item-divider ">e.g. Lunch, Poker ..etc</ion-item>
 

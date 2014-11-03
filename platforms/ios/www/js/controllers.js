@@ -77,6 +77,7 @@ angular.module('starter.controllers', [])
             user.getFriendListAll(ParseService.getUser().get('email'), function(friendlists){
                 $scope.friendlists = friendlists;
                 $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
             })
         }
 
@@ -277,18 +278,31 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SignUpCtrl', function($scope,$location,$state, ParseService) {
+.controller('SignUpCtrl', function($scope,$location,$state, $ionicPopup,ParseService) {
         // Called when the form is submitted
-
+        console.log('Signup Ctrl');
         $scope.signUp = function(userp) {
+            console.log(scorePassword(userp.password));
+            if (scorePassword(userp.password) < 30){
+//                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Weak Password',
+                    template: 'Please Enter Password with At least 6 character with one upper case and numeric'
+                });
+                alertPopup.then(function(res) {
 
-            if (scorePassword(userp.password) <= 60){
-                alert("Please Enter Password with At least one upper case and numeric ");
+                });
                 throw("Weak Password");
             }
 
             if (userp.password!=userp.con_password){
-                alert("Invalid Password");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Password Problem',
+                    template: 'Confirm Password does not match'
+                });
+                alertPopup.then(function(res) {
+
+                });
                 throw("Invalid Password");
             }
 
@@ -312,7 +326,7 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
 
         console.log("controller - SetupCtrl start");
 
@@ -320,9 +334,16 @@ angular.module('starter.controllers', [])
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
 
-            if (scorePassword(userp.password) <= 60){
-                alert("Please Enter Password with At least one upper case and numeric ");
-                throw("Weak Password");
+            if (checkPassStrength(userp.password) == 'good' || checkPassStrength(userp.password) == 'strong'){
+//                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Weak Password',
+                    template: 'Please Enter Password with At least 6 character with one upper case and numeric'
+                });
+                alertPopup.then(function(res) {
+                    throw("Weak Password");
+                });
+
             }
 
             if (userp.password!=userp.con_password){
@@ -407,7 +428,7 @@ angular.module('starter.controllers', [])
             console.log("controller - success login");
                 $rootScope.user = user;
                 $rootScope.$apply();
-                $location.path('/tab/balanceall');
+
 //                $route.refresh();
                 $state.transitionTo('tab.balanceall', '', {
                     reload: true,

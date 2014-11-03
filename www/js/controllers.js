@@ -77,6 +77,7 @@ angular.module('starter.controllers', [])
             user.getFriendListAll(ParseService.getUser().get('email'), function(friendlists){
                 $scope.friendlists = friendlists;
                 $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
             })
         }
 
@@ -427,7 +428,7 @@ angular.module('starter.controllers', [])
             console.log("controller - success login");
                 $rootScope.user = user;
                 $rootScope.$apply();
-                $location.path('/tab/balanceall');
+
 //                $route.refresh();
                 $state.transitionTo('tab.balanceall', '', {
                     reload: true,
