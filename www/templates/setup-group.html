@@ -1,0 +1,37 @@
+<ion-view title="Group Setup">
+    <ion-content class="has-header">
+
+        <ion-list can-swipe="true" show-reorder="false">
+            <ion-refresher
+                    pulling-icon="icon ion-arrow-down-c"
+                    refreshing-icon="icon ion-loading-c"
+                    on-refresh="loadGroupSetup()">
+            </ion-refresher>
+            <!--<ion-item class="item item-divider" style="font-size: small">Group Info</ion-item>-->
+
+                        <ion-item ng-repeat="list in friendlistsSetup" class="item item-icon-left">
+                            <span ng-if="list.get('hidden')==true">
+                                <i class="icon ion-ios7-trash-outline"></i>
+                            </span>
+                            {{list.get('group')}}
+
+                            <ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>
+                            <ion-option-button class="button-assertive" ng-click="archGroup(list)">
+                                <span ng-if="list.get('hidden')==true">
+                                    Unarchive
+                                </span>
+                                <span ng-if="list.get('hidden')==false||list.get('hidden')==undefined">
+                                    Archive
+                                </span>
+                            </ion-option-button>
+                            <!--<ion-reorder-button class="ion-navicon"-->
+                                                <!--on-reorder="reorderGroup(list, $fromIndex, $toIndex)">-->
+                            <!--</ion-reorder-button>-->
+
+                        </ion-item>
+
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
