@@ -377,11 +377,7 @@ angular.module('starter.controllers', [])
 
         $scope.logout = function(){
             ParseService.logout();
-            $state.transitionTo('tab.balanceall', '', {
-                reload: true,
-                inherit: false,
-                notify: true
-            });
+            $state.go('tab.balance');
 
         };
 
@@ -459,23 +455,14 @@ angular.module('starter.controllers', [])
                 $rootScope.user = user;
                 $rootScope.$apply();
 
-//                $route.refresh();
-                $state.transitionTo('tab.balanceall', '', {
-                    reload: true,
-                    inherit: false,
-                    notify: true
-                });
+                $state.go('tab.balance');
                 $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
 
         if (ParseService.getUser()){
-            $state.transitionTo('tab.balanceall', '', {
-                reload: true,
-                inherit: false,
-                notify: true
-            });
+            $state.go('tab.balance');
         }
 
 

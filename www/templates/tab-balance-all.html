@@ -1,7 +1,7 @@
 <ion-view title="Balances for {{selectedGroup}}">
   <ion-content>
       <ion-list>
-          <ion-item class="item item-icon-right" href="#/tab/balance">
+          <ion-item class="item item-icon-right" ui-sref="tab.balancedetail">
               Your Current Balance is $
               <span ng-if="balance.get('balance')<0">
               <span style="color: red">{{balance.get('balance') | number:2}}</span>

@@ -24,7 +24,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
      if (toState.data.authenticate && !Parse.User.current()){
           // User isn’t authenticated
-
           $state.transitionTo("login");
           event.preventDefault();
      }
@@ -62,7 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
     // Each tab has its own nav history stack:
-      .state('tab.balanceall', {
+      .state('tab.balance', {
           url:'/balanceall',
           views:{
               'tab-balance':{
@@ -75,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
       })
-    .state('tab.balance', {
+    .state('tab.balancedetail', {
       url: '/balance',
       views: {
         'tab-balance': {
