@@ -119,8 +119,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           url:'/setup',
           views:{
               'tab-setup':{
-                  templateUrl: 'templates/user-setup.html',
+                  templateUrl: 'templates/setup.html',
                   controller: 'SetupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: false
+          }
+     })
+    .state('tab.setupuser', {
+          url:'/user',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-user.html',
+                  controller: 'SetupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: false
+          }
+     })
+    .state('tab.setupgroup', {
+          url:'/group',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-group.html',
+                  controller: 'NavCtrl'
               }
           },
           data: {

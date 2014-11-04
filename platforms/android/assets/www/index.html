@@ -81,7 +81,7 @@
                 <!--</button>-->
             </header>
             <ion-content has-header="true"  class="has-header">
-                <ion-list ng-controller="NavCtrl" can-swipe="listCanSwipe">
+                <ion-list ng-controller="NavCtrl" can-swipe="true">
                     <ion-refresher
                             pulling-icon="icon ion-arrow-down-c"
                             refreshing-icon="icon ion-loading-c"
@@ -96,8 +96,8 @@
                             <i class="icon ion-ios7-arrow-back"></i>
                             {{list.get('group')}}
                             <i class="icon ion-ios7-arrow-forward"></i>
-                            <ion-option-button class="button-info"
-                                               ng-click="edit(item)">
+                            <ion-option-button class="button-calm"
+                                               ng-click="editGroup(list)">
                                 Edit
                             </ion-option-button>
                         </ion-item>

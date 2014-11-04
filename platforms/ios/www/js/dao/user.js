@@ -135,11 +135,14 @@ var SUser = Parse.User.extend({
     });
 
 },
-    getFriendListAll: function (email, callback) {
+    getFriendListAll: function (email, showHidden, callback) {
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friends",email);
+        if (!showHidden)
+            query.notEqualTo("hidden",true);
+
         console.log("getFriends - this.email ==" + email);
         query.addAscending('group');
         query.find({

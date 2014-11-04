@@ -70,21 +70,76 @@ angular.module('starter.controllers', [])
             });
         }
 
-        $scope.editGroup = function(){
+        $scope.editGroup = function(friendlist){
+            $scope.editGroup.group = friendlist.get('group');
+            var editPopup = $ionicPopup.show({
+                template: "<input type='text' ng-model='editGroup.group' value='{{editGroup.group}}'>",
+                title: 'Rename Group',
+                subTitle: '',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Rename</b>',
+                        type: 'button-stable',
+                        onTap: function(e) {
 
+                            if (!$scope.editGroup.group) {
+                                e.preventDefault();
+                            } else {
+                                friendlist.set('group',$scope.editGroup.group);
+                                friendlist.save(null,{
+                                    success: function (result) {
+                                        $rootScope.loadGroup();
+                                        $scope.$apply();
+                                    }, error: function (error) {
+                                        throw("Error: " + error.code + " " + error.message);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.archGroup = function(friendlist){
+
+            if (friendlist.get('hidden')==true){
+                friendlist.set('hidden', false);
+            }else{
+                friendlist.set('hidden', true);
+            }
+
+            friendlist.save(null,{
+                success: function (result) {
+                    $rootScope.loadGroup();
+                    $scope.$apply();
+                }, error: function (error) {
+                    throw("Error: " + error.code + " " + error.message);
+                }
+            })
         }
 
         $rootScope.loadGroup = function(){
             var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), function(friendlists){
+            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
                 $scope.friendlists = friendlists;
                 $scope.$apply();
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
-
-
-})
+        $rootScope.loadGroupSetup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
+                $scope.friendlistsSetup = friendlists;
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+        $rootScope.loadGroupSetup();
+        $rootScope.loadGroup();
+    })
 .controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
 
         console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);

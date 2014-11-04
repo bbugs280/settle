@@ -271,6 +271,9 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-group.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-user.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/side-menu.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-all.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance.html \
@@ -278,6 +281,5 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tabs.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-login.html \
-/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-setup.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-signup.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/AndroidManifest.xml \

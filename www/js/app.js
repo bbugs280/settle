@@ -146,7 +146,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           views:{
               'tab-setup':{
                   templateUrl: 'templates/setup-group.html',
-                  controller: 'SetupCtrl'
+                  controller: 'NavCtrl'
               }
           },
           data: {

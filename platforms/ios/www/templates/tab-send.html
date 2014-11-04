@@ -1,6 +1,10 @@
 
-<ion-view title="Send for {{selectedGroup}}">
+<ion-view title="Send">
   <ion-content class="has-header">
+      <ion-item class="item item-divider item-icon-right">
+          Send to <span style="text-decoration: underline;">{{selectedGroup}}</span>
+          <i id="tran_loading" style="visibility: hidden" class="icon ion-loading-c"></i>
+      </ion-item>
       <div class="item item-input-inset">
           <label class=" item-input-wrapper ">
               <!--$<input type="tel" placeholder=" Amount" ng-change="makeQRCode(send)" ng-model="send.amount">-->

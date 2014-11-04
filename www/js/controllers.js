@@ -131,7 +131,7 @@ angular.module('starter.controllers', [])
         }
         $rootScope.loadGroupSetup = function(){
             var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), true,function(friendlists){
+            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
                 $scope.friendlistsSetup = friendlists;
                 $scope.$apply();
                 $scope.$broadcast('scroll.refreshComplete');

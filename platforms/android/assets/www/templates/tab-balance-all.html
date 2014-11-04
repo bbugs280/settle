@@ -1,4 +1,4 @@
-<ion-view title="Balances for {{selectedGroup}}">
+<ion-view title="Balances">
   <ion-content>
       <ion-list>
           <ion-item class="item item-icon-right" ui-sref="tab.balancedetail">
@@ -15,7 +15,7 @@
               <i class="icon ion-ios7-arrow-forward"></i>
           </ion-item>
           <ion-item class="item item-divider item-icon-right" >
-              your friends balance in <span style="text-decoration: underline;">{{selectedGroup}}</span>
+              Your friends balance in <span style="text-decoration: underline;">{{selectedGroup}}</span>
               <i id="tran_loading" class="icon ion-loading-c"></i>
           </ion-item>
           <ion-item class="item" style="font-size: medium;" ng-repeat="bal in balances">
