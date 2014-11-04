@@ -103,7 +103,7 @@
                         </ion-item>
                         </span>
                         <span ng-if="list.get('group')!=selectedGroup">
-                        <ion-item  class="item "  ng-click="setGroup(list.get('group'))">
+                        <ion-item  class="item "  ng-click="setGroup(list.id,list.get('group'))">
 
                             {{list.get('group')}}
                             <ion-option-button class="button-info"

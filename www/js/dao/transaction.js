@@ -1,7 +1,7 @@
 var Transaction = Parse.Object.extend("transaction",{
 
         //TODO query function to get all related transactions
-        getRelatedTran : function(group, email, callback){
+        getRelatedTran : function(groupId, email, callback){
             var fromQuery = new Parse.Query("transaction");
             fromQuery.equalTo("from", email);
 
@@ -9,7 +9,7 @@ var Transaction = Parse.Object.extend("transaction",{
             toQuery.equalTo("to", email);
 
             var mainQuery = Parse.Query.or(fromQuery, toQuery);
-            mainQuery.equalTo("group", group);
+            mainQuery.equalTo("groupId", groupId);
             mainQuery.addDescending("createdAt");
             mainQuery.limit(5);
             mainQuery.find({

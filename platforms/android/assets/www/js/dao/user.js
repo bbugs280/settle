@@ -32,12 +32,12 @@ var SUser = Parse.User.extend({
         }
     });
     },
-    getBalanceByEmail : function (group, emailp1, callback) {
+    getBalanceByEmail : function (groupId, emailp1, callback) {
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
     var emailp = emailp1;
     query.equalTo("email", emailp);
-    query.equalTo("group", group);
+    query.equalTo("groupId", groupId);
 
     var r = new Balance();
     console.log("getBalanceByEmail - begin call email = "+emailp);
@@ -65,12 +65,12 @@ var SUser = Parse.User.extend({
         }
     });
 },
-    getBalanceByEmails : function (group, emailarray, callback) {
+    getBalanceByEmails : function (groupId, emailarray, callback) {
         var Balance = Parse.Object.extend("balance");
         var query = new Parse.Query(Balance);
 
         query.containedIn("email", emailarray);
-        query.equalTo("group", group);
+        query.equalTo("groupId", groupId);
 
         query.addAscending("balance");
         query.find({
@@ -104,19 +104,17 @@ var SUser = Parse.User.extend({
 
 
 },
-    getFriendList: function (group,email, callback) {
+    getFriendList: function (groupId, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
     var r = new Friendlist();
     var query = new Parse.Query(Friendlist);
-    query.equalTo("email",email);
-    query.equalTo("group",group);
-    console.log("getFriendList - this.email ==" + email);
-    console.log("getFriendList - this.group ==" + group);
+//    query.equalTo("email",email);
+    query.equalTo("objectId",groupId);
+
     query.find({
         success: function (result) {
             // The object was retrieved successfully.
-            console.log("getFriendList - success this.email ==" + email);
-            console.log("getFriendList - success this.group ==" + group);
+
             console.log("getFriendList - success count " + result.length);
 
             if (result.length > 0) {
@@ -141,7 +139,7 @@ var SUser = Parse.User.extend({
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
-        query.equalTo("email",email);
+        query.equalTo("friends",email);
         console.log("getFriends - this.email ==" + email);
         query.addAscending('group');
         query.find({
@@ -156,18 +154,23 @@ var SUser = Parse.User.extend({
         });
 
     },
-    addFriend : function (friendlist, friendemail, callback) {
+    addFriends : function (friendlist, friendemailArray, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
 
         if (!friendlist instanceof Friendlist){
             throw 'Parameter is wrong type';
         }
 
-        if (friendlist.get('email')=="undefined"){
-            throw 'friendlist has empty email';
+//        if (friendlist.get('email')=="undefined"){
+//            throw 'friendlist has empty email';
+//        }
+        console.log("addFriends - addUnique email count = "+friendemailArray.length);
+//        for (var i= 0;i< friendemailArray.length;i++) {
+        for (var i in friendemailArray){
+            console.log("addFriends - addUnique email = "+friendemailArray[i]);
+            friendlist.addUnique('friends', friendemailArray[i]);
         }
 
-        friendlist.addUnique('friends', friendemail);
         friendlist.save(null, {
             success: function (result) {
                 //refresh user object

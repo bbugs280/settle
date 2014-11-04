@@ -132,11 +132,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           url:'/signup',
           templateUrl: 'templates/user-signup.html',
           controller: 'SignUpCtrl',
-          //views:{
-          //    'tab-setup':{
-          //        t
-          //    }
-          //},
+
           data: {
               authenticate: false,
               needgroup: false

@@ -24,35 +24,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
      if (toState.data.authenticate && !Parse.User.current()){
           // User isn’t authenticated
-
-          $state.transitionTo("tab.login");
+          $state.transitionTo("login");
           event.preventDefault();
      }
 
-     //Check If Group is selected
-     if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
+
+    if (Parse.User.current()){
+        //Check If Group is selected
+        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
 //         console.log("selected group = "+$rootScope.selectedGroup);
             $rootScope.warnNoGroup();
-     }
+        }
+    }
+
 
   });
 
-//  $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams){
-//      console.log("$stateChangeSuccess");
-//      //Check If Group is selected
-//      if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
-////         console.log("selected group = "+$rootScope.selectedGroup);
-//          $rootScope.showMenu();
-//          var alertPopup = $ionicPopup.alert({
-//              title: 'First Choose a Group',
-//              template: 'Or, Add a new Group on the left menu'
-//          });
-//          alertPopup.then(function(res) {
-//              console.log('Group will be selected: ' + res);
-//          });
-//
-//      }
-//  });
 })
 
 
@@ -74,7 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
     // Each tab has its own nav history stack:
-      .state('tab.balanceall', {
+      .state('tab.balance', {
           url:'/balanceall',
           views:{
               'tab-balance':{
@@ -87,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
       })
-    .state('tab.balance', {
+    .state('tab.balancedetail', {
       url: '/balance',
       views: {
         'tab-balance': {
@@ -141,47 +128,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: false
           }
      })
-    .state('tab.signup', {
+    .state('signup', {
           url:'/signup',
-          views:{
-              'tab-setup':{
-                  templateUrl: 'templates/user-signup.html',
-                  controller: 'SignUpCtrl'
-              }
-          },
+          templateUrl: 'templates/user-signup.html',
+          controller: 'SignUpCtrl',
+
           data: {
               authenticate: false,
               needgroup: false
           }
      })
-    .state('tab.login', {
+    .state('login', {
           url:'/login',
-          views:{
-              'tab-setup':{
-                  templateUrl: 'templates/user-login.html',
-                  controller: 'LoginCtrl'
-              }
-          },
+          templateUrl: 'templates/user-login.html',
+          controller: 'LoginCtrl',
+          //views:{
+          //    'login':{
+          //
+          //    }
+          //},
           data: {
               authenticate: false,
               needgroup: false
           }
     })
-        .state('side', {
-            url:'/side',
-            views:{
-                'side-menu':{
-                    templateUrl: 'templates/side-menu.html',
-                    controller: 'NavCtrl'
-                }
-            },
-            data: {
-                authenticate: false,
-                needgroup: false
-            }
-        });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/balanceall');
+  $urlRouterProvider.otherwise('/login');
 
 });
 

@@ -20,8 +20,10 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
-        $scope.setGroup = function (groupname){
+        $scope.setGroup = function (groupid, groupname){
             $rootScope.selectedGroup = groupname;
+            $rootScope.selectedGroupId = groupid;
+
             $state.transitionTo($state.current, $stateParams, {
                 reload: true,
                 inherit: false,
@@ -94,7 +96,7 @@ angular.module('starter.controllers', [])
         //Load User Balance
         var user = new SUser();
         document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroup,ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
             console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
@@ -102,7 +104,7 @@ angular.module('starter.controllers', [])
 
         //Load recent transactions
         var tran = new Transaction();
-        tran.getRelatedTran($rootScope.selectedGroup,ParseService.getUser().get('email'), function(transactions){
+        tran.getRelatedTran($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(transactions){
             $scope.transactions = transactions;
             $scope.$apply();
             document.getElementById("tran_loading").style.visibility = 'hidden';
@@ -121,15 +123,15 @@ angular.module('starter.controllers', [])
 //        }
         //Load User Balance
         var user = new SUser();
-        user.getBalanceByEmail($scope.selectedGroup, ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($scope.selectedGroupId, ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
             $scope.$apply();
         })
 
         //Load Friends Balance
-        user.getFriendList($scope.selectedGroup,ParseService.getUser().get('email'),function(friendlist){
+        user.getFriendList($scope.selectedGroupId,function(friendlist){
             console.log("BalanceDetailCtrl got Friend list = ");
-            user.getBalanceByEmails($scope.selectedGroup,friendlist.get('friends'), function(balances){
+            user.getBalanceByEmails($scope.selectedGroupId,friendlist.get('friends'), function(balances){
                 $scope.balances = balances;
                 $scope.$apply();
                 document.getElementById("tran_loading").style.visibility = 'hidden';
@@ -158,7 +160,7 @@ angular.module('starter.controllers', [])
             }
 
 
-            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup;
+            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroupId+"|"+$rootScope.selectedGroup;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -238,7 +240,8 @@ angular.module('starter.controllers', [])
                     var from = res[1];
                     var amount = res[2];
                     var note=res[3];
-                    var group=res[4];
+                    var groupId=res[4];
+                    var groupName=res[5];
                     var friendemail;
                     if (from == $scope.user.get('email')){
                         friendemail = to;
@@ -247,7 +250,7 @@ angular.module('starter.controllers', [])
                     }
                     var user = new SUser();
                     user.getUserByEmail(friendemail, function(friend){
-                        ParseService.recordQRCode(group, id,amount,from,$scope.user.get('email'),note,location, $scope.user,friend, function(r){
+                        ParseService.recordQRCode(groupId, id,amount,from,$scope.user.get('email'),note,location, $scope.user,friend, function(r){
                             //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                             if (r.message== undefined){
                                 console.log("Controllers Receive - recordQRCode Successfully");
@@ -258,7 +261,7 @@ angular.module('starter.controllers', [])
 //                                $scope.$apply();
 
                                 display = "<BR>Received : $" + amount +"<br><br>" +
-                                    "Group : " + group +"<BR><BR>"+
+                                    "Group : " + groupName +"<BR><BR>"+
                                     "From : " + from +"<BR><BR>";
 
 
@@ -294,6 +297,11 @@ angular.module('starter.controllers', [])
 .controller('SignUpCtrl', function($scope,$location,$state, $ionicPopup,ParseService) {
         // Called when the form is submitted
         console.log('Signup Ctrl');
+
+        $scope.goTologin = function(){
+            $state.go('login');
+        };
+
         $scope.signUp = function(userp) {
             console.log(scorePassword(userp.password));
             if (scorePassword(userp.password) < 30){
