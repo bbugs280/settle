@@ -390,8 +390,13 @@ angular.module('starter.controllers', [])
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 
         $scope.goTosignUp = function(){
-            $location.path('/tab/signup');
+            //$location.path('/tab/signup');
 //            $route.refresh();
+            $state.transitionTo('signup', '', {
+                reload: true,
+                inherit: false,
+                notify: true
+            });
         }
 
         $scope.forgotPassword = function(){
@@ -462,6 +467,14 @@ angular.module('starter.controllers', [])
                 });
                 $rootScope.loadGroup();
                 console.log("controller - redirected success login");
+            });
+        }
+
+        if (ParseService.getUser()){
+            $state.transitionTo('tab.balanceall', '', {
+                reload: true,
+                inherit: false,
+                notify: true
             });
         }
 

@@ -80,15 +80,15 @@
                 <!--<button class="button button-icon button-clear" ng-click="list.splice($index, 1)">Edit-->
                 <!--</button>-->
             </header>
-            <ion-content has-header="true">
+            <ion-content has-header="true"  class="has-header">
                 <ion-list ng-controller="NavCtrl" can-swipe="listCanSwipe">
                     <ion-refresher
                             pulling-icon="icon ion-arrow-down-c"
                             refreshing-icon="icon ion-loading-c"
                             on-refresh="loadGroup()">
                     </ion-refresher>
-                    <ion-item class="item "></ion-item>
-                    <ion-item class="item item-divider ">e.g. Lunch, Poker ..etc</ion-item>
+
+                    <ion-item class="item item-divider" style="font-size: small">e.g. Lunch, Poker ..etc</ion-item>
 
                     <span ng-repeat="list in friendlists">
                         <span ng-if="list.get('group')==selectedGroup">
