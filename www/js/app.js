@@ -18,6 +18,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+      //$cordovaPlugin.someFunction().then(success, error);
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -62,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     // Each tab has its own nav history stack:
       .state('tab.balance', {
-          url:'/balanceall',
+          url:'/balance',
           views:{
               'tab-balance':{
                   templateUrl: 'templates/tab-balance-all.html',
@@ -75,10 +76,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
       })
     .state('tab.balancedetail', {
-      url: '/balance',
+      url: '/balance-detail',
       views: {
         'tab-balance': {
-          templateUrl: 'templates/tab-balance.html',
+          templateUrl: 'templates/tab-balance-detail.html',
           controller: 'BalanceCtrl'
         }
       },

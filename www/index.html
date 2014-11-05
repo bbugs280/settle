@@ -12,10 +12,10 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
       <!-- cordova script (this will be a 404 during development) -->
-      <script src="cordova.js"></script>
-      <!--ngCordova    -->
-      <!--<script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
       <!--<script src="cordova.js"></script>-->
+      <!--ngCordova    -->
+      <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+      <script src="cordova.js"></script>
        <!-- crypto -->
       <script src="lib/crypto/aes.js"></script>
       <script src="lib/crypto/rabbit-min.js"></script>
@@ -91,8 +91,8 @@
                     <ion-item class="item item-divider" style="font-size: small">e.g. Lunch, Poker ..etc</ion-item>
 
                     <span ng-repeat="list in friendlists">
-                        <span ng-if="list.get('group')==selectedGroup">
-                        <ion-item  class="item item-dark">
+                        <span ng-if="list.id==selectedGroupId">
+                        <ion-item  class="item item-energized">
                             <i class="icon ion-ios7-arrow-back"></i>
                             {{list.get('group')}}
                             <i class="icon ion-ios7-arrow-forward"></i>
@@ -102,11 +102,11 @@
                             </ion-option-button>
                         </ion-item>
                         </span>
-                        <span ng-if="list.get('group')!=selectedGroup">
+                        <span ng-if="list.id!=selectedGroupId">
                         <ion-item  class="item "  ng-click="setGroup(list.id,list.get('group'))">
 
                             {{list.get('group')}}
-                            <ion-option-button class="button-info"
+                            <ion-option-button class="button-calm"
                                                ng-click="editGroup(list)">
                                 Edit
                             </ion-option-button>
