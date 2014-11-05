@@ -7,10 +7,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope,$state,$ionicPopup) {
+.run(function($ionicPlatform,$rootScope,$state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    console.log("ionicPlatform is Ready");
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -18,6 +20,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+      //$cordovaPlugin.someFunction().then(success, error);
+//     Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -62,7 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     // Each tab has its own nav history stack:
       .state('tab.balance', {
-          url:'/balanceall',
+          url:'/balance',
           views:{
               'tab-balance':{
                   templateUrl: 'templates/tab-balance-all.html',
@@ -75,10 +79,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
       })
     .state('tab.balancedetail', {
-      url: '/balance',
+      url: '/balance-detail',
       views: {
         'tab-balance': {
-          templateUrl: 'templates/tab-balance.html',
+          templateUrl: 'templates/tab-balance-detail.html',
           controller: 'BalanceCtrl'
         }
       },

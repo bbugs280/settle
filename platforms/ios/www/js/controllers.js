@@ -24,7 +24,8 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = groupname;
             $rootScope.selectedGroupId = groupid;
 
-            $state.transitionTo($state.current, $stateParams, {
+            $state.go($state.current, $stateParams, {
+                location: false,
                 reload: true,
                 inherit: false,
                 notify: true
@@ -54,7 +55,8 @@ angular.module('starter.controllers', [])
                                 var Friendlist = Parse.Object.extend("friendlist");
                                 var fl = new Friendlist();
                                 fl.set('group',$scope.data.group);
-                                fl.set('email',ParseService.getUser().get('email'));
+                                //fl.set('email',ParseService.getUser().get('email'));
+                                fl.addUnique('friends',ParseService.getUser().get('email'));
                                 fl.save(null,{
                                     success: function (result) {
                                         console.log("Add New Group Successfully");
@@ -119,14 +121,17 @@ angular.module('starter.controllers', [])
                     throw("Error: " + error.code + " " + error.message);
                 }
             })
+
         }
 
         $rootScope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+                console.log("Nav Ctrl - load Group Completed get Friendall");
                 $scope.friendlists = friendlists;
-                $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
+                //$scope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+
             })
         }
         $rootScope.loadGroupSetup = function(){

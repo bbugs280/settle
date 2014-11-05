@@ -21,7 +21,7 @@ angular.module('starter.services', [])
 .factory('ParseService', function(){
         // Initialize Parse API and objects.
 
-        Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
+//        Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
 
         // Cache current logged in user
         var loggedInUser;
