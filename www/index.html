@@ -47,7 +47,7 @@
 
 <!--load sounds-->
       <script>
-
+          Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
         var success_snd = new Audio("js/sound/beep-success.wav"); // buffers automatically when created
         var error_snd = new Audio("js/sound/beep-error.wav"); // buffers automatically when created
 
@@ -78,7 +78,7 @@
             <header class="bar bar-header bar-stable">
                 <button class="button button-icon button-clear ion-plus-circled" ng-click="addGroup()">
                 </button>
-                <div class="title">Groups</div>
+                <div class="title">Pots</div>
                 <!--<button class="button button-icon button-clear" ng-click="list.splice($index, 1)">Edit-->
                 <!--</button>-->
             </header>
@@ -89,23 +89,23 @@
                             refreshing-icon="icon ion-loading-c"
                             on-refresh="loadGroup()">
                     </ion-refresher>
+                    <ion-item class="item " ng-class="{'item-positive':selectedGroup =='direct'}" ng-click="setGroup('','direct')">
+                                Direct
+                    </ion-item>
 
-                    <ion-item class="item item-divider" style="font-size: small">e.g. Lunch, Poker ..etc</ion-item>
-
+                    <ion-item class="item item-divider " style="font-size: small">Select a Pot</ion-item>
                     <span ng-repeat="list in friendlists">
                         <span ng-if="list.id==selectedGroupId">
                         <ion-item  class="item item-energized">
-                            <i class="icon ion-ios7-arrow-back"></i>
                             {{list.get('group')}}
-                            <i class="icon ion-ios7-arrow-forward"></i>
                             <ion-option-button class="button-calm"
                                                ng-click="editGroup(list)">
                                 Edit
                             </ion-option-button>
                         </ion-item>
-                        </span>
+                    </span>
                         <span ng-if="list.id!=selectedGroupId">
-                        <ion-item  class="item "  ng-click="setGroup(list.id,list.get('group'))">
+                        <ion-item  class="item " ng-click="setGroup(list.id,list.get('group'))">
 
                             {{list.get('group')}}
                             <ion-option-button class="button-calm"
