@@ -7,10 +7,11 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope,$state,$ionicPopup) {
+.run(function($ionicPlatform,$rootScope,$state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -18,6 +19,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+      //$cordovaPlugin.someFunction().then(success, error);
+
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -33,7 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         //Check If Group is selected
         if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
 //         console.log("selected group = "+$rootScope.selectedGroup);
-            $rootScope.warnNoGroup();
+//            $rootScope.warnNoGroup();
         }
     }
 
@@ -62,7 +65,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     // Each tab has its own nav history stack:
       .state('tab.balance', {
-          url:'/balanceall',
+          url:'/balance',
           views:{
               'tab-balance':{
                   templateUrl: 'templates/tab-balance-all.html',
@@ -75,10 +78,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
       })
     .state('tab.balancedetail', {
-      url: '/balance',
+      url: '/balance-detail',
       views: {
         'tab-balance': {
-          templateUrl: 'templates/tab-balance.html',
+          templateUrl: 'templates/tab-balance-detail.html',
           controller: 'BalanceCtrl'
         }
       },
@@ -146,7 +149,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           views:{
               'tab-setup':{
                   templateUrl: 'templates/setup-group.html',
-                  controller: 'NavCtrl'
+                  controller: 'SetupGroupCtrl'
               }
           },
           data: {

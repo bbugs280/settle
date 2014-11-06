@@ -143,14 +143,7 @@ angular.module('starter.controllers', [])
 
             })
         }
-        $rootScope.loadGroupSetup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
-                $scope.friendlistsSetup = friendlists;
-                $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
-            })
-        }
+
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
     })
@@ -459,6 +452,16 @@ angular.module('starter.controllers', [])
         };
 
 
+})
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+        $scope.loadGroupSetup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
+                $scope.friendlistsSetup = friendlists;
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 

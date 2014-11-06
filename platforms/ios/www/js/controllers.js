@@ -20,9 +20,18 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
+        $rootScope.selectedGroupId = "";
+        $rootScope.selectedGroup = "direct";
         $scope.setGroup = function (groupid, groupname){
-            $rootScope.selectedGroup = groupname;
-            $rootScope.selectedGroupId = groupid;
+            console.log(groupid + groupname);
+            if ($rootScope.selectedGroupId==groupid){
+                $rootScope.selectedGroupId = "";
+                $rootScope.selectedGroup = "";
+            }else{
+                $rootScope.selectedGroup = groupname;
+                $rootScope.selectedGroupId = groupid;
+            }
+
 
             $state.go($state.current, $stateParams, {
                 location: false,
@@ -31,7 +40,7 @@ angular.module('starter.controllers', [])
                 notify: true
             });
 
-            $ionicSideMenuDelegate.toggleLeft();
+            //$ionicSideMenuDelegate.toggleLeft();
         }
 
         $scope.addGroup = function (){

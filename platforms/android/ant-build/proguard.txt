@@ -1,5 +1,7 @@
+# view AndroidManifest.xml #generated:6
+-keep class com.bumble.settle.CordovaApp { <init>(...); }
+
 # view AndroidManifest.xml #generated:12
-# view AndroidManifest.xml #generated:30
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(...); }
 
 # view AndroidManifest.xml #generated:24
@@ -17,7 +19,4 @@
 
 # view res/xml/preferences.xml #generated:98
 -keep class com.google.zxing.client.android.pref.BSPlusPreference { <init>(...); }
-
-# view AndroidManifest.xml #generated:6
--keep class com.ionicframework.settle473300.settle { <init>(...); }
 

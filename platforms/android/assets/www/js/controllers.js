@@ -20,17 +20,27 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
+        $rootScope.selectedGroupId = "";
+        $rootScope.selectedGroup = "direct";
         $scope.setGroup = function (groupid, groupname){
-            $rootScope.selectedGroup = groupname;
-            $rootScope.selectedGroupId = groupid;
+            console.log(groupid + groupname);
+            if ($rootScope.selectedGroupId==groupid){
+                $rootScope.selectedGroupId = "";
+                $rootScope.selectedGroup = "";
+            }else{
+                $rootScope.selectedGroup = groupname;
+                $rootScope.selectedGroupId = groupid;
+            }
 
-            $state.transitionTo($state.current, $stateParams, {
+
+            $state.go($state.current, $stateParams, {
+                location: false,
                 reload: true,
                 inherit: false,
                 notify: true
             });
 
-            $ionicSideMenuDelegate.toggleLeft();
+            //$ionicSideMenuDelegate.toggleLeft();
         }
 
         $scope.addGroup = function (){
@@ -54,7 +64,8 @@ angular.module('starter.controllers', [])
                                 var Friendlist = Parse.Object.extend("friendlist");
                                 var fl = new Friendlist();
                                 fl.set('group',$scope.data.group);
-                                fl.set('email',ParseService.getUser().get('email'));
+                                //fl.set('email',ParseService.getUser().get('email'));
+                                fl.addUnique('friends',ParseService.getUser().get('email'));
                                 fl.save(null,{
                                     success: function (result) {
                                         console.log("Add New Group Successfully");
@@ -119,26 +130,22 @@ angular.module('starter.controllers', [])
                     throw("Error: " + error.code + " " + error.message);
                 }
             })
+
         }
 
         $rootScope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+                console.log("Nav Ctrl - load Group Completed get Friendall");
                 $scope.friendlists = friendlists;
-                $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
+                //$scope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+
             })
         }
-        $rootScope.loadGroupSetup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
-                $scope.friendlistsSetup = friendlists;
-                $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
-            })
-        }
-        $rootScope.loadGroupSetup();
-        $rootScope.loadGroup();
+
+        //$rootScope.loadGroupSetup();
+        //$rootScope.loadGroup();
     })
 .controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
 
@@ -445,6 +452,16 @@ angular.module('starter.controllers', [])
         };
 
 
+})
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+        $scope.loadGroupSetup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
+                $scope.friendlistsSetup = friendlists;
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 
