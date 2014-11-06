@@ -4,9 +4,9 @@
   navigation history that also transitions its views in and out.
 -->
 
-<ion-tabs class="tabs-icon-top " ng-class="{'tabs-positive':selectedGroup =='direct'}" ng-class="{'tabs-energized':selectedGroup!='direct'}">
+<ion-tabs class="tabs-icon-top tabs-stable" >
   <!-- Balance Tab -->
-  <ion-tab title="Balance" icon="icon ion-card" ui-sref="tab.balance">
+  <ion-tab title="Balance" icon="icon ion-card" ui-sref="tab.balance-overview">
     <ion-nav-view name="tab-balance"></ion-nav-view>
     <!--<ion-nav-view name="tab-balance-detail"></ion-nav-view>-->
   </ion-tab>

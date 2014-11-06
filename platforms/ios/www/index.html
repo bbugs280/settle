@@ -60,7 +60,7 @@
     <ion-side-menus>
 
         <ion-side-menu-content ng-controller="NavCtrl">
-            <ion-nav-bar class="bar bar-positive ">
+            <ion-nav-bar class="bar  " ng-class="{'bar-positive':selectedGroup =='direct','bar-energized':selectedGroup!='direct'}">
                 <!--Back Button-->
                 <ion-nav-back-button class="button-icon icon ion-arrow-left-c">
                     <!--Side Menu Button-->
@@ -78,7 +78,7 @@
             <header class="bar bar-header bar-stable">
                 <button class="button button-icon button-clear ion-plus-circled" ng-click="addGroup()">
                 </button>
-                <div class="title">Pots</div>
+                <div class="title">Pools</div>
                 <!--<button class="button button-icon button-clear" ng-click="list.splice($index, 1)">Edit-->
                 <!--</button>-->
             </header>
@@ -90,10 +90,10 @@
                             on-refresh="loadGroup()">
                     </ion-refresher>
                     <ion-item class="item " ng-class="{'item-positive':selectedGroup =='direct'}" ng-click="setGroup('','direct')">
-                                Direct
+                                Personal
                     </ion-item>
 
-                    <ion-item class="item item-divider " style="font-size: small">Select a Pot</ion-item>
+                    <ion-item class="item item-divider " style="font-size: small">Select a Pool</ion-item>
                     <span ng-repeat="list in friendlists">
                         <span ng-if="list.id==selectedGroupId">
                         <ion-item  class="item item-energized">

@@ -18,10 +18,7 @@ var SUser = Parse.User.extend({
                 r.set({"username": result[0].get('username')});
                 r.set({"email": result[0].get('email')});
                 console.log("getUserByEmail -  this.username = " + r.get('username'));
-                console.log("getUserByEmail -  result[0].get(email" + result[0].get("email"));
-                console.log("getUserByEmail -  this.getEmail = " + r.get('email'));
-                console.log("getUserByEmail -  this = " + r);
-
+                console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
                 callback(r);
             } else {
                 callback(null);
@@ -110,6 +107,7 @@ var SUser = Parse.User.extend({
     var query = new Parse.Query(Friendlist);
 //    query.equalTo("email",email);
     query.equalTo("objectId",groupId);
+    query.equalTo("ispersonal",false);
 
     query.find({
         success: function (result) {
@@ -141,6 +139,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friends", email);
+        query.equalTo("ispersonal",false);
         if (!showHidden){
             console.log("getFriendListAll showhidden is false");
             query.notEqualTo("hidden", true);
@@ -154,6 +153,81 @@ var SUser = Parse.User.extend({
                 callback(result);
             },
             error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+
+    },
+    getFriendListAllForOverview: function (email, callback) {
+        var Friendlist = Parse.Object.extend("friendlist");
+        var query = new Parse.Query(Friendlist);
+        query.equalTo("friends", email);
+        query.notEqualTo("hidden", true);
+        query.addAscending('updatedAt');
+        query.find({
+            success: function (result) {
+                // The object was retrieved successfully.
+                console.log("getFriendListAllForOverview - success count " + result.length);
+                callback(result);
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+
+    },
+    getPersonalListByEmails: function (emailArray, nameArray, callback) {
+        var Friendlist = Parse.Object.extend("friendlist");
+
+        var query = new Parse.Query(Friendlist);
+
+        query.containsAll("friends", emailArray);
+        query.equalTo("ispersonal", true);
+        console.log("getPersonalListByEmails prepared");
+        query.find({
+            success: function (friendlist) {
+                // The object was retrieved successfully.
+                console.log("getPersonalListByEmails - success count " + friendlist.length);
+                if (friendlist.length == 0){
+                    var fl = new Friendlist();
+                    fl.set('friends', emailArray);
+                    fl.set('friendnames', nameArray);
+                    fl.set('ispersonal', true);
+                    fl.save(null,{
+                       success: function(result){
+                           callback(result);
+                       },error:function(error){
+                            throw error.message;
+                        }
+                    });
+                }else{
+                    callback(friendlist[0]);
+                }
+
+            },
+            error: function ( error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+
+    },
+    findPersonalList: function (email, callback) {
+        var Friendlist = Parse.Object.extend("friendlist");
+
+        var query = new Parse.Query(Friendlist);
+
+        query.equalTo("friends", email);
+        query.equalTo("ispersonal", true);
+        console.log("findPersonalList prepared");
+        query.find({
+            success: function (friendlist) {
+                // The object was retrieved successfully.
+                console.log("findPersonalList - success count " + friendlist.length);
+
+                    callback(friendlist);
+
+            },
+            error: function ( error) {
                 throw("Error: " + error.code + " " + error.message);
             }
         });

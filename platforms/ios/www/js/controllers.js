@@ -143,17 +143,34 @@ angular.module('starter.controllers', [])
 
             })
         }
-        $rootScope.loadGroupSetup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
-                $scope.friendlistsSetup = friendlists;
-                $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
-            })
-        }
+
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
     })
+.controller('BalanceOverviewCtrl', function($rootScope, $scope, $location, ParseService) {
+
+        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
+        $scope.balance = Parse.Object.extend("balance");
+        $scope.transactions = [];
+        $scope.user = ParseService.getUser();
+
+
+        //Load User Total Balance
+        var user = new SUser();
+        document.getElementById("tran_loading").style.visibility = 'visible';
+        user.getBalanceByEmail($rootScope.selectedGroupId,$scope.user.get('email'), function(balance){
+            $scope.balance = balance;
+            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
+            $scope.$apply();
+        })
+
+
+        //Load Groups & Personal Accounts
+        user.getFriendListAllForOverview($scope.user.get('email'),function(grouplist){
+            $scope.grouplist = grouplist;
+        })
+
+})
 .controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
 
         console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
@@ -180,7 +197,6 @@ angular.module('starter.controllers', [])
         })
 
 })
-
 .controller('BalanceAllCtrl', function($scope, $location, ParseService) {
 //        if (ParseService.getUser()) {
 //            // do stuff with the user
@@ -244,22 +260,7 @@ angular.module('starter.controllers', [])
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
-//        var options = {
-//            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
-//        };
 
-        // `configure` calls `start` internally
-//        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
-//            location = loc;
-//            console.log(location);
-//
-//        }, function (err) {
-//            console.error(err);
-//        });
-
-//        $scope.stopBackgroundGeolocation = function () {
-//            $cordovaBackgroundGeolocation.stop();
-//        };
         $scope.showloading = function(){
             document.getElementById("scan_loading").style.visibility = 'visible';
         }
@@ -305,7 +306,7 @@ angular.module('starter.controllers', [])
 //                    $scope.$apply();
                 }else{
 
-                    var id = res[0];
+                    var tranId = res[0];
                     var from = res[1];
                     var amount = res[2];
                     var note=res[3];
@@ -318,36 +319,24 @@ angular.module('starter.controllers', [])
                         friendemail = from;
                     }
                     var user = new SUser();
+
                     user.getUserByEmail(friendemail, function(friend){
-                        ParseService.recordQRCode(groupId, id,amount,from,$scope.user.get('email'),note,location, $scope.user,friend, function(r){
-                            //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
-                            if (r.message== undefined){
-                                console.log("Controllers Receive - recordQRCode Successfully");
-//                                $scope.scanresult.group = group;
-//                                $scope.scanresult.from = from;
-//                                $scope.scanresult.amount = Number(amount);
-//                                $scope.scanresult.note = note;
-//                                $scope.$apply();
+                        //If Group Id is Empty, then it's Personal/Direct Transfer
+                        //1. Find Personal Group Or create one
+                        console.log("ReceiveCtrl.scan  groupId = "+ groupId);
+                        if (groupId==''){
+                            console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
+                            var friends = [$scope.user.get('email'),friendemail];
+                            var friendnames = [$scope.user.get('username'),friend.get('username')];
 
-                                display = "<BR>Received : $" + amount +"<br><br>" +
-                                    "Group : " + groupName +"<BR><BR>"+
-                                    "From : " + from +"<BR><BR>";
+                            user.getPersonalListByEmails(friends, friendnames, function(friendlist){
+                                console.log("ReceiveCtrl.scan "+ friendlist.id);
+                                $scope.recordQRCode(friendlist.id,groupName, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                            })
+                        }else{
+                            $scope.recordQRCode(groupId, groupName, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                        }
 
-
-                                if (note!='undefined'){
-                                    display+="Note : "+note;
-                                }
-                                document.getElementById("info").innerHTML = display;
-                            }else{
-                                console.log("Controllers Receive - recordQRCode Failed");
-//                                $scope.scanresult.message = r.message;
-//                                $scope.$apply();
-                                display = "<BR><b> " + r.message +"</b>";
-                                document.getElementById("info").innerHTML = display;
-                            }
-                            $scope.hideloading();
-
-                        });
                     })
 
 
@@ -359,10 +348,41 @@ angular.module('starter.controllers', [])
             } );
         }
 
+        $scope.recordQRCode = function(groupId,groupName, id,amount,from,youremail,note,location, user,friend){
+
+            ParseService.recordQRCode(groupId,id,amount,from,youremail,note,location, user,friend, function(r){
+                //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                if (r.message== undefined){
+                    console.log("Controllers Receive - recordQRCode Successfully");
+//                                $scope.scanresult.group = group;
+//                                $scope.scanresult.from = from;
+//                                $scope.scanresult.amount = Number(amount);
+//                                $scope.scanresult.note = note;
+//                                $scope.$apply();
+
+                    display = "<BR>Received : $" + amount +"<br><br>" +
+                        "Group : " + groupName +"<BR><BR>"+
+                        "From : " + from +"<BR><BR>";
+
+
+                    if (note!='undefined'){
+                        display+="Note : "+note;
+                    }
+                    document.getElementById("info").innerHTML = display;
+                }else{
+                    console.log("Controllers Receive - recordQRCode Failed");
+//                                $scope.scanresult.message = r.message;
+//                                $scope.$apply();
+                    display = "<BR><b> " + r.message +"</b>";
+                    document.getElementById("info").innerHTML = display;
+                }
+                $scope.hideloading();
+
+            });
+        }
         $scope.scan();
 
 })
-
 .controller('SignUpCtrl', function($scope,$location,$state, $ionicPopup,ParseService) {
         // Called when the form is submitted
         console.log('Signup Ctrl');
@@ -459,6 +479,17 @@ angular.module('starter.controllers', [])
         };
 
 
+})
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+        $scope.loadGroupSetup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
+                $scope.friendlistsSetup = friendlists;
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+        $scope.loadGroupSetup();
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 

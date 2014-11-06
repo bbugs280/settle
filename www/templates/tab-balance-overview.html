@@ -1,0 +1,40 @@
+<ion-view title="Balances">
+  <ion-content>
+      <ion-list>
+          <ion-item class="item item-icon-right">
+              Your Total Balance is $
+              <span ng-if="balance.get('balance')<0">
+              <span style="color: red">{{balance.get('balance') | number:2}}</span>
+              </span>
+              <span ng-if="balance.get('balance')>=0">
+                  <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
+              </span>
+              <BR>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>
+              <i class="icon ion-ios7-arrow-forward"></i>
+          </ion-item>
+          <ion-item class="item item-divider item-icon-right" style="text-align: center">
+
+              <i id="tran_loading" class=" ion-loading-c"></i>
+          </ion-item>
+          <ion-item class="item" style="font-size: medium;" ng-repeat="account in grouplist">
+              <span ng-if="account.get('ispersonal')==true">
+                  <i class="icon ion-ios7-person"></i>
+                  <!--<span ng-if="account.get('friendnames')[0]==user.get('username')">-->
+                      <!--{{account.get('friendnames')[1]}}-->
+                  <!--</span>-->
+                  <!--<span ng-if="account.get('friendnames')[0]!=user.get('username')">-->
+                      <!--{{account.get('friendnames')[0]}}-->
+                  <!--</span>-->
+                  {{account.get('friendnames')}}
+              </span>
+              <span ng-if="account.get('ispersonal')!=true">
+                  <i class="icon ion-ios7-people"></i>
+                  {{account.get('group')}}
+              </span>
+
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

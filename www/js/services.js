@@ -84,7 +84,6 @@ angular.module('starter.services', [])
             recordQRCode : function recordQRCode(groupId, tranId, amount, from, to, note, location, user, friend, callback){
                 var tran = new Transaction();
 
-
                 tran.set('groupId',groupId);
                 tran.set('tranId',tranId);
                 tran.set('amount',Number(amount));
@@ -100,10 +99,6 @@ angular.module('starter.services', [])
                     tran.set('fromname',friend.get('username'));
                     tran.set('toname',user.get('username'));
                 }
-
-
-
-
 
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){

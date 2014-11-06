@@ -64,6 +64,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
     // Each tab has its own nav history stack:
+      .state('tab.balance-overview', {
+          url:'/balance-overview',
+          views:{
+              'tab-balance':{
+                  templateUrl: 'templates/tab-balance-overview.html',
+                  controller: 'BalanceOverviewCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: true
+          }
+      })
       .state('tab.balance', {
           url:'/balance',
           views:{
