@@ -142,8 +142,8 @@ angular.module('starter.controllers', [])
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
-        $rootScope.loadGroupSetup();
-        $rootScope.loadGroup();
+        //$rootScope.loadGroupSetup();
+        //$rootScope.loadGroup();
     })
 .controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
 

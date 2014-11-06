@@ -17,11 +17,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -65,16 +65,16 @@
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.settle473300"
+            "PACKAGE_NAME": "com.bumble.settle"
         },
         "com.phonegap.plugins.barcodescanner": {
-            "PACKAGE_NAME": "com.ionicframework.settle473300"
-        },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.settle473300"
+            "PACKAGE_NAME": "com.bumble.settle"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.settle473300"
+            "PACKAGE_NAME": "com.bumble.settle"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.bumble.settle"
         }
     },
     "dependent_plugins": {}
