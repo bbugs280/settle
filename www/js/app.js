@@ -77,12 +77,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
       })
-      .state('tab.balance', {
-          url:'/balance',
+      .state('tab.balance-group', {
+          url:'/balance-group',
           views:{
               'tab-balance':{
-                  templateUrl: 'templates/tab-balance-all.html',
-                  controller: 'BalanceAllCtrl'
+                  templateUrl: 'templates/tab-balance-group.html',
+                  controller: 'BalanceGroupCtrl'
               }
           },
           data: {
@@ -90,12 +90,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
       })
-    .state('tab.balancedetail', {
+    .state('tab.balance-detail', {
       url: '/balance-detail',
       views: {
         'tab-balance': {
           templateUrl: 'templates/tab-balance-detail.html',
-          controller: 'BalanceCtrl'
+          controller: 'BalanceDetailCtrl'
         }
       },
       data: {

@@ -1,0 +1,40 @@
+<ion-view title="Pool Credit">
+  <ion-content>
+      <ion-list>
+          <ion-item class="item item-icon-right">
+              Your Current Balance is $
+              <span ng-if="balance.get('balance')<0">
+              <span style="color: red">{{balance.get('balance') | number:2}}</span>
+              </span>
+              <span ng-if="balance.get('balance')>=0">
+                  <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
+              </span>
+              <BR>
+              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>
+              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>
+
+          </ion-item>
+          <ion-item class="item item-divider item-icon-right" style="height: 20px;font-size: small">
+              Your friends balance in <span style="text-decoration: underline">{{selectedGroup.get('group')}}</span>
+              <i id="tran_loading" class="icon ion-loading-c" style="visibility: {{loading}}"></i>
+          </ion-item>
+          <ion-item class="item item-icon-right" style="font-size: medium;" ng-repeat="bal in balances" ng-click="openTrans(bal)">
+              <div>
+                  <span>
+                  {{bal.get('username')}} balance is $
+                </span>
+                <span ng-if="bal.get('balance')<0">
+                    <span style="color: red">{{bal.get('balance')| number:2}}</span>
+                </span>
+                <span ng-if="bal.get('balance')>=0">
+                  <span style="color:olivedrab">{{bal.get('balance')| number:2}}</span>
+                </span>
+              </div>
+
+
+              <span style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></span>
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>
