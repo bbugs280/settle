@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Parse Data</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.3/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.3/jasmine.css">
+
+  <!--<script type="text/javascript" src="lib/jasmine-2.0.3/jasmine.js"></script>-->
+  <!--<script type="text/javascript" src="lib/jasmine-2.0.3/jasmine-html.js"></script>-->
+  <!--<script type="text/javascript" src="lib/jasmine-2.0.3/boot.js"></script>-->
+    <!-- ionic/angularjs js -->
+    <!--<script src="../../www/lib/ionic/js/ionic.bundle.js"></script>-->
+    <!--<script src="../../www/lib/ionic/js/"></script>-->
+    <!--<script src="../../node_modules/angular-mocks/angular-mocks.js"></script>-->
+    <!-- parse.com -->
+    <script src="../../www/lib/parse/parse-1.3.0.min.js"></script>
+  <!-- include source files here... -->
+
+    <!--<script type="text/javascript" src="../../www/js/services.js"></script>-->
+    <!--<script type="text/javascript" src="../../www/js/controllers.js"></script>-->
+    <!--<script type="text/javascript" src="../../www/js/app.js"></script>-->
+    <!--<script src="../../www/js/dao/user.js"></script>-->
+    <!--<script src="../../www/js/dao/transaction.js"></script>-->
+  <!-- include spec files here... -->
+  <!--<script type="text/javascript" src="spec/SpecHelper.js"></script>-->
+  <!--<script type="text/javascript" src="spec/dao-UserSpec.js"></script>-->
+    <!--<script type="text/javascript" src="spec/dao-TransSpec.js"></script>-->
+    <!--<script type="text/javascript" src="spec/service-AngularSpec.js"></script>-->
+    <script>
+        Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
+        var Balance = Parse.Object.extend("balance");
+
+        var queryb = new Parse.Query(Balance);
+        queryb.equalTo('objectId', 'AH3GAmJCrb');
+        queryb.find({
+            success:function(bal){
+                console.log(bal.length);
+                console.log(bal[0].id);
+                var balance = bal[0];
+                var User = Parse.Object.extend("User");
+                var query = new Parse.Query(User);
+                query.equalTo('objectId','lirSB5mnCL')
+                query.find({
+                    success: function(u) {
+                        console.log(u[0].id);
+                        var user = new User();
+                        user = u[0];
+                        balance.set('user', user);
+                        var Friendlist = Parse.Object.extend("friendlist");
+                        var queryf = new Parse.Query(Friendlist);
+                        queryf.equalTo('objectId','QN5BsOdNMG');
+                        queryf.find({
+                            success:function(group){
+                                console.log(group[0].id);
+                                balance.set('group', group[0]);
+                                balance.save({
+                                    success:function(bal){
+                                        console.log(bal.id);
+                                    },error:function(obj, error){
+                                        console.log(error.message);
+                                    }
+                                });
+                            }
+                        })
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+
+//        user.id = 'lirSB5mnCL';
+//        user.fetch().then(function(u){
+//            balance.set('user', u);
+//            var fl = Parse.Object.extend("friendlist");
+//            fl.id = 'QN5BsOdNMG';
+//            return fl.fetch();
+//        }).then(function(group){
+//            balance.set('group', group);
+//            return balance.save()
+//        }).then(function(bal){
+//            console.dir(bal);
+//        });
+
+
+    </script>
+</head>
+done
+<body>
+</body>
+</html>

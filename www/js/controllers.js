@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
         $rootScope.selectedGroup = undefined;
         $scope.setGroup = function (selectedGroup){
 
-            if ($rootScope.selectedGroup.id==selectedGroup.id){
+            if (selectedGroup==undefined){
                 $rootScope.selectedGroup = undefined;
             }else{
                 $rootScope.selectedGroup = selectedGroup;
@@ -147,26 +147,37 @@ angular.module('starter.controllers', [])
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $location, ParseService) {
 
-        console.log("controller - BalanceOverviewCtrl start | selectedGroup = "+$scope.selectedGroup);
-        $scope.balance = Parse.Object.extend("balance");
-        $scope.transactions = [];
+        console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
+        $scope.balance = 0;
+        $scope.loading = 'visible';
         //$scope.user = ParseService.getUser();
 
 
-        //Load User Total Balance
-        var user = new SUser();
-        document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroup,$scope.user, function(balance){
-            $scope.balance = balance;
-            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
-            $scope.$apply();
-        })
+        $scope.loadOverview = function(){
 
-        //Load Groups & Personal Accounts
-        user.getBalanceOverview($rootScope.user,function(grouplist){
-            $scope.grouplist = grouplist;
-            $scope.$apply();
-        })
+            //Load Groups & Personal Accounts
+            //Then calculate Total Balance
+            var user = new SUser();
+            $scope.loading = 'visible';
+            user.getBalanceOverview($rootScope.user,function(grouplist){
+                $scope.grouplist = grouplist;
+
+                for (var i in grouplist){
+
+                    $scope.balance = $scope.balance + Number(grouplist[i].get('balance'));
+                }
+                console.log($scope.balance);
+                $scope.loading = 'hidden';
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+
+        $scope.openBalance = function(balance){
+
+        }
+
+        $scope.loadOverview();
 
 })
 .controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {

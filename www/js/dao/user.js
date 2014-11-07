@@ -161,9 +161,16 @@ var SUser = Parse.User.extend({
     },
     getBalanceOverview: function (user, callback) {
 
-        var Balance = Parse.Object.extend("Balance");
-
+        var Balance = Parse.Object.extend("balance");
         var queryBalance = new Parse.Query(Balance);
+
+        queryBalance.include('user');
+        queryBalance.include('group');
+//        queryBalance.equalTo('user',{
+//            __type: "Pointer",
+//            className: "_User",
+//            objectId: user.id
+//        });
         queryBalance.equalTo('user',user);
 
         queryBalance.find({
@@ -185,6 +192,7 @@ var SUser = Parse.User.extend({
 
         query.containsAll("friends", emailArray);
         query.equalTo("ispersonal", true);
+
         console.log("getPersonalListByEmails prepared");
         query.find({
             success: function (friendlist) {
