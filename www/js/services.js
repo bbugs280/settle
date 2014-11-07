@@ -120,6 +120,7 @@ angular.module('starter.services', [])
                                     console.log("recordQRCode - after tran save ");
 
                                     var friendEmail = tran.getFriendEmail(user.getEmail());
+                                    var friendName = tran.getFriendName(user.get('username'));
 //                                    console.log("recordQRCode - get friend email "+ friendEmail);
                                     //Update your Records e.g. Balance and Friend list
 
@@ -144,7 +145,8 @@ angular.module('starter.services', [])
                                         user.getFriendList(groupId, function(friendlist){
                                             console.log("recordQRCode - your friendlist found");
                                             var friendArray = [user.get('email'),friendEmail];
-                                            user.addFriends(friendlist, friendArray, function(friends){
+                                            var nameArray = [user.get('username'),friendName];
+                                            user.addFriends(friendlist, nameArray,friendArray, function(friends){
 //                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
                                                 console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
                                                 //Play Sound

@@ -20,18 +20,16 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
-        $rootScope.selectedGroupId = "";
-        $rootScope.selectedGroup = "direct";
-        $scope.setGroup = function (groupid, groupname){
-            console.log(groupid + groupname);
-            if ($rootScope.selectedGroupId==groupid){
-                $rootScope.selectedGroupId = "";
-                $rootScope.selectedGroup = "";
-            }else{
-                $rootScope.selectedGroup = groupname;
-                $rootScope.selectedGroupId = groupid;
-            }
 
+        $rootScope.selectedGroup = undefined;
+        $scope.setGroup = function (selectedGroup){
+
+            if ($rootScope.selectedGroup.id==selectedGroup.id){
+                $rootScope.selectedGroup = undefined;
+            }else{
+                $rootScope.selectedGroup = selectedGroup;
+
+            }
 
             $state.go($state.current, $stateParams, {
                 location: false,
@@ -149,25 +147,25 @@ angular.module('starter.controllers', [])
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $location, ParseService) {
 
-        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
+        console.log("controller - BalanceOverviewCtrl start | selectedGroup = "+$scope.selectedGroup);
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
-        $scope.user = ParseService.getUser();
+        //$scope.user = ParseService.getUser();
 
 
         //Load User Total Balance
         var user = new SUser();
         document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroupId,$scope.user.get('email'), function(balance){
+        user.getBalanceByEmail($rootScope.selectedGroup,$scope.user, function(balance){
             $scope.balance = balance;
             console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
         })
 
-
         //Load Groups & Personal Accounts
-        user.getFriendListAllForOverview($scope.user.get('email'),function(grouplist){
+        user.getBalanceOverview($rootScope.user,function(grouplist){
             $scope.grouplist = grouplist;
+            $scope.$apply();
         })
 
 })
@@ -182,7 +180,7 @@ angular.module('starter.controllers', [])
         //Load User Balance
         var user = new SUser();
         document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($rootScope.selectedGroup,ParseService.getUser().get('email'), function(balance){
             $scope.balance = balance;
             console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
@@ -190,14 +188,15 @@ angular.module('starter.controllers', [])
 
         //Load recent transactions
         var tran = new Transaction();
-        tran.getRelatedTran($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(transactions){
+        tran.getRelatedTran($rootScope.selectedGroupId,$scope.user, function(transactions){
             $scope.transactions = transactions;
             $scope.$apply();
             document.getElementById("tran_loading").style.visibility = 'hidden';
         })
 
 })
-.controller('BalanceAllCtrl', function($scope, $location, ParseService) {
+.controller('BalanceAllCtrl', function($rootScope, $scope, $location, ParseService) {
+
 //        if (ParseService.getUser()) {
 //            // do stuff with the user
 //            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
@@ -208,7 +207,7 @@ angular.module('starter.controllers', [])
 //        }
         //Load User Balance
         var user = new SUser();
-        user.getBalanceByEmail($scope.selectedGroupId, ParseService.getUser().get('email'), function(balance){
+        user.getBalanceByEmail($scope.selectedGroup, $rootScope.user, function(balance){
             $scope.balance = balance;
             $scope.$apply();
         })
@@ -216,7 +215,7 @@ angular.module('starter.controllers', [])
         //Load Friends Balance
         user.getFriendList($scope.selectedGroupId,function(friendlist){
             console.log("BalanceDetailCtrl got Friend list = ");
-            user.getBalanceByEmails($scope.selectedGroupId,friendlist.get('friends'), function(balances){
+            user.getBalanceByEmails($scope.selectedGroup,friendlist.get('friends'), function(balances){
                 $scope.balances = balances;
                 $scope.$apply();
                 document.getElementById("tran_loading").style.visibility = 'hidden';
@@ -570,7 +569,7 @@ angular.module('starter.controllers', [])
         }
 
         if (ParseService.getUser()){
-            $state.go('tab.balance');
+            $state.go('tab.balance-overview');
         }
 
 

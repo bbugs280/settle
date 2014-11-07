@@ -55,6 +55,18 @@ var Transaction = Parse.Object.extend("transaction",{
                 return this.get('from');
             }
         },
+        getFriendName : function (yourname){
+            console.log("getFriendEmail - arg email = "+ youremail);
+            console.log("getFriendEmail - from email = "+ this.get('from'));
+            console.log("getFriendEmail - to email = "+ this.get('to'));
+            if (this.get('fromname')==yourname){
+                console.log("return getFriendEmail - to email = "+ this.get('to'));
+                return this.get('toname');
+            }else{
+                console.log("return getFriendEmail - to email = "+ this.get('from'));
+                return this.get('fromname');
+            }
+        },
         getYourCredit : function (youremail){
             if (this.get('from')==youremail){
                 return 0;

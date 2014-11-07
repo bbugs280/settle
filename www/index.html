@@ -89,7 +89,7 @@
                             refreshing-icon="icon ion-loading-c"
                             on-refresh="loadGroup()">
                     </ion-refresher>
-                    <ion-item class="item " ng-class="{'item-positive':selectedGroup =='direct'}" ng-click="setGroup('','direct')">
+                    <ion-item class="item " ng-class="{'item-positive':selectedGroup =='direct'}" ng-click="setGroup()">
                                 Personal
                     </ion-item>
 
@@ -105,7 +105,7 @@
                         </ion-item>
                     </span>
                         <span ng-if="list.id!=selectedGroupId">
-                        <ion-item  class="item " ng-click="setGroup(list.id,list.get('group'))">
+                        <ion-item  class="item " ng-click="setGroup(list)">
 
                             {{list.get('group')}}
                             <ion-option-button class="button-calm"
