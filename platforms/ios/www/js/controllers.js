@@ -493,16 +493,16 @@ angular.module('starter.controllers', [])
 
         $scope.signUp = function(userp) {
             console.log(scorePassword(userp.password));
-            if (scorePassword(userp.password) < 30){
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
                     template: 'Please Enter Password with At least 6 character with one upper case and numeric'
                 });
                 alertPopup.then(function(res) {
-
+                    throw("Weak Password");
                 });
-                throw("Weak Password");
+
             }
 
             if (userp.password!=userp.con_password){
@@ -546,7 +546,8 @@ angular.module('starter.controllers', [])
             $ionicLoading.show({
                 template: 'Loading...'
             });
-            if (checkPassStrength(userp.password) == 'good' || checkPassStrength(userp.password) == 'strong'){
+
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
@@ -583,7 +584,7 @@ angular.module('starter.controllers', [])
         $scope.openCamera = function(){
             var options =   {
                 quality: 30,
-                destinationType: Camera.DestinationType.FILE_URI,
+                destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
@@ -595,15 +596,15 @@ angular.module('starter.controllers', [])
         var onSuccess = function(DATA_URL) {
 //            console.log(DATA_URL);
             console.log("success got pic");
-            var img = new Image();
+//            var img = new Image();
 //            img.src = "data:image/jpeg;base64," + DATA_URL;
-            img.src = DATA_URL;
-            console.log("check image size");
-            console.log("check image size height = "+ img.height);
-            console.log("check image size width = "+ img.width);
+//            img.src = DATA_URL;
+//            console.log("check image size");
+//            console.log("check image size height = "+ img.height);
+//            console.log("check image size width = "+ img.width);
 
             var file = new Parse.File("icon.jpg", {base64:DATA_URL});
-            var file = new Parse.File("icon.jpg", img);
+//            var file = new Parse.File("icon.jpg", img);
 //            $rootScope.user.set('icon',file);
             $rootScope.user.save(null,{
                     success:function(user){
