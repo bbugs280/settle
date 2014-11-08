@@ -1,11 +1,10 @@
-<ion-view title="Group Setup" hide-nav-bar="true">
-    <div class="bar bar-header " ng-class="{'bar-positive':selectedGroup =='direct','bar-energized':selectedGroup!='direct'}">
-        <h1 class="title">Group Setup</h1>
-        <button class="button button-icon button-clear ion-plus-circled" ng-click="addGroup()">
-        </button>
-    </div>
-    <ion-content class="has-header">
+<ion-view title="Group Setup" hide-nav-bar="false">
+    <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-plus-circled" ng-click="addGroup()">
+                </button>
 
+    </ion-nav-buttons>
+    <ion-content class="has-header">
         <ion-list can-swipe="true" show-reorder="false">
             <ion-refresher
                     pulling-icon="icon ion-arrow-down-c"
@@ -14,13 +13,20 @@
             </ion-refresher>
             <!--<ion-item class="item item-divider" style="font-size: small">Group Info</ion-item>-->
 
-                        <ion-item ng-repeat="list in friendlistsSetup" class="item item-icon-left">
+                        <ion-item ng-repeat="list in friendlistsSetup" class="item item-avatar">
+                            <!--icon -->
+
+                            <img src="{{list.get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()!=undefined">
+
+                            <img src="../img/group.png"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()==undefined">
+
                             <span ng-if="list.get('hidden')==true">
                                 <i class="icon ion-ios7-trash-outline"></i>
                             </span>
-                            {{list.get('group')}}
-
+                            <b>{{list.get('group')}}</b>
+                            <p>{{list.get('friends').length}} people in group</p>
                             <ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>
+                            <ion-option-button class="button-stable" ng-click="openCamera(list)">Icon</ion-option-button>
                             <ion-option-button class="button-assertive" ng-click="archGroup(list)">
                                 <span ng-if="list.get('hidden')==true">
                                     Unarchive

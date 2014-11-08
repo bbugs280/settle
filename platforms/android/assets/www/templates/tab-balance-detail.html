@@ -1,13 +1,10 @@
-<ion-view title="Transactions" hide-nav-bar="false">
-    <!--<div class="bar bar-header bar-positive">-->
-        <!--<button class="button button-icon button-clear icon ion-arrow-left-c" ng-click="$state.go('tab.balance');">-->
-        <!--</button>-->
-        <!--<button class="button button-icon button-clear icon ion-navicon" ng-click="$rootSope.showMenu();">-->
-        <!--</button>-->
-        <!--&lt;!&ndash;<ion-nav-back-button class="button-icon icon ion-arrow-left-c" ui-sref="tab.balance">&ndash;&gt;-->
-        <!--<h1 class="title">Transactions</h1>-->
-
-    <!--</div>-->
+<ion-view title="{{title}} Transactions" hide-nav-bar="false">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="goToSend()">
+            <i class=" ion-android-keypad"></i>
+            Send
+        </button>
+    </ion-nav-buttons>
   <ion-content  class="has-header" >
       <ion-list>
           <ion-item class="item " >
@@ -21,8 +18,8 @@
 
           </ion-item>
           <ion-item class="item item-divider item-icon-right">
-              recent transactions in <span style="text-decoration: underline;">{{selectedGroup}}</span>
-              <i id="tran_loading" style="visibility: hidden" class="icon ion-loading-c"></i>
+              recent transactions  <span style="text-decoration: underline;">{{selectedGroup.get('group')}}</span>
+              <i id="tran_loading" style="visibility: {{loading}}" class="icon ion-loading-c"></i>
            </ion-item>
           <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
           <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->

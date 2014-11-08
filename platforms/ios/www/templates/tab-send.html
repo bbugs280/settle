@@ -1,11 +1,17 @@
 
 <ion-view title="Send">
+    <ion-nav-buttons side="left">
+        <span ng-if="selectedGroup!=undefined">
+            <button class="button button-clear" ng-click="clearGroup()">
+                Clear Group
+            </button>
+        </span>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-clear">
             <span ng-if="selectedGroup!=undefined">
               <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px">
           </span>
-
         </button>
     </ion-nav-buttons>
   <ion-content class="has-header">

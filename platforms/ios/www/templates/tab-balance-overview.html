@@ -37,13 +37,29 @@
               <!--personal item-->
 
               <a ng-if="balance.get('group').get('ispersonal')==true">
-                  <img src="../img/people.png" height="50px" style="border-radius: 10px">
+
+                  <!--group name-->
                   <span ng-if="balance.get('username1')==user.get('username')">
+                      <!--icon -->
+
+                           <img src="{{balance.get('group').get('user1').get('icon').url()}}" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('user1').get('icon').url()!=undefined">
+
+                           <img src="../img/people.png" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('user1').get('icon').url()==undefined">
+
+                      <!--name-->
                       <b>{{balance.get('group').get('username1')}}</b>
                   </span>
                   <span ng-if="balance.get('username1')!=user.get('username')">
+                      <!--icon -->
+
+                            <img src="{{balance.get('group').get('user2').get('icon').url()}}" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('user2').get('icon').url()!=undefined">
+
+                           <img src="../img/people.png" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('user2').get('icon').url()==undefined">
+
+                      <!--name-->
                       <b>{{balance.get('group').get('username2')}}</b>
                   </span>
+                  <!--amount-->
                   <span class="item-note" style="color:black">
                        <span ng-if="balance.get('balance')<0">
                            $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
@@ -55,17 +71,17 @@
               </a>
               <!--group item-->
               <a ng-if="balance.get('group').get('ispersonal')!=true">
+                  <!--icon section-->
 
-                  <span ng-if="balance.get('group').get('icon').url()!=undefined">
-                      <img src="{{balance.get('group').get('icon').url()}}" height="50px" style="border-radius: 10px">
-                  </span>
-                  <span ng-if="balance.get('group').get('icon').url()==undefined">
-                       <img src="../img/group.png" height="50px" style="border-radius: 10px">
-                  </span>
+                      <img src="{{balance.get('group').get('icon').url()}}" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('icon').url()!=undefined">
 
+                       <img src="../img/group.png" height="50px" style="border-radius: 10px" ng-if="balance.get('group').get('icon').url()==undefined">
+
+                  <!--counter badge-->
                   <i class="badge badge-assertive" style="top:50px;right:50px">{{balance.get('group').get('friends').length}}</i>
+                  <!--group name-->
                   <b>{{balance.get('group').get('group')}}</b>
-
+                  <!--amount-->
                   <span class="item-note" style="color:black">
                        <span ng-if="balance.get('balance')<0">
                            $ <span style="color: red">{{balance.get('balance') | number:2}}</span>

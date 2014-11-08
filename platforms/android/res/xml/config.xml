@@ -11,6 +11,9 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
     <icon density="ldpi" src="res/android/drawable-ldpi/icon.png" />
     <icon density="mdpi" src="res/android/drawable-mdpi/icon.png" />
     <icon density="hdpi" src="res/android/drawable-hdpi/icon.png" />
@@ -33,7 +36,4 @@
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
 </widget>

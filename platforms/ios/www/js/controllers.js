@@ -191,7 +191,7 @@ angular.module('starter.controllers', [])
         $scope.loadOverview();
 
 })
-.controller('BalanceDetailCtrl', function($rootScope, $scope) {
+.controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
         if (!$rootScope.selectedGroup){
             $state.go('tab.balance-overview');
         }
@@ -223,6 +223,11 @@ angular.module('starter.controllers', [])
 
         })
 
+        $scope.goToSend = function(){
+            $rootScope.selectedGroup = undefined;
+            $state.go('tab.send');
+        }
+
 })
 .controller('BalanceGroupCtrl', function($rootScope, $scope, $state) {
 
@@ -251,6 +256,10 @@ angular.module('starter.controllers', [])
         $scope.openTrans = function(bal){
             $state.go('tab.balance-detail');
         }
+        $scope.goToSend = function(){
+            $state.go('tab.send');
+        }
+
         $scope.loadGroup();
 
 })
@@ -258,6 +267,11 @@ angular.module('starter.controllers', [])
 
         $scope.selectGroup = function(){
             $state.go('tab.send-group');
+        }
+        $scope.clearGroup = function(){
+            console.log("Clear Group");
+            $rootScope.selectedGroup = undefined;
+
         }
         var qrcode = new QRCode("qrcode", {
             text: "",
@@ -269,21 +283,21 @@ angular.module('starter.controllers', [])
         });
 
         $scope.makeQRCode = function (send){
-//
-//            if (!$rootScope.selectedGroup){
-//                $rootScope.warnNoGroup();
-//                throw "No Group Error";
-//            }
 
+            var tranId = Common.getID();
+            var email = $rootScope.user.get('email');
+            var amount = send.amount;
+            var note = send.note;
+            var groupId = "";
+            var groupname = "";
             if (!$rootScope.selectedGroup){
-                var FriendList = Parse.Object.extend('friendlist');
-                $rootScope.selectedGroup = new FriendList()
+                groupId = $rootScope.selectedGroup.id;
+                groupname = $rootScope.selectedGroup.get('group');
             }
 
-            var sendString = Common.getID()+"|"+$rootScope.user.get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup.id+"|"+$rootScope.selectedGroup.get('group');
+            var sendString = tranId+"|"+ email +"|"+ amount +"|"+ note +"|"+groupId+"|"+groupname;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
-
 
             qrcode.clear(); // clear the code.
 
@@ -303,6 +317,8 @@ angular.module('starter.controllers', [])
 
             })
         }
+
+
         $scope.addGroup = function (){
             $scope.data = {};
             var myPopup = $ionicPopup.show({
@@ -594,8 +610,10 @@ angular.module('starter.controllers', [])
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
-//            console.log(DATA_URL);
+//            console.log(DATA_URL.length);
+            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
             console.log("success got pic");
+
 //            var img = new Image();
 //            img.src = "data:image/jpeg;base64," + DATA_URL;
 //            img.src = DATA_URL;
@@ -605,7 +623,7 @@ angular.module('starter.controllers', [])
 
             var file = new Parse.File("icon.jpg", {base64:DATA_URL});
 //            var file = new Parse.File("icon.jpg", img);
-//            $rootScope.user.set('icon',file);
+            $rootScope.user.set('icon',file);
             $rootScope.user.save(null,{
                     success:function(user){
                         console.log("setup ctrl - user updated with new icon");
@@ -622,6 +640,7 @@ angular.module('starter.controllers', [])
         };
         var onFail = function(e) {
             console.log("On fail " + e);
+            $ionicLoading.hide();
         }
 
         $scope.logout = function(){
@@ -632,7 +651,7 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
         $scope.loadGroupSetup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
@@ -640,6 +659,44 @@ angular.module('starter.controllers', [])
                 $scope.$apply();
                 $scope.$broadcast('scroll.refreshComplete');
             })
+        }
+
+        $scope.openCamera = function(group){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $scope.group = group;
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(DATA_URL) {
+
+            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
+            console.log("success got pic");
+            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+            $scope.group.set('icon',file);
+            $scope.group.save(null,{
+                    success:function(group){
+                        console.log("setup ctrl - friendlist/group updated with new icon");
+                        $scope.$apply();
+
+                        $ionicLoading.hide();
+                    },error:function(obj,error){
+                        $ionicLoading.hide();
+                        throw (error.message);
+                    }
+                }
+            );
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
+            $ionicLoading.hide();
         }
         $scope.loadGroupSetup();
 })

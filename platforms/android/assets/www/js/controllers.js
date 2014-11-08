@@ -20,18 +20,12 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
-        $rootScope.selectedGroupId = "";
-        $rootScope.selectedGroup = "direct";
-        $scope.setGroup = function (groupid, groupname){
-            console.log(groupid + groupname);
-            if ($rootScope.selectedGroupId==groupid){
-                $rootScope.selectedGroupId = "";
-                $rootScope.selectedGroup = "";
-            }else{
-                $rootScope.selectedGroup = groupname;
-                $rootScope.selectedGroupId = groupid;
-            }
 
+        $rootScope.selectedGroup = undefined;
+        $scope.setGroup = function (selectedGroup){
+
+
+          $rootScope.selectedGroup = selectedGroup;
 
             $state.go($state.current, $stateParams, {
                 location: false,
@@ -40,9 +34,14 @@ angular.module('starter.controllers', [])
                 notify: true
             });
 
-            //$ionicSideMenuDelegate.toggleLeft();
+            $state.go('tab.send');
+            $ionicSideMenuDelegate.toggleLeft();
         }
-
+        $scope.setPersonal = function(){
+            $rootScope.selectedGroup = undefined;
+            $state.go('tab.send');
+            $ionicSideMenuDelegate.toggleLeft();
+        }
         $scope.addGroup = function (){
             $scope.data = {};
             var myPopup = $ionicPopup.show({
@@ -132,33 +131,83 @@ angular.module('starter.controllers', [])
             })
 
         }
-
-        $rootScope.loadGroup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
-                console.log("Nav Ctrl - load Group Completed get Friendall");
-                $scope.friendlists = friendlists;
-                //$scope.$apply();
-                $rootScope.$broadcast('scroll.refreshComplete');
-
-            })
-        }
+//
+//        $rootScope.loadGroup = function(){
+//            var user = new SUser();
+//            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+//                console.log("Nav Ctrl - load Group Completed get Friendall");
+//                $scope.friendlists = friendlists;
+//                //$scope.$apply();
+//                $rootScope.$broadcast('scroll.refreshComplete');
+//
+//            })
+//        }
 
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
     })
-.controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
+.controller('BalanceOverviewCtrl', function($rootScope, $scope, $state) {
 
-        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
+        console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
+        $scope.balance = 0;
+        $scope.loading = 'visible';
+        //$scope.user = ParseService.getUser();
+
+
+        $scope.loadOverview = function(){
+
+            //Load Groups & Personal Accounts
+            //Then calculate Total Balance
+            var user = new SUser();
+            $scope.loading = 'visible';
+            user.getBalanceOverview($rootScope.user,function(grouplist){
+                $scope.grouplist = grouplist;
+
+                for (var i in grouplist){
+
+                    $scope.balance = $scope.balance + Number(grouplist[i].get('balance'));
+                }
+                console.log($scope.balance);
+                $scope.loading = 'hidden';
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+
+        $scope.openBalance = function(balance){
+            $rootScope.selectedGroup = balance.get('group');
+            if (balance.get('group').get('ispersonal')!=true){
+                //Personal Account will go to Transaction Detail i.e. BalanceDetail
+
+                $state.go('tab.balance-group');
+            }else{
+                //Group Account goes to BalanceGroup
+                $state.go('tab.balance-detail');
+            }
+
+
+        }
+
+        $scope.loadOverview();
+
+})
+.controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
+        if (!$rootScope.selectedGroup){
+            $state.go('tab.balance-overview');
+        }
+        console.log("controller - BalanceDetailCtrl start | selectedGroup ");
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
-        $scope.user = ParseService.getUser();
+        $scope.loading = 'visible';
+        $scope.title = $rootScope.selectedGroup.get('group');
+//        $scope.user = ParseService.getUser();
 
 
         //Load User Balance
         var user = new SUser();
-        document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(balance){
+
+        $scope.loading = 'visible';
+        user.getBalanceByEmail($rootScope.selectedGroup,$rootScope.user, function(balance){
             $scope.balance = balance;
             console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
@@ -166,45 +215,64 @@ angular.module('starter.controllers', [])
 
         //Load recent transactions
         var tran = new Transaction();
-        tran.getRelatedTran($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(transactions){
+        tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user.get('email'), function(transactions){
             $scope.transactions = transactions;
+            $scope.loading = 'hidden';
             $scope.$apply();
-            document.getElementById("tran_loading").style.visibility = 'hidden';
+
+
         })
 
-})
+        $scope.goToSend = function(){
+            $rootScope.selectedGroup = undefined;
+            $state.go('tab.send');
+        }
 
-.controller('BalanceAllCtrl', function($scope, $location, ParseService) {
-//        if (ParseService.getUser()) {
-//            // do stuff with the user
-//            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
-//            $scope.user = ParseService.getUser();
-//        } else {
-//            $location.path('tab/login');
-//            $route.refresh();
-//        }
+})
+.controller('BalanceGroupCtrl', function($rootScope, $scope, $state) {
+
+        if (!$rootScope.selectedGroup){
+            $state.go('tab.balance-overview');
+        }
+        $scope.loading = 'visible';
         //Load User Balance
-        var user = new SUser();
-        user.getBalanceByEmail($scope.selectedGroupId, ParseService.getUser().get('email'), function(balance){
-            $scope.balance = balance;
-            $scope.$apply();
-        })
-
-        //Load Friends Balance
-        user.getFriendList($scope.selectedGroupId,function(friendlist){
-            console.log("BalanceDetailCtrl got Friend list = ");
-            user.getBalanceByEmails($scope.selectedGroupId,friendlist.get('friends'), function(balances){
-                $scope.balances = balances;
+        $scope.loadGroup = function(){
+            $scope.loading = 'visible';
+            var user = new SUser();
+            user.getBalanceByEmail($rootScope.selectedGroup, $rootScope.user, function(balance){
+                $scope.balance = balance;
                 $scope.$apply();
-                document.getElementById("tran_loading").style.visibility = 'hidden';
             })
-        })
+
+            //Load Friends Balance
+            user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
+                $scope.balances = balances;
+
+                $scope.loading = 'hidden';
+                $scope.$apply();
+            })
+        }
+
+        $scope.openTrans = function(bal){
+            $state.go('tab.balance-detail');
+        }
+        $scope.goToSend = function(){
+            $state.go('tab.send');
+        }
+
+        $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
 
+        $scope.selectGroup = function(){
+            $state.go('tab.send-group');
+        }
+        $scope.clearGroup = function(){
+            console.log("Clear Group");
+            $rootScope.selectedGroup = undefined;
 
-
+        }
         var qrcode = new QRCode("qrcode", {
             text: "",
             width: 128,
@@ -216,16 +284,20 @@ angular.module('starter.controllers', [])
 
         $scope.makeQRCode = function (send){
 
+            var tranId = Common.getID();
+            var email = $rootScope.user.get('email');
+            var amount = send.amount;
+            var note = send.note;
+            var groupId = "";
+            var groupname = "";
             if (!$rootScope.selectedGroup){
-                $rootScope.warnNoGroup();
-                throw "No Group Error";
+                groupId = $rootScope.selectedGroup.id;
+                groupname = $rootScope.selectedGroup.get('group');
             }
 
-
-            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroupId+"|"+$rootScope.selectedGroup;
+            var sendString = tranId+"|"+ email +"|"+ amount +"|"+ note +"|"+groupId+"|"+groupname;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
-
 
             qrcode.clear(); // clear the code.
 
@@ -233,26 +305,69 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
+.controller('SendGroupCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
+
+        $scope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+                console.log("SendGroupCtrl Ctrl - load Group Completed get Friendall");
+                $scope.friendlists = friendlists;
+                $scope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+
+            })
+        }
+
+
+        $scope.addGroup = function (){
+            $scope.data = {};
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.group">',
+                title: 'Add Group',
+                subTitle: 'Please enter group name',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.data.group) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                //Save new Friend list
+                                var Friendlist = Parse.Object.extend("friendlist");
+                                var fl = new Friendlist();
+                                fl.set('group',$scope.data.group);
+                                //fl.set('email',ParseService.getUser().get('email'));
+                                fl.addUnique('friends',ParseService.getUser().get('email'));
+                                fl.save(null,{
+                                    success: function (result) {
+                                        console.log("Add New Group Successfully");
+                                        $scope.loadGroup();
+                                    }, error: function (error) {
+                                        alert("Error: " + error.code + " " + error.message);
+                                    }
+                                })
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.selectGroup=function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.send');
+        }
+        $scope.loadGroup();
+})
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
-//        var options = {
-//            // https://github.com/christocracy/cordova-plugin-background-geolocation#config
-//        };
 
-        // `configure` calls `start` internally
-//        $cordovaBackgroundGeolocation.configure(options).then(function (loc) {
-//            location = loc;
-//            console.log(location);
-//
-//        }, function (err) {
-//            console.error(err);
-//        });
-
-//        $scope.stopBackgroundGeolocation = function () {
-//            $cordovaBackgroundGeolocation.stop();
-//        };
         $scope.showloading = function(){
             document.getElementById("scan_loading").style.visibility = 'visible';
         }
@@ -298,7 +413,7 @@ angular.module('starter.controllers', [])
 //                    $scope.$apply();
                 }else{
 
-                    var id = res[0];
+                    var tranId = res[0];
                     var from = res[1];
                     var amount = res[2];
                     var note=res[3];
@@ -311,36 +426,33 @@ angular.module('starter.controllers', [])
                         friendemail = from;
                     }
                     var user = new SUser();
+
                     user.getUserByEmail(friendemail, function(friend){
-                        ParseService.recordQRCode(groupId, id,amount,from,$scope.user.get('email'),note,location, $scope.user,friend, function(r){
-                            //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
-                            if (r.message== undefined){
-                                console.log("Controllers Receive - recordQRCode Successfully");
-//                                $scope.scanresult.group = group;
-//                                $scope.scanresult.from = from;
-//                                $scope.scanresult.amount = Number(amount);
-//                                $scope.scanresult.note = note;
-//                                $scope.$apply();
+                        //If Group Id is Empty, then it's Personal/Direct Transfer
+                        //1. Find Personal Group Or create one
+                        console.log("ReceiveCtrl.scan  groupId = "+ groupId);
+                        if (groupId=='undefined'){
+                            console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
+                            var friends = [$scope.user.get('email'),friendemail];
+                            var friendnames = [$scope.user.get('username'),friend.get('username')];
 
-                                display = "<BR>Received : $" + amount +"<br><br>" +
-                                    "Group : " + groupName +"<BR><BR>"+
-                                    "From : " + from +"<BR><BR>";
+                            user.getPersonalListByEmails(friends, friendnames, function(friendlist){
+                                console.log("ReceiveCtrl.scan "+ friendlist.id);
+                                $scope.recordQRCode(friendlist, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                            })
+                        }else{
 
-
-                                if (note!='undefined'){
-                                    display+="Note : "+note;
+                            var friendList = Parse.Object.extend('friendlist');
+                            var query = Parse.Query(friendList);
+                            var fl = new friendList();
+                            query.get(groupId,{
+                                success:function(grp){
+                                    $scope.recordQRCode(grp, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                                 }
-                                document.getElementById("info").innerHTML = display;
-                            }else{
-                                console.log("Controllers Receive - recordQRCode Failed");
-//                                $scope.scanresult.message = r.message;
-//                                $scope.$apply();
-                                display = "<BR><b> " + r.message +"</b>";
-                                document.getElementById("info").innerHTML = display;
-                            }
-                            $scope.hideloading();
+                            })
 
-                        });
+                        }
+
                     })
 
 
@@ -352,10 +464,41 @@ angular.module('starter.controllers', [])
             } );
         }
 
+        $scope.recordQRCode = function(group, id,amount,from,youremail,note,location, user,friend){
+
+            ParseService.recordQRCode(group,id,amount,from,youremail,note,location, user,friend, function(r){
+                //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+                if (r.message== undefined){
+                    console.log("Controllers Receive - recordQRCode Successfully");
+//                                $scope.scanresult.group = group;
+//                                $scope.scanresult.from = from;
+//                                $scope.scanresult.amount = Number(amount);
+//                                $scope.scanresult.note = note;
+//                                $scope.$apply();
+
+                    display = "<BR>Received : $" + amount +"<br><br>" +
+                        "Group : " + group.get('group') +"<BR><BR>"+
+                        "From : " + from +"<BR><BR>";
+
+
+                    if (note!='undefined'){
+                        display+="Note : "+note;
+                    }
+                    document.getElementById("info").innerHTML = display;
+                }else{
+                    console.log("Controllers Receive - recordQRCode Failed");
+//                                $scope.scanresult.message = r.message;
+//                                $scope.$apply();
+                    display = "<BR><b> " + r.message +"</b>";
+                    document.getElementById("info").innerHTML = display;
+                }
+                $scope.hideloading();
+
+            });
+        }
         $scope.scan();
 
 })
-
 .controller('SignUpCtrl', function($scope,$location,$state, $ionicPopup,ParseService) {
         // Called when the form is submitted
         console.log('Signup Ctrl');
@@ -366,16 +509,16 @@ angular.module('starter.controllers', [])
 
         $scope.signUp = function(userp) {
             console.log(scorePassword(userp.password));
-            if (scorePassword(userp.password) < 30){
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
                     template: 'Please Enter Password with At least 6 character with one upper case and numeric'
                 });
                 alertPopup.then(function(res) {
-
+                    throw("Weak Password");
                 });
-                throw("Weak Password");
+
             }
 
             if (userp.password!=userp.con_password){
@@ -401,7 +544,7 @@ angular.module('starter.controllers', [])
 //                    console.log('Group will be selected: ' + res);
                 });
 
-                $state.transitionTo('tab.login', '', {
+                $state.transitionTo('login', '', {
                     reload: true,
                     inherit: false,
                     notify: true
@@ -409,15 +552,18 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicLoading) {
 
         console.log("controller - SetupCtrl start");
 
         $scope.user = ParseService.getUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
 
-            if (checkPassStrength(userp.password) == 'good' || checkPassStrength(userp.password) == 'strong'){
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
@@ -430,30 +576,82 @@ angular.module('starter.controllers', [])
             }
 
             if (userp.password!=userp.con_password){
-                alert("Invalid Password");
-                throw("Invalid Password");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Password Mismatch',
+                    template: 'Please check and confirm your password'
+                });
+                alertPopup.then(function(res) {
+                    throw("Invalid Password");
+                });
+
             }
             user.set('password',userp.password);
             user.save(null,{
                 success: function(user){
-                    alert("Setup saved!");
-
+                    console.log("Setup saved!");
+                    $ionicLoading.hide();
                 },error:function(user, error){
+                    $ionicLoading.hide();
                     alert(error.message);
                 }
             })
 
         }
+        $scope.openCamera = function(){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(DATA_URL) {
+//            console.log(DATA_URL.length);
+            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
+            console.log("success got pic");
+
+//            var img = new Image();
+//            img.src = "data:image/jpeg;base64," + DATA_URL;
+//            img.src = DATA_URL;
+//            console.log("check image size");
+//            console.log("check image size height = "+ img.height);
+//            console.log("check image size width = "+ img.width);
+
+            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+//            var file = new Parse.File("icon.jpg", img);
+            $rootScope.user.set('icon',file);
+            $rootScope.user.save(null,{
+                    success:function(user){
+                        console.log("setup ctrl - user updated with new icon");
+                        $rootScope.$apply();
+                        $state.go('tab.setupuser');
+                        $ionicLoading.hide();
+                    },error:function(obj,error){
+                        $ionicLoading.hide();
+                        throw (error.message);
+                    }
+                }
+            );
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
+            $ionicLoading.hide();
+        }
 
         $scope.logout = function(){
             ParseService.logout();
-            $state.go('tab.balance');
+            $state.go('login');
 
         };
 
 
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
         $scope.loadGroupSetup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
@@ -462,6 +660,45 @@ angular.module('starter.controllers', [])
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
+
+        $scope.openCamera = function(group){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $scope.group = group;
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(DATA_URL) {
+
+            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
+            console.log("success got pic");
+            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+            $scope.group.set('icon',file);
+            $scope.group.save(null,{
+                    success:function(group){
+                        console.log("setup ctrl - friendlist/group updated with new icon");
+                        $scope.$apply();
+
+                        $ionicLoading.hide();
+                    },error:function(obj,error){
+                        $ionicLoading.hide();
+                        throw (error.message);
+                    }
+                }
+            );
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
+            $ionicLoading.hide();
+        }
+        $scope.loadGroupSetup();
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
 
@@ -535,14 +772,14 @@ angular.module('starter.controllers', [])
                 $rootScope.user = user;
                 $rootScope.$apply();
 
-                $state.go('tab.balance');
-                $rootScope.loadGroup();
+                $state.go('tab.balance-overview');
+//                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
 
         if (ParseService.getUser()){
-            $state.go('tab.balance');
+            $state.go('tab.balance-overview');
         }
 
 

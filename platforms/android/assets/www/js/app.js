@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
       //$cordovaPlugin.someFunction().then(success, error);
-
+      $rootScope.user = Parse.User.current();
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -32,13 +32,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
      }
 
 
-    if (Parse.User.current()){
-        //Check If Group is selected
-        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
+//    if (Parse.User.current()){
+//        //Check If Group is selected
+//        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
 //         console.log("selected group = "+$rootScope.selectedGroup);
 //            $rootScope.warnNoGroup();
-        }
-    }
+//        }
+//    }
 
 
   });
@@ -64,12 +64,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
     // Each tab has its own nav history stack:
-      .state('tab.balance', {
-          url:'/balance',
+      .state('tab.balance-overview', {
+          url:'/balance-overview',
           views:{
               'tab-balance':{
-                  templateUrl: 'templates/tab-balance-all.html',
-                  controller: 'BalanceAllCtrl'
+                  templateUrl: 'templates/tab-balance-overview.html',
+                  controller: 'BalanceOverviewCtrl'
               }
           },
           data: {
@@ -77,12 +77,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
       })
-    .state('tab.balancedetail', {
+      .state('tab.balance-group', {
+          url:'/balance-group',
+          views:{
+              'tab-balance':{
+                  templateUrl: 'templates/tab-balance-group.html',
+                  controller: 'BalanceGroupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: true
+          }
+      })
+    .state('tab.balance-detail', {
       url: '/balance-detail',
       views: {
         'tab-balance': {
           templateUrl: 'templates/tab-balance-detail.html',
-          controller: 'BalanceCtrl'
+          controller: 'BalanceDetailCtrl'
         }
       },
       data: {
@@ -103,6 +116,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           data: {
               authenticate: true,
               needgroup: true
+          }
+    })
+    .state('tab.send-group', {
+          url: '/send-group',
+          views: {
+              'tab-send': {
+                  templateUrl: 'templates/tab-send-group.html',
+                  controller: 'SendGroupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
           }
     })
     .state('tab.receive', {

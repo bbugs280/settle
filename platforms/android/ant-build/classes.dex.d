@@ -18,6 +18,9 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$3.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/phonegap/plugins/barcodescanner/BarcodeScanner.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/CameraLauncher.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/ExifHelper.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/FileHelper.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/device/Device.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/classes-af0a0edba45c7898cd10beade3e82d98.jar \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/com.google.zxing.client.android.captureactivity-3a4d45df68055919e0f8f7d7a6d67cd2.jar \

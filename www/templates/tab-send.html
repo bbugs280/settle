@@ -1,11 +1,17 @@
 
 <ion-view title="Send">
+    <ion-nav-buttons side="left">
+        <span ng-if="selectedGroup!=undefined">
+            <button class="button button-clear" ng-click="clearGroup()">
+                Clear Group
+            </button>
+        </span>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-clear">
             <span ng-if="selectedGroup!=undefined">
               <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px">
           </span>
-
         </button>
     </ion-nav-buttons>
   <ion-content class="has-header">
@@ -24,7 +30,7 @@
       <ion-item class="item item-input-inset">
           <label class=" item-input-wrapper " style="height: 50px">
               <i class="icon ion-social-usd placeholder-icon"></i>
-              <input type="tel" placeholder="Amount" ng-model="send.amount" ng-blur="makeQRCode(send)" style="font-size: large">
+              <input type="tel" placeholder="Amount" ng-model="amount" ng-blur="makeQRCode(amount,note)" style="font-size: large" ng-model-options="{ getterSetter: true; updateOn: 'change' }">
           </label>
           <button class="button" ng-click="makeQRCode(send)" style="font-size: large">
               <i class="icon ion-grid"></i>
@@ -32,7 +38,7 @@
           </button>
       </ion-item>
       <label class="item item-input">
-          <input type="text" placeholder="Note" ng-model="send.note" ng-change="makeQRCode(send)">
+          <input type="text" placeholder="Note" ng-model="note" ng-change="makeQRCode(amount,note)" ng-model-options="{ getterSetter: true ; updateOn:'change'}">
       </label>
       <!--<canvas id="qrcode" ></canvas>-->
 
