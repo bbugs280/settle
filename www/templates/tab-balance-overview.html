@@ -18,7 +18,7 @@
               <!--<span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>-->
               <!--<span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>-->
 
-              <i id="tran_loading" class="icon ion-loading-c" style="visibility:{{loading}}"></i>
+              <!--<i id="tran_loading" class="icon ion-loading-c" style="visibility:{{loading}}"></i>-->
 
           </ion-item>
           <ion-item class="item item-divider" >
@@ -37,7 +37,7 @@
               <!--personal item-->
 
               <a ng-if="balance.get('group').get('ispersonal')==true">
-                  <img src="../img/people.png" height="50px" style="position:relative;left:1px;border-radius: 10px">
+                  <img src="../img/people.png" height="50px" style="border-radius: 10px">
                   <span ng-if="balance.get('username1')==user.get('username')">
                       <b>{{balance.get('group').get('username1')}}</b>
                   </span>
@@ -57,12 +57,12 @@
               <a ng-if="balance.get('group').get('ispersonal')!=true">
 
                   <span ng-if="balance.get('group').get('icon').url()!=undefined">
-                      <img src="{{balance.get('group').get('icon').url()}}" height="50px" style="position:relative;left:1px;border-radius: 10px">
+                      <img src="{{balance.get('group').get('icon').url()}}" height="50px" style="border-radius: 10px">
                   </span>
                   <span ng-if="balance.get('group').get('icon').url()==undefined">
-                       <img src="../img/group.png" height="50px" style="position:relative;left:1px;border-radius: 10px">
+                       <img src="../img/group.png" height="50px" style="border-radius: 10px">
                   </span>
-                  <!--<i class="badge badge-assertive" style="position:relative;width:28px;top:40px">{{balance.get('group').get('friends').length}}</i>-->
+
                   <i class="badge badge-assertive" style="top:50px;right:50px">{{balance.get('group').get('friends').length}}</i>
                   <b>{{balance.get('group').get('group')}}</b>
 

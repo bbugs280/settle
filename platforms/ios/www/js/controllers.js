@@ -131,17 +131,17 @@ angular.module('starter.controllers', [])
             })
 
         }
-
-        $rootScope.loadGroup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
-                console.log("Nav Ctrl - load Group Completed get Friendall");
-                $scope.friendlists = friendlists;
-                //$scope.$apply();
-                $rootScope.$broadcast('scroll.refreshComplete');
-
-            })
-        }
+//
+//        $rootScope.loadGroup = function(){
+//            var user = new SUser();
+//            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+//                console.log("Nav Ctrl - load Group Completed get Friendall");
+//                $scope.friendlists = friendlists;
+//                //$scope.$apply();
+//                $rootScope.$broadcast('scroll.refreshComplete');
+//
+//            })
+//        }
 
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
@@ -199,6 +199,7 @@ angular.module('starter.controllers', [])
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
         $scope.loading = 'visible';
+        $scope.title = $rootScope.selectedGroup.get('group');
 //        $scope.user = ParseService.getUser();
 
 
@@ -253,10 +254,11 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
 
-
-
+        $scope.selectGroup = function(){
+            $state.go('tab.send-group');
+        }
         var qrcode = new QRCode("qrcode", {
             text: "",
             width: 128,
@@ -277,7 +279,7 @@ angular.module('starter.controllers', [])
                 var FriendList = Parse.Object.extend('friendlist');
                 $rootScope.selectedGroup = new FriendList()
             }
-//TODO selectedGroup can be undefined!!
+
             var sendString = Common.getID()+"|"+$rootScope.user.get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup.id+"|"+$rootScope.selectedGroup.get('group');
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
@@ -288,6 +290,62 @@ angular.module('starter.controllers', [])
             qrcode.makeCode(sendString.toString()); // make another code.
         }
 
+})
+.controller('SendGroupCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
+
+        $scope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+                console.log("SendGroupCtrl Ctrl - load Group Completed get Friendall");
+                $scope.friendlists = friendlists;
+                $scope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+
+            })
+        }
+        $scope.addGroup = function (){
+            $scope.data = {};
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.group">',
+                title: 'Add Group',
+                subTitle: 'Please enter group name',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.data.group) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                //Save new Friend list
+                                var Friendlist = Parse.Object.extend("friendlist");
+                                var fl = new Friendlist();
+                                fl.set('group',$scope.data.group);
+                                //fl.set('email',ParseService.getUser().get('email'));
+                                fl.addUnique('friends',ParseService.getUser().get('email'));
+                                fl.save(null,{
+                                    success: function (result) {
+                                        console.log("Add New Group Successfully");
+                                        $scope.loadGroup();
+                                    }, error: function (error) {
+                                        alert("Error: " + error.code + " " + error.message);
+                                    }
+                                })
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.selectGroup=function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.send');
+        }
+        $scope.loadGroup();
 })
 .controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
@@ -478,14 +536,16 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicLoading) {
 
         console.log("controller - SetupCtrl start");
 
         $scope.user = ParseService.getUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
-
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
             if (checkPassStrength(userp.password) == 'good' || checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
@@ -499,19 +559,68 @@ angular.module('starter.controllers', [])
             }
 
             if (userp.password!=userp.con_password){
-                alert("Invalid Password");
-                throw("Invalid Password");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Password Mismatch',
+                    template: 'Please check and confirm your password'
+                });
+                alertPopup.then(function(res) {
+                    throw("Invalid Password");
+                });
+
             }
             user.set('password',userp.password);
             user.save(null,{
                 success: function(user){
-                    alert("Setup saved!");
-
+                    console.log("Setup saved!");
+                    $ionicLoading.hide();
                 },error:function(user, error){
+                    $ionicLoading.hide();
                     alert(error.message);
                 }
             })
 
+        }
+        $scope.openCamera = function(){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(DATA_URL) {
+//            console.log(DATA_URL);
+            console.log("success got pic");
+            var img = new Image();
+//            img.src = "data:image/jpeg;base64," + DATA_URL;
+            img.src = DATA_URL;
+            console.log("check image size");
+            console.log("check image size height = "+ img.height);
+            console.log("check image size width = "+ img.width);
+
+            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+            var file = new Parse.File("icon.jpg", img);
+//            $rootScope.user.set('icon',file);
+            $rootScope.user.save(null,{
+                    success:function(user){
+                        console.log("setup ctrl - user updated with new icon");
+                        $rootScope.$apply();
+                        $state.go('tab.setupuser');
+                        $ionicLoading.hide();
+                    },error:function(obj,error){
+                        $ionicLoading.hide();
+                        throw (error.message);
+                    }
+                }
+            );
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
         }
 
         $scope.logout = function(){
@@ -606,7 +715,7 @@ angular.module('starter.controllers', [])
                 $rootScope.$apply();
 
                 $state.go('tab.balance-overview');
-                $rootScope.loadGroup();
+//                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }

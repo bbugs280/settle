@@ -131,17 +131,17 @@ angular.module('starter.controllers', [])
             })
 
         }
-
-        $rootScope.loadGroup = function(){
-            var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
-                console.log("Nav Ctrl - load Group Completed get Friendall");
-                $scope.friendlists = friendlists;
-                //$scope.$apply();
-                $rootScope.$broadcast('scroll.refreshComplete');
-
-            })
-        }
+//
+//        $rootScope.loadGroup = function(){
+//            var user = new SUser();
+//            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+//                console.log("Nav Ctrl - load Group Completed get Friendall");
+//                $scope.friendlists = friendlists;
+//                //$scope.$apply();
+//                $rootScope.$broadcast('scroll.refreshComplete');
+//
+//            })
+//        }
 
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
@@ -199,6 +199,7 @@ angular.module('starter.controllers', [])
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
         $scope.loading = 'visible';
+        $scope.title = $rootScope.selectedGroup.get('group');
 //        $scope.user = ParseService.getUser();
 
 
@@ -328,7 +329,7 @@ angular.module('starter.controllers', [])
                                 fl.save(null,{
                                     success: function (result) {
                                         console.log("Add New Group Successfully");
-                                        $rootScope.loadGroup();
+                                        $scope.loadGroup();
                                     }, error: function (error) {
                                         alert("Error: " + error.code + " " + error.message);
                                     }
@@ -492,16 +493,16 @@ angular.module('starter.controllers', [])
 
         $scope.signUp = function(userp) {
             console.log(scorePassword(userp.password));
-            if (scorePassword(userp.password) < 30){
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
                     template: 'Please Enter Password with At least 6 character with one upper case and numeric'
                 });
                 alertPopup.then(function(res) {
-
+                    throw("Weak Password");
                 });
-                throw("Weak Password");
+
             }
 
             if (userp.password!=userp.con_password){
@@ -535,15 +536,18 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicLoading) {
 
         console.log("controller - SetupCtrl start");
 
         $scope.user = ParseService.getUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
 
-            if (checkPassStrength(userp.password) == 'good' || checkPassStrength(userp.password) == 'strong'){
+            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
                 var alertPopup = $ionicPopup.alert({
                     title: 'Weak Password',
@@ -556,19 +560,68 @@ angular.module('starter.controllers', [])
             }
 
             if (userp.password!=userp.con_password){
-                alert("Invalid Password");
-                throw("Invalid Password");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Password Mismatch',
+                    template: 'Please check and confirm your password'
+                });
+                alertPopup.then(function(res) {
+                    throw("Invalid Password");
+                });
+
             }
             user.set('password',userp.password);
             user.save(null,{
                 success: function(user){
-                    alert("Setup saved!");
-
+                    console.log("Setup saved!");
+                    $ionicLoading.hide();
                 },error:function(user, error){
+                    $ionicLoading.hide();
                     alert(error.message);
                 }
             })
 
+        }
+        $scope.openCamera = function(){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(DATA_URL) {
+//            console.log(DATA_URL);
+            console.log("success got pic");
+//            var img = new Image();
+//            img.src = "data:image/jpeg;base64," + DATA_URL;
+//            img.src = DATA_URL;
+//            console.log("check image size");
+//            console.log("check image size height = "+ img.height);
+//            console.log("check image size width = "+ img.width);
+
+            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+//            var file = new Parse.File("icon.jpg", img);
+//            $rootScope.user.set('icon',file);
+            $rootScope.user.save(null,{
+                    success:function(user){
+                        console.log("setup ctrl - user updated with new icon");
+                        $rootScope.$apply();
+                        $state.go('tab.setupuser');
+                        $ionicLoading.hide();
+                    },error:function(obj,error){
+                        $ionicLoading.hide();
+                        throw (error.message);
+                    }
+                }
+            );
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
         }
 
         $scope.logout = function(){
@@ -663,7 +716,7 @@ angular.module('starter.controllers', [])
                 $rootScope.$apply();
 
                 $state.go('tab.balance-overview');
-                $rootScope.loadGroup();
+//                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
