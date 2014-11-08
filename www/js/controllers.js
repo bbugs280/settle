@@ -253,10 +253,11 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
 
-
-
+        $scope.selectGroup = function(){
+            $state.go('tab.send-group');
+        }
         var qrcode = new QRCode("qrcode", {
             text: "",
             width: 128,
@@ -277,7 +278,7 @@ angular.module('starter.controllers', [])
                 var FriendList = Parse.Object.extend('friendlist');
                 $rootScope.selectedGroup = new FriendList()
             }
-//TODO selectedGroup can be undefined!!
+
             var sendString = Common.getID()+"|"+$rootScope.user.get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup.id+"|"+$rootScope.selectedGroup.get('group');
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
@@ -288,6 +289,62 @@ angular.module('starter.controllers', [])
             qrcode.makeCode(sendString.toString()); // make another code.
         }
 
+})
+.controller('SendGroupCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
+
+        $scope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+                console.log("SendGroupCtrl Ctrl - load Group Completed get Friendall");
+                $scope.friendlists = friendlists;
+                $scope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+
+            })
+        }
+        $scope.addGroup = function (){
+            $scope.data = {};
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.group">',
+                title: 'Add Group',
+                subTitle: 'Please enter group name',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancel' },
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.data.group) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                //Save new Friend list
+                                var Friendlist = Parse.Object.extend("friendlist");
+                                var fl = new Friendlist();
+                                fl.set('group',$scope.data.group);
+                                //fl.set('email',ParseService.getUser().get('email'));
+                                fl.addUnique('friends',ParseService.getUser().get('email'));
+                                fl.save(null,{
+                                    success: function (result) {
+                                        console.log("Add New Group Successfully");
+                                        $rootScope.loadGroup();
+                                    }, error: function (error) {
+                                        alert("Error: " + error.code + " " + error.message);
+                                    }
+                                })
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.selectGroup=function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.send');
+        }
+        $scope.loadGroup();
 })
 .controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");

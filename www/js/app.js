@@ -118,6 +118,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: true
           }
     })
+    .state('tab.send-group', {
+          url: '/send-group',
+          views: {
+              'tab-send': {
+                  templateUrl: 'templates/tab-send-group.html',
+                  controller: 'SendGroupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+          }
+    })
     .state('tab.receive', {
           url: '/receive',
           views: {

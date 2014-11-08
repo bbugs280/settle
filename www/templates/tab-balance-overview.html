@@ -33,9 +33,11 @@
 
           </ion-item>
 
-          <ion-item class="item item-icon-left item-icon-right"  ng-repeat="balance in grouplist" ng-click="openBalance(balance)">
-              <div ng-if="balance.get('group').get('ispersonal')==true">
-                  <i class="icon ion-ios7-person"></i>
+          <ion-item class="item item-icon-right"  ng-repeat="balance in grouplist" ng-click="openBalance(balance)">
+              <!--personal item-->
+
+              <a ng-if="balance.get('group').get('ispersonal')==true">
+                  <img src="../img/people.png" height="50px" style="position:relative;left:1px;border-radius: 10px">
                   <span ng-if="balance.get('username1')==user.get('username')">
                       <b>{{balance.get('group').get('username1')}}</b>
                   </span>
@@ -43,29 +45,39 @@
                       <b>{{balance.get('group').get('username2')}}</b>
                   </span>
                   <span class="item-note" style="color:black">
-                   <span ng-if="balance.get('balance')<0">
-                       $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
-                    </span>
-                    <span ng-if="balance.get('balance')>=0">
-                       $ <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
-                    </span>
-              </span>
-              </div>
-              <div ng-if="balance.get('group').get('ispersonal')!=true">
-                  <i class="icon ion-person-stalker"></i>
+                       <span ng-if="balance.get('balance')<0">
+                           $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
+                        </span>
+                        <span ng-if="balance.get('balance')>=0">
+                           $ <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
+                        </span>
+                  </span>
+              </a>
+              <!--group item-->
+              <a ng-if="balance.get('group').get('ispersonal')!=true">
 
-                  <i class="badge badge-assertive" style="position:relative;width:28px;top:40px">{{balance.get('group').get('friends').length}}</i>
+                  <span ng-if="balance.get('group').get('icon').url()!=undefined">
+                      <img src="{{balance.get('group').get('icon').url()}}" height="50px" style="position:relative;left:1px;border-radius: 10px">
+                  </span>
+                  <span ng-if="balance.get('group').get('icon').url()==undefined">
+                       <img src="../img/group.png" height="50px" style="position:relative;left:1px;border-radius: 10px">
+                  </span>
+                  <!--<i class="badge badge-assertive" style="position:relative;width:28px;top:40px">{{balance.get('group').get('friends').length}}</i>-->
+                  <i class="badge badge-assertive" style="top:50px;right:50px">{{balance.get('group').get('friends').length}}</i>
                   <b>{{balance.get('group').get('group')}}</b>
-              </span>
-              <span class="item-note" style="color:black">
-                   <span ng-if="balance.get('balance')<0">
-                       $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
-                    </span>
-                    <span ng-if="balance.get('balance')>=0">
-                       $ <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
-                    </span>
-              </span>
-              </div>
+
+                  <span class="item-note" style="color:black">
+                       <span ng-if="balance.get('balance')<0">
+                           $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
+                        </span>
+                        <span ng-if="balance.get('balance')>=0">
+                           $ <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
+                        </span>
+                  </span>
+              </a>
+              <!--common item e.g. Last update-->
+
+              <br>
 
               <span style="font-size: x-small;color:gray">Last transaction on <b>{{balance.createdAt.toLocaleDateString()}}</b></span>
               <!--<span ng-if="balance.get('group').get('ispersonal')!=true">-->

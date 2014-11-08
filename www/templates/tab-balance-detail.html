@@ -1,13 +1,11 @@
-<ion-view title="Transactions" hide-nav-bar="false">
-    <!--<div class="bar bar-header bar-positive">-->
-        <!--<button class="button button-icon button-clear icon ion-arrow-left-c" ng-click="$state.go('tab.balance');">-->
-        <!--</button>-->
-        <!--<button class="button button-icon button-clear icon ion-navicon" ng-click="$rootSope.showMenu();">-->
-        <!--</button>-->
-        <!--&lt;!&ndash;<ion-nav-back-button class="button-icon icon ion-arrow-left-c" ui-sref="tab.balance">&ndash;&gt;-->
-        <!--<h1 class="title">Transactions</h1>-->
+<ion-view title="{{title}} Transactions" hide-nav-bar="false">
 
-    <!--</div>-->
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="doSomething()">
+            <i class=" ion-android-keypad"></i>
+            Send
+        </button>
+    </ion-nav-buttons>
   <ion-content  class="has-header" >
       <ion-list>
           <ion-item class="item " >
