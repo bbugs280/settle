@@ -20,9 +20,9 @@
               </span>
 
           </ion-item>
-          <ion-item class="item item-divider item-icon-right" style="height: 20px;font-size: small">
+          <ion-item class="item item-divider item-icon-right">
               recent transactions  <span style="text-decoration: underline;">{{selectedGroup.get('group')}}</span>
-              <i id="tran_loading" style="visibility: hidden" class="icon ion-loading-c"></i>
+              <i id="tran_loading" style="visibility: {{loading}}" class="icon ion-loading-c"></i>
            </ion-item>
           <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
           <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->

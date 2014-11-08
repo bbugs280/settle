@@ -32,13 +32,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
      }
 
 
-    if (Parse.User.current()){
-        //Check If Group is selected
-        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
+//    if (Parse.User.current()){
+//        //Check If Group is selected
+//        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
 //         console.log("selected group = "+$rootScope.selectedGroup);
 //            $rootScope.warnNoGroup();
-        }
-    }
+//        }
+//    }
 
 
   });

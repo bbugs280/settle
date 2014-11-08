@@ -20,18 +20,12 @@ angular.module('starter.controllers', [])
             $rootScope.showMenu();
         }
 
-        $rootScope.selectedGroupId = "";
-        $rootScope.selectedGroup = "direct";
-        $scope.setGroup = function (groupid, groupname){
-            console.log(groupid + groupname);
-            if ($rootScope.selectedGroupId==groupid){
-                $rootScope.selectedGroupId = "";
-                $rootScope.selectedGroup = "";
-            }else{
-                $rootScope.selectedGroup = groupname;
-                $rootScope.selectedGroupId = groupid;
-            }
 
+        $rootScope.selectedGroup = undefined;
+        $scope.setGroup = function (selectedGroup){
+
+
+          $rootScope.selectedGroup = selectedGroup;
 
             $state.go($state.current, $stateParams, {
                 location: false,
@@ -40,9 +34,14 @@ angular.module('starter.controllers', [])
                 notify: true
             });
 
-            //$ionicSideMenuDelegate.toggleLeft();
+            $state.go('tab.send');
+            $ionicSideMenuDelegate.toggleLeft();
         }
-
+        $scope.setPersonal = function(){
+            $rootScope.selectedGroup = undefined;
+            $state.go('tab.send');
+            $ionicSideMenuDelegate.toggleLeft();
+        }
         $scope.addGroup = function (){
             $scope.data = {};
             var myPopup = $ionicPopup.show({
@@ -147,42 +146,67 @@ angular.module('starter.controllers', [])
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
     })
-.controller('BalanceOverviewCtrl', function($rootScope, $scope, $location, ParseService) {
+.controller('BalanceOverviewCtrl', function($rootScope, $scope, $state) {
 
-        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
-        $scope.balance = Parse.Object.extend("balance");
-        $scope.transactions = [];
-        $scope.user = ParseService.getUser();
-
-
-        //Load User Total Balance
-        var user = new SUser();
-        document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroupId,$scope.user.get('email'), function(balance){
-            $scope.balance = balance;
-            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
-            $scope.$apply();
-        })
+        console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
+        $scope.balance = 0;
+        $scope.loading = 'visible';
+        //$scope.user = ParseService.getUser();
 
 
-        //Load Groups & Personal Accounts
-        user.getFriendListAllForOverview($scope.user.get('email'),function(grouplist){
-            $scope.grouplist = grouplist;
-        })
+        $scope.loadOverview = function(){
+
+            //Load Groups & Personal Accounts
+            //Then calculate Total Balance
+            var user = new SUser();
+            $scope.loading = 'visible';
+            user.getBalanceOverview($rootScope.user,function(grouplist){
+                $scope.grouplist = grouplist;
+
+                for (var i in grouplist){
+
+                    $scope.balance = $scope.balance + Number(grouplist[i].get('balance'));
+                }
+                console.log($scope.balance);
+                $scope.loading = 'hidden';
+                $scope.$apply();
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+
+        $scope.openBalance = function(balance){
+            $rootScope.selectedGroup = balance.get('group');
+            if (balance.get('group').get('ispersonal')!=true){
+                //Personal Account will go to Transaction Detail i.e. BalanceDetail
+
+                $state.go('tab.balance-group');
+            }else{
+                //Group Account goes to BalanceGroup
+                $state.go('tab.balance-detail');
+            }
+
+
+        }
+
+        $scope.loadOverview();
 
 })
-.controller('BalanceCtrl', function($rootScope, $scope, $location, ParseService) {
-
-        console.log("controller - BalanceCtrl start | selectedGroup = "+$scope.selectedGroup);
+.controller('BalanceDetailCtrl', function($rootScope, $scope) {
+        if (!$rootScope.selectedGroup){
+            $state.go('tab.balance-overview');
+        }
+        console.log("controller - BalanceDetailCtrl start | selectedGroup ");
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
-        $scope.user = ParseService.getUser();
+        $scope.loading = 'visible';
+//        $scope.user = ParseService.getUser();
 
 
         //Load User Balance
         var user = new SUser();
-        document.getElementById("tran_loading").style.visibility = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(balance){
+
+        $scope.loading = 'visible';
+        user.getBalanceByEmail($rootScope.selectedGroup,$rootScope.user, function(balance){
             $scope.balance = balance;
             console.log("controller balance - Balance = "+$scope.balance.get('balance'));
             $scope.$apply();
@@ -190,38 +214,43 @@ angular.module('starter.controllers', [])
 
         //Load recent transactions
         var tran = new Transaction();
-        tran.getRelatedTran($rootScope.selectedGroupId,ParseService.getUser().get('email'), function(transactions){
+        tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user.get('email'), function(transactions){
             $scope.transactions = transactions;
+            $scope.loading = 'hidden';
             $scope.$apply();
-            document.getElementById("tran_loading").style.visibility = 'hidden';
+
+
         })
 
 })
-.controller('BalanceAllCtrl', function($scope, $location, ParseService) {
-//        if (ParseService.getUser()) {
-//            // do stuff with the user
-//            console.log("LOADING BalanceDetailCtrl PAGE: "+ParseService.getUser().get('email'));
-//            $scope.user = ParseService.getUser();
-//        } else {
-//            $location.path('tab/login');
-//            $route.refresh();
-//        }
-        //Load User Balance
-        var user = new SUser();
-        user.getBalanceByEmail($scope.selectedGroupId, ParseService.getUser().get('email'), function(balance){
-            $scope.balance = balance;
-            $scope.$apply();
-        })
+.controller('BalanceGroupCtrl', function($rootScope, $scope, $state) {
 
-        //Load Friends Balance
-        user.getFriendList($scope.selectedGroupId,function(friendlist){
-            console.log("BalanceDetailCtrl got Friend list = ");
-            user.getBalanceByEmails($scope.selectedGroupId,friendlist.get('friends'), function(balances){
-                $scope.balances = balances;
+        if (!$rootScope.selectedGroup){
+            $state.go('tab.balance-overview');
+        }
+        $scope.loading = 'visible';
+        //Load User Balance
+        $scope.loadGroup = function(){
+            $scope.loading = 'visible';
+            var user = new SUser();
+            user.getBalanceByEmail($rootScope.selectedGroup, $rootScope.user, function(balance){
+                $scope.balance = balance;
                 $scope.$apply();
-                document.getElementById("tran_loading").style.visibility = 'hidden';
             })
-        })
+
+            //Load Friends Balance
+            user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
+                $scope.balances = balances;
+
+                $scope.loading = 'hidden';
+                $scope.$apply();
+            })
+        }
+
+        $scope.openTrans = function(bal){
+            $state.go('tab.balance-detail');
+        }
+        $scope.loadGroup();
 
 })
 .controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common) {
@@ -238,14 +267,18 @@ angular.module('starter.controllers', [])
         });
 
         $scope.makeQRCode = function (send){
+//
+//            if (!$rootScope.selectedGroup){
+//                $rootScope.warnNoGroup();
+//                throw "No Group Error";
+//            }
 
             if (!$rootScope.selectedGroup){
-                $rootScope.warnNoGroup();
-                throw "No Group Error";
+                var FriendList = Parse.Object.extend('friendlist');
+                $rootScope.selectedGroup = new FriendList()
             }
-
-
-            var sendString = Common.getID()+"|"+ParseService.getUser().get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroupId+"|"+$rootScope.selectedGroup;
+//TODO selectedGroup can be undefined!!
+            var sendString = Common.getID()+"|"+$rootScope.user.get('email') +"|"+ send.amount+"|"+ send.note +"|"+$rootScope.selectedGroup.id+"|"+$rootScope.selectedGroup.get('group');
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -256,7 +289,7 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('ReceiveCtrl', function($scope, $location, ParseService, Common) {
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
@@ -324,17 +357,26 @@ angular.module('starter.controllers', [])
                         //If Group Id is Empty, then it's Personal/Direct Transfer
                         //1. Find Personal Group Or create one
                         console.log("ReceiveCtrl.scan  groupId = "+ groupId);
-                        if (groupId==''){
+                        if (groupId=='undefined'){
                             console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
                             var friends = [$scope.user.get('email'),friendemail];
                             var friendnames = [$scope.user.get('username'),friend.get('username')];
 
                             user.getPersonalListByEmails(friends, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
-                                $scope.recordQRCode(friendlist.id,groupName, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                $scope.recordQRCode(friendlist, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                             })
                         }else{
-                            $scope.recordQRCode(groupId, groupName, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+
+                            var friendList = Parse.Object.extend('friendlist');
+                            var query = Parse.Query(friendList);
+                            var fl = new friendList();
+                            query.get(groupId,{
+                                success:function(grp){
+                                    $scope.recordQRCode(grp, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                }
+                            })
+
                         }
 
                     })
@@ -348,9 +390,9 @@ angular.module('starter.controllers', [])
             } );
         }
 
-        $scope.recordQRCode = function(groupId,groupName, id,amount,from,youremail,note,location, user,friend){
+        $scope.recordQRCode = function(group, id,amount,from,youremail,note,location, user,friend){
 
-            ParseService.recordQRCode(groupId,id,amount,from,youremail,note,location, user,friend, function(r){
+            ParseService.recordQRCode(group,id,amount,from,youremail,note,location, user,friend, function(r){
                 //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                 if (r.message== undefined){
                     console.log("Controllers Receive - recordQRCode Successfully");
@@ -361,7 +403,7 @@ angular.module('starter.controllers', [])
 //                                $scope.$apply();
 
                     display = "<BR>Received : $" + amount +"<br><br>" +
-                        "Group : " + groupName +"<BR><BR>"+
+                        "Group : " + group.get('group') +"<BR><BR>"+
                         "From : " + from +"<BR><BR>";
 
 
@@ -428,7 +470,7 @@ angular.module('starter.controllers', [])
 //                    console.log('Group will be selected: ' + res);
                 });
 
-                $state.transitionTo('tab.login', '', {
+                $state.transitionTo('login', '', {
                     reload: true,
                     inherit: false,
                     notify: true
@@ -474,7 +516,7 @@ angular.module('starter.controllers', [])
 
         $scope.logout = function(){
             ParseService.logout();
-            $state.go('tab.balance');
+            $state.go('login');
 
         };
 
@@ -563,14 +605,14 @@ angular.module('starter.controllers', [])
                 $rootScope.user = user;
                 $rootScope.$apply();
 
-                $state.go('tab.balance');
+                $state.go('tab.balance-overview');
                 $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
 
         if (ParseService.getUser()){
-            $state.go('tab.balance');
+            $state.go('tab.balance-overview');
         }
 
 

@@ -60,7 +60,7 @@
     <ion-side-menus>
 
         <ion-side-menu-content ng-controller="NavCtrl">
-            <ion-nav-bar class="bar  " ng-class="{'bar-positive':selectedGroup =='direct','bar-energized':selectedGroup!='direct'}">
+            <ion-nav-bar class="bar  bar-positive">
                 <!--Back Button-->
                 <ion-nav-back-button class="button-icon icon ion-arrow-left-c">
                     <!--Side Menu Button-->
@@ -89,13 +89,13 @@
                             refreshing-icon="icon ion-loading-c"
                             on-refresh="loadGroup()">
                     </ion-refresher>
-                    <ion-item class="item " ng-class="{'item-positive':selectedGroup =='direct'}" ng-click="setGroup('','direct')">
+                    <ion-item class="item " ng-class="{'item-positive':selectedGroup == undefined}" ng-click="setPersonal()">
                                 Personal
                     </ion-item>
 
-                    <ion-item class="item item-divider " style="font-size: small">Select a Pool</ion-item>
+                    <ion-item class="item item-divider " style="font-size: small;height: 20px;vertical-align: middle">Select a Pool</ion-item>
                     <span ng-repeat="list in friendlists">
-                        <span ng-if="list.id==selectedGroupId">
+                        <span ng-if="list.id==selectedGroup.id">
                         <ion-item  class="item item-energized">
                             {{list.get('group')}}
                             <ion-option-button class="button-calm"
@@ -104,8 +104,8 @@
                             </ion-option-button>
                         </ion-item>
                     </span>
-                        <span ng-if="list.id!=selectedGroupId">
-                        <ion-item  class="item " ng-click="setGroup(list.id,list.get('group'))">
+                        <span ng-if="list.id!=selectedGroup.id">
+                        <ion-item  class="item " ng-click="setGroup(list)">
 
                             {{list.get('group')}}
                             <ion-option-button class="button-calm"

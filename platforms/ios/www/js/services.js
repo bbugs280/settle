@@ -81,10 +81,10 @@ angular.module('starter.services', [])
                  return Parse.User.current();
             },
 
-            recordQRCode : function recordQRCode(groupId, tranId, amount, from, to, note, location, user, friend, callback){
+            recordQRCode : function recordQRCode(group, tranId, amount, from, to, note, location, user, friend, callback){
                 var tran = new Transaction();
 
-                tran.set('groupId',groupId);
+                tran.set('groupId',group.id);
                 tran.set('tranId',tranId);
                 tran.set('amount',Number(amount));
                 tran.set('from',from);
@@ -120,6 +120,7 @@ angular.module('starter.services', [])
                                     console.log("recordQRCode - after tran save ");
 
                                     var friendEmail = tran.getFriendEmail(user.getEmail());
+                                    var friendName = tran.getFriendName(user.get('username'));
 //                                    console.log("recordQRCode - get friend email "+ friendEmail);
                                     //Update your Records e.g. Balance and Friend list
 
@@ -127,12 +128,12 @@ angular.module('starter.services', [])
                                     var trandebit = tran.getYourDebit(user.get('email'));
                                     // First update your own records
                                     //1. get Your Balance
-                                    user.getBalanceByEmail(groupId,user.get('email'),function(yourbal){
+                                    user.getBalanceByEmail(group,user,function(yourbal){
                                         var yourcredit = trancredit + yourbal.get('credit');
                                         var yourdebit = trandebit + yourbal.get('debit');
                                         //2. update Your Balance
-                                        yourbal.set('groupId', groupId);
-                                        yourbal.set('username', user.get('username'));
+                                        yourbal.set('group', group);
+                                        yourbal.set('user', user);
                                         yourbal.set('credit', yourcredit);
                                         yourbal.set('debit', yourdebit);
         //                                yourbal.set('balance', yourcredit - yourdebit);
@@ -144,7 +145,8 @@ angular.module('starter.services', [])
                                         user.getFriendList(groupId, function(friendlist){
                                             console.log("recordQRCode - your friendlist found");
                                             var friendArray = [user.get('email'),friendEmail];
-                                            user.addFriends(friendlist, friendArray, function(friends){
+                                            var nameArray = [user.get('username'),friendName];
+                                            user.addFriends(friendlist, nameArray,friendArray, function(friends){
 //                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
                                                 console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
                                                 //Play Sound
@@ -154,12 +156,12 @@ angular.module('starter.services', [])
 
                                         //Now update your friend Records
                                         //1. get Friend Balance
-                                        user.getBalanceByEmail(groupId,friendEmail,function(friendbal){
+                                        user.getBalanceByEmail(group,friend,function(friendbal){
                                             var friendcredit = trandebit + friendbal.get('credit');
                                             var frienddebit = trancredit + friendbal.get('debit');
                                             //2. update Friend Balance
-                                            friendbal.set('groupId', groupId);
-                                            friendbal.set('username', friend.get('username'));
+                                            friendbal.set('group', group);
+                                            friendbal.set('user', friend);
                                             friendbal.set('credit', friendcredit);
                                             friendbal.set('debit', frienddebit);
                                             //friendbal.set('balance', friendcredit - frienddebit);

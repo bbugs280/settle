@@ -29,15 +29,15 @@ var SUser = Parse.User.extend({
         }
     });
     },
-    getBalanceByEmail : function (groupId, emailp1, callback) {
+    getBalanceByEmail : function (group, user, callback) {
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
-    var emailp = emailp1;
-    query.equalTo("email", emailp);
-    query.equalTo("groupId", groupId);
+
+    query.equalTo("user", user);
+    query.equalTo("group", group);
 
     var r = new Balance();
-    console.log("getBalanceByEmail - begin call email = "+emailp);
+
 
         query.find({
         success: function (result) {
@@ -48,7 +48,8 @@ var SUser = Parse.User.extend({
                 r.set('balance', r.get('credit')- r.get('debit'));
 
             } else {
-                r.set('email', emailp);
+                r.set('user', user);
+                r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);
                 r.set('balance', r.get('credit')- r.get('debit'));
@@ -62,12 +63,12 @@ var SUser = Parse.User.extend({
         }
     });
 },
-    getBalanceByEmails : function (groupId, emailarray, callback) {
+    getBalanceByEmails : function (group, emailarray, callback) {
         var Balance = Parse.Object.extend("balance");
         var query = new Parse.Query(Balance);
 
         query.containedIn("email", emailarray);
-        query.equalTo("groupId", groupId);
+        query.equalTo("group", group);
 
         query.addAscending("balance");
         query.find({
@@ -139,7 +140,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friends", email);
-        query.equalTo("ispersonal",false);
+        query.notEqualTo("ispersonal",true);
         if (!showHidden){
             console.log("getFriendListAll showhidden is false");
             query.notEqualTo("hidden", true);
@@ -158,13 +159,21 @@ var SUser = Parse.User.extend({
         });
 
     },
-    getFriendListAllForOverview: function (email, callback) {
-        var Friendlist = Parse.Object.extend("friendlist");
-        var query = new Parse.Query(Friendlist);
-        query.equalTo("friends", email);
-        query.notEqualTo("hidden", true);
-        query.addAscending('updatedAt');
-        query.find({
+    getBalanceOverview: function (user, callback) {
+
+        var Balance = Parse.Object.extend("balance");
+        var queryBalance = new Parse.Query(Balance);
+
+        queryBalance.include('user');
+        queryBalance.include('group');
+//        queryBalance.equalTo('user',{
+//            __type: "Pointer",
+//            className: "_User",
+//            objectId: user.id
+//        });
+        queryBalance.equalTo('user',user);
+
+        queryBalance.find({
             success: function (result) {
                 // The object was retrieved successfully.
                 console.log("getFriendListAllForOverview - success count " + result.length);
@@ -183,6 +192,7 @@ var SUser = Parse.User.extend({
 
         query.containsAll("friends", emailArray);
         query.equalTo("ispersonal", true);
+
         console.log("getPersonalListByEmails prepared");
         query.find({
             success: function (friendlist) {
@@ -191,6 +201,8 @@ var SUser = Parse.User.extend({
                 if (friendlist.length == 0){
                     var fl = new Friendlist();
                     fl.set('friends', emailArray);
+                    fl.set('username1',nameArray[0]);
+                    fl.set('username2',nameArray[1]);
                     fl.set('friendnames', nameArray);
                     fl.set('ispersonal', true);
                     fl.save(null,{
@@ -233,7 +245,7 @@ var SUser = Parse.User.extend({
         });
 
     },
-    addFriends : function (friendlist, friendemailArray, callback) {
+    addFriends : function (friendlist, nameArray, friendemailArray, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
 
         if (!friendlist instanceof Friendlist){
@@ -248,6 +260,7 @@ var SUser = Parse.User.extend({
         for (var i in friendemailArray){
             console.log("addFriends - addUnique email = "+friendemailArray[i]);
             friendlist.addUnique('friends', friendemailArray[i]);
+            friendlist.addUnique('friendnames', nameArray[i]);
         }
 
         friendlist.save(null, {

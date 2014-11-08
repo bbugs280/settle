@@ -60,7 +60,7 @@
     <ion-side-menus>
 
         <ion-side-menu-content ng-controller="NavCtrl">
-            <ion-nav-bar class="bar  " ng-class="{'bar-positive':selectedGroup == undefined,'bar-energized':selectedGroup!=undefined}">
+            <ion-nav-bar class="bar  bar-positive">
                 <!--Back Button-->
                 <ion-nav-back-button class="button-icon icon ion-arrow-left-c">
                     <!--Side Menu Button-->
@@ -89,7 +89,7 @@
                             refreshing-icon="icon ion-loading-c"
                             on-refresh="loadGroup()">
                     </ion-refresher>
-                    <ion-item class="item " ng-class="{'item-positive':selectedGroup == undefined}" ng-click="setGroup()">
+                    <ion-item class="item " ng-class="{'item-positive':selectedGroup == undefined}" ng-click="setPersonal()">
                                 Personal
                     </ion-item>
 
