@@ -2,7 +2,19 @@ angular.module('starter.services', [])
 
 .factory('Common', function(){
 
-        var secret_passphrase = "pei-kim-donut";
+        var secret_passphrase;
+
+        Parse.Config.get().then(function(config) {
+            console.log("Yay! Config was fetched from the server.");
+            secret_passphrase = config.get("secret_passphrase");
+
+        }, function(error) {
+            console.log("Failed to fetch. Using Cached Config.");
+            var config = Parse.Config.current();
+            secret_passphrase = config.get("secret_passphrase");
+
+        });
+
         var IMAGE_LIMIT = 3351782; //Around 1MB in size, this is Base64 Length
         return {
             getID: function () {

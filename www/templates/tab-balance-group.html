@@ -32,14 +32,16 @@
 
           </ion-item>
 
-          <ion-item class="item item-icon-right" style="font-size: medium;" ng-repeat="bal in balances" >
-              <div>
+          <ion-item class="item item-avatar item-icon-right" style="font-size: medium;" ng-repeat="bal in balances" >
+              <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()!=undefined">
+              <img src="./img/people.png"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()==undefined">
+
                   <!--icon -->
-                      <span ng-if="bal.get('user').get('icon').url()!=undefined">
-                           <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px">
+                      <span >
+
                       </span>
-                      <span ng-if="bal.get('user').get('icon').url()==undefined">
-                           <img src="../img/people.png"  width="50px" style="border-radius: 10px">
+                      <span >
+
                       </span>
                   <span>
                   {{bal.get('user').get('username')}} balance is $
@@ -50,10 +52,10 @@
                 <span ng-if="bal.get('balance')>=0">
                   <span style="color:olivedrab">{{bal.get('balance')| number:2}}</span>
                 </span>
-              </div>
 
 
-              <span style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></span>
+
+              <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>
 
           </ion-item>
       </ion-list>

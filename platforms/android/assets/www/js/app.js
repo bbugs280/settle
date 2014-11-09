@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'ng-currency'])
 
 .run(function($ionicPlatform,$rootScope,$state) {
   $ionicPlatform.ready(function() {
@@ -130,6 +130,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               authenticate: true,
           }
     })
+    .state('tab.send-selectuser', {
+          url: '/send-selectuser',
+          views: {
+              'tab-send': {
+                  templateUrl: 'templates/tab-send-selectuser.html',
+                  controller: 'SelectUserCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+          }
+      })
     .state('tab.receive', {
           url: '/receive',
           views: {
@@ -169,6 +181,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               needgroup: false
           }
      })
+      .state('tab.currencies', {
+          url:'/currencies',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-currencies.html',
+                  controller: 'SetupCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.setupgroup', {
           url:'/group',
           views:{

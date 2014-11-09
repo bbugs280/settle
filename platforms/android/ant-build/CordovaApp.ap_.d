@@ -108,6 +108,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/password-check.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/transaction.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/user.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-07.wav \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-error.wav \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-success.wav \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/angular \
@@ -118,6 +119,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/collide \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/crypto \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/parse \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode \
@@ -237,6 +239,13 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/_ionicons-icons.scss \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/_ionicons-variables.scss \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/ionicons.scss \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/bower.json \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/dist \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/README.md \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/src \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/dist/ng-currency.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/dist/ng-currency.min.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/src/ng-currency.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova/bower.json \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova/CHANGELOG.md \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova/dist \
@@ -272,6 +281,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-currencies.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-user.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup.html \
@@ -281,6 +291,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-overview.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-group.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-selectuser.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tabs.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-login.html \

@@ -719,6 +719,12 @@ angular.module('starter.controllers', [])
         console.log("controller - SetupCtrl start");
 
         $scope.user = ParseService.getUser();
+        $scope.refreshUser = function(){
+            $scope.user.get('default_currency').fetch().then(function(curr){
+
+            })
+        }
+        $scope.refreshUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
             $ionicLoading.show({
