@@ -26,7 +26,7 @@ var Common = (function () {
 //    cls.get_nextId = function () {
 //        return nextId;
 //    };
-
+    cls.IMAGE_LIMIT = 3351782; //Around 1MB in size, this is Base64 Length
     // public (shared across instances)
     cls.prototype = {
         login: function (loginemail, password, callback) {
@@ -49,6 +49,7 @@ var Common = (function () {
                 }
             });
         }
+
 
     }
 

@@ -146,11 +146,13 @@ angular.module('starter.controllers', [])
         //$rootScope.loadGroupSetup();
         //$rootScope.loadGroup();
     })
-.controller('BalanceOverviewCtrl', function($rootScope, $scope, $state) {
+.controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
 
         console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
+//        console.log("controller - BalanceOverviewCtrl start | rootScope user = "+$rootScope.user.get('username'));
         $scope.balance = 0;
         $scope.loading = 'visible';
+        $rootScope.user = ParseService.getUser();
         //$scope.user = ParseService.getUser();
 
 
@@ -712,7 +714,7 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicLoading) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicLoading,Common) {
 
         console.log("controller - SetupCtrl start");
 
@@ -788,7 +790,20 @@ angular.module('starter.controllers', [])
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
-//            console.log(DATA_URL.length);
+            if (!Common.checkImageSize(DATA_URL.length)){
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Image Too Large',
+                    template: 'Cannot exceed 1 MB'
+                });
+                alertPopup.then(function(res) {
+                    throw("Image Size Error");
+                });
+                $ionicLoading.hide();
+                throw("Image Size Error");
+            }
+
+
+            console.log(DATA_URL.length);
             console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
             console.log("success got pic");
 
@@ -829,7 +844,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadCurrencies();
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,Common) {
         $scope.loadGroupSetup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
@@ -853,8 +868,17 @@ angular.module('starter.controllers', [])
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
-            console.log(DATA_URL.length);
-            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
+            if (!Common.checkImageSize(DATA_URL.length)){
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Image Too Large',
+                    template: 'Cannot exceed 1 MB'
+                });
+                alertPopup.then(function(res) {
+                    throw("Image Size Error");
+                });
+                $ionicLoading.hide();
+                throw("Image Size Error");
+            }
             console.log("success got pic");
             var file = new Parse.File("icon.jpg", {base64:DATA_URL});
             $scope.group.set('icon',file);

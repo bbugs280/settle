@@ -3,7 +3,7 @@ angular.module('starter.services', [])
 .factory('Common', function(){
 
         var secret_passphrase = "pei-kim-donut";
-
+        var IMAGE_LIMIT = 3351782; //Around 1MB in size, this is Base64 Length
         return {
             getID: function () {
                 return '_' + Math.random().toString(36).substr(2, 9);
@@ -13,6 +13,14 @@ angular.module('starter.services', [])
             },
             decrypt : function(encrypted){
                 return CryptoJS.Rabbit.decrypt(encrypted, secret_passphrase).toString(CryptoJS.enc.Utf8);
+            },
+            checkImageSize: function(base64length){
+
+                if (base64length > IMAGE_LIMIT){
+                    return false;
+                }else{
+                    return true;
+                }
             }
 
         }
