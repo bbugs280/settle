@@ -83,7 +83,7 @@ angular.module('starter.services', [])
 
             recordQRCode : function recordQRCode(group, tranId, amount, from, to, note, location, user, friend, callback){
                 var tran = new Transaction();
-
+                tran.set('group',group);
                 tran.set('groupId',group.id);
                 tran.set('tranId',tranId);
                 tran.set('amount',Number(amount));
@@ -95,9 +95,13 @@ angular.module('starter.services', [])
                 if (from==user.get('email')){
                     tran.set('fromname',user.get('username'));
                     tran.set('toname',friend.get('username'));
+                    tran.set('fromuser',{__type: "Pointer", className: "User", objectId: user.id});
+                    tran.set('touser',{__type: "Pointer", className: "User", objectId: friend.id});
                 }else{
                     tran.set('fromname',friend.get('username'));
                     tran.set('toname',user.get('username'));
+                    tran.set('fromuser',{__type: "Pointer", className: "User", objectId: friend.id});
+                    tran.set('touser',{__type: "Pointer", className: "User", objectId: user.id});
                 }
 
                 tran.isTranIdExist(tranId, function(hasTranId){
@@ -142,17 +146,32 @@ angular.module('starter.services', [])
 
                                         })
                                         // 3. Update Group List with both friend and your email
-                                        user.getFriendList(groupId, function(friendlist){
-                                            console.log("recordQRCode - your friendlist found");
-                                            var friendArray = [user.get('email'),friendEmail];
-                                            var nameArray = [user.get('username'),friendName];
-                                            user.addFriends(friendlist, nameArray,friendArray, function(friends){
+                                        var friendArray = [user.get('email'),friendEmail];
+                                        var nameArray = [user.get('username'),friendName];
+                                        //set frienduser and user
+                                        group.set('user1',user);
+                                        group.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
+
+                                        user.addFriends(group, nameArray,friendArray, function(friends){
 //                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
-                                                console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
-                                                //Play Sound
-                                                success_snd.play();
-                                            });
+                                            console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
+
                                         });
+//
+//                                        user.getFriendList(groupId, function(friendlist){
+//                                            console.log("recordQRCode - your friendlist found");
+//                                            var friendArray = [user.get('email'),friendEmail];
+//                                            var nameArray = [user.get('username'),friendName];
+//                                            //set frienduser and user
+//                                            friendlist.set('user1',user);
+//                                            friendlist.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
+//
+//                                            user.addFriends(friendlist, nameArray,friendArray, function(friends){
+////                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
+//                                                console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
+//
+//                                            });
+//                                        });
 
                                         //Now update your friend Records
                                         //1. get Friend Balance
@@ -161,12 +180,14 @@ angular.module('starter.services', [])
                                             var frienddebit = trancredit + friendbal.get('debit');
                                             //2. update Friend Balance
                                             friendbal.set('group', group);
-                                            friendbal.set('user', friend);
+                                            friendbal.set('user', {__type: "Pointer", className: "User", objectId: friend.id});
                                             friendbal.set('credit', friendcredit);
                                             friendbal.set('debit', frienddebit);
                                             //friendbal.set('balance', friendcredit - frienddebit);
                                             user.updateBalance(friendbal,function(r){
                                                 console.log("recordQRCode - friend balance saved");
+                                                //Play Sound
+                                                success_snd.play();
                                                 callback(tran);
                                             })
                                         });

@@ -166,6 +166,8 @@ var SUser = Parse.User.extend({
 
         queryBalance.include('user');
         queryBalance.include('group');
+        queryBalance.include(['group.user1']);
+        queryBalance.include(['group.user2']);
 //        queryBalance.equalTo('user',{
 //            __type: "Pointer",
 //            className: "_User",

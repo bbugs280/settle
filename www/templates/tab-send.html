@@ -18,7 +18,7 @@
       <ion-item class="item item-icon-right" ng-click="selectGroup()" ng-class="{'item-dark':selectedGroup!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedGroup==undefined}">
           <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined">
 
-          <span ng-if="selectedGroup!=undefined" style="font-style: oblique"> {{selectedGroup.get('group')}}</span>
+          <span ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</span>
           <span   ng-if="selectedGroup!=undefined">is selected</span>
           <span ng-if="selectedGroup==undefined">select group (optional)</span>
 

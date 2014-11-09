@@ -164,8 +164,19 @@ angular.module('starter.controllers', [])
                 $scope.grouplist = grouplist;
 
                 for (var i in grouplist){
-
                     $scope.balance = $scope.balance + Number(grouplist[i].get('balance'));
+
+                    //for personal group set your friend user
+                    if (grouplist[i].get('group').get('ispersonal')==true){
+                        if (grouplist[i].get('group').get('user1').id==$rootScope.user.id){
+                            $scope.grouplist[i].set('frienduser',grouplist[i].get('group').get('user2'));
+                        }else{
+                            $scope.grouplist[i].set('frienduser',grouplist[i].get('group').get('user1'));
+                        }
+//                        console.log($scope.grouplist[i].get('frienduser').get('icon').url());
+                    }
+
+
                 }
                 console.log($scope.balance);
                 $scope.loading = 'hidden';
@@ -371,17 +382,21 @@ angular.module('starter.controllers', [])
         }
         $scope.loadGroup();
 })
-.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common,$ionicLoading) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
 
         $scope.showloading = function(){
-            document.getElementById("scan_loading").style.visibility = 'visible';
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+//            document.getElementById("scan_loading").style.visibility = 'visible';
         }
 
         $scope.hideloading = function(){
-            document.getElementById("scan_loading").style.visibility = 'hidden';
+//            document.getElementById("scan_loading").style.visibility = 'hidden';
+            $ionicLoading.hide();
         }
 
 
@@ -439,23 +454,30 @@ angular.module('starter.controllers', [])
                         //If Group Id is Empty, then it's Personal/Direct Transfer
                         //1. Find Personal Group Or create one
                         console.log("ReceiveCtrl.scan  groupId = "+ groupId);
-                        if (groupId=='undefined'){
+                        if (groupId==''){
                             console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
-                            var friends = [$scope.user.get('email'),friendemail];
+                            var friendemails = [$scope.user.get('email'),friendemail];
                             var friendnames = [$scope.user.get('username'),friend.get('username')];
 
-                            user.getPersonalListByEmails(friends, friendnames, function(friendlist){
+                            user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
                                 $scope.recordQRCode(friendlist, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                             })
                         }else{
+                            console.log("ReceiveCtrl.scan Group Found = "+ groupId);
+                            var Friendlist = Parse.Object.extend("friendlist");
+                            var queryFd = new Parse.Query(Friendlist);
 
-                            var friendList = Parse.Object.extend('friendlist');
-                            var query = Parse.Query(friendList);
-                            var fl = new friendList();
-                            query.get(groupId,{
+
+                            console.log("ReceiveCtrl.scan before got group");
+
+                            queryFd.get(groupId,{
                                 success:function(grp){
+                                    console.log("ReceiveCtrl.scan successfully got group");
                                     $scope.recordQRCode(grp, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                },error:function(obj, error){
+                                    console.log("ReceiveCtrl.scan failed got group: "+ error.message);
+//                                    throw (error.message);
                                 }
                             })
 
@@ -484,14 +506,18 @@ angular.module('starter.controllers', [])
 //                                $scope.scanresult.note = note;
 //                                $scope.$apply();
 
-                    display = "<BR>Received : $" + amount +"<br><br>" +
-                        "Group : " + group.get('group') +"<BR><BR>"+
-                        "From : " + from +"<BR><BR>";
+                    display = "<BR>Received : $" + amount +"<br><br>";
 
+                    if (group.get('group')!=undefined){
+                        display+="Group : " + group.get('group') +"<BR><BR>";
+                    }
+
+                    display+="From : " + from +"<BR><BR>";
 
                     if (note!='undefined'){
                         display+="Note : "+note;
                     }
+
                     document.getElementById("info").innerHTML = display;
                 }else{
                     console.log("Controllers Receive - recordQRCode Failed");
@@ -564,7 +590,7 @@ angular.module('starter.controllers', [])
 
         console.log("controller - SetupCtrl start");
 
-        $scope.user = ParseService.getUser();
+//        $scope.user = ParseService.getUser();
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
             $ionicLoading.show({
@@ -604,6 +630,23 @@ angular.module('starter.controllers', [])
                 }
             })
 
+        }
+        $scope.openCurrencies = function(user){
+            $state.go('tab.currencies');
+        }
+        $scope.selectCurrency = function(curr){
+            $rootScope.user.set('default_currency',curr);
+            $state.go('tab.setupuser');
+        }
+        $scope.loadCurrencies = function(){
+            var Currencies = Parse.Object.extend('currencies');
+            var query = new Parse.Query(Currencies);
+            query.find({
+                success:function(currencies){
+                    $scope.currencies = currencies;
+                    $scope.$apply();
+                }
+            })
         }
         $scope.openCamera = function(){
             var options =   {
@@ -657,7 +700,7 @@ angular.module('starter.controllers', [])
 
         };
 
-
+        $scope.loadCurrencies();
 })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
         $scope.loadGroupSetup = function(){

@@ -169,6 +169,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               needgroup: false
           }
      })
+      .state('tab.currencies', {
+          url:'/currencies',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-currencies.html',
+                  controller: 'SetupCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.setupgroup', {
           url:'/group',
           views:{
