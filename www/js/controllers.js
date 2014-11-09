@@ -282,12 +282,13 @@ angular.module('starter.controllers', [])
             correctLevel: QRCode.CorrectLevel.L
         });
 
-        $scope.makeQRCode = function (amount,note){
+        $scope.amount=0;
+        $scope.note='';
+
+        $scope.makeQRCode = function (sendform){
 
             var tranId = Common.getID();
             var email = $rootScope.user.get('email');
-//            var amount = send.amount;
-//            var note = send.note;
             var groupId = "";
             var groupname = "";
 
@@ -296,7 +297,13 @@ angular.module('starter.controllers', [])
                 groupname = $rootScope.selectedGroup.get('group');
             }
 
-            var sendString = tranId+"|"+ email +"|"+ amount +"|"+ note +"|"+groupId+"|"+groupname;
+            if (sendform.amount){
+                $scope.amount = sendform.amount;
+            }
+            if (sendform.note){
+                $scope.note = sendform.note;
+            }
+            var sendString = tranId+"|"+ email +"|"+ $scope.amount +"|"+ $scope.note +"|"+groupId+"|"+groupname;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 

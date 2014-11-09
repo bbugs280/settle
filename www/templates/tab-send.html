@@ -27,18 +27,22 @@
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
+      <!--<ion-item class="item">-->
+         <!--amount: <span ng-bind="sendform.amount"></span>-->
+         <!--note: <span ng-bind="sendform.note"></span>-->
+      <!--</ion-item>-->
       <ion-item class="item item-input-inset">
           <label class=" item-input-wrapper " style="height: 50px">
-              <i class="icon ion-social-usd placeholder-icon"></i>
-              <input type="tel" placeholder="Amount" ng-model="amount" ng-blur="makeQRCode(amount,note)" style="font-size: large" ng-model-options="{ getterSetter: true; updateOn: 'change' }">
+              <!--<i class=" ion-social-usd placeholder-icon"></i>-->
+              <input type="tel" placeholder="Amount" ng-model="sendform.amount" ng-blur="makeQRCode(sendform)" style="font-size: large" ng-currency min="1" max="500">
           </label>
-          <button class="button" ng-click="makeQRCode(send)" style="font-size: large">
+          <button class="button" ng-click="makeQRCode(sendform)" style="font-size: large">
               <i class="icon ion-grid"></i>
               Get QRCode
           </button>
       </ion-item>
       <label class="item item-input">
-          <input type="text" placeholder="Note" ng-model="note" ng-change="makeQRCode(amount,note)" ng-model-options="{ getterSetter: true ; updateOn:'change'}">
+          <input type="text" placeholder="Note" ng-model="sendform.note" ng-change="makeQRCode(sendform)">
       </label>
       <!--<canvas id="qrcode" ></canvas>-->
 
