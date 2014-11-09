@@ -275,9 +275,14 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state, $ionicPopup) {
 
-        $scope.selectGroup = function(){
+        $scope.amount=0;
+        $scope.note='';
+
+        $scope.selectGroup = function(sendform){
+            console.log("SendCtrl - sendform :"+sendform);
+            $scope.sendform = sendform;
             $state.go('tab.send-group');
         }
         $scope.clearGroup = function(){
@@ -286,7 +291,9 @@ angular.module('starter.controllers', [])
             $rootScope.selectedFriend = undefined;
 
         }
-        $scope.selectUser = function(){
+        $scope.selectUser = function(sendform){
+            console.log("SendCtrl - sendform :"+sendform);
+            $scope.sendform = sendform;
             $state.go('tab.send-selectuser');
         }
         var qrcode = new QRCode("qrcode", {
@@ -298,8 +305,7 @@ angular.module('starter.controllers', [])
             correctLevel: QRCode.CorrectLevel.L
         });
 
-        $scope.amount=0;
-        $scope.note='';
+
 
         $scope.makeQRCode = function (sendform){
 
@@ -326,6 +332,57 @@ angular.module('starter.controllers', [])
             qrcode.clear(); // clear the code.
 
             qrcode.makeCode(sendString.toString()); // make another code.
+        }
+
+        $scope.sendRemote = function(sendform){
+            if (sendform.amount){
+                $scope.amount = sendform.amount;
+            }
+            if (sendform.note){
+                $scope.note = sendform.note;
+            }
+
+                var tranId = Common.getID();
+                var location;
+                if (!$rootScope.selectedGroup){
+                    console.log("SendCtrl.sendRemote  Finding Person Group ");
+                    var friendemails = [$scope.user.get('email'),$rootScope.selectedFriend.get('email')];
+                    var friendnames = [$scope.user.get('username'),$rootScope.selectedFriend.get('username')];
+                    var user = new SUser();
+                    user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
+                        console.log("SendCtrl.sendRemote "+ friendlist.id);
+                        ParseService.recordQRCode(friendlist, tranId,$scope.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$scope.note,location , $scope.user,$rootScope.selectedFriend,function(r){
+                            console.log("SendCtrl.sendRemote Personal Send successfull"+r);
+                            if (r.message){
+                                alert(r.message);
+                            }else{
+                                $scope.remoteSendConfirmation(r);
+                            }
+
+                        });
+                    })
+                }else{
+                    $rootScope.recordQRCode($rootScope.selectedGroup, tranId,$scope.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$scope.note,location, $scope.user,$rootScope.selectedFriend,function(r){
+                        console.log("SendCtrl.sendRemote group Send successfull"+r);
+                        if (r.message){
+                            alert(r.message);
+                        }else{
+                            $scope.remoteSendConfirmation(r);
+                        }
+                    });
+
+                }
+            }
+
+        $scope.remoteSendConfirmation = function(tran){
+
+            var alertPopup = $ionicPopup.alert({
+                title: 'Sent Successful ',
+                template: '$'+tran.get('amount') + ' is sent to ' + +tran.get('toname')
+            });
+            alertPopup.then(function(res) {
+                throw("Remote Send Successful");
+            });
         }
 
 })
@@ -796,7 +853,7 @@ angular.module('starter.controllers', [])
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
-
+            console.log(DATA_URL.length);
             console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
             console.log("success got pic");
             var file = new Parse.File("icon.jpg", {base64:DATA_URL});
