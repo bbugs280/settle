@@ -7,23 +7,20 @@
             </button>
         </span>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right">
-        <button class="button button-clear">
-            <span ng-if="selectedGroup!=undefined">
-              <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px">
-          </span>
-        </button>
-    </ion-nav-buttons>
+    <!--<ion-nav-buttons side="right">-->
+        <!--<button class="button button-clear">-->
+            <!--<span ng-if="selectedGroup!=undefined">-->
+              <!--<img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px">-->
+          <!--</span>-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
   <ion-content class="has-header">
-      <ion-item class="item item-icon-right" ng-click="selectGroup()" ng-class="{'item-dark':selectedGroup!=undefined}">
+      <ion-item class="item item-icon-right" ng-click="selectGroup()" ng-class="{'item-dark':selectedGroup!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedGroup==undefined}">
+          <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined">
 
-          <span ng-if="selectedGroup!=undefined">
-            <label>
-                Group Selected <b>AS</b>
-            </label>
-             <span style="font-style: oblique"> {{selectedGroup.get('group')}}</span>
-          </span>
-          <span ng-if="selectedGroup==undefined">Select Group (optional)</span>
+          <span ng-if="selectedGroup!=undefined" style="font-style: oblique"> {{selectedGroup.get('group')}}</span>
+          <span   ng-if="selectedGroup!=undefined">is selected</span>
+          <span ng-if="selectedGroup==undefined">select group (optional)</span>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
