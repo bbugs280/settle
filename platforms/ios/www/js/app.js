@@ -130,6 +130,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true,
           }
     })
+    .state('tab.send-selectuser', {
+          url: '/send-selectuser',
+          views: {
+              'tab-send': {
+                  templateUrl: 'templates/tab-send-selectuser.html',
+                  controller: 'SelectUserCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+          }
+      })
     .state('tab.receive', {
           url: '/receive',
           views: {
@@ -169,6 +181,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               needgroup: false
           }
      })
+      .state('tab.currencies', {
+          url:'/currencies',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-currencies.html',
+                  controller: 'SetupCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.setupgroup', {
           url:'/group',
           views:{

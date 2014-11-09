@@ -1,0 +1,76 @@
+<ion-view title="Credit Balance">
+  <ion-content>
+      <ion-list>
+          <ion-refresher
+                  pulling-icon="icon ion-arrow-down-c"
+                  refreshing-icon="icon ion-loading-c"
+                  on-refresh="loadGroup()">
+          </ion-refresher>
+          <ion-item class="item item-icon-right">
+              Your Total Balance is $
+              <span ng-if="balance<0">
+              <span style="color: red">{{balance | number:2}}</span>
+              </span>
+              <span ng-if="balance>=0">
+                  <span style="color:olivedrab">{{balance| number:2}}</span>
+              </span>
+              <!--<BR>-->
+              <!--<span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>-->
+              <!--<span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>-->
+
+              <!--<i id="tran_loading" class="icon ion-loading-c" style="visibility:{{loading}}"></i>-->
+
+          </ion-item>
+          <ion-item class="item item-divider" >
+              <i id="tran_loading" class="icon ion-loading-c" style="visibility:{{loading}}"></i>
+                  <!--<label class="item item-input" style="border-radius: 5px;height: 30px">-->
+                      <!--<i class="icon ion-search placeholder-icon"></i>-->
+                      <!--<input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;" onkeyup="this.value!=''?search_cancel.style.visibility='visible':search_cancel.style.visibility='hidden'">-->
+                      <!--<button id="search_cancel" class="button button-clear" ng-click="alert()"  style="visibility: hidden" >-->
+                          <!--<i class="ion-close-circled"></i>-->
+                      <!--</button>-->
+                  <!--</label>-->
+
+          </ion-item>
+
+          <ion-item class="item item-avatar item-icon-right"  ng-repeat="balance in grouplist" ng-click="openBalance(balance)">
+              <!--personal icon-->
+              <img src="{{balance.get('frienduser').get('icon').url()}}" style="border-radius: 10px;width: 50px"
+                   ng-if="balance.get('group').get('ispersonal')==true && balance.get('frienduser').get('icon').url()!=undefined">
+              <img src="../img/people.png" style="border-radius: 10px;width: 50px"
+                   ng-if="balance.get('group').get('ispersonal')==true && balance.get('frienduser').get('icon').url()==undefined">
+              <!--group icon-->
+              <img src="{{balance.get('group').get('icon').url()}}" style="border-radius: 10px;width: 50px"
+                   ng-if="balance.get('group').get('ispersonal')!=true && balance.get('group').get('icon').url()!=undefined">
+
+              <img src="../img/group.png" height="50px" style="border-radius: 10px;width: 50px"
+                   ng-if="balance.get('group').get('ispersonal')!=true && balance.get('group').get('icon').url()==undefined">
+              <!--person name-->
+              <span style="font-weight: bold" ng-if="balance.get('group').get('ispersonal')==true">{{balance.get('frienduser').get('username')}}</span>
+              <!--group name-->
+              <span style="font-weight: bold" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('group')}}</span>
+              <!--counter badge-->
+              <i class="badge badge-assertive" style="top:50px;left:40px;width: 28px" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}}</i>
+              <br>
+              <span  style="font-size: small" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}} people in group</span>
+              <!--amount-->
+              <span class="item-note" style="color:black">
+                       <span ng-if="balance.get('balance')<0">
+                           $ <span style="color: red">{{balance.get('balance') | number:2}}</span>
+                        </span>
+                        <span ng-if="balance.get('balance')>=0">
+                           $ <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
+                        </span>
+              </span>
+
+              <br>
+
+              <span style="font-size: x-small;color:gray">Last transaction on <b>{{balance.updatedAt.toLocaleDateString()}}</b></span>
+              <!--<span ng-if="balance.get('group').get('ispersonal')!=true">-->
+                <!--<span class="badge badge-assertive">{{balance.get('group').get('friends').length}}</span>-->
+              <!--</span>   -->
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>
