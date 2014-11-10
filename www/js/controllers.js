@@ -677,7 +677,7 @@ angular.module('starter.controllers', [])
         $scope.scan();
 
 })
-.controller('SignUpCtrl', function($scope,$location,$state, $ionicPopup,ParseService) {
+.controller('SignUpCtrl', function($rootScope,$scope,$location,$state, $ionicPopup,ParseService) {
         // Called when the form is submitted
         console.log('Signup Ctrl');
 
@@ -715,18 +715,14 @@ angular.module('starter.controllers', [])
                 // When service call is finished, navigate to items page
 //                alert("Account Signup Successful");
                 var alertPopup = $ionicPopup.alert({
-                    title: 'Account Setup Successful',
-                    template: 'Please login'
+                    title: 'Congrats!',
+                    template: "You're now one of the 'setters'"
                 });
                 alertPopup.then(function(res) {
 //                    console.log('Group will be selected: ' + res);
                 });
-
-                $state.transitionTo('login', '', {
-                    reload: true,
-                    inherit: false,
-                    notify: true
-                });
+                $rootScope.user = user;
+                $state.go('tab.balance-overview');
             })
         };
 })
@@ -739,6 +735,7 @@ angular.module('starter.controllers', [])
             if ($scope.user.get('default_currency')){
                 $scope.user.get('default_currency').fetch({
                     success:function(curr){
+                        $scope.$apply();
                         console.log("fetch default currency");
                     }
                 });
