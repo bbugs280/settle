@@ -1,5 +1,5 @@
 
-<ion-view title="Send">
+<ion-view title="Send {{selectedGroup.get('group')}}">
     <ion-nav-buttons side="left">
         <span ng-if="selectedGroup!=undefined">
             <button class="button button-clear" ng-click="clearGroup()">
@@ -15,8 +15,9 @@
         <!--</button>-->
     <!--</ion-nav-buttons>-->
   <ion-content class="has-header">
-      <ion-item class="item item-icon-right" ng-click="selectGroup()" style="text-align: center" ng-class="{'item-dark':selectedGroup!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedGroup==undefined}">
-          <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined">
+      <ion-item class="item item-avatar item-icon-right" ng-click="selectGroup()"  ng-class="{'item-dark':selectedGroup!=undefined,'item-stable':selectedGroup==undefined}">
+          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined && selectedGroup.get('icon').url()==undefined">
+          <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
 
           <span ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</span>
           <span   ng-if="selectedGroup!=undefined">is selected</span>
@@ -44,21 +45,11 @@
       <div id="qrcode" style="width: 150px; height: 150px; border: 5px solid; border-radius: 5px;border-color: lightgray;padding: 5px 5px 5px 5px;margin-left: auto ;margin-right: auto ;"></div>
       <br>
       <div class="item-divider" style="text-align: center;font-size: large;font-weight: bold;">Or </div>
-      <ion-item class="item item-icon-right" ng-click="selectUser()"  style="text-align: center" ng-class="{'item-dark':selectedFriend!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedFriend==undefined}">
-          <img src="{{selectedFriend.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined">
-
-          <span ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</span>
-          <span   ng-if="selectedFriend!=undefined">is selected</span>
-          <span ng-if="selectedFriend==undefined">select friend</span>
-
+      <ion-item class="item item-icon-right" style="text-align: center" ng-click="goToRemote(sendform)">
+          Send Remotely
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
-      <label class="item item-input">
-          <input type="email" placeholder="Send By Email, even if your friend is not here" ng-model="sendform.emailinvite">
-      </label>
-      <button class="button button-block button-stable" ng-click="sendRemote(sendform)">
-          Send
-      </button>
+
   </ion-content>
 </ion-view>
 

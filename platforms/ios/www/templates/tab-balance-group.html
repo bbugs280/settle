@@ -1,9 +1,8 @@
 <ion-view title="{{selectedGroup.get('group')}}" >
-
     <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined" ng-click="goToGroupEdit(selectedGroup)">
         <button class="button button-clear" ng-click="goToGroupEdit(selectedGroup)">
             <span>
-              <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 50px">
+              <img src="{{selectedGroup.get('icon').url()}}" height="32px" style="border-radius: 50px">
           </span>
         </button>
     </ion-nav-buttons>
@@ -32,23 +31,17 @@
               <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()!=undefined">
               <img src="./img/people.png"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()==undefined">
 
-                  <!--icon -->
-                      <span >
-
-                      </span>
-                      <span >
-
-                      </span>
                   <span>
-                  {{bal.get('user').get('username')}} balance is $
+                  {{bal.get('user').get('username')}} balance is
                 </span>
-                <span ng-if="bal.get('balance')<0">
-                    <span style="color: red">{{bal.get('balance')| number:2}}</span>
+               <span class="item-note" style="color:black">
+                    <span ng-if="bal.get('balance')<0">
+                       $ <span style="color: red">{{bal.get('balance')| number:2}}</span>
+                    </span>
+                    <span ng-if="bal.get('balance')>=0">
+                      $ <span style="color:olivedrab">{{bal.get('balance')| number:2}}</span>
+                    </span>
                 </span>
-                <span ng-if="bal.get('balance')>=0">
-                  <span style="color:olivedrab">{{bal.get('balance')| number:2}}</span>
-                </span>
-
 
 
               <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>

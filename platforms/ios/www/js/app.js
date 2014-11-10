@@ -109,6 +109,19 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               needgroup: true
           }
     })
+      .state('tab.send-remote', {
+          url: '/send-remote',
+          views: {
+              'tab-send': {
+                  templateUrl: 'templates/tab-send-remote.html',
+                  controller: 'SendCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: true
+          }
+      })
     .state('tab.send-group', {
           url: '/send-group',
           views: {
