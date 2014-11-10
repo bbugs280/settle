@@ -1,0 +1,50 @@
+
+<ion-view title="Send Remotely">
+    <ion-nav-buttons side="right">
+        <span ng-if="selectedGroup!=undefined">
+            <button class="button button-clear" ng-click="clearGroup()">
+                Clear Group
+            </button>
+        </span>
+    </ion-nav-buttons>
+
+  <ion-content class="has-header">
+      <ion-item class="item item-icon-right" ng-click="selectGroup()" style="text-align: center" ng-class="{'item-dark':selectedGroup!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedGroup==undefined}">
+          <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined">
+
+          <span ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</span>
+          <span   ng-if="selectedGroup!=undefined">is selected</span>
+          <span ng-if="selectedGroup==undefined">select group (optional)</span>
+
+          <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+      </ion-item>
+      <ion-item class="item item-icon-right" ng-click="selectUser()"  style="text-align: center" ng-class="{'item-dark':selectedFriend!=undefined,'item-stable item-icon-left icon ion-android-contact':selectedFriend==undefined}">
+          <img src="{{selectedFriend.get('icon').url()}}" height="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined">
+
+          <span ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</span>
+          <span ng-if="selectedFriend!=undefined">is selected</span>
+          <span ng-if="selectedFriend==undefined">select friend</span>
+
+          <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+      </ion-item>
+      <ion-item class="item item-input-inset">
+          <label class=" item-input-wrapper " style="height: 50px">
+              <input type="tel" placeholder="Amount" ng-model="sendform.amount" ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency min="1" max="500">
+          </label>
+      </ion-item>
+      <label class="item item-input">
+          <input type="text" placeholder="Note" ng-model="sendform.note" ng-model-options="{ getterSetter: true }" >
+      </label>
+      <!--<label class="item item-input">-->
+          <!--<input type="email" placeholder="Send By Email, even if your friend is not here" ng-model="sendform.emailinvite">-->
+      <!--</label>-->
+      <button class="button button-block button-stable" ng-click="sendRemote(sendform)">
+          Send
+      </button>
+      <ion-item>
+sa  <span ng-bind="sendform.amount"></span>
+      </ion-item>
+
+  </ion-content>
+</ion-view>
+
