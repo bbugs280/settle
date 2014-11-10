@@ -416,6 +416,10 @@ angular.module('starter.controllers', [])
             })
         }
 
+        $scope.clearSearch = function(){
+            console.log("clear");
+            document.getElementById('search_text').value = '';
+        }
 
         $scope.addGroup = function (){
             $scope.data = {};
@@ -480,8 +484,8 @@ angular.module('starter.controllers', [])
                     }
                 }
                 $scope.relatedFriendList = fl.get('friendnames');
-                console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
-                console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
+                //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
+                //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
                 $scope.$apply();
 
             })
