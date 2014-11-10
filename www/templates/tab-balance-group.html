@@ -1,14 +1,10 @@
 <ion-view title="{{selectedGroup.get('group')}}">
 
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="goToSend()">
-            <span ng-if="selectedGroup==undefined">
-                <i class=" ion-android-keypad"></i>
-            </span>
-            <span ng-if="selectedGroup!=undefined">
-              <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 10px">
+    <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined">
+        <button class="button button-clear" ng-click="">
+            <span>
+              <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 50px">
           </span>
-            Send
         </button>
     </ion-nav-buttons>
   <ion-content>
@@ -32,7 +28,7 @@
 
           </ion-item>
 
-          <ion-item class="item item-avatar item-icon-right" style="font-size: medium;" ng-repeat="bal in balances" >
+          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: medium;" ng-repeat="bal in balances" >
               <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()!=undefined">
               <img src="./img/people.png"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()==undefined">
 
@@ -56,6 +52,9 @@
 
 
               <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>
+              <button class="button button-clear" ng-click="goToSend(bal.get('user'))">
+                  <i class="icon ion-paper-airplane"></i>
+              </button>
 
           </ion-item>
       </ion-list>

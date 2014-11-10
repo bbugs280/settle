@@ -191,15 +191,24 @@ angular.module('starter.controllers', [])
         $scope.openBalance = function(balance){
             $rootScope.selectedGroup = balance.get('group');
             if (balance.get('group').get('ispersonal')!=true){
-                //Personal Account will go to Transaction Detail i.e. BalanceDetail
-
+                //Group Account goes to BalanceGroup
                 $state.go('tab.balance-group');
             }else{
-                //Group Account goes to BalanceGroup
+
+                //Personal Account will go to Transaction Detail i.e. BalanceDetail
+                $rootScope.selectedFriend = balance.get('frienduser');
                 $state.go('tab.balance-detail');
             }
 
 
+        }
+        $scope.sendPerson = function(user){
+            $rootScope.selectedFriend = user;
+            $state.go('tab.send');
+        }
+
+        $scope.editGroup = function(group){
+            //todo
         }
 
         $scope.loadOverview();
@@ -270,7 +279,8 @@ angular.module('starter.controllers', [])
         $scope.openTrans = function(bal){
             $state.go('tab.balance-detail');
         }
-        $scope.goToSend = function(){
+        $scope.goToSend = function(user){
+            $rootScope.selectedFriend = user;
             $state.go('tab.send');
         }
 
@@ -720,11 +730,16 @@ angular.module('starter.controllers', [])
 
         $scope.user = ParseService.getUser();
         $scope.refreshUser = function(){
-            $scope.user.get('default_currency').fetch().then(function(curr){
+            if ($scope.user.get('default_currency')){
+                $scope.user.get('default_currency').fetch({
+                    success:function(curr){
+                        console.log("fetch default currency");
+                    }
+                });
+            }
 
-            })
         }
-        $scope.refreshUser();
+
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
             $ionicLoading.show({
