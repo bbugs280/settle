@@ -1,7 +1,7 @@
-<ion-view title="{{selectedGroup.get('group')}}">
+<ion-view title="{{selectedGroup.get('group')}}" >
 
-    <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined">
-        <button class="button button-clear" ng-click="">
+    <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined" ng-click="goToGroupEdit(selectedGroup)">
+        <button class="button button-clear" ng-click="goToGroupEdit(selectedGroup)">
             <span>
               <img src="{{selectedGroup.get('icon').url()}}" height="30px" style="border-radius: 50px">
           </span>

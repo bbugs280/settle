@@ -32,15 +32,6 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
      }
 
 
-//    if (Parse.User.current()){
-//        //Check If Group is selected
-//        if (toState.data.needgroup && $rootScope.selectedGroup == undefined){
-//         console.log("selected group = "+$rootScope.selectedGroup);
-//            $rootScope.warnNoGroup();
-//        }
-//    }
-
-
   });
 
 })
@@ -206,6 +197,19 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               needgroup: false
           }
      })
+      .state('tab.setupgroup-edit', {
+          url:'/group-edit',
+          views:{
+              'tab-setup':{
+                  templateUrl: 'templates/setup-group-edit.html',
+                  controller: 'SetupGroupCtrl'
+              }
+          },
+          data: {
+              authenticate: true,
+              needgroup: false
+          }
+      })
     .state('signup', {
           url:'/signup',
           templateUrl: 'templates/user-signup.html',
