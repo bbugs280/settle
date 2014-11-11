@@ -1,8 +1,17 @@
 angular.module('starter.controllers', [])
-.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService) {
+.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.back = function(){
             history.go(-1);
+        }
+
+        $rootScope.showLoading = function(message){
+            $ionicLoading.show({
+                template: message
+            });
+        }
+        $rootScope.hideLoading = function(){
+            $ionicLoading.hide();
         }
         $rootScope.showMenu = function () {
             if (!$scope.friendlists)
@@ -134,20 +143,7 @@ angular.module('starter.controllers', [])
             })
 
         }
-//
-//        $rootScope.loadGroup = function(){
-//            var user = new SUser();
-//            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
-//                console.log("Nav Ctrl - load Group Completed get Friendall");
-//                $scope.friendlists = friendlists;
-//                //$scope.$apply();
-//                $rootScope.$broadcast('scroll.refreshComplete');
-//
-//            })
-//        }
 
-        //$rootScope.loadGroupSetup();
-        //$rootScope.loadGroup();
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
 
@@ -297,9 +293,9 @@ angular.module('starter.controllers', [])
 })
 .controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state, $ionicPopup) {
 
-//        $scope.amount=0;
-//        $scope.note='';
-        $scope.sendform;
+        $scope.sendamount = {};
+        $scope.sendnote = {};
+        $scope.sendform = {};
 
         $scope.selectGroup = function(sendform){
             console.log("SendCtrl - sendform :"+sendform);
@@ -359,17 +355,21 @@ angular.module('starter.controllers', [])
             qrcode.makeCode(sendString.toString()); // make another code.
         }
         $scope.goToRemote = function(sendform){
-//            if (sendform.amount){
-//                $rootScope.sendamount = sendform.amount;
-//            }
-//            if (sendform.note){
-//                $rootScope.sendnote = sendform.note;
-//            }
-//            console.log($rootScope.sendamount );
-//            console.log($scope.sendnote );
+            if (sendform.amount){
+                $rootScope.sendamount = sendform.amount;
+            }
+            if (sendform.note){
+                $rootScope.sendnote = sendform.note;
+            }
+            sendform.amount = $rootScope.sendamount;
+            sendform.note = $rootScope.sendnote;
+            console.log('sendamount' + $rootScope.sendamount );
+            console.log('sendnote'+ $rootScope.sendnote );
+
             $state.go('tab.send-remote');
         }
         $scope.sendRemote = function(sendform){
+            $rootScope.showLoading('Sending...');
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -394,22 +394,28 @@ angular.module('starter.controllers', [])
                     user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                         console.log("SendCtrl.sendRemote "+ friendlist.id);
                         ParseService.recordQRCode(friendlist, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
-                            console.log("SendCtrl.sendRemote Personal Send successfull"+r);
+
                             if (r.message){
                                 alert(r.message);
+                                $rootScope.hideLoading();
                             }else{
+
                                 $scope.remoteSendConfirmation(r);
+                                $rootScope.hideLoading();
                             }
 
                         });
                     })
                 }else{
                     $rootScope.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
-                        console.log("SendCtrl.sendRemote group Send successfull"+r);
+
                         if (r.message){
                             alert(r.message);
+                            $rootScope.hideLoading();
                         }else{
+
                             $scope.remoteSendConfirmation(r);
+                            $rootScope.hideLoading();
                         }
                     });
 
@@ -420,7 +426,7 @@ angular.module('starter.controllers', [])
 
             var alertPopup = $ionicPopup.alert({
                 title: 'Sent Successful ',
-                template: '$'+tran.get('amount') + ' is sent to ' + +tran.get('toname')
+                template: '$'+tran.get('amount') + ' is sent to ' + tran.get('toname')
             });
             alertPopup.then(function(res) {
                 throw("Remote Send Successful");
@@ -440,7 +446,7 @@ angular.module('starter.controllers', [])
 
             })
         }
-        $
+
         $scope.clearSearch = function(search){
             console.log("clear");
             search = '';
@@ -565,18 +571,6 @@ angular.module('starter.controllers', [])
         $scope.user = ParseService.getUser();
         var location;
 
-        $scope.showloading = function(){
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
-//            document.getElementById("scan_loading").style.visibility = 'visible';
-        }
-
-        $scope.hideloading = function(){
-//            document.getElementById("scan_loading").style.visibility = 'hidden';
-            $ionicLoading.hide();
-        }
-
         ParseService.getLocation(function(r){
             location=r;
         });
@@ -585,7 +579,7 @@ angular.module('starter.controllers', [])
             console.log("Receive Ctrl enter scan");
             document.getElementById("info").innerHTML="";
 
-            $scope.showloading();
+            $rootScope.showloading('Receving...');
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
             scanner.scan( function (result) {
@@ -609,7 +603,7 @@ angular.module('starter.controllers', [])
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
 //                    $scope.scanresult.message = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all.";
-                    $scope.hideloading();
+                    $rootScope.hideloading();
 //                    $scope.$apply();
                 }else{
 
@@ -666,7 +660,7 @@ angular.module('starter.controllers', [])
                 }
             }, function (error) {
 
-                $scope.hideloading();
+                $rootScope.hideloading();
                 console.log("Scanning failed: ", error);
             } );
         }
@@ -703,7 +697,7 @@ angular.module('starter.controllers', [])
                     display = "<BR><b> " + r.message +"</b>";
                     document.getElementById("info").innerHTML = display;
                 }
-                $scope.hideloading();
+                $rootScope.hideloading();
 
             });
         }
@@ -778,9 +772,8 @@ angular.module('starter.controllers', [])
 
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+            $rootScope.showLoading('Saving...');
+
 
             if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
@@ -809,9 +802,9 @@ angular.module('starter.controllers', [])
             user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
-                    $ionicLoading.hide();
+                    $rootScope.hideLoading();
                 },error:function(user, error){
-                    $ionicLoading.hide();
+                    $rootScope.hideLoading();
                     alert(error.message);
                 }
             })
@@ -841,9 +834,8 @@ angular.module('starter.controllers', [])
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+            $rootScope.showLoading('Loading...')
+
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
@@ -855,21 +847,12 @@ angular.module('starter.controllers', [])
                 alertPopup.then(function(res) {
                     throw("Image Size Error");
                 });
-                $ionicLoading.hide();
+                $rootScope.hideLoading();
                 throw("Image Size Error");
             }
 
-
-            console.log(DATA_URL.length);
-            console.log("File size in MB:"+ (DATA_URL.length*6/8)/1000000);
             console.log("success got pic");
 
-//            var img = new Image();
-//            img.src = "data:image/jpeg;base64," + DATA_URL;
-//            img.src = DATA_URL;
-//            console.log("check image size");
-//            console.log("check image size height = "+ img.height);
-//            console.log("check image size width = "+ img.width);
 
             var file = new Parse.File("icon.jpg", {base64:DATA_URL});
 //            var file = new Parse.File("icon.jpg", img);
@@ -879,9 +862,9 @@ angular.module('starter.controllers', [])
                         console.log("setup ctrl - user updated with new icon");
                         $rootScope.$apply();
                         $state.go('tab.setupuser');
-                        $ionicLoading.hide();
+                        $rootScope.hideLoading();
                     },error:function(obj,error){
-                        $ionicLoading.hide();
+                        $rootScope.hideLoading();
                         throw (error.message);
                     }
                 }
@@ -890,7 +873,7 @@ angular.module('starter.controllers', [])
         };
         var onFail = function(e) {
             console.log("On fail " + e);
-            $ionicLoading.hide();
+            $rootScope.hideLoading();
         }
 
         $scope.logout = function(){
@@ -923,9 +906,8 @@ angular.module('starter.controllers', [])
                 encodingType: 0     // 0=JPG 1=PNG
             }
             $scope.group = group;
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+            $rootScope.showLoading('Loading...');
+
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(DATA_URL) {
@@ -937,7 +919,7 @@ angular.module('starter.controllers', [])
                 alertPopup.then(function(res) {
                     throw("Image Size Error");
                 });
-                $ionicLoading.hide();
+                $rootScope.hideLoading();
                 throw("Image Size Error");
             }
             console.log("success got pic");
@@ -949,9 +931,9 @@ angular.module('starter.controllers', [])
                         $rootScope.selectedGroup=group;
                         $scope.$apply();
 
-                        $ionicLoading.hide();
+                        $rootScope.hideLoading();
                     },error:function(obj,error){
-                        $ionicLoading.hide();
+                        $rootScope.hideLoading();
                         throw (error.message);
                     }
                 }
@@ -960,22 +942,21 @@ angular.module('starter.controllers', [])
         };
         var onFail = function(e) {
             console.log("On fail " + e);
-            $ionicLoading.hide();
+            $rootScope.hideLoading();
         }
         $scope.saveGroup = function(group){
-            $ionicLoading.show({
-                template: 'Saving...'
-            });
+            $rootScope.showLoading('Saving...');
+
             if(group)
                 $rootScope.selectedGroup.set('group', group.name);
             $rootScope.selectedGroup.save(null,{
                 success:function(group){
                     console.log("SetupGroupEditCtrl - saveGroup done");
-                    $ionicLoading.hide();
+                    $rootScope.hideLoading();
                     $scope.back();
 
                 },error:function(obj,error){
-                    $ionicLoading.hide();
+                    $rootScope.hideLoading();
                     alert (error.message);
                 }
             })

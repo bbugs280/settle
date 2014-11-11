@@ -16,7 +16,7 @@
     <!--</ion-nav-buttons>-->
   <ion-content class="has-header">
       <ion-item class="item item-avatar item-icon-right" ng-click="selectGroup()"  ng-class="{'item-dark':selectedGroup!=undefined,'item-stable':selectedGroup==undefined}">
-          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined && selectedGroup.get('icon').url()==undefined">
+          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon').url()==undefined">
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
 
           <span ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</span>
