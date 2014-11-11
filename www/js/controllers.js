@@ -369,19 +369,36 @@ angular.module('starter.controllers', [])
 
         $scope.processSend = function(sendform){
             if($rootScope.inviteEmail){
-                $scope.createAccount($rootScope.inviteEmail);
+                $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
                 $scope.sendRemote(sendform);
             }
         }
-        $scope.createAccount = function(email){
+        $scope.createAccount = function(email,sendform){
+
             var user = new SUser();
-            user.createTempAccount(email, function(user){
-                console.log("Account Created User = " + user.get('username'));
+            user.createTempAccount(email, function(suser){
+                if (suser.message){
+                    $rootScope.alert("Create Account Failed",suser.message);
+                    throw ("Create Account Failed");
+                }
+                $rootScope.selectedFriend = suser;
+                console.log("Account Created User = " + suser.getUsername());
                 //create account done
+                //call sendRemote to save tran
+                $scope.sendRemote(sendform);
+
+                //Sign back into your own account using $rootScope.user
+                Parse.User.become($rootScope.user.getSessionToken(), {
+                          success:function(suser){
+                          console.log('relogin done');
+                      },error:function(error){
+                        console.log(error.message);
+                    }
+                })
+
                 //Now send an email to let user know, 1) there's an account with credit 2) another email to reset password
 
-                //call sendRemote to save tran
             });
         }
 
@@ -613,7 +630,7 @@ angular.module('starter.controllers', [])
 
 
     })
-.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common,$ionicLoading) {
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
@@ -776,7 +793,7 @@ angular.module('starter.controllers', [])
 
             ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
-                $rootScope.alert('Congrats!',"You're now one of the 'setters'");
+                $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
                 $rootScope.user = user;
                 $state.go('tab.balance-overview');

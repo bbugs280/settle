@@ -4,14 +4,15 @@ var SUser = Parse.User.extend({
     createTempAccount :function(email, callback){
         var User = Parse.Object.extend("User");
         var user = new User();
+        user.set('username',email.substring(0,email.indexOf('@')));
         user.set('email',email);
         user.set('password','Abcd1234');
-        user.set('username',email.substring(0,email.indexOf('@')));
-        console.log(user.get('username'));
-        user.signUp({
-            success:function(user){
-                callback(user);
-            },error:function(obj,error){
+
+
+        user.signUp(null,{
+            success:function(suser){
+                callback(suser);
+            },error:function(error){
                 console.log("error:"+error.message);
                 callback(error);
             }
