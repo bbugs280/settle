@@ -8,6 +8,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.jcjee.plugins.emailcomposer/www/EmailComposer.js",
+        "id": "com.jcjee.plugins.emailcomposer.EmailComposer",
+        "clobbers": [
+            "EmailComposer"
+        ]
+    },
+    {
         "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
         "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
         "clobbers": [
@@ -68,6 +75,7 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "com.ionic.keyboard": "1.0.3",
+    "com.jcjee.plugins.emailcomposer": "1.4.6",
     "com.phonegap.plugins.barcodescanner": "2.0.0",
     "org.apache.cordova.camera": "0.3.3",
     "org.apache.cordova.console": "0.2.11",

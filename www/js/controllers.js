@@ -398,10 +398,31 @@ angular.module('starter.controllers', [])
                 })
 
                 //Now send an email to let user know, 1) there's an account with credit 2) another email to reset password
-
+                $scope.sendEmailToNewUser(email, suser.getUsername(),$rootScope.user.getUsername());
             });
         }
+        $scope.sendEmailToNewUser= function(email,username, from) {
+            var body = "Dear new Settler, ";
+            body += "<p>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
+            body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
+            body += "<p>Your account name is <b>"+ username + "</b></p>";
+            body += "<p>There's a separate email to set your password.</p>";
+            body += "<p>Your truly, The Settle Team</p>";
 
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "[Settle] Your friend paid you with Settle  ", // Subject
+                    body,                      // Body
+                    [email],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
 
@@ -523,6 +544,7 @@ angular.module('starter.controllers', [])
         $scope.selectGroup=function(group){
             $rootScope.selectedGroup = group;
             $rootScope.selectedFriend = undefined;
+            $rootScope.inviteEmail = undefined;
             history.go(-1);
 //            $state.go('tab.send');
         }
@@ -643,7 +665,7 @@ angular.module('starter.controllers', [])
             console.log("Receive Ctrl enter scan");
             document.getElementById("info").innerHTML="";
 
-            $rootScope.showloading('Receving...');
+            $rootScope.showLoading('Receving...');
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
             scanner.scan( function (result) {
@@ -654,7 +676,7 @@ angular.module('starter.controllers', [])
                     "cancelled: " + result.cancelled + "\n");
 
                 if (result.cancelled == 1){
-                    $scope.hideloading();
+                    $rootScope.hideLoading();
                     throw "Scanning Canceled";
                 }
 
@@ -667,7 +689,7 @@ angular.module('starter.controllers', [])
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
 //                    $scope.scanresult.message = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all.";
-                    $rootScope.hideloading();
+                    $rootScope.hideLoading();
 //                    $scope.$apply();
                 }else{
 
@@ -724,7 +746,7 @@ angular.module('starter.controllers', [])
                 }
             }, function (error) {
 
-                $rootScope.hideloading();
+                $rootScope.hideLoading();
                 console.log("Scanning failed: ", error);
             } );
         }

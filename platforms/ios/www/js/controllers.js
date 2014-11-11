@@ -366,8 +366,66 @@ angular.module('starter.controllers', [])
 
             $state.go('tab.send-remote');
         }
+
+        $scope.processSend = function(sendform){
+            if($rootScope.inviteEmail){
+                $scope.createAccount($rootScope.inviteEmail,sendform);
+            }else{
+                $scope.sendRemote(sendform);
+            }
+        }
+        $scope.createAccount = function(email,sendform){
+
+            var user = new SUser();
+            user.createTempAccount(email, function(suser){
+                if (suser.message){
+                    $rootScope.alert("Create Account Failed",suser.message);
+                    throw ("Create Account Failed");
+                }
+                $rootScope.selectedFriend = suser;
+                console.log("Account Created User = " + suser.getUsername());
+                //create account done
+                //call sendRemote to save tran
+                $scope.sendRemote(sendform);
+
+                //Sign back into your own account using $rootScope.user
+                Parse.User.become($rootScope.user.getSessionToken(), {
+                          success:function(suser){
+                          console.log('relogin done');
+                      },error:function(error){
+                        console.log(error.message);
+                    }
+                })
+
+                //Now send an email to let user know, 1) there's an account with credit 2) another email to reset password
+                $scope.sendEmailToNewUser(email, suser.getUsername(),$rootScope.user.getUsername());
+            });
+        }
+        $scope.sendEmailToNewUser= function(email,username, from) {
+            var body = "Dear new Settler, ";
+            body += "<p>Congrats! Your friend "+from+ " paid you with Settle.</p>";
+            body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
+            body += "<p>Your account name is "+ username + "</p>";
+            body += "<p>There's a separate email to set your password.</p>";
+            body += "<p>Your truly, The Settle Team</p>";
+
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "[Settle] Your friend paid you with Settle  ", // Subject
+                    body,                      // Body
+                    [email],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -377,7 +435,7 @@ angular.module('starter.controllers', [])
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
             if (!$rootScope.sendamount){
-                alert("invalid amount");
+                $rootScope.alert("Invalid amount","Please Enter Again");
                 throw ("invalid amount");
             }
 
@@ -394,7 +452,7 @@ angular.module('starter.controllers', [])
                         ParseService.recordQRCode(friendlist, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
-                                alert(r.message);
+                                $rootScope.alert('Error',r.message);
                                 $rootScope.hideLoading();
                             }else{
 
@@ -408,7 +466,7 @@ angular.module('starter.controllers', [])
                     ParseService.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
-                            alert(r.message);
+                            $rootScope.alert('Error',r.message);
                             $rootScope.hideLoading();
                         }else{
 
@@ -593,7 +651,7 @@ angular.module('starter.controllers', [])
 
 
     })
-.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common,$ionicLoading) {
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
@@ -606,7 +664,7 @@ angular.module('starter.controllers', [])
             console.log("Receive Ctrl enter scan");
             document.getElementById("info").innerHTML="";
 
-            $rootScope.showloading('Receving...');
+            $rootScope.showLoading('Receving...');
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
             scanner.scan( function (result) {
@@ -617,7 +675,7 @@ angular.module('starter.controllers', [])
                     "cancelled: " + result.cancelled + "\n");
 
                 if (result.cancelled == 1){
-                    $scope.hideloading();
+                    $rootScope.hideLoading();
                     throw "Scanning Canceled";
                 }
 
@@ -630,7 +688,7 @@ angular.module('starter.controllers', [])
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
 //                    $scope.scanresult.message = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all.";
-                    $rootScope.hideloading();
+                    $rootScope.hideLoading();
 //                    $scope.$apply();
                 }else{
 
@@ -687,7 +745,7 @@ angular.module('starter.controllers', [])
                 }
             }, function (error) {
 
-                $rootScope.hideloading();
+                $rootScope.hideLoading();
                 console.log("Scanning failed: ", error);
             } );
         }
@@ -756,7 +814,7 @@ angular.module('starter.controllers', [])
 
             ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
-                $rootScope.alert('Congrats!',"You're now one of the 'setters'");
+                $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
                 $rootScope.user = user;
                 $state.go('tab.balance-overview');

@@ -6,6 +6,7 @@ angular.module('starter.services', [])
 
         Parse.Config.get().then(function(config) {
             console.log("Yay! Config was fetched from the server.");
+
             secret_passphrase = config.get("secret_passphrase");
 
         }, function(error) {
