@@ -25,6 +25,9 @@
     <feature name="EmailComposer">
         <param name="ios-package" value="EmailComposer" />
     </feature>
+    <feature name="PushPlugin">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
     <feature name="BarcodeScanner">
         <param name="ios-package" value="CDVBarcodeScanner" />
     </feature>

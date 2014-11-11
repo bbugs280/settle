@@ -15,6 +15,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
         "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
         "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
         "clobbers": [
@@ -76,6 +83,7 @@ module.exports.metadata =
 {
     "com.ionic.keyboard": "1.0.3",
     "com.jcjee.plugins.emailcomposer": "1.4.6",
+    "com.phonegap.plugins.PushPlugin": "2.4.0",
     "com.phonegap.plugins.barcodescanner": "2.0.0",
     "org.apache.cordova.camera": "0.3.3",
     "org.apache.cordova.console": "0.2.11",

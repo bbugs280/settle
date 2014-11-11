@@ -201,6 +201,7 @@ angular.module('starter.controllers', [])
         $scope.sendPerson = function(user){
             $rootScope.selectedGroup = undefined;
             $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
 
@@ -247,6 +248,7 @@ angular.module('starter.controllers', [])
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
 
@@ -280,10 +282,12 @@ angular.module('starter.controllers', [])
         }
         $scope.goToSend = function(user){
             $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
         $scope.goToGroupEdit = function(group){
             $rootScope.selectedGroup = group;
+
             $state.go('tab.setupgroup-edit');
         }
         $scope.loadGroup();
@@ -568,6 +572,7 @@ angular.module('starter.controllers', [])
                     }
                 }
                 $scope.relatedFriendList = fl.get('friendnames');
+                $scope.relatedFriendListFiltered = fl.get('friendnames');
                 console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
                 $scope.$apply();
@@ -575,6 +580,11 @@ angular.module('starter.controllers', [])
             })
         }
 
+        $scope.searchFriend = function(searchtext){
+            $scope.relatedFriendListFiltered = $scope.relatedFriendList.filter(function(val,index,array){
+                return (val.indexOf(searchtext)!=-1);
+            })
+        }
         $scope.loadGroupRelatedUsers = function(){
 
             var Friendlist = Parse.Object.extend("friendlist");
@@ -584,6 +594,7 @@ angular.module('starter.controllers', [])
                 success:function(group){
                     console.log(group.length);
                     $scope.relatedFriendList = group.get('friendnames');
+                    $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
                 }
             })

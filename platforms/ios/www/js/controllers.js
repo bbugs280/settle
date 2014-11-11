@@ -403,9 +403,9 @@ angular.module('starter.controllers', [])
         }
         $scope.sendEmailToNewUser= function(email,username, from) {
             var body = "Dear new Settler, ";
-            body += "<p>Congrats! Your friend "+from+ " paid you with Settle.</p>";
+            body += "<p>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
             body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
-            body += "<p>Your account name is "+ username + "</p>";
+            body += "<p>Your account name is <b>"+ username + "</b></p>";
             body += "<p>There's a separate email to set your password.</p>";
             body += "<p>Your truly, The Settle Team</p>";
 
@@ -544,6 +544,7 @@ angular.module('starter.controllers', [])
         $scope.selectGroup=function(group){
             $rootScope.selectedGroup = group;
             $rootScope.selectedFriend = undefined;
+            $rootScope.inviteEmail = undefined;
             history.go(-1);
 //            $state.go('tab.send');
         }

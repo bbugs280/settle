@@ -19,7 +19,8 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-      //$cordovaPlugin.someFunction().then(success, error);
+
+//      $cordovaPlugin.someFunction().then(success, error);
       $rootScope.user = Parse.User.current();
   });
   // UI Router Authentication Check

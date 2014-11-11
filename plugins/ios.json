@@ -17,6 +17,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
                             "count": 1
                         },
@@ -120,6 +124,9 @@
             "PACKAGE_NAME": "com.bumble.settle"
         },
         "com.jcjee.plugins.emailcomposer": {
+            "PACKAGE_NAME": "com.bumble.settle"
+        },
+        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.bumble.settle"
         },
         "com.phonegap.plugins.barcodescanner": {
