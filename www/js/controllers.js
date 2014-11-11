@@ -366,8 +366,28 @@ angular.module('starter.controllers', [])
 
             $state.go('tab.send-remote');
         }
+
+        $scope.processSend = function(sendform){
+            if($rootScope.inviteEmail){
+                $scope.createAccount($rootScope.inviteEmail);
+            }else{
+                $scope.sendRemote(sendform);
+            }
+        }
+        $scope.createAccount = function(email){
+            var user = new SUser();
+            user.createTempAccount(email, function(user){
+                console.log("Account Created User = " + user.get('username'));
+                //create account done
+                //Now send an email to let user know, 1) there's an account with credit 2) another email to reset password
+
+                //call sendRemote to save tran
+            });
+        }
+
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -377,7 +397,7 @@ angular.module('starter.controllers', [])
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
             if (!$rootScope.sendamount){
-                alert("invalid amount");
+                $rootScope.alert("Invalid amount","Please Enter Again");
                 throw ("invalid amount");
             }
 
@@ -394,7 +414,7 @@ angular.module('starter.controllers', [])
                         ParseService.recordQRCode(friendlist, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
-                                alert(r.message);
+                                $rootScope.alert('Error',r.message);
                                 $rootScope.hideLoading();
                             }else{
 
@@ -408,7 +428,7 @@ angular.module('starter.controllers', [])
                     ParseService.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
-                            alert(r.message);
+                            $rootScope.alert('Error',r.message);
                             $rootScope.hideLoading();
                         }else{
 

@@ -19,7 +19,10 @@
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
-      <ion-item class="item item-avatar item-icon-right" ng-click="selectUser()"   ng-class="{'item-dark':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}">
+      <ion-item class="item item-avatar item-icon-right"
+                ng-click="selectUser()"
+                ng-class="{'item-dark':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
+                ng-if="inviteEmail==undefined">
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon').url()==undefined">
           <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon').url()!=undefined">
           <span ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</span>
@@ -28,6 +31,12 @@
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
+      <ion-item ng-if="inviteEmail!=undefined">
+          <label class="item item-input" >
+              <input type="email" placeholder="" ng-model="inviteEmail">
+          </label>
+      </ion-item>
+
       <ion-item class="item item-input-inset">
           <label class=" item-input-wrapper " style="height: 50px">
               <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency min="1" max="500">
@@ -36,9 +45,7 @@
       <label class="item item-input">
           <input type="text" placeholder="Note" ng-model="sendform.note"  ng-model-options="{ getterSetter: true }" >
       </label>
-      <!--<label class="item item-input">-->
-          <!--<input type="email" placeholder="Send By Email, even if your friend is not here" ng-model="sendform.emailinvite">-->
-      <!--</label>-->
+
       <button class="button button-block button-stable" ng-click="sendRemote(sendform)">
           Send
       </button>

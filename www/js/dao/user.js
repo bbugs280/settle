@@ -1,7 +1,21 @@
 
 var SUser = Parse.User.extend({
     // Instance methods
+    createTempAccount :function(email, callback){
+        var User = Parse.Object.extend("User");
+        var user = new User();
+        user.set('email',email);
+        user.set('password','Abcd1234');
+        user.set('username',email.substring(0,email.indexOf('@')));
+        user.save({
+            success:function(user){
+                callback(user);
+            },error:function(obj,error){
+                callback(error);
+            }
+        });
 
+    },
     getUserByEmail : function (emailp, callback) {
     var User = Parse.Object.extend("User");
     var query = new Parse.Query(User);
