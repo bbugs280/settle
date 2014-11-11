@@ -56,7 +56,7 @@ var Transaction = Parse.Object.extend("transaction",{
             }
         },
         getFriendName : function (yourname){
-            console.log("getFriendEmail - arg email = "+ youremail);
+            console.log("getFriendEmail - arg email = "+ yourname);
             console.log("getFriendEmail - from email = "+ this.get('from'));
             console.log("getFriendEmail - to email = "+ this.get('to'));
             if (this.get('fromname')==yourname){
@@ -85,13 +85,13 @@ var Transaction = Parse.Object.extend("transaction",{
 
             }
         },
-        getFriendName : function (){
-
-            var user = new SUser();
-            user.getUserByEmail(this.getFriendEmail, function(frienduser){
-                this.set('friendname', frienduser.get('username'));
-            })
-        },
+        //getFriendName : function (){
+        //
+        //    var user = new SUser();
+        //    user.getUserByEmail(this.getFriendEmail, function(frienduser){
+        //        this.set('friendname', frienduser.get('username'));
+        //    })
+        //},
 
  // Instance properties go in an initialize method
     initialize : function (attrs, options) {

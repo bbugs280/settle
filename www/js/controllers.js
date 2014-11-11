@@ -203,7 +203,7 @@ angular.module('starter.controllers', [])
         }
         $scope.sendPerson = function(user){
             $rootScope.selectedFriend = user;
-            $state.go('tab.send');
+            $state.go('tab.send-remote');
         }
 
         $scope.editGroup = function(group){
@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
-            $state.go('tab.send');
+            $state.go('tab.send-remote');
         }
 
 })
