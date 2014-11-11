@@ -7,10 +7,12 @@ var SUser = Parse.User.extend({
         user.set('email',email);
         user.set('password','Abcd1234');
         user.set('username',email.substring(0,email.indexOf('@')));
-        user.save({
+        console.log(user.get('username'));
+        user.signUp({
             success:function(user){
                 callback(user);
             },error:function(obj,error){
+                console.log("error:"+error.message);
                 callback(error);
             }
         });
