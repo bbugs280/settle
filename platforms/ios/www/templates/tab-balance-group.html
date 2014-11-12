@@ -45,8 +45,9 @@
 
 
               <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>
-              <button class="button button-clear" ng-click="goToSend(bal.get('user'))">
-                  <i class="icon ion-paper-airplane"></i>
+              <button class="button button-clear" ng-click="goToSend(bal.get('user'))" ng-if="selectedUser.id!=bal.get('user').id">
+                  <i class="icon ion-android-keypad"></i>
+
               </button>
 
           </ion-item>

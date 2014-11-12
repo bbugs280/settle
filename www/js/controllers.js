@@ -418,11 +418,11 @@ angular.module('starter.controllers', [])
         }
         $scope.sendEmailToNewUser= function(email,username, from) {
             var body = "Dear new Settler, ";
-            body += "<p>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
+            body += "<p><br>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
             body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
             body += "<p>Your account name is <b>"+ username + "</b></p>";
             body += "<p>There's a separate email to set your password.</p>";
-            body += "<p>Your truly, The Settle Team</p>";
+            body += "<p>Your truly, <br>The Settle Team</p>";
 
             if(window.plugins && window.plugins.emailComposer) {
                 window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {

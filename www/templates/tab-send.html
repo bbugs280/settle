@@ -1,5 +1,5 @@
 
-<ion-view title="Pay {{selectedGroup.get('group')}}">
+<ion-view title="Pay {{selectedGroup.get('group')}}" hide-back-button="true" on-swipe-left="goToRemote(sendform)" >
     <ion-nav-buttons side="left">
         <span ng-if="selectedGroup!=undefined">
             <button class="button button-clear" ng-click="clearGroup()">

@@ -1,5 +1,5 @@
 
-<ion-view title="Send Remotely">
+<ion-view title="Pay on Cloud"  hide-back-button="true" on-swipe-right="goToQRCode()">
     <ion-nav-buttons side="right">
         <span ng-if="selectedGroup!=undefined">
             <button class="button button-clear" ng-click="clearGroup()">
@@ -7,15 +7,21 @@
             </button>
         </span>
     </ion-nav-buttons>
-
+    <ion-nav-buttons side="left">
+        <span>
+            <button class="button button-clear" ng-click="goToQRCode()">
+                <i class="icon ion-qr-scanner"></i>
+            </button>
+        </span>
+    </ion-nav-buttons>
   <ion-content class="has-header">
       <ion-item class="item item-avatar item-icon-right" ng-click="selectGroup()"  ng-class="{'item-dark':selectedGroup!=undefined,'item-stable':selectedGroup==undefined}">
           <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon').url()==undefined">
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
 
-          <span ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</span>
-          <span   ng-if="selectedGroup!=undefined">is selected</span>
-          <span ng-if="selectedGroup==undefined">Select Group (optional)</span>
+          <h2 ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</h2>
+          <p ng-if="selectedGroup!=undefined">is selected</p>
+          <h2 ng-if="selectedGroup==undefined">Select Group (optional)</h2>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
@@ -25,9 +31,9 @@
                 ng-if="inviteEmail==undefined">
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon').url()==undefined">
           <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon').url()!=undefined">
-          <span ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</span>
-          <span ng-if="selectedFriend!=undefined">is selected</span>
-          <span ng-if="selectedFriend==undefined">Select Friend</span>
+          <h2 ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</h2>
+          <p ng-if="selectedFriend!=undefined">is selected</p>
+          <h2 ng-if="selectedFriend==undefined">Select Friend</h2>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
@@ -47,9 +53,16 @@
       </label>
 
       <button class="button button-block button-stable" ng-click="processSend(sendform)">
-          Send
+          Pay
       </button>
 
+      <!--<button class="button button-block button-stable" ng-click="goToQRCode(sendform)">-->
+          <!--Pay by QRCode-->
+      <!--</button>-->
+      <ion-item class="item item-icon-left" style="text-align: center" ng-click="goToQRCode(sendform)">
+          Pay by QRCode <i class="icon ion-qr-scanner"></i>
+          <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+      </ion-item>
 
   </ion-content>
 </ion-view>

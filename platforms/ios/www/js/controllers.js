@@ -201,6 +201,7 @@ angular.module('starter.controllers', [])
         $scope.sendPerson = function(user){
             $rootScope.selectedGroup = undefined;
             $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
 
@@ -247,6 +248,7 @@ angular.module('starter.controllers', [])
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
 
@@ -280,10 +282,12 @@ angular.module('starter.controllers', [])
         }
         $scope.goToSend = function(user){
             $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
         $scope.goToGroupEdit = function(group){
             $rootScope.selectedGroup = group;
+
             $state.go('tab.setupgroup-edit');
         }
         $scope.loadGroup();
@@ -385,6 +389,17 @@ angular.module('starter.controllers', [])
                 $rootScope.selectedFriend = suser;
                 console.log("Account Created User = " + suser.getUsername());
                 //create account done
+                //send email to reset password
+                Parse.User.requestPasswordReset(email, {
+                    success: function() {
+                        // Password reset request was sent successfully
+                        console.log("Password reset send to new user");
+                    },
+                    error: function(error) {
+                        // Show the error message somewhere
+                        $rootScope.alert("Error:  " , error.message);
+                    }
+                });
                 //call sendRemote to save tran
                 $scope.sendRemote(sendform);
 
@@ -403,11 +418,11 @@ angular.module('starter.controllers', [])
         }
         $scope.sendEmailToNewUser= function(email,username, from) {
             var body = "Dear new Settler, ";
-            body += "<p>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
+            body += "<p><br>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
             body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
             body += "<p>Your account name is <b>"+ username + "</b></p>";
             body += "<p>There's a separate email to set your password.</p>";
-            body += "<p>Your truly, The Settle Team</p>";
+            body += "<p>Your truly, <br>The Settle Team</p>";
 
             if(window.plugins && window.plugins.emailComposer) {
                 window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
@@ -481,6 +496,10 @@ angular.module('starter.controllers', [])
         $scope.remoteSendConfirmation = function(tran){
             $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
 
+        }
+
+        $scope.goToQRCode = function(sendform){
+            $state.go('tab.send');
         }
 
 })
@@ -568,6 +587,7 @@ angular.module('starter.controllers', [])
                     }
                 }
                 $scope.relatedFriendList = fl.get('friendnames');
+                $scope.relatedFriendListFiltered = fl.get('friendnames');
                 console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
                 $scope.$apply();
@@ -575,6 +595,11 @@ angular.module('starter.controllers', [])
             })
         }
 
+        $scope.searchFriend = function(searchtext){
+            $scope.relatedFriendListFiltered = $scope.relatedFriendList.filter(function(val,index,array){
+                return (val.indexOf(searchtext)!=-1);
+            })
+        }
         $scope.loadGroupRelatedUsers = function(){
 
             var Friendlist = Parse.Object.extend("friendlist");
@@ -584,6 +609,7 @@ angular.module('starter.controllers', [])
                 success:function(group){
                     console.log(group.length);
                     $scope.relatedFriendList = group.get('friendnames');
+                    $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
                 }
             })
