@@ -1,4 +1,4 @@
-<ion-view title="{{title}} Transactions" hide-nav-bar="false">
+<ion-view title="{{selectedFriend.getUsername()}} {{selectedGroup.get('group')}}" hide-nav-bar="false">
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="goToSend()">
             <i class="icon ion-android-keypad"></i>
@@ -45,7 +45,7 @@
                   <span style="font-style: italic;font-size: small;color:gray">
                       <br>on {{tran.createdAt.toLocaleDateString()}}
                   </span>
-              <span ng-if="tran.get('note')!='' && tran.get('note')!='undefined'">
+              <span ng-if="tran.get('note').trim() !='' && tran.get('note')!=undefined">
                   <span style="font-style: italic;font-size: small;color:gray">
                       ( <span style="color:darkblue">{{tran.get('note')}} </span>)
                   </span>

@@ -1,10 +1,10 @@
 # view AndroidManifest.xml #generated:6
 -keep class com.bumble.settle.CordovaApp { <init>(...); }
 
-# view AndroidManifest.xml #generated:12
+# view AndroidManifest.xml #generated:22
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:24
+# view AndroidManifest.xml #generated:34
 -keep class com.google.zxing.client.android.HelpActivity { <init>(...); }
 
 # view ldpi-v4/res/layout-ldpi-v4/capture.xml #generated:25
@@ -14,9 +14,21 @@
 # view res/layout/search_book_contents_list_item.xml #generated:17
 -keep class com.google.zxing.client.android.book.SearchBookContentsListItem { <init>(...); }
 
-# view AndroidManifest.xml #generated:18
+# view AndroidManifest.xml #generated:28
 -keep class com.google.zxing.client.android.encode.EncodeActivity { <init>(...); }
 
 # view res/xml/preferences.xml #generated:98
 -keep class com.google.zxing.client.android.pref.BSPlusPreference { <init>(...); }
+
+# view AndroidManifest.xml #generated:12
+-keep class com.jcjee.plugins.EmailAttachmentProvider { <init>(...); }
+
+# view AndroidManifest.xml #generated:14
+-keep class com.plugin.gcm.CordovaGCMBroadcastReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:21
+-keep class com.plugin.gcm.GCMIntentService { <init>(...); }
+
+# view AndroidManifest.xml #generated:13
+-keep class com.plugin.gcm.PushHandlerActivity { <init>(...); }
 

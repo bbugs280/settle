@@ -16,9 +16,9 @@
               <span ng-if="balance.get('balance')>=0">
                   <span style="color:olivedrab">{{balance.get('balance')| number:2}}</span>
               </span>
-              <BR>
-              <span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>
-              <span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>
+              <!--<BR>-->
+              <!--<span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>-->
+              <!--<span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>-->
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item item-divider item-icon-right item-button-right">
@@ -45,8 +45,9 @@
 
 
               <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>
-              <button class="button button-clear" ng-click="goToSend(bal.get('user'))">
-                  <i class="icon ion-paper-airplane"></i>
+              <button class="button button-clear" ng-click="goToSend(bal.get('user'))" ng-if="user.id!=bal.get('user').id">
+                  <i class="icon ion-android-keypad"></i>
+
               </button>
 
           </ion-item>

@@ -19,9 +19,9 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-      var pushNotification;
+
       if(window.plugins.pushNotification){
-          pushNotification = window.plugins.pushNotification;
+
           registerPush();
       }
 //      $cordovaPlugin.someFunction().then(success, error);

@@ -33,7 +33,7 @@
 
           </ion-item>
 
-          <ion-item class="item item-avatar item-icon-right"  ng-repeat="balance in grouplist" ng-click="openBalance(balance)">
+          <ion-item class="item item-avatar item-icon-right"  ng-repeat="balance in grouplist" ng-click="openBalance(balance)" ng-if="balance.get('group').get('hidden')!==true">
               <!--personal icon-->
               <img src="{{balance.get('frienduser').get('icon').url()}}" style="border-radius: 10px;width: 50px"
                    ng-if="balance.get('group').get('ispersonal')==true && balance.get('frienduser').get('icon').url()!=undefined">
@@ -72,7 +72,7 @@
               <!--<button class="button button-clear" ng-if="balance.get('group').get('ispersonal')==true">-->
                   <!--<i class="ion-paper-airplane"></i>-->
               <!--</button>-->
-              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">Send <i class="icon ion-paper-airplane"></i></ion-option-button>
+              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">Pay <i class="icon ion-android-keypad"></i></ion-option-button>
               <ion-option-button class="button-calm" ng-click="editGroup(balance.get('group'))" ng-if="balance.get('group').get('ispersonal')!=true">Edit<i class="icon ion-edit"></i></ion-option-button>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>

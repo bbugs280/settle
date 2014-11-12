@@ -8,17 +8,24 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.jcjee.plugins.emailcomposer/www/EmailComposer.js",
+        "id": "com.jcjee.plugins.emailcomposer.EmailComposer",
+        "clobbers": [
+            "EmailComposer"
+        ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
         "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
         "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
         "clobbers": [
             "cordova.plugins.barcodeScanner"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
         ]
     },
     {
@@ -50,10 +57,10 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.jcjee.plugins.emailcomposer/www/EmailComposer.js",
-        "id": "com.jcjee.plugins.emailcomposer.EmailComposer",
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
         "clobbers": [
-            "EmailComposer"
+            "device"
         ]
     }
 ];
@@ -61,11 +68,12 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "com.ionic.keyboard": "1.0.3",
+    "com.jcjee.plugins.emailcomposer": "1.4.6",
+    "com.phonegap.plugins.PushPlugin": "2.4.0",
     "com.phonegap.plugins.barcodescanner": "2.0.0",
-    "org.apache.cordova.console": "0.2.11",
-    "org.apache.cordova.device": "0.2.12",
     "org.apache.cordova.camera": "0.3.3",
-    "com.jcjee.plugins.emailcomposer": "1.4.6"
+    "org.apache.cordova.console": "0.2.11",
+    "org.apache.cordova.device": "0.2.12"
 }
 // BOTTOM OF METADATA
 });

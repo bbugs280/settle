@@ -1,6 +1,14 @@
 angular.module('starter.controllers', [])
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
+        $rootScope.alert = function(title, message){
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: message
+            });
+            alertPopup.then(function(res) {
+            });
+        }
         $rootScope.back = function(){
             history.go(-1);
         }
@@ -20,17 +28,6 @@ angular.module('starter.controllers', [])
             $ionicSideMenuDelegate.toggleLeft();
         };
 
-        $rootScope.warnNoGroup = function(){
-
-            var alertPopup = $ionicPopup.alert({
-                title: 'First Choose a Group',
-                template: 'Or, Add a new Group on the left menu'
-            });
-            alertPopup.then(function(res) {
-                console.log('Group will be selected: ' + res);
-            });
-            $rootScope.showMenu();
-        }
 
 
         $rootScope.selectedGroup = undefined;
@@ -51,8 +48,8 @@ angular.module('starter.controllers', [])
         }
         $scope.setPersonal = function(){
             $rootScope.selectedGroup = undefined;
-            $state.go('tab.send');
-            $ionicSideMenuDelegate.toggleLeft();
+            $state.go('tab.send-remote');
+
         }
         $scope.addGroup = function (){
             $scope.data = {};
@@ -202,8 +199,10 @@ angular.module('starter.controllers', [])
 
         }
         $scope.sendPerson = function(user){
+            $rootScope.selectedGroup = undefined;
             $rootScope.selectedFriend = user;
-            $state.go('tab.send');
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
         }
 
         $scope.editGroup = function(group){
@@ -249,7 +248,8 @@ angular.module('starter.controllers', [])
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
-            $state.go('tab.send');
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
         }
 
 })
@@ -282,10 +282,12 @@ angular.module('starter.controllers', [])
         }
         $scope.goToSend = function(user){
             $rootScope.selectedFriend = user;
-            $state.go('tab.send');
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
         }
         $scope.goToGroupEdit = function(group){
             $rootScope.selectedGroup = group;
+
             $state.go('tab.setupgroup-edit');
         }
         $scope.loadGroup();
@@ -368,8 +370,77 @@ angular.module('starter.controllers', [])
 
             $state.go('tab.send-remote');
         }
+
+        $scope.processSend = function(sendform){
+            if($rootScope.inviteEmail){
+                $scope.createAccount($rootScope.inviteEmail,sendform);
+            }else{
+                $scope.sendRemote(sendform);
+            }
+        }
+        $scope.createAccount = function(email,sendform){
+
+            var user = new SUser();
+            user.createTempAccount(email, function(suser){
+                if (suser.message){
+                    $rootScope.alert("Create Account Failed",suser.message);
+                    throw ("Create Account Failed");
+                }
+                $rootScope.selectedFriend = suser;
+                console.log("Account Created User = " + suser.getUsername());
+                //create account done
+                //send email to reset password
+                Parse.User.requestPasswordReset(email, {
+                    success: function() {
+                        // Password reset request was sent successfully
+                        console.log("Password reset send to new user");
+                    },
+                    error: function(error) {
+                        // Show the error message somewhere
+                        $rootScope.alert("Error:  " , error.message);
+                    }
+                });
+                //call sendRemote to save tran
+                $scope.sendRemote(sendform);
+
+                //Sign back into your own account using $rootScope.user
+                Parse.User.become($rootScope.user.getSessionToken(), {
+                          success:function(suser){
+                          console.log('relogin done');
+                      },error:function(error){
+                        console.log(error.message);
+                    }
+                })
+
+                //Now send an email to let user know, 1) there's an account with credit 2) another email to reset password
+                $scope.sendEmailToNewUser(email, suser.getUsername(),$rootScope.user.getUsername());
+            });
+        }
+        $scope.sendEmailToNewUser= function(email,username, from) {
+            var body = "Dear new Settler, ";
+            body += "<p><br>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
+            body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
+            body += "<p>Your account name is <b>"+ username + "</b></p>";
+            body += "<p>There's a separate email to set your password.</p>";
+            body += "<p>Your truly, <br>The Settle Team</p>";
+
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "[Settle] Your friend paid you with Settle  ", // Subject
+                    body,                      // Body
+                    [email],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -379,7 +450,7 @@ angular.module('starter.controllers', [])
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
             if (!$rootScope.sendamount){
-                alert("invalid amount");
+                $rootScope.alert("Invalid amount","Please Enter Again");
                 throw ("invalid amount");
             }
 
@@ -396,7 +467,7 @@ angular.module('starter.controllers', [])
                         ParseService.recordQRCode(friendlist, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
-                                alert(r.message);
+                                $rootScope.alert('Error',r.message);
                                 $rootScope.hideLoading();
                             }else{
 
@@ -407,10 +478,10 @@ angular.module('starter.controllers', [])
                         });
                     })
                 }else{
-                    $rootScope.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
+                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
-                            alert(r.message);
+                            $rootScope.alert('Error',r.message);
                             $rootScope.hideLoading();
                         }else{
 
@@ -423,14 +494,16 @@ angular.module('starter.controllers', [])
             }
 
         $scope.remoteSendConfirmation = function(tran){
+            $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
 
-            var alertPopup = $ionicPopup.alert({
-                title: 'Sent Successful ',
-                template: '$'+tran.get('amount') + ' is sent to ' + tran.get('toname')
-            });
-            alertPopup.then(function(res) {
-                throw("Remote Send Successful");
-            });
+        }
+
+        $scope.goToQRCode = function(sendform){
+            $state.go('tab.send');
+        }
+
+        $scope.sendPushMessage = function(){
+            sendPushMessage();
         }
 
 })
@@ -494,6 +567,7 @@ angular.module('starter.controllers', [])
         $scope.selectGroup=function(group){
             $rootScope.selectedGroup = group;
             $rootScope.selectedFriend = undefined;
+            $rootScope.inviteEmail = undefined;
             history.go(-1);
 //            $state.go('tab.send');
         }
@@ -512,11 +586,12 @@ angular.module('starter.controllers', [])
                 var relatedFriends = [];
                 for (i in friendlists){
                     for (j in friendlists[i].get('friendnames')){
-                        if ($rootScope.user.get('username')!=friendlists[i].get('friendnames')[j])
+                        if ($rootScope.user.get('username')!=friendlists[i].get('friendnames')[j] && friendlists[i].get('friendnames')[j]!=null)
                             fl.addUnique('friendnames',friendlists[i].get('friendnames')[j]);
                     }
                 }
                 $scope.relatedFriendList = fl.get('friendnames');
+                $scope.relatedFriendListFiltered = fl.get('friendnames');
                 console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
                 $scope.$apply();
@@ -524,6 +599,11 @@ angular.module('starter.controllers', [])
             })
         }
 
+        $scope.searchFriend = function(searchtext){
+            $scope.relatedFriendListFiltered = $scope.relatedFriendList.filter(function(val,index,array){
+                return (val.toLowerCase().indexOf(searchtext.toLowerCase())!=-1);
+            })
+        }
         $scope.loadGroupRelatedUsers = function(){
 
             var Friendlist = Parse.Object.extend("friendlist");
@@ -533,6 +613,7 @@ angular.module('starter.controllers', [])
                 success:function(group){
                     console.log(group.length);
                     $scope.relatedFriendList = group.get('friendnames');
+                    $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
                 }
             })
@@ -548,25 +629,60 @@ angular.module('starter.controllers', [])
         $scope.loadFriends();
 
         $scope.selectFriend=function(username){
-            console.log("selectFriend");
+            console.log("selectFriend - username = " + username);
             var user = Parse.Object.extend('User');
             var query = new Parse.Query(user);
             query.equalTo('username',username);
             query.find({
                 success:function(users){
-                    $rootScope.selectedFriend = users[0];
+                    if (users){
+                        $rootScope.selectedFriend = users[0];
+                    }else{
+                        $rootScope.selectedFriend = undefined;
+                    }
+
                     $rootScope.$apply();
 //                    $state.go('tab.send');
+                    history.go(-1);
+                },error:function(obj, error){
+                    console.err(error.message);
                     history.go(-1);
                 }
             })
 
         }
 
+        $scope.findOrInvite = function(email,InviteForm){
+            console.log("findOrInvite email = "+email);
+            var user = new SUser();
+            user.getUserByEmail(email, function(ruser){
+
+                //If user by email, if found call $scope.selectFriend()
+                if (ruser){
+                    console.log("findOrInvite user = "+ruser.get('username'));
+                    $scope.selectFriend(ruser.get('username'));
+                }else{
+                    console.log("findOrInvite user not found");
+                    if (InviteForm.input.$error.email){
+                        $rootScope.alert('Invalid email', 'Please check the email');
+                        throw ("Invalid Email Invite");
+                    }
+                    $rootScope.inviteEmail=email;
+                    $rootScope.alert("Not a 'Settler' yet","We will create an account to make payment. An email will be sent to notify your friend to claim the amount");
+                    $state.go('tab.send-remote');
+                    $rootScope.$apply();
+
+                    //If not found, create a balance, and transaction
+                    //Then send email to ask user to signup
+
+                }
+            })
+
+        }
 
 
     })
-.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common,$ionicLoading) {
+.controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
@@ -579,7 +695,7 @@ angular.module('starter.controllers', [])
             console.log("Receive Ctrl enter scan");
             document.getElementById("info").innerHTML="";
 
-            $rootScope.showloading('Receving...');
+            $rootScope.showLoading('Receving...');
             var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
             scanner.scan( function (result) {
@@ -590,7 +706,7 @@ angular.module('starter.controllers', [])
                     "cancelled: " + result.cancelled + "\n");
 
                 if (result.cancelled == 1){
-                    $scope.hideloading();
+                    $rootScope.hideLoading();
                     throw "Scanning Canceled";
                 }
 
@@ -603,7 +719,7 @@ angular.module('starter.controllers', [])
                     display = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all."
                     document.getElementById("info").innerHTML = display;
 //                    $scope.scanresult.message = "This is NOT a 'Settle' QRCode! <BR><BR> Or, <BR><BR>you haven't scan a QRCode at all.";
-                    $rootScope.hideloading();
+                    $rootScope.hideLoading();
 //                    $scope.$apply();
                 }else{
 
@@ -660,7 +776,7 @@ angular.module('starter.controllers', [])
                 }
             }, function (error) {
 
-                $rootScope.hideloading();
+                $rootScope.hideLoading();
                 console.log("Scanning failed: ", error);
             } );
         }
@@ -716,38 +832,21 @@ angular.module('starter.controllers', [])
             console.log(scorePassword(userp.password));
             if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Weak Password',
-                    template: 'Please Enter Password with At least 6 character with one upper case and numeric'
-                });
-                alertPopup.then(function(res) {
-                    throw("Weak Password");
-                });
+                $rootScope.alert('Weak Password','Please Enter Password with At least 6 character with one upper case and numeric')
 
             }
 
             if (userp.password!=userp.con_password){
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Password Problem',
-                    template: 'Confirm Password does not match'
-                });
-                alertPopup.then(function(res) {
+                $rootScope.alert('Password Problem','Confirm Password does not match')
 
-                });
                 throw("Invalid Password");
             }
 
 
             ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
                 // When service call is finished, navigate to items page
-//                alert("Account Signup Successful");
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Congrats!',
-                    template: "You're now one of the 'setters'"
-                });
-                alertPopup.then(function(res) {
-//                    console.log('Group will be selected: ' + res);
-                });
+                $rootScope.alert('Congrats!',"You're now a 'Setters'");
+
                 $rootScope.user = user;
                 $state.go('tab.balance-overview');
             })
@@ -777,25 +876,14 @@ angular.module('starter.controllers', [])
 
             if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 //                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Weak Password',
-                    template: 'Please Enter Password with At least 6 character with one upper case and numeric'
-                });
-                alertPopup.then(function(res) {
-                    throw("Weak Password");
-                });
+                $rootScope.alert('Weak Password', 'Please Enter Password with At least 6 character with one upper case and numeric')
 
+                throw("Weak Password");
             }
 
             if (userp.password!=userp.con_password){
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Password Mismatch',
-                    template: 'Please check and confirm your password'
-                });
-                alertPopup.then(function(res) {
-                    throw("Invalid Password");
-                });
-
+                $rootScope.alert('Password Mismatch','Please check and confirm your password')
+                throw("Invalid Password");
             }
             user.set('password',userp.password);
             user.set('default_currency',$rootScope.user.get('default_currency'));
@@ -840,13 +928,8 @@ angular.module('starter.controllers', [])
         }
         var onSuccess = function(DATA_URL) {
             if (!Common.checkImageSize(DATA_URL.length)){
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Image Too Large',
-                    template: 'Cannot exceed 1 MB'
-                });
-                alertPopup.then(function(res) {
-                    throw("Image Size Error");
-                });
+                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+
                 $rootScope.hideLoading();
                 throw("Image Size Error");
             }
@@ -912,13 +995,8 @@ angular.module('starter.controllers', [])
         }
         var onSuccess = function(DATA_URL) {
             if (!Common.checkImageSize(DATA_URL.length)){
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Image Too Large',
-                    template: 'Cannot exceed 1 MB'
-                });
-                alertPopup.then(function(res) {
-                    throw("Image Size Error");
-                });
+                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+
                 $rootScope.hideLoading();
                 throw("Image Size Error");
             }
@@ -1029,13 +1107,8 @@ angular.module('starter.controllers', [])
             ParseService.login(user.username, user.password, function(user){
 
                 if(user.message){
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Error',
-                        template: user.message
-                    });
-                    alertPopup.then(function(res) {
+                    $rootScope.alert('Login Error', user.message);
 
-                    });
                 }
 
 

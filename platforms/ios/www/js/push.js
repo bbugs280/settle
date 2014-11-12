@@ -2,15 +2,18 @@
  * Created by vincent on 12/11/14.
  */
 
+var pushNotification;
 function registerPush(){
     console.log("register Push");
+    pushNotification = window.plugins.pushNotification;
+
     $("#app-status-ul").append('<li>registering ' + device.platform + '</li>');
     if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
         pushNotification.register(
             successHandler,
             errorHandler,
             {
-                //"senderID":"replace_with_sender_id",
+//                "senderID":"17853414438",
                 "senderID":"able-coast-761",
                 "ecb":"onNotification"
             });
@@ -129,4 +132,25 @@ function tokenHandler (result) {
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
     alert('device token = ' + result);
+}
+
+function sendPushMessage (){
+    var query = new Parse.Query(Parse.Installation);
+    query.equalTo('deviceType', 'ios'); // Set our channel
+
+    Parse.Push.send({
+        where: query,
+        data: {
+            alert: "Giants scored against the A's! It's now 2-2."
+        }
+    }, {
+        success: function() {
+            // Push was successful
+            console.log("Push was successful");
+        },
+        error: function(error) {
+            // Handle error
+            console.log("Push was failed"+error.message);
+        }
+    });
 }

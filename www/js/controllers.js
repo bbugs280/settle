@@ -502,6 +502,10 @@ angular.module('starter.controllers', [])
             $state.go('tab.send');
         }
 
+        $scope.sendPushMessage = function(){
+            sendPushMessage();
+        }
+
 })
 .controller('SendGroupCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
 
@@ -597,7 +601,7 @@ angular.module('starter.controllers', [])
 
         $scope.searchFriend = function(searchtext){
             $scope.relatedFriendListFiltered = $scope.relatedFriendList.filter(function(val,index,array){
-                return (val.indexOf(searchtext)!=-1);
+                return (val.toLowerCase().indexOf(searchtext.toLowerCase())!=-1);
             })
         }
         $scope.loadGroupRelatedUsers = function(){

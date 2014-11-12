@@ -11,7 +11,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-
+    console.log("ionicPlatform ready!!");
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -19,7 +19,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-      //$cordovaPlugin.someFunction().then(success, error);
+
+      if(window.plugins.pushNotification){
+
+          registerPush();
+      }
+//      $cordovaPlugin.someFunction().then(success, error);
       $rootScope.user = Parse.User.current();
   });
   // UI Router Authentication Check

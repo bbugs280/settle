@@ -11,7 +11,7 @@ var Transaction = Parse.Object.extend("transaction",{
             var mainQuery = Parse.Query.or(fromQuery, toQuery);
             mainQuery.equalTo("groupId", groupId);
             mainQuery.addDescending("createdAt");
-            mainQuery.limit(5);
+            mainQuery.limit(10);
             mainQuery.find({
                 success: function(results) {
                     console.log("Transaction - getRelatedTran Returned No of records = "+results.length);

@@ -5,14 +5,20 @@
         <param name="android-package" value="com.ionic.keyboard.IonicKeyboard" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="EmailComposer">
+        <param name="android-package" value="com.jcjee.plugins.EmailComposer" />
+    </feature>
+    <feature name="PushPlugin">
+        <param name="android-package" value="com.plugin.gcm.PushPlugin" />
+    </feature>
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
-    <feature name="Device">
-        <param name="android-package" value="org.apache.cordova.device.Device" />
-    </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
     <icon density="ldpi" src="res/android/drawable-ldpi/icon.png" />
     <icon density="mdpi" src="res/android/drawable-mdpi/icon.png" />
@@ -36,7 +42,4 @@
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />
-    <feature name="EmailComposer">
-        <param name="android-package" value="com.jcjee.plugins.EmailComposer" />
-    </feature>
 </widget>

@@ -1,7 +1,24 @@
 
 var SUser = Parse.User.extend({
     // Instance methods
+    createTempAccount :function(email, callback){
+        var User = Parse.Object.extend("User");
+        var user = new User();
+        user.set('username',email.substring(0,email.indexOf('@')));
+        user.set('email',email);
+        user.set('password','Abcd1234');
 
+
+        user.signUp(null,{
+            success:function(suser){
+                callback(suser);
+            },error:function(error){
+                console.log("error:"+error.message);
+                callback(error);
+            }
+        });
+
+    },
     getUserByEmail : function (emailp, callback) {
     var User = Parse.Object.extend("User");
     var query = new Parse.Query(User);
@@ -169,8 +186,9 @@ var SUser = Parse.User.extend({
         queryBalance.include(['group.user1']);
         queryBalance.include(['group.user2']);
 
-        queryBalance.equalTo('user',user);
 
+        queryBalance.equalTo('user',user);
+        queryBalance.addDescending("updatedAt");
         queryBalance.find({
             success: function (result) {
                 // The object was retrieved successfully.
