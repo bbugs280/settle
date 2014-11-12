@@ -389,6 +389,17 @@ angular.module('starter.controllers', [])
                 $rootScope.selectedFriend = suser;
                 console.log("Account Created User = " + suser.getUsername());
                 //create account done
+                //send email to reset password
+                Parse.User.requestPasswordReset(email, {
+                    success: function() {
+                        // Password reset request was sent successfully
+                        console.log("Password reset send to new user");
+                    },
+                    error: function(error) {
+                        // Show the error message somewhere
+                        $rootScope.alert("Error:  " , error.message);
+                    }
+                });
                 //call sendRemote to save tran
                 $scope.sendRemote(sendform);
 
@@ -485,6 +496,10 @@ angular.module('starter.controllers', [])
         $scope.remoteSendConfirmation = function(tran){
             $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
 
+        }
+
+        $scope.goToQRCode = function(sendform){
+            $state.go('tab.send');
         }
 
 })
