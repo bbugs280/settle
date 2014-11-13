@@ -271,6 +271,7 @@ angular.module('starter.controllers', [])
             //Load Friends Balance
             user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
                 $scope.balances = balances;
+                $scope.balancesFiltered = balances;
 
                 $scope.loading = 'hidden';
                 $scope.$apply();
@@ -290,6 +291,34 @@ angular.module('starter.controllers', [])
 
             $state.go('tab.setupgroup-edit');
         }
+
+        $scope.searchFriend = function(searchtext){
+            //var balance = Parse.Object.extend('balance');
+            //var BalanceCollection = Parse.Collection.extend({
+            //    model: balance
+            //})
+            //var collection = new BalanceCollection;
+            //collection.add($scope.balances);
+            //collection.query = new Parse.Query(balance);
+            //collection.query.contains('user.username',searchtext);
+            //
+            //query.find({
+            //    success:function(result){
+            //        console.log("searchFriend success = "+ result.length);
+            //        $scope.balancesFiltered = result;
+            //    }
+            //})
+            var result = [];
+            for (var i in $scope.balances){
+                if ($scope.balances[i].get('user').getUsername().toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
+                    result.push($scope.balances[i]);
+                }
+
+            }
+            $scope.balancesFiltered = result;
+
+        }
+
         $scope.loadGroup();
 
 })
