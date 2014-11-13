@@ -293,21 +293,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.searchFriend = function(searchtext){
-            //var balance = Parse.Object.extend('balance');
-            //var BalanceCollection = Parse.Collection.extend({
-            //    model: balance
-            //})
-            //var collection = new BalanceCollection;
-            //collection.add($scope.balances);
-            //collection.query = new Parse.Query(balance);
-            //collection.query.contains('user.username',searchtext);
-            //
-            //query.find({
-            //    success:function(result){
-            //        console.log("searchFriend success = "+ result.length);
-            //        $scope.balancesFiltered = result;
-            //    }
-            //})
+
             var result = [];
             for (var i in $scope.balances){
                 if ($scope.balances[i].get('user').getUsername().toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
@@ -401,7 +387,10 @@ angular.module('starter.controllers', [])
         }
 
         $scope.processSend = function(sendform){
+
             if($rootScope.inviteEmail){
+                if(sendform.inviteEmail)
+                    $rootScope.inviteEmail = sendform.inviteEmail;
                 $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
                 $scope.sendRemote(sendform);
@@ -470,12 +459,20 @@ angular.module('starter.controllers', [])
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
 
+            if(!$rootScope.selectedFriend){
+                $rootScope.alert("No friend selected", "Please pick someone to pay");
+                $rootScope.hideLoading();
+                throw ("No friend selected");
+            }
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
             if (sendform.note){
                 $rootScope.sendnote = sendform.note;
             }
+
+
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
             if (!$rootScope.sendamount){
