@@ -53,7 +53,8 @@
           <input type="text" placeholder="Note" ng-model="sendform.note"  ng-model-options="{ getterSetter: true }" >
       </label>
 
-      <button class="button button-block button-stable" ng-click="processSend(sendform)">
+      <button class="button button-block button-dark"  ng-click="processSend(sendform)">
+          <i class="icon ion-ios7-keypad"></i>
           Pay
       </button>
 
@@ -65,7 +66,10 @@
           Pay by QRCode <i class="icon ion-qr-scanner"></i>
 
       </ion-item>
-      <!--<button class="button button-block button-stable" ng-click="sendPushMessage()">-->
+      <!--<label class="item item-input">-->
+          <!--<input type="text" placeholder="Text to Push" ng-model="sendtext"  ng-model-options="{ getterSetter: true }" >-->
+      <!--</label>-->
+      <!--<button class="button button-block button-stable" ng-click="sendPushMessage(sendtext)">-->
           <!--Send Push-->
       <!--</button>-->
   </ion-content>

@@ -189,10 +189,13 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = balance.get('group');
             if (balance.get('group').get('ispersonal')!=true){
                 //Group Account goes to BalanceGroup
+
+                $rootScope.selectedFriend = undefined;
                 $state.go('tab.balance-group');
             }else{
 
                 //Personal Account will go to Transaction Detail i.e. BalanceDetail
+//                $rootScope.selectedGroup = undefined;
                 $rootScope.selectedFriend = balance.get('frienduser');
                 $state.go('tab.balance-detail');
             }
@@ -223,7 +226,7 @@ angular.module('starter.controllers', [])
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
         $scope.loading = 'visible';
-        $scope.title = $rootScope.selectedGroup.get('group');
+//        $scope.title = $rootScope.selectedGroup.get('group');
 //        $scope.user = ParseService.getUser();
 
 

@@ -1,5 +1,5 @@
 # view AndroidManifest.xml #generated:6
--keep class com.bumble.settle.CordovaApp { <init>(...); }
+-keep class com.bumble.Settle.CordovaApp { <init>(...); }
 
 # view AndroidManifest.xml #generated:22
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(...); }

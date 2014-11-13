@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.bumble.settle" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.bumble.Settle" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <feature name="Keyboard">
         <param name="android-package" value="com.ionic.keyboard.IonicKeyboard" />
@@ -28,7 +28,7 @@
     <splash density="port-ldpi" src="res/screen/android/port/drawable-ldpi/splash.png" />
     <splash density="port-mdpi" src="res/screen/android/port/drawable-mdpi/splash.png" />
     <splash density="port-xhdpi" src="res/screen/android/port/drawable-xhdpi/splash.png" />
-    <name>settle</name>
+    <name>Settle</name>
     <description>
       - Micro Cash Management between Friends
       - No need to settle with real cash!

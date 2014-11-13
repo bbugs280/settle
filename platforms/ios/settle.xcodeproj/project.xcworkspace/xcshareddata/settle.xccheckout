@@ -5,16 +5,16 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>9423B7EA-DC76-4EBC-B9B5-D6D9DD4D9D09</string>
+	<string>8A9C6A18-6E4E-4791-AE9E-3FECC9286DDC</string>
 	<key>IDESourceControlProjectName</key>
-	<string>settle</string>
+	<string>Settle</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>C9FD374ECB1079BB7BBC529AFE3C8649E32D0C5E</key>
 		<string>https://github.com/bbugs280/settle.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>platforms/ios/settle.xcodeproj</string>
+	<string>platforms/ios/Settle.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>C9FD374ECB1079BB7BBC529AFE3C8649E32D0C5E</key>

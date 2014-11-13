@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "settle.app"
-               BlueprintName = "settle"
-               ReferencedContainer = "container:settle.xcodeproj">
+               BuildableName = "Settle.app"
+               BlueprintName = "Settle"
+               ReferencedContainer = "container:Settle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "settle.app"
-            BlueprintName = "settle"
-            ReferencedContainer = "container:settle.xcodeproj">
+            BuildableName = "Settle.app"
+            BlueprintName = "Settle"
+            ReferencedContainer = "container:Settle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "settle.app"
-            BlueprintName = "settle"
-            ReferencedContainer = "container:settle.xcodeproj">
+            BuildableName = "Settle.app"
+            BlueprintName = "Settle"
+            ReferencedContainer = "container:Settle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "settle.app"
-            BlueprintName = "settle"
-            ReferencedContainer = "container:settle.xcodeproj">
+            BuildableName = "Settle.app"
+            BlueprintName = "Settle"
+            ReferencedContainer = "container:Settle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

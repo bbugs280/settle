@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.bumble.settle;
+package com.bumble.Settle;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

@@ -44,6 +44,7 @@ function registerPush(){
 }
 
 function successHandler (result) {
+    console.log("successHandler");
     alert('result = ' + result);
 }
 
@@ -72,8 +73,8 @@ function onNotificationAPN (event) {
 }
 
 // Android and Amazon Fire OS
-function onNotification(e) {
-//onNotification = function(e) {
+//function onNotification(e) {
+onNotification = function(e) {
     console.log("android onNotification");
     $("#app-status-ul").append('<li>EVENT -> RECEIVED:' + e.event + '</li>');
 
@@ -138,14 +139,15 @@ function tokenHandler (result) {
     alert('device token = ' + result);
 }
 
-function sendPushMessage (){
+function sendPushMessage (text){
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('deviceType', 'ios'); // Set our channel
+    query.equalTo('deviceType', 'android'); // Set our channel
 
     Parse.Push.send({
         where: query,
         data: {
-            alert: "Giants scored against the A's! It's now 2-2."
+            alert: 'testing push'
         }
     }, {
         success: function() {

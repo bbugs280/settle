@@ -1,200 +1,139 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Notification;
-using Microsoft.Phone.Shell;
-using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Text;
+using System.Threading;
+using System.Runtime.Serialization;
+using System.Windows;
 
 namespace WPCordovaClassLib.Cordova.Commands
 {
     public class PushPlugin : BaseCommand
     {
-        private const string InvalidRegistrationError = "Unable to open a channel with the specified name. The most probable cause is that you have already registered a channel with a different name. Call unregister(old-channel-name) or uninstall and redeploy your application.";
-        private const string MissingChannelError = "Couldn't find a channel with the specified name.";
-        private Options pushOptions;
+        private HttpNotificationChannel pushChannel;
+        private string channelName;
+        private string toastCallback;
 
         public void register(string options)
         {
-            if (!TryDeserializeOptions(options, out this.pushOptions))
+            Options pushOptions;
+
+            try
             {
-                this.DispatchCommandResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
+                string[] args = JSON.JsonHelper.Deserialize<string[]>(options);
+                pushOptions = JSON.JsonHelper.Deserialize<Options>(args[0]);
+                this.channelName = pushOptions.ChannelName;
+                this.toastCallback = pushOptions.NotificationCallback;
+            }
+            catch (Exception)
+            {
+                DispatchCommandResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
                 return;
             }
 
-            var pushChannel = HttpNotificationChannel.Find(this.pushOptions.ChannelName);
+            pushChannel = HttpNotificationChannel.Find(channelName);
             if (pushChannel == null)
             {
-                pushChannel = new HttpNotificationChannel(this.pushOptions.ChannelName);
-
-                try
-                {
-                    pushChannel.Open();
-                }
-                catch (InvalidOperationException)
-                {
-                    this.DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, InvalidRegistrationError));
-                    return;
-                }
-
+                pushChannel = new HttpNotificationChannel(channelName);
+                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+                pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+                pushChannel.Open();
                 pushChannel.BindToShellToast();
-                pushChannel.BindToShellTile();
-            }
-
-            SubscribePushChannelEvents(pushChannel);
-            var result = new RegisterResult
-            {
-                ChannelName = this.pushOptions.ChannelName,
-                Uri = pushChannel.ChannelUri == null ? string.Empty : pushChannel.ChannelUri.ToString()
-            };
-
-            this.DispatchCommandResult(new PluginResult(PluginResult.Status.OK, result));
-        }
-
-        public void unregister(string options)
-        {
-            Options unregisterOptions;
-            if (!TryDeserializeOptions(options, out unregisterOptions))
-            {
-                this.DispatchCommandResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
-                return;
-            }
-            var pushChannel = HttpNotificationChannel.Find(unregisterOptions.ChannelName);
-            if (pushChannel != null)
-            {
-                pushChannel.UnbindToShellTile();
-                pushChannel.UnbindToShellToast();
-                pushChannel.Close();
-                pushChannel.Dispose();
-                this.DispatchCommandResult(new PluginResult(PluginResult.Status.OK, "Channel " + unregisterOptions.ChannelName + " is closed!"));
             }
             else
             {
-                this.DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, MissingChannelError));
-            }
-        }
+                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+                pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
 
-        public void showToastNotification(string options)
-        {
-            ShellToast toast;
-            if (!TryDeserializeOptions(options, out toast))
-            {
-                this.DispatchCommandResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
-                return;
+                RegisterResult result = new RegisterResult();
+                result.ChannelName = this.channelName;
+                result.Uri = pushChannel.ChannelUri.ToString();
+                this.DispatchCommandResult(new PluginResult(PluginResult.Status.OK, result));
             }
-
-            Deployment.Current.Dispatcher.BeginInvoke(toast.Show);
         }
 
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
             // return uri to js
-            var result = new RegisterResult
-            {
-                ChannelName = this.pushOptions.ChannelName,
-                Uri = e.ChannelUri.ToString()
-            };
-            this.ExecuteCallback(this.pushOptions.UriChangedCallback, JsonConvert.SerializeObject(result));
+            RegisterResult result = new RegisterResult();
+            result.ChannelName = this.channelName;
+            result.Uri = pushChannel.ChannelUri.ToString();
+            this.DispatchCommandResult(new PluginResult(PluginResult.Status.OK, result));
         }
 
         void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
             // call error handler and return uri
-            var err = new RegisterError
-            {
-                Code = e.ErrorCode.ToString(),
-                Message = e.Message
-            };
-            this.ExecuteCallback(this.pushOptions.ErrorCallback, JsonConvert.SerializeObject(err));
+            RegisterError err = new RegisterError();
+            err.Code = e.ErrorCode.ToString();
+            err.Message = e.Message;
+            this.DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, err));
         }
 
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            var toast = new PushNotification
-            {
-                Type = "toast"
-            };
+            StringBuilder message = new StringBuilder();
+            string relativeUri = string.Empty;
 
-            foreach (var item in e.Collection)
+            Toast toast = new Toast();
+            if (e.Collection.ContainsKey("wp:Text1"))
             {
-                toast.JsonContent.Add(item.Key, item.Value);
+                toast.Title = e.Collection["wp:Text1"];
+            }
+            if (e.Collection.ContainsKey("wp:Text2"))
+            {
+                toast.Subtitle = e.Collection["wp:Text2"];
+            }
+            if (e.Collection.ContainsKey("wp:Param"))
+            {
+                toast.Param = e.Collection["wp:Param"];
             }
 
-            this.ExecuteCallback(this.pushOptions.NotificationCallback, JsonConvert.SerializeObject(toast));
-        }
+            PluginResult result = new PluginResult(PluginResult.Status.OK, toast);
 
-        void PushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
-        {
-            var raw = new PushNotification
-            {
-                Type = "raw"
-            };
-
-            using (var reader = new StreamReader(e.Notification.Body))
-            {
-                raw.JsonContent.Add("Body", reader.ReadToEnd());
-            }
-
-			this.ExecuteCallback(this.pushOptions.NotificationCallback, JsonConvert.SerializeObject(raw));
-        }
-
-        void ExecuteCallback(string callback, string callbackResult)
-        {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                PhoneApplicationFrame frame;
-                PhoneApplicationPage page;
-                CordovaView cView;
-
-                if (TryCast(Application.Current.RootVisual, out frame) &&
-                    TryCast(frame.Content, out page) &&
-                    TryCast(page.FindName("CordovaView"), out cView))
+                PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+                if (frame != null)
                 {
-                    cView.Browser.Dispatcher.BeginInvoke(() =>
+                    PhoneApplicationPage page = frame.Content as PhoneApplicationPage;
+                    if (page != null)
                     {
-                        try
+                        CordovaView cView = page.FindName("CordovaView") as CordovaView; // was: PGView
+                        if (cView != null)
                         {
-                            cView.Browser.InvokeScript("execScript", callback + "(" + callbackResult + ")");
+                            cView.Browser.Dispatcher.BeginInvoke((ThreadStart)delegate()
+                            {
+                                try
+                                {
+                                    cView.Browser.InvokeScript("execScript", this.toastCallback + "(" + result.Message + ")");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine("ERROR: Exception in InvokeScriptCallback :: " + ex.Message);
+                                }
+
+                            });
                         }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine("ERROR: Exception in InvokeScriptCallback :: " + ex.Message);
-                        }
-                    });
+                    }
                 }
             });
         }
 
-        static bool TryDeserializeOptions<T>(string options, out T result) where T : class
+        [DataContract]
+        public class Toast
         {
-            result = null;
-            try
-            {
-                var args = JsonConvert.DeserializeObject<string[]>(options);
-                result = JsonConvert.DeserializeObject<T>(args[0]);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+            [DataMember(Name = "text1", IsRequired = false)]
+            public string Title { get; set; }
 
-        static bool TryCast<T>(object obj, out T result) where T : class
-        {
-            result = obj as T;
-            return result != null;
-        }
+            [DataMember(Name = "text2", IsRequired = false)]
+            public string Subtitle { get; set; }
 
-        void SubscribePushChannelEvents(HttpNotificationChannel channel)
-        {
-            channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-            channel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-            channel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-            channel.HttpNotificationReceived += new EventHandler<HttpNotificationEventArgs>(PushChannel_HttpNotificationReceived);
+            [DataMember(Name = "param", IsRequired = false)]
+            public string Param { get; set; }
         }
 
         [DataContract]
@@ -205,12 +144,6 @@ namespace WPCordovaClassLib.Cordova.Commands
 
             [DataMember(Name = "ecb", IsRequired = false)]
             public string NotificationCallback { get; set; }
-
-            [DataMember(Name = "errcb", IsRequired = false)]
-            public string ErrorCallback { get; set; }
-
-            [DataMember(Name = "uccb", IsRequired = false)]
-            public string UriChangedCallback { get; set; }
         }
 
         [DataContract]
@@ -221,21 +154,6 @@ namespace WPCordovaClassLib.Cordova.Commands
 
             [DataMember(Name = "channel", IsRequired = true)]
             public string ChannelName { get; set; }
-        }
-
-        [DataContract]
-        public class PushNotification
-        {
-            public PushNotification()
-            {
-                this.JsonContent = new Dictionary<string, object>();
-            }
-
-            [DataMember(Name = "jsonContent", IsRequired = true)]
-            public IDictionary<string, object> JsonContent { get; set; }
-
-            [DataMember(Name = "type", IsRequired = true)]
-            public string Type { get; set; }
         }
 
         [DataContract]

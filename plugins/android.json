@@ -65,11 +65,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<permission android:name=\"com.bumble.settle.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
+                            "xml": "<permission android:name=\"com.bumble.Settle.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"com.bumble.settle.permission.C2D_MESSAGE\" />",
+                            "xml": "<uses-permission android:name=\"com.bumble.Settle.permission.C2D_MESSAGE\" />",
                             "count": 1
                         },
                         {
@@ -87,11 +87,11 @@
                     ],
                     "/manifest/application": [
                         {
-                            "xml": "<activity android:exported=\"true\" android:name=\"com.plugin.gcm.PushHandlerActivity\" />",
+                            "xml": "<activity android:name=\"com.plugin.gcm.PushHandlerActivity\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.bumble.settle\" /></intent-filter></receiver>",
+                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.bumble.Settle\" /></intent-filter></receiver>",
                             "count": 1
                         },
                         {
@@ -605,25 +605,25 @@
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.jcjee.plugins.emailcomposer": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.phonegap.plugins.PushPlugin": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.phonegap.plugins.barcodescanner": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.camera": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.bumble.settle"
+            "PACKAGE_NAME": "com.bumble.Settle"
         }
     },
     "dependent_plugins": {}

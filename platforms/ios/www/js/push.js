@@ -13,8 +13,8 @@ function registerPush(){
             successHandler,
             errorHandler,
             {
-//                "senderID":"17853414438",
-                "senderID":"able-coast-761",
+                "senderID":"17853414438",
+//                "senderID":"able-coast-761",
                 "ecb":"onNotification"
             });
     } else if ( device.platform == 'blackberry10'){
@@ -44,6 +44,7 @@ function registerPush(){
 }
 
 function successHandler (result) {
+    console.log("successHandler");
     alert('result = ' + result);
 }
 
@@ -51,8 +52,8 @@ function errorHandler (error) {
     alert('error = ' + error);
 }
 // iOS
-//function onNotificationAPN (event) {
-onNotificationAPN =function(event) {
+function onNotificationAPN (event) {
+//onNotificationAPN =function(event) {
     console.log("IOS onNotificationAPN");
     if ( event.alert )
     {
@@ -138,14 +139,15 @@ function tokenHandler (result) {
     alert('device token = ' + result);
 }
 
-function sendPushMessage (){
+function sendPushMessage (text){
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('deviceType', 'ios'); // Set our channel
+    query.equalTo('deviceType', 'android'); // Set our channel
 
     Parse.Push.send({
         where: query,
         data: {
-            alert: "Giants scored against the A's! It's now 2-2."
+            alert: 'testing push'
         }
     }, {
         success: function() {
