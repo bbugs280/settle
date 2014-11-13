@@ -173,6 +173,7 @@ angular.module('starter.controllers', [])
                                 $scope.grouplist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
 //                        console.log($scope.grouplist[i].get('frienduser').get('icon').url());
+                            $scope.grouplist[i].set('balance',Number($scope.grouplist[i].get('balance'))*-1);
                         }
                     }
 

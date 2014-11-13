@@ -173,6 +173,7 @@ angular.module('starter.controllers', [])
                                 $scope.grouplist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
 //                        console.log($scope.grouplist[i].get('frienduser').get('icon').url());
+                            $scope.grouplist[i].set('balance',Number($scope.grouplist[i].get('balance'))*-1);
                         }
                     }
 
@@ -293,7 +294,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.searchFriend = function(searchtext){
-
+            console.log("searchFriend");
             var result = [];
             for (var i in $scope.balances){
                 if ($scope.balances[i].get('user').getUsername().toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
@@ -604,6 +605,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadRelatedPersonalUsers = function(){
             var user = new SUser();
+            $rootScope.showLoading("Loading...");
             user.findPersonalList($rootScope.user.get('email'), function(friendlists){
                 console.log("SelectUserCtrl Ctrl - load Group Completed get Friendall ");
 
@@ -620,18 +622,20 @@ angular.module('starter.controllers', [])
                 $scope.relatedFriendListFiltered = fl.get('friendnames');
                 console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
+                $rootScope.hideLoading();
                 $scope.$apply();
 
             })
         }
 
         $scope.searchFriend = function(searchtext){
+            console.log("searchFriend");
             $scope.relatedFriendListFiltered = $scope.relatedFriendList.filter(function(val,index,array){
                 return (val.toLowerCase().indexOf(searchtext.toLowerCase())!=-1);
             })
         }
         $scope.loadGroupRelatedUsers = function(){
-            $rootScope.showLoaing("Loading...");
+            $rootScope.showLoading("Loading...");
             var Friendlist = Parse.Object.extend("friendlist");
             var query = new Parse.Query(Friendlist);
 

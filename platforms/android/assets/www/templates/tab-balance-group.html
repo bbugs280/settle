@@ -30,7 +30,7 @@
               <!--<i id="tran_loading" class="ion-loading-c" style="visibility: {{loading}}"></i>-->
               <label class="item item-input" style="border-radius: 5px;height: 30px">
                   <i class="icon ion-search placeholder-icon"></i>
-                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-keyup="searchFriend(searchText)">
+                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchFriend(searchText)">
                   <!--<input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  onkeyup="this.value!=''?search_cancel.style.visibility='visible':search_cancel.style.visibility='hidden'">-->
                   <!--<button id="search_cancel" class="button button-clear" ng-click="alert()"  style="visibility: hidden" >-->
                   <!--<i class="ion-close-circled"></i>-->
@@ -42,9 +42,10 @@
               <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()!=undefined">
               <img src="./img/people.png"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()==undefined">
 
-                  <span>
+                 <span>
                   {{bal.get('user').get('username')}} balance is
                 </span>
+              <br>
                <span class="item-note" style="color:black">
                     <span ng-if="bal.get('balance')<0">
                        $ <span style="color: red">{{bal.get('balance')| number:2}}</span>
@@ -54,8 +55,8 @@
                     </span>
                 </span>
 
-
-              <p style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></p>
+              <br>
+              <span style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></span>
               <button class="button button-clear" ng-click="goToSend(bal.get('user'))" ng-if="user.id!=bal.get('user').id">
                   <i class="icon ion-ios7-keypad"></i>
 

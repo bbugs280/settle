@@ -51,8 +51,8 @@ function errorHandler (error) {
     alert('error = ' + error);
 }
 // iOS
-//function onNotificationAPN (event) {
-onNotificationAPN =function(event) {
+function onNotificationAPN (event) {
+//onNotificationAPN =function(event) {
     console.log("IOS onNotificationAPN");
     if ( event.alert )
     {
@@ -72,8 +72,8 @@ onNotificationAPN =function(event) {
 }
 
 // Android and Amazon Fire OS
-//function onNotification(e) {
-onNotification = function(e) {
+function onNotification(e) {
+//onNotification = function(e) {
     console.log("android onNotification");
     $("#app-status-ul").append('<li>EVENT -> RECEIVED:' + e.event + '</li>');
 
