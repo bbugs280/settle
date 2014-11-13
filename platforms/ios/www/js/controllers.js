@@ -806,14 +806,16 @@ angular.module('starter.controllers', [])
                     }
 
                     document.getElementById("info").innerHTML = display;
+
                 }else{
                     console.log("Controllers Receive - recordQRCode Failed");
 //                                $scope.scanresult.message = r.message;
 //                                $scope.$apply();
                     display = "<BR><b> " + r.message +"</b>";
                     document.getElementById("info").innerHTML = display;
+
                 }
-                $rootScope.hideloading();
+                $rootScope.hideLoading();
 
             });
         }
