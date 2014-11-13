@@ -271,6 +271,7 @@ angular.module('starter.controllers', [])
             //Load Friends Balance
             user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
                 $scope.balances = balances;
+                $scope.balancesFiltered = balances;
 
                 $scope.loading = 'hidden';
                 $scope.$apply();
@@ -290,6 +291,20 @@ angular.module('starter.controllers', [])
 
             $state.go('tab.setupgroup-edit');
         }
+
+        $scope.searchFriend = function(searchtext){
+
+            var result = [];
+            for (var i in $scope.balances){
+                if ($scope.balances[i].get('user').getUsername().toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
+                    result.push($scope.balances[i]);
+                }
+
+            }
+            $scope.balancesFiltered = result;
+
+        }
+
         $scope.loadGroup();
 
 })
@@ -372,7 +387,10 @@ angular.module('starter.controllers', [])
         }
 
         $scope.processSend = function(sendform){
+
             if($rootScope.inviteEmail){
+                if(sendform.inviteEmail)
+                    $rootScope.inviteEmail = sendform.inviteEmail;
                 $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
                 $scope.sendRemote(sendform);
@@ -441,12 +459,20 @@ angular.module('starter.controllers', [])
         $scope.sendRemote = function(sendform){
             $rootScope.showLoading('Sending...');
 
+            if(!$rootScope.selectedFriend){
+                $rootScope.alert("No friend selected", "Please pick someone to pay");
+                $rootScope.hideLoading();
+                throw ("No friend selected");
+            }
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
             if (sendform.note){
                 $rootScope.sendnote = sendform.note;
             }
+
+
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
             if (!$rootScope.sendamount){
@@ -605,7 +631,7 @@ angular.module('starter.controllers', [])
             })
         }
         $scope.loadGroupRelatedUsers = function(){
-
+            $rootScope.showLoaing("Loading...");
             var Friendlist = Parse.Object.extend("friendlist");
             var query = new Parse.Query(Friendlist);
 
@@ -615,6 +641,10 @@ angular.module('starter.controllers', [])
                     $scope.relatedFriendList = group.get('friendnames');
                     $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
+                    $rootScope.hideLoading();
+                },error:function(error){
+                    console.log(error.message);
+                    $rootScope.hideLoading();
                 }
             })
         }
@@ -629,6 +659,7 @@ angular.module('starter.controllers', [])
         $scope.loadFriends();
 
         $scope.selectFriend=function(username){
+            $rootScope.showLoading("Loading...")
             console.log("selectFriend - username = " + username);
             var user = Parse.Object.extend('User');
             var query = new Parse.Query(user);
@@ -642,11 +673,14 @@ angular.module('starter.controllers', [])
                     }
 
                     $rootScope.$apply();
+                    $rootScope.hideLoading();
 //                    $state.go('tab.send');
                     history.go(-1);
                 },error:function(obj, error){
                     console.err(error.message);
+                    $rootScope.hideLoading();
                     history.go(-1);
+
                 }
             })
 

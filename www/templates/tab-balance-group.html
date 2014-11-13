@@ -30,7 +30,7 @@
               <!--<i id="tran_loading" class="ion-loading-c" style="visibility: {{loading}}"></i>-->
               <label class="item item-input" style="border-radius: 5px;height: 30px">
                   <i class="icon ion-search placeholder-icon"></i>
-                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-keyup="searchFriend(searchText)">
+                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchFriend(searchText)">
                   <!--<input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  onkeyup="this.value!=''?search_cancel.style.visibility='visible':search_cancel.style.visibility='hidden'">-->
                   <!--<button id="search_cancel" class="button button-clear" ng-click="alert()"  style="visibility: hidden" >-->
                   <!--<i class="ion-close-circled"></i>-->
