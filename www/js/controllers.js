@@ -631,7 +631,7 @@ angular.module('starter.controllers', [])
             })
         }
         $scope.loadGroupRelatedUsers = function(){
-
+            $rootScope.showLoaing("Loading...");
             var Friendlist = Parse.Object.extend("friendlist");
             var query = new Parse.Query(Friendlist);
 
@@ -641,6 +641,10 @@ angular.module('starter.controllers', [])
                     $scope.relatedFriendList = group.get('friendnames');
                     $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
+                    $rootScope.hideLoading();
+                },error:function(error){
+                    console.log(error.message);
+                    $rootScope.hideLoading();
                 }
             })
         }
@@ -655,6 +659,7 @@ angular.module('starter.controllers', [])
         $scope.loadFriends();
 
         $scope.selectFriend=function(username){
+            $rootScope.showLoading("Loading...")
             console.log("selectFriend - username = " + username);
             var user = Parse.Object.extend('User');
             var query = new Parse.Query(user);
@@ -668,11 +673,14 @@ angular.module('starter.controllers', [])
                     }
 
                     $rootScope.$apply();
+                    $rootScope.hideLoading();
 //                    $state.go('tab.send');
                     history.go(-1);
                 },error:function(obj, error){
                     console.err(error.message);
+                    $rootScope.hideLoading();
                     history.go(-1);
+
                 }
             })
 
