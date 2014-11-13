@@ -13,8 +13,8 @@ function registerPush(){
             successHandler,
             errorHandler,
             {
-//                "senderID":"17853414438",
-                "senderID":"able-coast-761",
+                "senderID":"17853414438",
+//                "senderID":"able-coast-761",
                 "ecb":"onNotification"
             });
     } else if ( device.platform == 'blackberry10'){
@@ -141,6 +141,7 @@ function tokenHandler (result) {
 function sendPushMessage (){
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('deviceType', 'ios'); // Set our channel
+    query.equalTo('deviceType', 'android'); // Set our channel
 
     Parse.Push.send({
         where: query,
