@@ -153,13 +153,12 @@ angular.module('starter.controllers', [])
 
 
         $scope.loadOverview = function(){
-
             //Load Groups & Personal Accounts
             //Then calculate Total Balance
             var user = new SUser();
             $scope.loading = 'visible';
             user.getBalanceOverview($rootScope.user,function(bals){
-                $scope.grouplist = bals;
+                $scope.balancelist = bals;
 
                 for (var i in bals){
                     $scope.balance = $scope.balance + Number(bals[i].get('balance'));
@@ -168,16 +167,17 @@ angular.module('starter.controllers', [])
                     if (bals[i].get('group')){
                         if (bals[i].get('group').get('ispersonal')==true){
                             if (bals[i].get('group').get('user1').id==$rootScope.user.id){
-                                $scope.grouplist[i].set('frienduser',bals[i].get('group').get('user2'));
+                                $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user2'));
                             }else{
-                                $scope.grouplist[i].set('frienduser',bals[i].get('group').get('user1'));
+                                $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
 //                        console.log($scope.grouplist[i].get('frienduser').get('icon').url());
-                            $scope.grouplist[i].set('balance',Number($scope.grouplist[i].get('balance'))*-1);
+                            $scope.balancelist[i].set('balance',Number($scope.balancelist[i].get('balance'))*-1);
                         }
                     }
 
                 }
+                $scope.balancelistFiltered = $scope.balancelist;
                 console.log($scope.balance);
                 $scope.loading = 'hidden';
                 $scope.$apply();
@@ -213,6 +213,25 @@ angular.module('starter.controllers', [])
             console.log("Balance Overview Ctrl - editGroup");
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
+        }
+
+        $scope.searchFriend = function(searchtext){
+            console.log("searchFriend");
+            var result = [];
+            for (var i in $scope.balancelist){
+                if ($scope.balancelist[i].get('group').get('ispersonal')){
+                    if ($scope.balancelist[i].get('frienduser').getUsername().toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
+                        result.push($scope.balancelist[i]);
+                    }
+
+                }else{
+                    if ($scope.balancelist[i].get('group').get('group').toLowerCase().indexOf(searchtext.toLowerCase())!=-1){
+                        result.push($scope.balancelist[i]);
+                    }
+                }
+            }
+            $scope.balancelistFiltered = result;
+
         }
 
         $scope.loadOverview();
@@ -525,11 +544,13 @@ angular.module('starter.controllers', [])
             }
 
         $scope.remoteSendConfirmation = function(tran){
-            $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
+
+            var amountFormatted = Number(tran.get('amount')).toLocaleString();
+            $rootScope.alert('Sent Successful','$'+amountFormatted + ' is sent to ' + tran.get('toname'));
 
             tran.get('touser').fetch({
                     success:function(r){
-                        var message = tran.get('fromname') + " paid you $" + tran.get('amount');
+                        var message = tran.get('fromname') + " paid you $" + amountFormatted;
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
@@ -736,9 +757,9 @@ angular.module('starter.controllers', [])
         $scope.user = ParseService.getUser();
         var location;
 
-        ParseService.getLocation(function(r){
-            location=r;
-        });
+//        ParseService.getLocation(function(r){
+//            location=r;
+//        });
 
         $scope.scan = function(){
             console.log("Receive Ctrl enter scan");

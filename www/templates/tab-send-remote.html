@@ -2,7 +2,7 @@
 <ion-view title="Pay on Cloud"  hide-back-button="true">
     <!--on-swipe-right="goToQRCode()"-->
     <ion-nav-buttons side="right">
-        <span ng-if="selectedGroup!=undefined">
+        <span ng-if="selectedGroup!=undefined || selectedFriend !=undefined">
             <button class="button button-clear" ng-click="clearGroup()">
                 Clear
             </button>
@@ -43,20 +43,21 @@
               <input type="email" placeholder="" ng-model="inviteEmail">
           </label>
       </ion-item>
-
+      <form ng-model="sendform" ng-submit="processSend(sendform)">
       <ion-item class="item item-input-inset">
           <label class=" item-input-wrapper " style="height: 50px">
               <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency min="1" max="500">
           </label>
+          <button class="button button-stable" type="submit" style="font-size: large;border-radius: 10px">
+              <i class="icon ion-ios7-keypad"></i>
+              Pay
+          </button>
       </ion-item>
       <label class="item item-input">
           <input type="text" placeholder="Note" ng-model="sendform.note"  ng-model-options="{ getterSetter: true }" >
       </label>
+      </form>
 
-      <button class="button button-block button-dark"  ng-click="processSend(sendform)">
-          <i class="icon ion-ios7-keypad"></i>
-          Pay
-      </button>
 
       <!--<button class="button button-block button-stable" ng-click="goToQRCode(sendform)">-->
           <!--Pay by QRCode-->

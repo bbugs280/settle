@@ -525,11 +525,13 @@ angular.module('starter.controllers', [])
             }
 
         $scope.remoteSendConfirmation = function(tran){
-            $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
+
+            var amountFormatted = Number(tran.get('amount')).toLocaleString();
+            $rootScope.alert('Sent Successful','$'+amountFormatted + ' is sent to ' + tran.get('toname'));
 
             tran.get('touser').fetch({
                     success:function(r){
-                        var message = tran.get('fromname') + " paid you $" + tran.get('amount');
+                        var message = tran.get('fromname') + " paid you $" + amountFormatted;
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
