@@ -1,11 +1,11 @@
-<ion-view title="Settle">
+<ion-view title="Settle" hide-back-button="true">
   <ion-content>
       <ion-list can-swipe="true">
-          <ion-refresher
-                  pulling-icon="icon ion-arrow-down-c"
-                  refreshing-icon="icon ion-loading-c"
-                  on-refresh="loadGroup()">
-          </ion-refresher>
+          <!--<ion-refresher-->
+                  <!--pulling-icon="icon ion-arrow-down-c"-->
+                  <!--refreshing-icon="icon ion-loading-c"-->
+                  <!--on-refresh="loadGroup()">-->
+          <!--</ion-refresher>-->
           <ion-item class="item item-icon-right">
               Your Total Balance is $
               <span ng-if="balance<0">

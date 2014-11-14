@@ -148,7 +148,7 @@ onNotification = function(e) {
 function tokenHandler (result) {
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
-    console.lgo('device token = ' + result);
+    console.log('device token = ' + result);
 
     //Since there's no way to reset Badge on Parse now, this is commented
     //var badgeCount = Parse.Installation.current.get('badge');
@@ -162,6 +162,10 @@ function successBadgeCallback(result){
 
 function errorBadgeCallback(result){
     console.log("errorBadgeCallback :"+ result);
+}
+
+function resetBadge(){
+
 }
 
 

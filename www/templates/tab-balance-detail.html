@@ -1,4 +1,16 @@
-<ion-view title="{{selectedFriend.getUsername()}} {{selectedGroup.get('group')}}" hide-nav-bar="false">
+<ion-view title="{{selectedFriend.getUsername()}} {{selectedGroup.get('group')}}"  hide-back-button="true">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToBalanceOverview()" ng-if="selectedFriend !=undefined ">
+            <i class="icon ion-ios7-arrow-back"></i>
+            Back
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToBalanceGroup()" ng-if="selectedGroup != undefined && selectedGroup.get('ispersonal') != true">
+            <i class="icon ion-ios7-arrow-back"></i>
+            Back
+        </button>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="goToSend()">
             <i class="icon ion-ios7-keypad"></i>
@@ -8,7 +20,9 @@
   <ion-content  class="has-header" >
       <ion-list>
           <ion-item class="item " >
-              Your Current Balance is $
+              Your Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
+               <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
+              is $
               <span ng-if="balance.get('balance')<0">
               <span style="color: red">{{balance.get('balance')| number:2}}</span>
               </span>

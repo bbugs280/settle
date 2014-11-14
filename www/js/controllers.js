@@ -21,14 +21,14 @@ angular.module('starter.controllers', [])
         $rootScope.hideLoading = function(){
             $ionicLoading.hide();
         }
-        $rootScope.showMenu = function () {
-            if (!$scope.friendlists)
-                $rootScope.loadGroup();
 
-            $ionicSideMenuDelegate.toggleLeft();
-        };
+        $rootScope.goToBalanceOverview = function(){
+            $state.go('tab.balance-overview');
+        }
 
-
+        $rootScope.goToBalanceGroup = function(){
+            $state.go('tab.balance-group');
+        }
 
         $rootScope.selectedGroup = undefined;
         $scope.setGroup = function (selectedGroup){

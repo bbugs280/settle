@@ -16,3 +16,12 @@ input.input-required {
     background-color: red;
     color:white;
 }
+
+.scroll-refresher {
+    width: 100%;
+}
+
+/*.ionic-refresher-content {*/
+    /*width:auto;*/
+    /*right: 0;*/
+/*}*/
