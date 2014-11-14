@@ -44,11 +44,11 @@ function registerPush(){
 }
 
 function subscribe(channel){
-    parsePlugin.getSubscriptions(function(result){
-        console.log(result);
-    },function (e){
-        alert('getsubscribe error');
-    });
+//    parsePlugin.getSubscriptions(function(result){
+//        console.log(result);
+//    },function (e){
+//        alert('getsubscribe error');
+//    });
     parsePlugin.subscribe(channel, function(){
         console.log(" subscribe to " + channel);
     },function(e){
