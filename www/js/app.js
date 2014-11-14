@@ -20,10 +20,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       StatusBar.styleDefault();
     }
 
+      var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
+      var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
       if(window.plugins.pushNotification){
+          parsePlugin.initialize(appId, clientKey, function() {
+              alert('success');
+              registerPush();
+          }, function(e) {
+              alert('error');
+          });
 
-          registerPush();
       }
+
 //      $cordovaPlugin.someFunction().then(success, error);
       $rootScope.user = Parse.User.current();
   });

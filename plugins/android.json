@@ -29,6 +29,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"ParsePlugin\"><param name=\"android-package\" value=\"org.apache.cordova.core.ParsePlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         }
@@ -91,11 +95,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.bumble.Settle\" /></intent-filter></receiver>",
+                            "xml": "<receiver android:name=\"com.parse.GcmBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.bumble.Settle\" /></intent-filter></receiver>",
                             "count": 1
                         },
                         {
-                            "xml": "<service android:name=\"com.plugin.gcm.GCMIntentService\" />",
+                            "xml": "<service android:enabled=\"true\" android:name=\"com.parse.PushService\" />",
                             "count": 1
                         },
                         {
@@ -116,7 +120,8 @@
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
-                    ]
+                    ],
+                    "/*/application": []
                 }
             },
             "res/values/strings.xml": {
@@ -620,6 +625,9 @@
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "org.apache.cordova.core.parseplugin": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.device": {
