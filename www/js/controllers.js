@@ -511,11 +511,13 @@ angular.module('starter.controllers', [])
                     ParseService.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
+                            $rootScope.hideLoading();
                             $rootScope.alert('Error',r.message);
-                            $rootScope.hideLoading();
+
                         }else{
-                            $scope.remoteSendConfirmation(r);
                             $rootScope.hideLoading();
+                            $scope.remoteSendConfirmation(r);
+
                         }
                     });
 
@@ -524,11 +526,14 @@ angular.module('starter.controllers', [])
 
         $scope.remoteSendConfirmation = function(tran){
             $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
-            tran.get('fromuser').fetch();
-            tran.get('touser').fetch();
-            var message = tran.get('fromuser').get('username') + " paid you $" + tran.get('amount');
-            alert(message);
-            sendPushMessage(message, tran.get('touser').id);
+
+            tran.get('touser').fetch({
+                    success:function(r){
+                        var message = tran.get('fromname') + " paid you $" + tran.get('amount');
+                        sendPushMessage(message, tran.get('touser').id);
+                    }
+            });
+
         }
 
         $scope.goToQRCode = function(sendform){
