@@ -24,10 +24,10 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
       if(window.plugins.pushNotification){
           parsePlugin.initialize(appId, clientKey, function() {
-              alert('success');
               registerPush();
+              subscribe(Parse.User.current().id);
           }, function(e) {
-              alert('error');
+              console.log('error');
           });
 
       }

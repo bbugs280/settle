@@ -13,7 +13,7 @@ function registerPush(){
             successHandler,
             errorHandler,
             {
-                "senderID":"17853414438",
+                //"senderID":"17853414438",
 //                "senderID":"able-coast-761",
                 "ecb":"onNotification"
             });
@@ -43,13 +43,25 @@ function registerPush(){
     }
 }
 
+function subscribe(channel){
+    parsePlugin.getSubscriptions(function(result){
+        console.log(result);
+    },function (e){
+        alert('getsubscribe error');
+    });
+    parsePlugin.subscribe(channel, function(){
+        console.log(" subscribe to " + channel);
+    },function(e){
+        alert(" subscribe Error ");
+    });
+}
+
 function successHandler (result) {
-    console.log("successHandler");
-    alert('result = ' + result);
+    console.log('successHandler result = ' + result);
 }
 
 function errorHandler (error) {
-    alert('error = ' + error);
+    console.log('error = ' + error);
 }
 // iOS
 function onNotificationAPN (event) {
@@ -136,18 +148,33 @@ onNotification = function(e) {
 function tokenHandler (result) {
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
-    alert('device token = ' + result);
+    console.lgo('device token = ' + result);
+
+    //Since there's no way to reset Badge on Parse now, this is commented
+    //var badgeCount = Parse.Installation.current.get('badge');
+    //pushNotification.setApplicationIconBadgeNumber(successBadgeCallback, errorBadgeCallback, badgeCount);
+
 }
 
-function sendPushMessage (text){
+function successBadgeCallback(result){
+    console.log("successBadgeCallback :"+ result);
+}
+
+function errorBadgeCallback(result){
+    console.log("errorBadgeCallback :"+ result);
+}
+
+
+function sendPushMessage (message, toUserId){
     var query = new Parse.Query(Parse.Installation);
-    query.equalTo('deviceType', 'ios'); // Set our channel
-    query.equalTo('deviceType', 'android'); // Set our channel
+    query.equalTo('channels', toUserId); // Set our channel
+    //query.equalTo('deviceType', 'android'); // Set our channel
 
     Parse.Push.send({
         where: query,
         data: {
-            alert: 'testing push'
+            alert: message,
+            badge:"Increment"
         }
     }, {
         success: function() {

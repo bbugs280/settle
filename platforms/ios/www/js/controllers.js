@@ -525,7 +525,9 @@ angular.module('starter.controllers', [])
 
         $scope.remoteSendConfirmation = function(tran){
             $rootScope.alert('Sent Successful','$'+tran.get('amount') + ' is sent to ' + tran.get('toname'));
-
+            var message = tran.get('fromuser').get('username') + " paid you $" + tran.get('amount');
+            alert(message);
+            sendPushMessage(message, tran.get('touser').id);
         }
 
         $scope.goToQRCode = function(sendform){
@@ -1158,7 +1160,7 @@ angular.module('starter.controllers', [])
             console.log("controller - success login");
                 $rootScope.user = user;
                 $rootScope.$apply();
-
+                subscribe(user.id);
                 $state.go('tab.balance-overview');
 //                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
