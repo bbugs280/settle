@@ -73,11 +73,11 @@ angular.module('starter.services', [])
             },
 
             // Register a user
-            signUp : function signUp(username, email, password, callback) {
-                var user = new SUser();
-                user.set("username", username);
-                user.set("password", password);
-                user.set("email", email);
+            signUp : function signUp(user, callback) {
+//                var user = new SUser();
+//                user.set("username", username);
+//                user.set("password", password);
+//                user.set("email", email);
                 user.signUp(null, {
                     success: function (user) {
                         callback(user);

@@ -31,114 +31,12 @@ angular.module('starter.controllers', [])
         }
 
         $rootScope.selectedGroup = undefined;
-        $scope.setGroup = function (selectedGroup){
 
-
-          $rootScope.selectedGroup = selectedGroup;
-
-            $state.go($state.current, $stateParams, {
-                location: false,
-                reload: true,
-                inherit: false,
-                notify: true
-            });
-
-            $state.go('tab.send');
-            $ionicSideMenuDelegate.toggleLeft();
-        }
-        $scope.setPersonal = function(){
-            $rootScope.selectedGroup = undefined;
-            $state.go('tab.send-remote');
-
-        }
-        $scope.addGroup = function (){
-            $scope.data = {};
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text" ng-model="data.group">',
-                title: 'Add Group',
-                subTitle: 'Please enter group name',
-                scope: $scope,
-                buttons: [
-                    { text: 'Cancel' },
-                    {
-                        text: '<b>Save</b>',
-                        type: 'button-positive',
-                        onTap: function(e) {
-                            if (!$scope.data.group) {
-                                //don't allow the user to close unless he enters wifi password
-                                e.preventDefault();
-                            } else {
-                                //Save new Friend list
-                                var Friendlist = Parse.Object.extend("friendlist");
-                                var fl = new Friendlist();
-                                fl.set('group',$scope.data.group);
-                                //fl.set('email',ParseService.getUser().get('email'));
-                                fl.addUnique('friends',ParseService.getUser().get('email'));
-                                fl.save(null,{
-                                    success: function (result) {
-                                        console.log("Add New Group Successfully");
-                                        $rootScope.loadGroup();
-                                    }, error: function (error) {
-                                        alert("Error: " + error.code + " " + error.message);
-                                    }
-                                })
-                            }
-                        }
-                    }
-                ]
-            });
-        }
-
-        $scope.editGroup = function(friendlist){
-            $scope.editGroup.group = friendlist.get('group');
-            var editPopup = $ionicPopup.show({
-                template: "<input type='text' ng-model='editGroup.group' value='{{editGroup.group}}'>",
-                title: 'Rename Group',
-                subTitle: '',
-                scope: $scope,
-                buttons: [
-                    { text: 'Cancel' },
-                    {
-                        text: '<b>Rename</b>',
-                        type: 'button-stable',
-                        onTap: function(e) {
-
-                            if (!$scope.editGroup.group) {
-                                e.preventDefault();
-                            } else {
-                                friendlist.set('group',$scope.editGroup.group);
-                                friendlist.save(null,{
-                                    success: function (result) {
-                                        $rootScope.loadGroup();
-                                        $scope.$apply();
-                                    }, error: function (error) {
-                                        throw("Error: " + error.code + " " + error.message);
-                                    }
-                                });
-                            }
-                        }
-                    }
-                ]
-            });
-        }
-
-        $scope.archGroup = function(friendlist){
-
-            if (friendlist.get('hidden')==true){
-                friendlist.set('hidden', false);
-            }else{
-                friendlist.set('hidden', true);
-            }
-
-            friendlist.save(null,{
-                success: function (result) {
-                    $rootScope.loadGroup();
-                    $scope.$apply();
-                }, error: function (error) {
-                    throw("Error: " + error.code + " " + error.message);
-                }
-            })
-
+        $rootScope.openCurrencies = function(currentState, data){
+            $rootScope.data = data;
+            console.log("openCurrencies");
+            $rootScope.currentState = currentState;
+            $state.go('tab.currencies');
         }
 
     })
@@ -331,7 +229,14 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state, $ionicPopup) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
+        $rootScope.user.get('default_currency').fetch({
+            success:function(r){
+
+                $rootScope.$apply();
+            }
+        });
+
 
         $scope.sendamount = {};
         $scope.sendnote = {};
@@ -556,6 +461,7 @@ angular.module('starter.controllers', [])
             });
 
         }
+
 
         $scope.goToQRCode = function(sendform){
             $state.go('tab.send');
@@ -896,6 +802,11 @@ angular.module('starter.controllers', [])
         // Called when the form is submitted
         console.log('Signup Ctrl');
 
+        if ($rootScope.signupUser){
+            console.log("setup signup user ", $rootScope.signupUser.username);
+            $scope.user = $rootScope.signupUser;
+        }
+
         $scope.goTologin = function(){
             $state.go('login');
         };
@@ -914,8 +825,26 @@ angular.module('starter.controllers', [])
                 throw("Invalid Password");
             }
 
+            if (userp.default_currency==undefined){
+                $rootScope.alert('No Default Currency','Please pick one, if the currency is not found. Do let us know.');
 
-            ParseService.signUp(userp.name, userp.email, userp.password, function(user) {
+                throw("No Default Currency");
+            }
+            if (userp.password!=userp.con_password){
+                $rootScope.alert('Password Problem','Confirm Password does not match')
+
+                throw("Invalid Password");
+            }
+
+            var user = new SUser();
+
+                user.set("username", userp.name);
+                user.set("password", userp.password);
+                user.set("email", userp.email);
+
+                user.set('default_currency',{__type: "Pointer", className: "currencies", objectId: userp.default_currency.id});
+
+            ParseService.signUp(user, function(user) {
                 // When service call is finished, navigate to items page
                 $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
@@ -970,23 +899,8 @@ angular.module('starter.controllers', [])
             })
 
         }
-        $scope.openCurrencies = function(user){
-            $state.go('tab.currencies');
-        }
-        $scope.selectCurrency = function(curr){
-            $rootScope.user.set('default_currency',curr);
-            $state.go('tab.setupuser');
-        }
-        $scope.loadCurrencies = function(){
-            var Currencies = Parse.Object.extend('currencies');
-            var query = new Parse.Query(Currencies);
-            query.find({
-                success:function(currencies){
-                    $scope.currencies = currencies;
-                    $scope.$apply();
-                }
-            })
-        }
+
+
         $scope.openCamera = function(){
             var options =   {
                 quality: 30,
@@ -1037,6 +951,50 @@ angular.module('starter.controllers', [])
 
         };
 
+
+})
+.controller('SelectCurrencyCtrl', function($rootScope,$scope, $state) {
+
+        $scope.loadCurrencies = function(){
+            var Currencies = Parse.Object.extend('currencies');
+            var query = new Parse.Query(Currencies);
+            query.equalTo('enabled',true);
+            query.find({
+                success:function(currencies){
+                    $scope.currencies = currencies;
+                    $scope.$apply();
+                }
+            })
+        }
+
+        $scope.selectCurrency = function(curr){
+
+
+            switch($rootScope.currentState) {
+                case 'tab.send':
+                    $rootScope.selectedCurrency=curr;
+                    $state.go('tab.send');
+                    break;
+                case 'tab.send-remote':
+                    $rootScope.selectedCurrency=curr;
+                    $state.go('tab.send-remote');
+                    break;
+                case 'signup':
+
+                    $rootScope.signupUser = $rootScope.data;
+                    $rootScope.signupUser.default_currency=curr;
+
+                    $state.go('signup');
+                    break;
+                case 'tab.setupuser':
+                    $rootScope.user.set('default_currency',curr);
+                    $state.go('tab.setupuser');
+                    break;
+                default:
+                    $state.go('tab.setupuser');
+            }
+            $rootScope.currentState = "";
+        }
         $scope.loadCurrencies();
 })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,Common) {
@@ -1115,10 +1073,6 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
-        $scope.back = function(){
-            window.history.back();
-            //$state.go('tab.setupgroup')
-        }
         $scope.loadGroupSetup();
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
@@ -1186,8 +1140,20 @@ angular.module('starter.controllers', [])
 
             console.log("controller - success login");
                 $rootScope.user = user;
+                if ($rootScope.user.get('default_currency')){
+                    $rootScope.user.get('default_currency').fetch({
+                        success:function(r){
+                            $rootScope.$apply();
+                            console.log("fetch default currency");
+                        }
+                    });
+                }
                 $rootScope.$apply();
-                subscribe(user.id);
+
+                if (window.plugins && window.plugins.pushNotification){
+                    subscribe(user.id);
+                }
+
                 $state.go('tab.balance-overview');
 //                $rootScope.loadGroup();
                 console.log("controller - redirected success login");

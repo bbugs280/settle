@@ -34,6 +34,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
 //      $cordovaPlugin.someFunction().then(success, error);
       $rootScope.user = Parse.User.current();
+      $rootScope.user.get('default_currency').fetch({
+          success:function (r){
+//              $rootScope.user.set('default_currency',r);
+              $rootScope.$apply();
+          }
+      })
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -203,11 +209,11 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           views:{
               'tab-setup':{
                   templateUrl: 'templates/setup-currencies.html',
-                  controller: 'SetupCtrl'
+                  controller: 'SelectCurrencyCtrl'
               }
           },
           data: {
-              authenticate: true
+              authenticate: false
           }
       })
     .state('tab.setupgroup', {
