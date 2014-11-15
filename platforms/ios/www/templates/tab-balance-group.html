@@ -1,4 +1,10 @@
-<ion-view title="{{selectedGroup.get('group')}}" >
+<ion-view title="{{selectedGroup.get('group')}}" hide-back-button="true">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToBalanceOverview()">
+            <i class="icon ion-ios7-arrow-back"></i>
+            Back
+        </button>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined" ng-click="goToGroupEdit(selectedGroup)">
         <button class="button button-clear" ng-click="goToGroupEdit(selectedGroup)">
             <span>
@@ -8,13 +14,13 @@
     </ion-nav-buttons>
   <ion-content>
       <ion-list>
-          <ion-refresher
-                  pulling-icon="icon ion-arrow-down-c"
-                  refreshing-icon="icon ion-loading-c"
-                  on-refresh="loadGroup()">
-          </ion-refresher>
+          <!--<ion-refresher-->
+                  <!--pulling-icon="icon ion-arrow-down-c"-->
+                  <!--refreshing-icon="icon ion-loading-c"-->
+                  <!--on-refresh="loadGroup()">-->
+          <!--</ion-refresher>-->
           <ion-item class="item item-icon-right" ng-click="openTrans()">
-              Your Current Balance is $
+              Your Group Balance is $
               <span ng-if="balance.get('balance')<0">
               <span style="color: red">{{balance.get('balance') | number:2}}</span>
               </span>

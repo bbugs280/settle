@@ -7,13 +7,17 @@
                   <!--on-refresh="loadGroup()">-->
           <!--</ion-refresher>-->
           <ion-item class="item item-icon-right">
-              Your Total Balance is $
-              <span ng-if="balance<0">
-              <span style="color: red">{{balance | number:2}}</span>
+              <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
+              Your Total Balance is
+              <span class="item-note">
+                    <span ng-if="balance<0">
+                          $<span style="color: red">{{balance | number:2}}</span>
+                     </span>
+                     <span ng-if="balance>=0">
+                          $<span style="color:olivedrab">{{balance| number:2}}</span>
+                     </span>
               </span>
-              <span ng-if="balance>=0">
-                  <span style="color:olivedrab">{{balance| number:2}}</span>
-              </span>
+
               <!--<BR>-->
               <!--<span style="font-size: x-small;color:gray">Total transaction of credit is <b>${{balance.get('credit')| number:2}}</b></span>-->
               <!--<span style="font-size: x-small;color:gray">and debit is <b>$-{{balance.get('debit')| number:2}}</b></span>-->
@@ -22,7 +26,7 @@
 
           </ion-item>
           <ion-item class="item item-divider" >
-              <!--<i id="tran_loading" class="icon ion-loading-c" style="visibility:{{loading}}"></i>-->
+
               <label class="item item-input" style="border-radius: 5px;height: 30px">
                   <i class="icon ion-search placeholder-icon"></i>
                   <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchFriend(searchText)">
