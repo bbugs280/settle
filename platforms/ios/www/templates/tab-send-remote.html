@@ -45,7 +45,7 @@
       </ion-item>
       <form ng-model="sendform" ng-submit="processSend(sendform)">
       <ion-item class="item item-input-inset">
-          <button class="button button-clear" type="button" ng-click="openCurrencies('tab.send-remote')" style="color: #000000;font-weight: bold">
+          <button class="button button-clear" type="button" ng-click="openCurrencies('tab.send-remote')" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedCurrency==undefined">
                   <span ng-if="user.get('default_currency')!=undefined">{{user.get('default_currency').get('code')}}</span>
               </span>
@@ -53,7 +53,7 @@
           </button>
           <label class=" item-input-wrapper " style="height: 50px">
 
-              <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency min="1" max="500">
+              <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency>
           </label>
           <button class="button button-stable" type="submit" style="font-size: large;border-radius: 10px">
               <i class="icon ion-ios7-keypad"></i>

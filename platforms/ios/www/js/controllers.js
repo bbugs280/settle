@@ -229,10 +229,9 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter) {
         $rootScope.user.get('default_currency').fetch({
             success:function(r){
-
                 $rootScope.$apply();
             }
         });
@@ -279,6 +278,7 @@ angular.module('starter.controllers', [])
             var email = $rootScope.user.get('email');
             var groupId = "";
             var groupname = "";
+            var currencyId = "";
 
             if ($rootScope.selectedGroup){
                 groupId = $rootScope.selectedGroup.id;
@@ -291,7 +291,13 @@ angular.module('starter.controllers', [])
             if (sendform.note){
                 $rootScope.sendnote = sendform.note;
             }
-            var sendString = tranId+"|"+ email +"|"+ $rootScope.sendamount +"|"+ $rootScope.sendnote +"|"+groupId+"|"+groupname;
+
+            if ($rootScope.selectedCurrency){
+                currencyId = $rootScope.selectedCurrency.id;
+            }else{
+                currencyId = $rootScope.user.get('default_currency').id;
+            }
+            var sendString = tranId+"|"+ email +"|"+ $rootScope.sendamount +"|"+ $rootScope.sendnote +"|"+groupId+"|"+groupname + "|"+currencyId;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -400,6 +406,12 @@ angular.module('starter.controllers', [])
                 $rootScope.sendnote = sendform.note;
             }
 
+            var currencyId="";
+            if ($rootScope.selectedCurrency){
+                currencyId = $rootScope.selectedCurrency.id;
+            }else{
+                currencyId = $rootScope.user.get('default_currency').id;
+            }
 
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
@@ -407,7 +419,6 @@ angular.module('starter.controllers', [])
                 $rootScope.alert("Invalid amount","Please Enter Again");
                 throw ("invalid amount");
             }
-
 
                 var tranId = Common.getID();
                 var location;
@@ -418,7 +429,7 @@ angular.module('starter.controllers', [])
                     var user = new SUser();
                     user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                         console.log("SendCtrl.sendRemote "+ friendlist.id);
-                        ParseService.recordQRCode(friendlist, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
+                        ParseService.recordQRCode(friendlist, tranId,currencyId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
                                 $rootScope.alert('Error',r.message);
@@ -432,7 +443,7 @@ angular.module('starter.controllers', [])
                         });
                     })
                 }else{
-                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
+                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,currencyId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
                             $rootScope.hideLoading();
@@ -449,13 +460,20 @@ angular.module('starter.controllers', [])
             }
 
         $scope.remoteSendConfirmation = function(tran){
+            var currencyCode="";
+            if ($rootScope.selectedCurrency){
+                currencyCode = $rootScope.selectedCurrency.get('code');
+            }else{
+                currencyCode = $rootScope.user.get('default_currency').get('code');
+            }
 
-            var amountFormatted = Number(tran.get('amount')).toLocaleString();
-            $rootScope.alert('Sent Successful','$'+amountFormatted + ' is sent to ' + tran.get('toname'));
+            var amountFormatted = $filter('currency')(tran.get('amount'),currencyCode);
+//                Number(tran.get('amount')).toLocaleString();
+            $rootScope.alert('Sent Successful',amountFormatted + ' is sent to ' + tran.get('toname'));
 
             tran.get('touser').fetch({
                     success:function(r){
-                        var message = tran.get('fromname') + " paid you $" + amountFormatted;
+                        var message = tran.get('fromname') + " paid you " + amountFormatted;
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
@@ -705,12 +723,15 @@ angular.module('starter.controllers', [])
                     var note=res[3];
                     var groupId=res[4];
                     var groupName=res[5];
+                    var currencyId=res[6];
+                    console.log(currencyId);
                     var friendemail;
-                    if (from == $scope.user.get('email')){
+                    if (from == $rootScope.user.get('email')){
                         friendemail = to;
                     }else{
                         friendemail = from;
                     }
+                    console.log(friendemail);
                     var user = new SUser();
 
                     user.getUserByEmail(friendemail, function(friend){
@@ -724,7 +745,7 @@ angular.module('starter.controllers', [])
 
                             user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
-                                $scope.recordQRCode(friendlist, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                $scope.recordQRCode(friendlist, tranId,currencyId, amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                             })
                         }else{
                             console.log("ReceiveCtrl.scan Group Found = "+ groupId);
@@ -737,7 +758,7 @@ angular.module('starter.controllers', [])
                             queryFd.get(groupId,{
                                 success:function(grp){
                                     console.log("ReceiveCtrl.scan successfully got group");
-                                    $scope.recordQRCode(grp, tranId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                    $scope.recordQRCode(grp, tranId,currencyId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                                 },error:function(obj, error){
                                     console.log("ReceiveCtrl.scan failed got group: "+ error.message);
 //                                    throw (error.message);
@@ -757,9 +778,9 @@ angular.module('starter.controllers', [])
             } );
         }
 
-        $scope.recordQRCode = function(group, id,amount,from,youremail,note,location, user,friend){
+        $scope.recordQRCode = function(group, id,currencyId,amount,from,youremail,note,location, user,friend){
 
-            ParseService.recordQRCode(group,id,amount,from,youremail,note,location, user,friend, function(r){
+            ParseService.recordQRCode(group,id,currencyId,amount,from,youremail,note,location, user,friend, function(r){
                 //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
                 if (r.message== undefined){
                     console.log("Controllers Receive - recordQRCode Successfully");

@@ -31,6 +31,7 @@ angular.module('ng-currency', [])
 
                 function clearValue(value) {
                     value = String(value);
+
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
                     var clear = null;
 

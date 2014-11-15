@@ -102,11 +102,12 @@ angular.module('starter.services', [])
                  return Parse.User.current();
             },
 
-            recordQRCode : function recordQRCode(group, tranId, amount, from, to, note, location, user, friend, callback){
+            recordQRCode : function recordQRCode(group, tranId, currencyId, amount, from, to, note, location, user, friend, callback){
                 var tran = new Transaction();
                 tran.set('group',group);
                 tran.set('groupId',group.id);
                 tran.set('tranId',tranId);
+                tran.set('currency',{__type: "Pointer", className: "currencies", objectId: currencyId});
                 tran.set('amount',Number(amount));
                 tran.set('from',from);
                 tran.set('to',to);
