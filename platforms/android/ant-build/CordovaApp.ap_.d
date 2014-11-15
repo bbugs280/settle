@@ -293,6 +293,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin/www/cdv-plugin-parse.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/intro.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-currencies.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-group-edit.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/setup-group.html \

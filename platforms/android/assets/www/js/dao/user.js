@@ -82,11 +82,14 @@ var SUser = Parse.User.extend({
 },
     getBalanceByEmails : function (group, emailarray, callback) {
         var Balance = Parse.Object.extend("balance");
+        var User = Parse.Object.extend("User");
         var query = new Parse.Query(Balance);
+        var innerQuery = new Parse.Query(User);
+        innerQuery.containedIn("email", emailarray);
         query.include('user');
-        query.containedIn("email", emailarray);
+//        query.containedIn("email", emailarray);
         query.equalTo("group", group);
-
+        query.matchesQuery('user',innerQuery);
         query.addAscending("balance");
         query.find({
             success: function (balances) {

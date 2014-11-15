@@ -32,7 +32,8 @@ angular.module('starter.controllers', [])
 
         $rootScope.selectedGroup = undefined;
 
-        $rootScope.openCurrencies = function(currentState){
+        $rootScope.openCurrencies = function(currentState, data){
+            $rootScope.data = data;
             console.log("openCurrencies");
             $rootScope.currentState = currentState;
             $state.go('tab.currencies');
@@ -824,15 +825,26 @@ angular.module('starter.controllers', [])
                 throw("Invalid Password");
             }
 
-            var userp = new SUser();
+            if (userp.default_currency==undefined){
+                $rootScope.alert('No Default Currency','Please pick one, if the currency is not found. Do let us know.');
 
-                userp.set("username", username);
-                userp.set("password", password);
-                userp.set("email", email);
-            if (selectedCurrency)
-                userp.set('default_currency',{__type: "Pointer", className: "currencies", objectId: selectedCurrency.id});
+                throw("No Default Currency");
+            }
+            if (userp.password!=userp.con_password){
+                $rootScope.alert('Password Problem','Confirm Password does not match')
 
-            ParseService.signUp(userp, function(user) {
+                throw("Invalid Password");
+            }
+
+            var user = new SUser();
+
+                user.set("username", userp.name);
+                user.set("password", userp.password);
+                user.set("email", userp.email);
+
+                user.set('default_currency',{__type: "Pointer", className: "currencies", objectId: userp.default_currency.id});
+
+            ParseService.signUp(user, function(user) {
                 // When service call is finished, navigate to items page
                 $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
@@ -955,9 +967,9 @@ angular.module('starter.controllers', [])
             })
         }
 
-        $scope.selectCurrency = function(curr, options){
+        $scope.selectCurrency = function(curr){
 
-            console.log("select Curr : "+ options);
+
             switch($rootScope.currentState) {
                 case 'tab.send':
                     $rootScope.selectedCurrency=curr;
@@ -968,10 +980,11 @@ angular.module('starter.controllers', [])
                     $state.go('tab.send-remote');
                     break;
                 case 'signup':
-                    $rootScope.selectedCurrency=curr;
-                    $rootScope.signupUser = options;
-                    $rootScope.back();
-//                    $state.go('signup');
+
+                    $rootScope.signupUser = $rootScope.data;
+                    $rootScope.signupUser.default_currency=curr;
+
+                    $state.go('signup');
                     break;
                 case 'tab.setupuser':
                     $rootScope.user.set('default_currency',curr);
