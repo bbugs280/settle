@@ -23,7 +23,7 @@
               Your Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
                <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
               is
-              <span class="item-note">
+              <span class="item-note" style="color:black">
                 <span ng-if="balance.get('balance')<0">
                     $<span style="color: red">{{balance.get('balance')| number:2}}</span>
                 </span>

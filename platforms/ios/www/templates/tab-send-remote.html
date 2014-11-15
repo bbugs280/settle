@@ -45,7 +45,11 @@
       </ion-item>
       <form ng-model="sendform" ng-submit="processSend(sendform)">
       <ion-item class="item item-input-inset">
+          <!--<button class="button button-clear" ng-click="">-->
+              <!--HKD-->
+          <!--</button>-->
           <label class=" item-input-wrapper " style="height: 50px">
+
               <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency min="1" max="500">
           </label>
           <button class="button button-stable" type="submit" style="font-size: large;border-radius: 10px">
