@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
             $rootScope.data = data;
             console.log("openCurrencies");
             $rootScope.currentState = currentState;
-            $state.go('tab.currencies');
+            $state.go('currencies');
         }
 
     })
@@ -727,7 +727,7 @@ angular.module('starter.controllers', [])
                     console.log(currencyId);
                     var friendemail;
 
-                   
+
                     if (from == $rootScope.user.get('email')){
                         friendemail = to;
                     }else{

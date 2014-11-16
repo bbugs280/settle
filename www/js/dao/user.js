@@ -49,7 +49,7 @@ var SUser = Parse.User.extend({
     getBalanceByEmail : function (group, user, callback) {
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
-
+    query.include('currency');
     query.equalTo("user", user);
     query.equalTo("group", group);
 
@@ -66,6 +66,7 @@ var SUser = Parse.User.extend({
 
             } else {
                 r.set('user', user);
+                r.set('currency', user.get('default_currency'));
                 r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);

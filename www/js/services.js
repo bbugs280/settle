@@ -108,6 +108,7 @@ angular.module('starter.services', [])
                 tran.set('groupId',group.id);
                 tran.set('tranId',tranId);
                 tran.set('currency',{__type: "Pointer", className: "currencies", objectId: currencyId});
+                tran.get('currency').fetch();
                 tran.set('amount',Number(amount));
                 tran.set('from',from);
                 tran.set('to',to);
@@ -135,6 +136,7 @@ angular.module('starter.services', [])
                         error.message = "Invalid QRCode";
                         callback(error);
                     }else{
+
                         //Save Transaction
                         console.log("recordQRCode - Valid QRCode with TranID = " + tran.get('tranId'));
                         console.log("recordQRCode - before tran save : " + tran.get('tranId') +" | "+ tran.get('amount') +" | "+ tran.get('from') +" | "+ tran.get('to') +" | "+ tran.get('note') +" | "+ user.get('email'));
@@ -158,8 +160,12 @@ angular.module('starter.services', [])
                                         var yourcredit = trancredit + yourbal.get('credit');
                                         var yourdebit = trandebit + yourbal.get('debit');
                                         //2. update Your Balance
-                                        yourbal.set('group', group);
-                                        yourbal.set('user', user);
+//                                        yourbal.set('group', group);
+//                                        yourbal.set('user', user);
+                                        //TODO
+//                                        console.log("FX Rate "+ yourbal.get('currency').get('code')+"/"+tran.get('currency').get('code'));
+//                                        console.log("FX Rate "+ getFXRate(yourbal.get('currency').get('code'),tran.get('currency').get('code')));
+
                                         yourbal.set('credit', yourcredit);
                                         yourbal.set('debit', yourdebit);
         //                                yourbal.set('balance', yourcredit - yourdebit);
@@ -179,21 +185,6 @@ angular.module('starter.services', [])
                                             console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
 
                                         });
-//
-//                                        user.getFriendList(groupId, function(friendlist){
-//                                            console.log("recordQRCode - your friendlist found");
-//                                            var friendArray = [user.get('email'),friendEmail];
-//                                            var nameArray = [user.get('username'),friendName];
-//                                            //set frienduser and user
-//                                            friendlist.set('user1',user);
-//                                            friendlist.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
-//
-//                                            user.addFriends(friendlist, nameArray,friendArray, function(friends){
-////                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
-//                                                console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
-//
-//                                            });
-//                                        });
 
                                         //Now update your friend Records
                                         //1. get Friend Balance
@@ -214,17 +205,6 @@ angular.module('starter.services', [])
                                             })
                                         });
 
-                                        // 3. Add friend
-//                                        user.getFriendList(group, friendEmail, function(friendfriendlist){
-//                                            console.log("recordQRCode - friend friendlist found");
-//                                            user.addFriend(friendfriendlist, user.get('email'), function(friends){
-//
-//                                                console.log("recordQRCode - Friend's Balance and Friends are UP2Date!!!");
-//
-//                                                callback(tran);
-//
-//                                            });
-//                                        });
                                     });
 
 

@@ -726,12 +726,14 @@ angular.module('starter.controllers', [])
                     var currencyId=res[6];
                     console.log(currencyId);
                     var friendemail;
+
+
                     if (from == $rootScope.user.get('email')){
                         friendemail = to;
                     }else{
                         friendemail = from;
                     }
-                    console.log(friendemail);
+
                     var user = new SUser();
 
                     user.getUserByEmail(friendemail, function(friend){
