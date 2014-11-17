@@ -162,12 +162,18 @@ angular.module('starter.services', [])
                                         //2. update Your Balance
 //                                        yourbal.set('group', group);
 //                                        yourbal.set('user', user);
-                                        //TODO
-                                        console.log("FX Rate "+ yourbal.get('currency').get('code')+"/"+tran.get('currency').get('code'));
-                                        console.log("FX Rate "+ getFXRate(yourbal.get('currency').get('code'),tran.get('currency').get('code')));
+                                        //Getting FX Rate
+                                        var fromCurrency = tran.get('currency').get('code');
+                                        var toCurrency = yourbal.get('currency').get('code');
+                                        var toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                        if (user.id == tran.get('fromuser').id){
+                                            tran.set('from_rate', toRate);
+                                        }else{
+                                            tran.set('to_rate', toRate);
+                                        }
 
-                                        yourbal.set('credit', yourcredit);
-                                        yourbal.set('debit', yourdebit);
+                                        yourbal.set('credit', yourcredit*toRate);
+                                        yourbal.set('debit', yourdebit*toRate);
         //                                yourbal.set('balance', yourcredit - yourdebit);
                                         user.updateBalance(yourbal,function(r){
                                             console.log("recordQRCode - your balance saved");
@@ -181,9 +187,16 @@ angular.module('starter.services', [])
                                         group.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
 
                                         user.addFriends(group, nameArray,friendArray, function(friends){
-//                                                console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
+                                        //console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
                                             console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
-
+                                            //Update Tran with new rate
+                                            tran.save(null, {
+                                                success:function(r){
+                                                    console.log("Tran is updated with Latest Rates");
+                                                },error:function(obj,error){
+                                                    console.log("Tran is updated with Latest Rates with Error", error.message);
+                                                }
+                                            })
                                         });
 
                                         //Now update your friend Records
@@ -191,19 +204,44 @@ angular.module('starter.services', [])
                                         user.getBalanceByEmail(group,friend,function(friendbal){
                                             var friendcredit = trandebit + friendbal.get('credit');
                                             var frienddebit = trancredit + friendbal.get('debit');
+                                            //Getting FX Rate
+                                            var fromCurrency = tran.get('currency').get('code');
+                                            var toCurrency = yourbal.get('currency').get('code');
+                                            var toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                            if (friend.id == tran.get('fromuser').id){
+                                                tran.set('from_rate', toRate);
+                                            }else{
+                                                tran.set('to_rate', toRate);
+                                            }
                                             //2. update Friend Balance
-                                            friendbal.set('group', group);
-                                            friendbal.set('user', {__type: "Pointer", className: "User", objectId: friend.id});
-                                            friendbal.set('credit', friendcredit);
-                                            friendbal.set('debit', frienddebit);
+                                            //friendbal.set('group', group);
+                                            //friendbal.set('user', {__type: "Pointer", className: "User", objectId: friend.id});
+                                            friendbal.set('credit', friendcredit*toRate);
+                                            friendbal.set('debit', frienddebit*toRate);
                                             //friendbal.set('balance', friendcredit - frienddebit);
                                             user.updateBalance(friendbal,function(r){
                                                 console.log("recordQRCode - friend balance saved");
                                                 //Play Sound
                                                 success_snd.play();
                                                 callback(tran);
+                                                //Update Tran with new rate
+                                                tran.save(null, {
+                                                    success:function(r){
+                                                        console.log("Tran is updated with Latest Rates");
+                                                    },error:function(obj,error){
+                                                        console.log("Tran is updated with Latest Rates with Error", error.message);
+                                                    }
+                                                })
                                             })
                                         });
+                                        //Update Tran with new rate
+                                        //tran.save(null, {
+                                        //    success:function(r){
+                                        //        console.log("Tran is updated with Latest Rates");
+                                        //    },error:function(obj,error){
+                                        //        console.log("Tran is updated with Latest Rates with Error", error.message);
+                                        //    }
+                                        //})
 
                                     });
 
