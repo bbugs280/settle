@@ -163,8 +163,8 @@ angular.module('starter.services', [])
 //                                        yourbal.set('group', group);
 //                                        yourbal.set('user', user);
                                         //TODO
-//                                        console.log("FX Rate "+ yourbal.get('currency').get('code')+"/"+tran.get('currency').get('code'));
-//                                        console.log("FX Rate "+ getFXRate(yourbal.get('currency').get('code'),tran.get('currency').get('code')));
+                                        console.log("FX Rate "+ yourbal.get('currency').get('code')+"/"+tran.get('currency').get('code'));
+                                        console.log("FX Rate "+ getFXRate(yourbal.get('currency').get('code'),tran.get('currency').get('code')));
 
                                         yourbal.set('credit', yourcredit);
                                         yourbal.set('debit', yourdebit);
