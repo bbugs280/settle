@@ -623,6 +623,7 @@ angular.module('starter.controllers', [])
             console.log("selectFriend - username = " + username);
             var user = Parse.Object.extend('User');
             var query = new Parse.Query(user);
+            query.include('default_currency');
             query.equalTo('username',username);
             query.find({
                 success:function(users){

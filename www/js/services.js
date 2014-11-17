@@ -202,6 +202,7 @@ angular.module('starter.services', [])
                                         //Now update your friend Records
                                         //1. get Friend Balance
                                         user.getBalanceByEmail(group,friend,function(friendbal){
+                                            console.log("Friend Group Found with Curr = "+friend.get('default_currency').get('code'));
                                             var friendcredit = trandebit + friendbal.get('credit');
                                             var frienddebit = trancredit + friendbal.get('debit');
                                             //Getting FX Rate

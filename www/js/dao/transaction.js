@@ -9,6 +9,7 @@ var Transaction = Parse.Object.extend("transaction",{
             toQuery.equalTo("to", email);
 
             var mainQuery = Parse.Query.or(fromQuery, toQuery);
+            mainQuery.include('currency');
             mainQuery.equalTo("groupId", groupId);
             mainQuery.addDescending("createdAt");
             mainQuery.limit(10);

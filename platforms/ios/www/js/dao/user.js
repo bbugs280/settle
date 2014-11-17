@@ -47,9 +47,10 @@ var SUser = Parse.User.extend({
     });
     },
     getBalanceByEmail : function (group, user, callback) {
+        
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
-
+    query.include('currency');
     query.equalTo("user", user);
     query.equalTo("group", group);
 
@@ -66,6 +67,8 @@ var SUser = Parse.User.extend({
 
             } else {
                 r.set('user', user);
+                //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
+                r.set('currency', user.get('default_currency'));
                 r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);
@@ -87,6 +90,7 @@ var SUser = Parse.User.extend({
         var innerQuery = new Parse.Query(User);
         innerQuery.containedIn("email", emailarray);
         query.include('user');
+        query.include('currency');
 //        query.containedIn("email", emailarray);
         query.equalTo("group", group);
         query.matchesQuery('user',innerQuery);

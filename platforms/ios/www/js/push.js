@@ -44,11 +44,7 @@ function registerPush(){
 }
 
 function subscribe(channel){
-//    parsePlugin.getSubscriptions(function(result){
-//        console.log(result);
-//    },function (e){
-//        alert('getsubscribe error');
-//    });
+
     parsePlugin.subscribe(channel, function(){
         console.log(" subscribe to " + channel);
     },function(e){
@@ -150,10 +146,10 @@ function tokenHandler (result) {
     // here is where you might want to send it the token for later use.
     console.log('device token = ' + result);
     //Since there's no way to reset Badge on Parse now, this is commented
-    var badgeCount = Parse.Installation.current().get('badge');
-    console.log("badge count = "+badgeCount);
-    pushNotification.setApplicationIconBadgeNumber(successBadgeCallback, errorBadgeCallback, badgeCount);
-    resetBadge();
+//    var badgeCount = Parse.Installation.current().get('badge');
+//    console.log("badge count = "+badgeCount);
+//    pushNotification.setApplicationIconBadgeNumber(successBadgeCallback, errorBadgeCallback, badgeCount);
+//    resetBadge();
 
 }
 
@@ -186,8 +182,9 @@ function sendPushMessage (message, toUserId){
     Parse.Push.send({
         where: query,
         data: {
-            alert: message,
-            badge:"Increment"
+            alert: message
+//            ,
+//            badge:"Increment"
         }
     }, {
         success: function() {

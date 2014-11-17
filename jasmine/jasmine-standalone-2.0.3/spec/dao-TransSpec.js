@@ -74,7 +74,7 @@ describe("DAO Transaction Services", function() {
         });
     })
 
-//TODO getRelatedTran
+
     describe("getRelatedTran", function(){
         var checkTran;
         beforeEach(function(done){
