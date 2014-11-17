@@ -58,11 +58,11 @@ angular.module('ng-currency', [])
                 });
 
                 element.on("blur", function () {
-                    element.val($filter('currency')(ngModel.$modelValue));
+                    element.val($filter('currency')(ngModel.$modelValue,''));
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter('currency')(value);
+                    return $filter('currency')(value,'');
                 });
 
                 scope.$watch(function () {

@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
                 $scope.balancelist = bals;
 
                 for (var i in bals){
-                    if ($rootScope.user.get('default_currency')!=bals[i].get('currency').get('code')){
+                    if ($rootScope.user.get('default_currency').get('code')!=bals[i].get('currency').get('code')){
 
                         $scope.balance.amount += Number(bals[i].get('balance')) * getFXRate(bals[i].get('currency').get('code'),$rootScope.user.get('default_currency').get('code'));
 
@@ -329,10 +329,15 @@ angular.module('starter.controllers', [])
         $scope.processSend = function(sendform){
 
             if($rootScope.inviteEmail){
-                if(sendform.inviteEmail)
+                if(sendform.inviteEmail){
+                    console.log("invite Email ", sendform.inviteEmail);
                     $rootScope.inviteEmail = sendform.inviteEmail;
+                }
+
                 $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
+                console.log("SendForm amount ", sendform.amount);
+                console.log("sendform note ", sendform.note);
                 $scope.sendRemote(sendform);
             }
         }
@@ -405,12 +410,12 @@ angular.module('starter.controllers', [])
                 throw ("No friend selected");
             }
 
-            if (sendform.amount){
-                $rootScope.sendamount = sendform.amount;
-            }
-            if (sendform.note){
-                $rootScope.sendnote = sendform.note;
-            }
+//            if (sendform.amount){
+//                $rootScope.sendamount = sendform.amount;
+//            }
+//            if (sendform.note){
+//                $rootScope.sendnote = sendform.note;
+//            }
 
             var currencyId="";
             if ($rootScope.selectedCurrency){
@@ -421,7 +426,7 @@ angular.module('starter.controllers', [])
 
             console.log("amount"+$rootScope.sendamount )
             console.log("note"+ $rootScope.sendnote )
-            if (!$rootScope.sendamount){
+            if (sendform.sendamount){
                 $rootScope.alert("Invalid amount","Please Enter Again");
                 throw ("invalid amount");
             }
@@ -435,7 +440,7 @@ angular.module('starter.controllers', [])
                     var user = new SUser();
                     user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                         console.log("SendCtrl.sendRemote "+ friendlist.id);
-                        ParseService.recordQRCode(friendlist, tranId,currencyId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location , $scope.user,$rootScope.selectedFriend,function(r){
+                        ParseService.recordQRCode(friendlist, tranId,currencyId,sendform.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),sendform.note,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
                                 $rootScope.alert('Error',r.message);
@@ -449,7 +454,7 @@ angular.module('starter.controllers', [])
                         });
                     })
                 }else{
-                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,currencyId,$rootScope.sendamount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),$rootScope.sendnote,location, $scope.user,$rootScope.selectedFriend,function(r){
+                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,currencyId,sendform.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),sendform.note,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
                             $rootScope.hideLoading();
@@ -480,6 +485,10 @@ angular.module('starter.controllers', [])
             tran.get('touser').fetch({
                     success:function(r){
                         var message = tran.get('fromname') + " paid you " + amountFormatted;
+                        if (tran.get('note')){
+                            message += "\n ("+tran.get('note')+")";
+                        }
+
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
@@ -934,7 +943,7 @@ angular.module('starter.controllers', [])
         $scope.openCamera = function(){
             var options =   {
                 quality: 30,
-                destinationType: Camera.DestinationType.DATA_URL,
+                destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
@@ -942,32 +951,33 @@ angular.module('starter.controllers', [])
 
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
-        var onSuccess = function(DATA_URL) {
-            if (!Common.checkImageSize(DATA_URL.length)){
-                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+        var onSuccess = function(FILE_URI) {
 
-                $rootScope.hideLoading();
-                throw("Image Size Error");
-            }
+//            if (!Common.checkImageSize(DATA_URL.length)){
+//                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+//
+//                $rootScope.hideLoading();
+//                throw("Image Size Error");
+//            }
+            resizeImage(FILE_URI, function(data){
+                console.log("success got pic");
 
-            console.log("success got pic");
-
-
-            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
+                var file = new Parse.File("icon.jpg", {base64:data});
 //            var file = new Parse.File("icon.jpg", img);
-            $rootScope.user.set('icon',file);
-            $rootScope.user.save(null,{
-                    success:function(user){
-                        console.log("setup ctrl - user updated with new icon");
-                        $rootScope.$apply();
-                        $state.go('tab.setupuser');
-                        $rootScope.hideLoading();
-                    },error:function(obj,error){
-                        $rootScope.hideLoading();
-                        throw (error.message);
+                $rootScope.user.set('icon',file);
+                $rootScope.user.save(null,{
+                        success:function(user){
+                            console.log("setup ctrl - user updated with new icon");
+                            $rootScope.$apply();
+                            $state.go('tab.setupuser');
+                            $rootScope.hideLoading();
+                        },error:function(obj,error){
+                            $rootScope.hideLoading();
+                            throw (error.message);
+                        }
                     }
-                }
-            );
+                );
+            });
 
         };
         var onFail = function(e) {
@@ -980,7 +990,8 @@ angular.module('starter.controllers', [])
             $state.go('login');
 
         };
-
+        //To make sure default currency is displayed
+        $scope.refreshUser();
 
 })
 .controller('SelectCurrencyCtrl', function($rootScope,$scope, $state) {
@@ -1044,7 +1055,7 @@ angular.module('starter.controllers', [])
         $scope.openCamera = function(group){
             var options =   {
                 quality: 30,
-                destinationType: Camera.DestinationType.DATA_URL,
+                destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
@@ -1053,31 +1064,37 @@ angular.module('starter.controllers', [])
 
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
-        var onSuccess = function(DATA_URL) {
-            if (!Common.checkImageSize(DATA_URL.length)){
-                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+        var onSuccess = function(FILE_URI) {
+//            if (!Common.checkImageSize(DATA_URL.length)){
+//                $rootScope.alert('Image Too Large','Cannot exceed 1 MB');
+//
+//                $rootScope.hideLoading();
+//                throw("Image Size Error");
+//            }
 
-                $rootScope.hideLoading();
-                throw("Image Size Error");
-            }
-            console.log("success got pic");
-            var file = new Parse.File("icon.jpg", {base64:DATA_URL});
-            $scope.group.set('icon',file);
-            $scope.group.save(null,{
-                    success:function(group){
-                        console.log("setup ctrl - friendlist/group updated with new icon");
-                        $rootScope.selectedGroup=group;
-                        $scope.$apply();
+            resizeImage(FILE_URI, function(data){
+                console.log("success got pic");
+                var file = new Parse.File("icon.jpg", {base64:data});
+                console.log("before group save");
+                $rootScope.selectedGroup.set('icon',file);
 
-                        $rootScope.hideLoading();
-                    },error:function(obj,error){
-                        $rootScope.hideLoading();
-                        throw (error.message);
-                    }
-                }
-            );
+                $rootScope.selectedGroup.save(null,{
+                        success:function(group){
+                            console.log("setup ctrl - friendlist/group updated with new icon");
+                            $rootScope.hideLoading();
+//                            $rootScope.selectedGroup=group;
+                            $scope.$apply();
 
-        };
+
+                        },error:function(obj,error){
+                            $rootScope.hideLoading();
+                            throw (error.message);
+                        }
+                    });
+            });
+
+
+        }
         var onFail = function(e) {
             console.log("On fail " + e);
             $rootScope.hideLoading();

@@ -7,14 +7,14 @@
                   <!--on-refresh="loadGroup()">-->
           <!--</ion-refresher>-->
           <ion-item class="item item-icon-right">
-              <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
+              <i  class=" ion-loading-c" style="visibility:{{loading}}"></i>
               Your Total Balance is
               <span class="item-note" style="color:black">
-                    <span ng-if="balance<0">
-                          $<span style="color: red">{{balance | number:2}}</span>
+                    <span ng-if="balance.amount<0">
+                          <span style="color: red">{{balance.amount | currency:balance.currency.get('code')}}</span>
                      </span>
-                     <span ng-if="balance>=0">
-                          $<span style="color:olivedrab">{{balance| number:2}}</span>
+                     <span ng-if="balance.amount>=0">
+                          <span style="color:olivedrab">{{balance.amount |  currency:balance.currency.get('code')}}</span>
                      </span>
               </span>
 
@@ -58,10 +58,10 @@
               <!--amount-->
               <span class="item-note" style="color:black">
                        <span ng-if="balance.get('balance')<0">
-                           $ <span style="color: red">{{balance.get('balance') |  number : 2}}</span>
+                           <span style="color: red">{{balance.get('balance') |  currency:balance.get('currency').get('code')}}</span>
                         </span>
                         <span ng-if="balance.get('balance')>=0">
-                           $ <span style="color:olivedrab">{{balance.get('balance')| number : 2}}</span>
+                           <span style="color:olivedrab">{{balance.get('balance')| currency:balance.get('currency').get('code')}}</span>
                         </span>
               </span>
 

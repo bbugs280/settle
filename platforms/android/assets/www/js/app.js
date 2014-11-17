@@ -7,14 +7,19 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'ng-currency'])
 
-.run(function($ionicPlatform,$rootScope,$state) {
+.run(function($ionicPlatform,$rootScope,$state,$http) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     console.log("ionicPlatform ready!!");
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
+//    if (window.cordova && window.cordova.plugins.notification) {
+//        cordova.plugins.notification.badge.configure({ autoClear: Boolean });
+//    }
+
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
@@ -32,14 +37,15 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
       }
 
-//      $cordovaPlugin.someFunction().then(success, error);
       $rootScope.user = Parse.User.current();
-      $rootScope.user.get('default_currency').fetch({
-          success:function (r){
-//              $rootScope.user.set('default_currency',r);
-              $rootScope.$apply();
-          }
-      })
+//      $rootScope.user.get('default_currency').fetch({
+//          success:function (r){
+////              $rootScope.user.set('default_currency',r);
+//              $rootScope.$apply();
+//          }
+//      })
+
+
   });
   // UI Router Authentication Check
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -209,14 +215,16 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               needgroup: false
           }
      })
-      .state('tab.currencies', {
+      .state('currencies', {
           url:'/currencies',
-          views:{
-              'tab-setup':{
-                  templateUrl: 'templates/setup-currencies.html',
-                  controller: 'SelectCurrencyCtrl'
-              }
-          },
+          templateUrl: 'templates/setup-currencies.html',
+          controller: 'SelectCurrencyCtrl',
+//          views:{
+//              'tab-setup':{
+//                  templateUrl: 'templates/setup-currencies.html',
+//                  controller: 'SelectCurrencyCtrl'
+//              }
+//          },
           data: {
               authenticate: false
           }

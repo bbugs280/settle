@@ -104,6 +104,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/app.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/controllers.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/fx.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/image-util.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/push.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/services.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound \

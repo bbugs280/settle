@@ -190,6 +190,7 @@ var SUser = Parse.User.extend({
 
         queryBalance.include('user');
         queryBalance.include('group');
+        queryBalance.include('currency');
         queryBalance.include(['group.user1']);
         queryBalance.include(['group.user2']);
 

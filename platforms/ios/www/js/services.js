@@ -207,8 +207,12 @@ angular.module('starter.services', [])
                                             var frienddebit = trancredit + friendbal.get('debit');
                                             //Getting FX Rate
                                             var fromCurrency = tran.get('currency').get('code');
-                                            var toCurrency = yourbal.get('currency').get('code');
+                                            var toCurrency = friendbal.get('currency').get('code');
                                             var toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                            console.log("from currency ", fromCurrency);
+                                            console.log("to currency ", toCurrency);
+                                            console.log("to rate ", toRate);
+
                                             if (friend.id == tran.get('fromuser').id){
                                                 tran.set('from_rate', toRate);
                                             }else{
