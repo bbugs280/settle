@@ -45,7 +45,7 @@
               <span ng-if="tran.get('from')==user.get('email')">
                   <i class="icon ion-ios7-upload-outline"></i>
                   Paid
-                  <span style="color:red">-{{tran.get('amount')| currency: tran.get('currency').get('code')}}</span>
+                  <span style="color:red">{{tran.get('amount')*-1| currency: tran.get('currency').get('code')}}</span>
                   <span class="item-note" style="font-size: small" ng-if="tran.get('from_rate')!=1 && tran.get('from_rate')!=undefined">
                     x {{tran.get('from_rate')}} (exchange rate from Yahoo)  =
                       <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('from_rate') | currency : balance.get('currency').get('code')}}</span>

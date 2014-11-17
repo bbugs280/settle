@@ -44,11 +44,12 @@ angular.module('starter.controllers', [])
 
         console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
 //        console.log("controller - BalanceOverviewCtrl start | rootScope user = "+$rootScope.user.get('username'));
-        $scope.balance = 0;
-        $scope.loading = 'visible';
         $rootScope.user = ParseService.getUser();
-        //$scope.user = ParseService.getUser();
-
+        $rootScope.user.get('default_currency').fetch();
+        $scope.balance = {};
+        $scope.balance.amount = 0;
+        $scope.balance.currency = $rootScope.user.get('default_currency');
+        $scope.loading = 'visible';
 
         $scope.loadOverview = function(){
             //Load Groups & Personal Accounts
@@ -59,7 +60,13 @@ angular.module('starter.controllers', [])
                 $scope.balancelist = bals;
 
                 for (var i in bals){
-                    $scope.balance = $scope.balance + Number(bals[i].get('balance'));
+                    if ($rootScope.user.get('default_currency')!=bals[i].get('currency').get('code')){
+
+                        $scope.balance.amount += Number(bals[i].get('balance')) * getFXRate(bals[i].get('currency').get('code'),$rootScope.user.get('default_currency').get('code'));
+
+                    }else{
+                        $scope.balance.amount += Number(bals[i].get('balance'));
+                    }
 
                     //for personal group set your friend user
                     if (bals[i].get('group')){
@@ -69,14 +76,13 @@ angular.module('starter.controllers', [])
                             }else{
                                 $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
-//                        console.log($scope.grouplist[i].get('frienduser').get('icon').url());
                             $scope.balancelist[i].set('balance',Number($scope.balancelist[i].get('balance'))*-1);
                         }
                     }
 
                 }
                 $scope.balancelistFiltered = $scope.balancelist;
-                console.log($scope.balance);
+
                 $scope.loading = 'hidden';
                 $scope.$apply();
                 $scope.$broadcast('scroll.refreshComplete');
