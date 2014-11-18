@@ -51,8 +51,9 @@ angular.module('starter.controllers', [])
         console.log($rootScope.user.getUsername());
         $rootScope.user.get('default_currency').fetch({
             success:function(r){
-                $scope.loadOverview();
                 $rootScope.$apply();
+                $scope.loadOverview();
+
             }
         });
 
@@ -64,7 +65,7 @@ angular.module('starter.controllers', [])
             $scope.loading = 'visible';
             user.getBalanceOverview($rootScope.user,function(bals){
                 $scope.balancelist = bals;
-
+                console.log("loadOverview ", $rootScope.user.get('default_currency').get('code'));
                 for (var i in bals){
                     if ($rootScope.user.get('default_currency').get('code')!=bals[i].get('currency').get('code')){
 
@@ -91,7 +92,7 @@ angular.module('starter.controllers', [])
 
                 $scope.loading = 'hidden';
                 $scope.$apply();
-                $scope.$broadcast('scroll.refreshComplete');
+//                $scope.$broadcast('scroll.refreshComplete');
             })
         }
 
@@ -337,6 +338,10 @@ angular.module('starter.controllers', [])
             if($rootScope.inviteEmail){
                 if(sendform.inviteEmail){
                     console.log("invite Email ", sendform.inviteEmail);
+                    if (sendform.input.$error.email){
+                        $rootScope.alert('Invalid email', 'Please check the email');
+                        throw ("Invalid Email Invite");
+                    }
                     $rootScope.inviteEmail = sendform.inviteEmail;
                 }
 
@@ -671,7 +676,7 @@ angular.module('starter.controllers', [])
         $scope.findOrInvite = function(email,InviteForm){
             console.log("findOrInvite email = "+email);
             var user = new SUser();
-            user.getUserByEmail(email, function(ruser){
+            user.getUserByEmailOrUsername(email, function(ruser){
 
                 //If user by email, if found call $scope.selectFriend()
                 if (ruser){
@@ -679,10 +684,10 @@ angular.module('starter.controllers', [])
                     $scope.selectFriend(ruser.get('username'));
                 }else{
                     console.log("findOrInvite user not found");
-                    if (InviteForm.input.$error.email){
-                        $rootScope.alert('Invalid email', 'Please check the email');
-                        throw ("Invalid Email Invite");
-                    }
+                    //if (InviteForm.input.$error.email){
+                    //    $rootScope.alert('Invalid email', 'Please check the email');
+                    //    throw ("Invalid Email Invite");
+                    //}
                     $rootScope.inviteEmail=email;
                     $rootScope.alert("Not a 'Settler' yet","We will create an account to make payment. An email will be sent to notify your friend to claim the amount");
                     $state.go('tab.send-remote');

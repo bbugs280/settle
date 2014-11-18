@@ -38,11 +38,13 @@
             <ion-item class="item item-input-inset" >
 
                 <label class="item-input-wrapper">
-                    <input type="email" name="input" placeholder="Enter email here"
+                    <input type="text" name="input"
+                           placeholder="Enter name / email here"
                            class="input-invalid"
                            ng-model="inviteEmail"
-                           ng-class="{'input-required':InviteForm.input.$error.required, 'input-invalid':InviteForm.input.$error.email}"
+
                            required >
+                    <!--ng-class="{'input-required':InviteForm.input.$error.required, 'input-invalid':InviteForm.input.$error.email}"-->
                 </label>
 
                 <button class="button button-small" ng-click="findOrInvite(inviteEmail,InviteForm)">

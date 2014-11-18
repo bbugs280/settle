@@ -12,16 +12,39 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     console.log("ionicPlatform ready!!");
+//    Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
+
+      var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
+      var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
+      if(window.plugins.pushNotification){
+          parsePlugin.initialize(appId, clientKey, function() {
+              registerPush();
+              subscribe(Parse.User.current().id);
+          }, function(e) {
+              console.log('error');
+          });
+
+      }
+//      clear cache
+//      var success = function(status) {
+//          console.log('Clean Cache Message: ' + status);
+//      }
+//      var error = function(status) {
+//          console.log('Clean Cache Error: ' + status);
+//      }
+//      if (window.cache){
+//          window.cache.clear( success, error );
+//      }
+
       //$rootScope.user = Parse.User.current();
-      if (!$rootScope.user){
+//      if (!$rootScope.user){
           $rootScope.user = Parse.User.current();
           $rootScope.user.get('default_currency').fetch({
               success:function (r){
                   $rootScope.$apply();
               }
           });
-      }
-
+//      }
 
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -36,17 +59,6 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       StatusBar.styleDefault();
     }
 
-      var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
-      var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
-      if(window.plugins.pushNotification){
-          parsePlugin.initialize(appId, clientKey, function() {
-              registerPush();
-              subscribe(Parse.User.current().id);
-          }, function(e) {
-              console.log('error');
-          });
-
-      }
 
 
 

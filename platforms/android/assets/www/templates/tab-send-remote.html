@@ -38,12 +38,14 @@
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
+      <form ng-model="sendform" ng-submit="processSend(sendform)">
       <ion-item ng-if="inviteEmail!=undefined">
           <label class="item item-input" >
-              <input type="email" placeholder="" ng-model="inviteEmail">
+              <input type="email" placeholder="Email" name="input" ng-model="inviteEmail" required
+                    ng-class="{'input-required':sendform.input.$error.required, 'input-invalid':sendform.input.$error.email}">
           </label>
       </ion-item>
-      <form ng-model="sendform" ng-submit="processSend(sendform)">
+
       <ion-item class="item item-input-inset">
           <button class="button button-clear" type="button" ng-click="openCurrencies('tab.send-remote')" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedCurrency==undefined">

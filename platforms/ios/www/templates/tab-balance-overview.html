@@ -11,10 +11,10 @@
               Your Total Balance is
               <span class="item-note" style="color:black">
                     <span ng-if="balance.amount<0">
-                          <span style="color: red">{{balance.amount | currency:balance.currency.get('code')}}</span>
+                          <span style="color: red">{{balance.amount | currency:user.get('default_currency').get('code')}}</span>
                      </span>
                      <span ng-if="balance.amount>=0">
-                          <span style="color:olivedrab">{{balance.amount |  currency:balance.currency.get('code')}}</span>
+                          <span style="color:olivedrab">{{balance.amount | currency:user.get('default_currency').get('code')}}</span>
                      </span>
               </span>
 

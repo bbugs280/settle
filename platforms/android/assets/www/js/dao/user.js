@@ -1,11 +1,12 @@
 
 var SUser = Parse.User.extend({
     // Instance methods
-    createTempAccount :function(email, callback){
+    createTempAccount :function(email, currency, callback){
         var User = Parse.Object.extend("User");
         var user = new User();
         user.set('username',email.substring(0,email.indexOf('@')));
         user.set('email',email);
+        user.set('default_currency',currency);
         user.set('password','Abcd1234');
 
 
@@ -22,6 +23,7 @@ var SUser = Parse.User.extend({
     getUserByEmail : function (emailp, callback) {
     var User = Parse.Object.extend("User");
     var query = new Parse.Query(User);
+    query.include('default_currency');
     query.equalTo("email", emailp);
     query.find({
         success: function(result) {
@@ -46,6 +48,38 @@ var SUser = Parse.User.extend({
         }
     });
     },
+    getUserByEmailOrUsername : function (emailp, callback) {
+        console.log("getUserByEmailOrUsername ", emailp);
+        var User = Parse.Object.extend("User");
+        var query2 = new Parse.Query(User);
+        query2.startsWith('username', emailp);
+        var query = new Parse.Query(User);
+        query.equalTo("email", emailp);
+        var mainQuery = Parse.Query.or(query, query2);
+        mainQuery.first({
+            success: function(result) {
+//                console.log(" have result success ? " + result.length);
+                callback(result);
+//                if (result.length > 0) {
+//
+//                    var r = new SUser();
+//
+//                    r.id = result[0].id;
+//
+//                    r.set({"username": result[0].get('username')});
+//                    r.set({"email": result[0].get('email')});
+//                    console.log("getUserByEmail -  this.username = " + r.get('username'));
+//                    console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
+//                    callback(r);
+//                } else {
+//                    callback(null);
+//                }
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+    },
     getBalanceByEmail : function (group, user, callback) {
 
     var Balance = Parse.Object.extend("balance");
@@ -53,7 +87,7 @@ var SUser = Parse.User.extend({
     query.include('currency');
     query.equalTo("user", user);
     query.equalTo("group", group);
-    console.log("getBalanceByEmail ", user.get('default_currency').get('code'));
+    console.log("getBalanceByEmail - user default currency = ", user.get('default_currency').get('code'));
     var r = new Balance();
 
         query.find({
@@ -191,6 +225,8 @@ var SUser = Parse.User.extend({
         queryBalance.include('currency');
         queryBalance.include(['group.user1']);
         queryBalance.include(['group.user2']);
+        queryBalance.include(['group.user1.default_currency']);
+        queryBalance.include(['group.user2.default_currency']);
 
 
         queryBalance.equalTo('user',user);

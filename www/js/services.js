@@ -171,7 +171,11 @@ angular.module('starter.services', [])
                                         //Getting FX Rate
                                         var fromCurrency = tran.get('currency').get('code');
                                         var toCurrency = yourbal.get('currency').get('code');
-                                        var toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                        var toRate = 1;
+                                        if (fromCurrency != toCurrency){
+                                            toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                        }
+
                                         if (user.id == tran.get('fromuser').id){
                                             tran.set('from_rate', toRate);
                                         }else{
@@ -215,7 +219,10 @@ angular.module('starter.services', [])
                                             //Getting FX Rate
                                             var fromCurrency = tran.get('currency').get('code');
                                             var toCurrency = friendbal.get('currency').get('code');
-                                            var toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                            var toRate = 1;
+                                            if (fromCurrency != toCurrency){
+                                                toRate = Number(getFXRate(fromCurrency,toCurrency));
+                                            }
                                             console.log("from currency ", fromCurrency);
                                             console.log("to currency ", toCurrency);
                                             console.log("to rate ", toRate);
