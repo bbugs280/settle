@@ -47,7 +47,7 @@ var SUser = Parse.User.extend({
     });
     },
     getBalanceByEmail : function (group, user, callback) {
-        
+
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
     query.include('currency');
@@ -56,24 +56,22 @@ var SUser = Parse.User.extend({
 
     var r = new Balance();
 
-
         query.find({
         success: function (result) {
             // The object was retrieved successfully.
-            console.log("getBalanceByEmail -  have result success ? " + result.length);
+            console.log("getBalanceByEmail -  have result success result.length = " + result.length);
             if (result.length > 0) {
                 r = result[0];
-                r.set('balance', r.get('credit')- r.get('debit'));
-
+                r.set('balance', r.get('credit') - r.get('debit'));
+                //console.log("getBalanceByEmail - has balance and all set");
             } else {
                 r.set('user', user);
-                //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
-                r.set('currency', user.get('default_currency'));
+                r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
+                //r.set('currency', user.get('default_currency'));
                 r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);
                 r.set('balance', r.get('credit')- r.get('debit'));
-
             }
             callback(r);
         },

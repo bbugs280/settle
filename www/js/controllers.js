@@ -45,7 +45,11 @@ angular.module('starter.controllers', [])
         console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
 //        console.log("controller - BalanceOverviewCtrl start | rootScope user = "+$rootScope.user.get('username'));
         $rootScope.user = ParseService.getUser();
-        $rootScope.user.get('default_currency').fetch();
+        $rootScope.user.get('default_currency').fetch({
+            success:function(){
+                $rootScope.$apply();
+            }
+        });
         $scope.balance = {};
         $scope.balance.amount = 0;
         $scope.balance.currency = $rootScope.user.get('default_currency');
