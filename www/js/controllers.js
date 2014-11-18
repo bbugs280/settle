@@ -671,7 +671,7 @@ angular.module('starter.controllers', [])
         $scope.findOrInvite = function(email,InviteForm){
             console.log("findOrInvite email = "+email);
             var user = new SUser();
-            user.getUserByEmail(email, function(ruser){
+            user.getUserByEmailOrUsername(email, function(ruser){
 
                 //If user by email, if found call $scope.selectFriend()
                 if (ruser){
@@ -679,10 +679,10 @@ angular.module('starter.controllers', [])
                     $scope.selectFriend(ruser.get('username'));
                 }else{
                     console.log("findOrInvite user not found");
-                    if (InviteForm.input.$error.email){
-                        $rootScope.alert('Invalid email', 'Please check the email');
-                        throw ("Invalid Email Invite");
-                    }
+                    //if (InviteForm.input.$error.email){
+                    //    $rootScope.alert('Invalid email', 'Please check the email');
+                    //    throw ("Invalid Email Invite");
+                    //}
                     $rootScope.inviteEmail=email;
                     $rootScope.alert("Not a 'Settler' yet","We will create an account to make payment. An email will be sent to notify your friend to claim the amount");
                     $state.go('tab.send-remote');

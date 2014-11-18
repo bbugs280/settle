@@ -46,6 +46,37 @@ var SUser = Parse.User.extend({
         }
     });
     },
+    getUserByEmailOrUsername : function (emailp, callback) {
+        console.log("getUserByEmailOrUsername ", emailp);
+        var User = Parse.Object.extend("User");
+        var query2 = new Parse.Query(User);
+        query2.equalTo('username', emailp);
+        var query = new Parse.Query(User);
+        query.equalTo("email", emailp);
+        var mainQuery = Parse.Query.or(query, query2);
+        mainQuery.find({
+            success: function(result) {
+                console.log(" have result success ? " + result.length);
+                if (result.length > 0) {
+
+                    var r = new SUser();
+
+                    r.id = result[0].id;
+
+                    r.set({"username": result[0].get('username')});
+                    r.set({"email": result[0].get('email')});
+                    console.log("getUserByEmail -  this.username = " + r.get('username'));
+                    console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
+                    callback(r);
+                } else {
+                    callback(null);
+                }
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+    },
     getBalanceByEmail : function (group, user, callback) {
 
     var Balance = Parse.Object.extend("balance");
