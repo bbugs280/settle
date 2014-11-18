@@ -12,6 +12,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     console.log("ionicPlatform ready!!");
+      //$rootScope.user = Parse.User.current();
       if (!$rootScope.user){
           $rootScope.user = Parse.User.current();
           $rootScope.user.get('default_currency').fetch({
@@ -173,7 +174,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
+              authenticate: true
           }
     })
     .state('tab.send-selectuser', {
@@ -185,7 +186,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
+              authenticate: true
           }
       })
     .state('tab.receive', {

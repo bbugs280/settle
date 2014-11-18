@@ -1,7 +1,7 @@
 /**
  * Created by vincent on 17/11/14.
  */
-//var MAX_HEIGHT = 100;
+var MAX_HEIGHT = 200;
 var MAX_WIDTH = 200;
 function resizeImage(src, callback){
     var image = new Image();
@@ -20,6 +20,11 @@ function resizeImage(src, callback){
         canvas.width = image.width;
         canvas.height = image.height;
         ctx.drawImage(image, 0, 0, image.width, image.height);
+
+        //ctx.rect(0,0,MAX_WIDTH,MAX_HEIGHT);
+        //ctx.stroke();
+        //ctx.clip();
+        //ctx.drawImage(image, 0, 0, image.width, image.height);
 
         callback(canvas.toDataURL());
     }

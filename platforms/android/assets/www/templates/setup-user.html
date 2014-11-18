@@ -3,7 +3,7 @@
 
         <form ng-submit="">
             <ion-list class="list">
-                <ion-item class="item item-avatar " >
+                <ion-item class="item item-thumbnail-left" ng-click="openCamera()">
                     <img src="{{user.get('icon').url()}}"  style="border-width:1px;border-radius: 5px;width: 200px" ng-click="openCamera()" alt="edit" ng-if="user.get('icon')!=undefined">
                     <img src="./img/icon.png"  style="border-width:1px;border-radius: 5px;width: 200px" ng-click="openCamera()" ng-if="user.get('icon')==undefined" alt="edit">
                     <p style="font-size: smaller;color: blue"><-- edit your avatar</p>

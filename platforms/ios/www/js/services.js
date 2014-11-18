@@ -99,6 +99,12 @@ angular.module('starter.services', [])
             // Get current logged in user
             getUser : function getUser() {
 //                 var user = new SUser();
+
+                //Parse.User.current().get('default_currency').fetch({
+                //    success:function(){
+                //        return
+                //    }
+                //});
                  return Parse.User.current();
             },
 

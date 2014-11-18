@@ -42,18 +42,20 @@ angular.module('starter.controllers', [])
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
 
-        console.log("controller - BalanceOverviewCtrl start | selectedGroup ");
+        console.log("controller - BalanceOverviewCtrl start");
+        $scope.balance = {};
+        $scope.balance.amount = 0;
+        $scope.loading = 'visible';
 //        console.log("controller - BalanceOverviewCtrl start | rootScope user = "+$rootScope.user.get('username'));
         $rootScope.user = ParseService.getUser();
+        console.log($rootScope.user.getUsername());
         $rootScope.user.get('default_currency').fetch({
-            success:function(){
+            success:function(r){
+                $scope.loadOverview();
                 $rootScope.$apply();
             }
         });
-        $scope.balance = {};
-        $scope.balance.amount = 0;
-        $scope.balance.currency = $rootScope.user.get('default_currency');
-        $scope.loading = 'visible';
+
 
         $scope.loadOverview = function(){
             //Load Groups & Personal Accounts
@@ -142,7 +144,7 @@ angular.module('starter.controllers', [])
 
         }
 
-        $scope.loadOverview();
+
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
