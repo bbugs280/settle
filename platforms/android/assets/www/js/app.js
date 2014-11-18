@@ -12,6 +12,16 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     console.log("ionicPlatform ready!!");
+      if (!$rootScope.user){
+          $rootScope.user = Parse.User.current();
+          $rootScope.user.get('default_currency').fetch({
+              success:function (r){
+                  $rootScope.$apply();
+              }
+          });
+      }
+
+
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -37,13 +47,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
       }
 
-      $rootScope.user = Parse.User.current();
-//      $rootScope.user.get('default_currency').fetch({
-//          success:function (r){
-////              $rootScope.user.set('default_currency',r);
-//              $rootScope.$apply();
-//          }
-//      })
+
 
 
   });
