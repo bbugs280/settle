@@ -64,12 +64,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
   });
 
   // Disable "Back" button on androids if user is on login screen
-        $rootScope.$on('$locationChangeStart', function(e) {
-            if( true ) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        });
+  //      $rootScope.$on('$locationChangeStart', function(e) {
+  //          if( true ) {
+  //              e.preventDefault();
+  //              e.stopPropagation();
+  //          }
+  //      });
 
 })
 
