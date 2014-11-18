@@ -597,7 +597,7 @@ angular.module('starter.controllers', [])
                 }
                 $scope.relatedFriendList = fl.get('friendnames');
                 $scope.relatedFriendListFiltered = fl.get('friendnames');
-                console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
+                //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
                 $rootScope.hideLoading();
                 $scope.$apply();
@@ -1187,7 +1187,7 @@ angular.module('starter.controllers', [])
 
                 if(user.message){
                     $rootScope.alert('Login Error', user.message);
-
+                    throw ("Login Error", user.message);
                 }
 
 

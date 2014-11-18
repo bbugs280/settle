@@ -53,7 +53,7 @@ var SUser = Parse.User.extend({
     query.include('currency');
     query.equalTo("user", user);
     query.equalTo("group", group);
-
+    console.log("getBalanceByEmail ", user.get('default_currency').get('code'));
     var r = new Balance();
 
         query.find({
@@ -66,8 +66,8 @@ var SUser = Parse.User.extend({
                 //console.log("getBalanceByEmail - has balance and all set");
             } else {
                 r.set('user', user);
-                r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
-                //r.set('currency', user.get('default_currency'));
+                //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
+                r.set('currency', user.get('default_currency'));
                 r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);
