@@ -25,6 +25,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Cache\"><param name=\"ios-package\" value=\"Cache\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
                             "count": 1
                         },
@@ -45,7 +49,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Cache\"><param name=\"ios-package\" value=\"Cache\" /></feature>",
+                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -117,6 +121,10 @@
                         {
                             "xml": "false",
                             "count": 1
+                        },
+                        {
+                            "xml": "true",
+                            "count": 1
                         }
                     ],
                     "CFNetwork.framework": [
@@ -176,6 +184,9 @@
         "com.phonegap.plugins.barcodescanner": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
+        "com.sharinglabs.cordova.plugin.cache": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
@@ -188,7 +199,7 @@
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
-        "com.sharinglabs.cordova.plugin.cache": {
+        "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.bumble.Settle"
         }
     },

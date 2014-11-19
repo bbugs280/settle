@@ -343,7 +343,7 @@ angular.module('starter.controllers', [])
 
                     console.log("invite Email sendform.inviteEmail= ", sendform.inviteEmail);
                     console.log("invite Email $rootScope.inviteEmail= ", $rootScope.inviteEmail);
-                    if (sendform.input.$error.email){
+                    if (sendform.inviteEmail.$error.email){
                         $rootScope.alert('Invalid email', 'Please check the email');
                         throw ("Invalid Email Invite");
                     }
@@ -508,6 +508,11 @@ angular.module('starter.controllers', [])
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
+
+        }
+
+        $scope.cancelInvite = function(){
+            $rootScope.inviteEmail = undefined;
 
         }
 
@@ -1002,8 +1007,17 @@ angular.module('starter.controllers', [])
         }
 
         $scope.logout = function(){
-            ParseService.logout();
-            $state.go('login');
+            if (window.plugins) {
+                parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
+                    console.log('unsubscribe', msg);
+                    ParseService.logout();
+                    $state.go('login');
+                }, function (e) {
+                    conlog.log('error', e.message);
+                });
+            }
+
+
 
         };
         //To make sure default currency is displayed

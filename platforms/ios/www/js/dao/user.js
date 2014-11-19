@@ -4,20 +4,32 @@ var SUser = Parse.User.extend({
     createTempAccount :function(email, currency, callback){
         var User = Parse.Object.extend("User");
         var user = new User();
-        user.set('username',email.substring(0,email.indexOf('@')));
-        user.set('email',email);
-        user.set('default_currency',currency);
-        user.set('password','Abcd1234');
+        var query = new Parse.Query(User);
+        var username = email.substring(0,email.indexOf('@'));
+        query.equalTo('username',username);
+        query.find({
+            success:function(users){
+                if (users.length!=0){
+                    username += "1";
+                }
+                user.set('username',username);
+                user.set('email',email);
+                user.set('default_currency',currency);
+                user.set('password','Abcd1234');
 
+                user.signUp(null,{
+                    success:function(suser){
+                        callback(suser);
+                    },error:function(error){
+                        console.log("createTempAccount - Signup error:"+error.message);
+                        callback(error);
+                    }
+                });
 
-        user.signUp(null,{
-            success:function(suser){
-                callback(suser);
-            },error:function(error){
-                console.log("error:"+error.message);
-                callback(error);
+            },error:function(obj,error){
+                console.log("createTempAccount - check existing user error ",error.message);
             }
-        });
+        })
 
     },
     getUserByEmail : function (emailp, callback) {
