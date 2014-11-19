@@ -89,10 +89,10 @@ angular.module('starter.controllers', [])
 
                 }
                 $scope.balancelistFiltered = $scope.balancelist;
-
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = 'hidden';
                 $scope.$apply();
-//                $scope.$broadcast('scroll.refreshComplete');
+
             })
         }
 
@@ -162,23 +162,26 @@ angular.module('starter.controllers', [])
 
         //Load User Balance
         var user = new SUser();
+        $scope.loadTrans = function(){
+            $scope.loading = 'visible';
+            user.getBalanceByEmail($rootScope.selectedGroup,$rootScope.user, function(balance){
+                $scope.balance = balance;
+                console.log("controller balance - Balance = "+$scope.balance.get('balance'));
+                $scope.$apply();
+            })
 
-        $scope.loading = 'visible';
-        user.getBalanceByEmail($rootScope.selectedGroup,$rootScope.user, function(balance){
-            $scope.balance = balance;
-            console.log("controller balance - Balance = "+$scope.balance.get('balance'));
-            $scope.$apply();
-        })
+            //Load recent transactions
+            var tran = new Transaction();
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user.get('email'), function(transactions){
+                $scope.transactions = transactions;
+                $scope.loading = 'hidden';
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
 
-        //Load recent transactions
-        var tran = new Transaction();
-        tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user.get('email'), function(transactions){
-            $scope.transactions = transactions;
-            $scope.loading = 'hidden';
-            $scope.$apply();
+            })
+        }
 
-
-        })
+        $scope.loadTrans();
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
@@ -206,7 +209,7 @@ angular.module('starter.controllers', [])
             user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
                 $scope.balances = balances;
                 $scope.balancesFiltered = balances;
-
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = 'hidden';
                 $scope.$apply();
             })
@@ -589,7 +592,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadRelatedPersonalUsers = function(){
             var user = new SUser();
-            $rootScope.showLoading("Loading...");
+            //$rootScope.showLoading("Loading...");
             user.findPersonalList($rootScope.user.get('email'), function(friendlists){
                 console.log("SelectUserCtrl Ctrl - load Group Completed get Friendall ");
 
@@ -606,7 +609,7 @@ angular.module('starter.controllers', [])
                 $scope.relatedFriendListFiltered = fl.get('friendnames');
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames').length);
                 //console.log("SelectUserCtrl Ctrl - Related Friends = "+ fl.get('friendnames'));
-                $rootScope.hideLoading();
+                //$rootScope.hideLoading();
                 $scope.$apply();
 
             })
@@ -619,7 +622,7 @@ angular.module('starter.controllers', [])
             })
         }
         $scope.loadGroupRelatedUsers = function(){
-            $rootScope.showLoading("Loading...");
+            //$rootScope.showLoading("Loading...");
             var Friendlist = Parse.Object.extend("friendlist");
             var query = new Parse.Query(Friendlist);
 
@@ -629,10 +632,10 @@ angular.module('starter.controllers', [])
                     $scope.relatedFriendList = group.get('friendnames');
                     $scope.relatedFriendListFiltered = group.get('friendnames');
                     $scope.$apply();
-                    $rootScope.hideLoading();
+                    //$rootScope.hideLoading();
                 },error:function(error){
                     console.log(error.message);
-                    $rootScope.hideLoading();
+                    //$rootScope.hideLoading();
                 }
             })
         }
