@@ -26,6 +26,9 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
     <icon density="ldpi" src="res/android/drawable-ldpi/icon.png" />
     <icon density="mdpi" src="res/android/drawable-mdpi/icon.png" />
     <icon density="hdpi" src="res/android/drawable-hdpi/icon.png" />

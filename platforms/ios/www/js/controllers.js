@@ -1,4 +1,7 @@
 angular.module('starter.controllers', [])
+.controller('IntroCtrl', function($rootScope, $scope, $state) {
+
+})
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.alert = function(title, message){

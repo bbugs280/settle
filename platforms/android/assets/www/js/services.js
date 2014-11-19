@@ -241,6 +241,9 @@ angular.module('starter.services', [])
                                             user.updateBalance(friendbal,function(r){
                                                 console.log("recordQRCode - friend balance saved");
                                                 //Play Sound
+                                                if (window.navigator){
+                                                    navigator.vibrate(1000);
+                                                }
                                                 success_snd.play();
                                                 callback(tran);
                                                 //Update Tran with new rate

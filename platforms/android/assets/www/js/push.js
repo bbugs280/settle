@@ -182,7 +182,9 @@ function sendPushMessage (message, toUserId){
     Parse.Push.send({
         where: query,
         data: {
-            alert: message
+            alert: message,
+
+            sound: "default"
 //            ,
 //            badge:"Increment"
         }

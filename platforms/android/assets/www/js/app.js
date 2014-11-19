@@ -16,7 +16,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
       var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
       var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
-      if(window.plugins.pushNotification){
+      if(window.plugins){
           parsePlugin.initialize(appId, clientKey, function() {
               registerPush();
               subscribe(Parse.User.current().id);
@@ -98,17 +98,21 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     // setup an abstract state for the tabs directive
 
 
-    .state('intro', {
-      url: '/intro',
-      templateUrl: "templates/intro.html"
-    })
+
 
       .state('tab', {
       url: '/tab',
       abstract: true,
       templateUrl: "templates/tabs.html"
     })
-
+      .state('intro', {
+          url: '/intro',
+          templateUrl: "templates/intro.html",
+          controller: 'IntroCtrl',
+          data: {
+              authenticate: false
+          }
+      })
     // Each tab has its own nav history stack:
       .state('tab.balance-overview', {
           url:'/balance-overview',

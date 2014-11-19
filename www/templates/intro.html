@@ -1,23 +1,87 @@
-<ion-view title="Intro" hide-nav-bar="false">
-<ion-slide-box >
-    <ion-slide>
-        <div class="box blue">
-            <h1>What is Settle</h1>
-            <ul>
-                <li>A micro payment app</li>
-                <li>Use between friends and colleagues</li>
-                <li>Use it to keep track of your money matter</li>
-                <li>Create groups/pools for lunch, poker, mahjong and travel...</li>
-                <li>Never settle with Cash</li>
-                <!--<li>Use it as a leaderboard for your games</li>-->
-            </ul>
-        </div>
-    </ion-slide>
-    <ion-slide>
-        <div class="box yellow"><h1>YELLOW</h1></div>
-    </ion-slide>
-    <ion-slide>
-        <div class="box pink"><h1>PINK</h1></div>
-    </ion-slide>
-</ion-slide-box>
-</ion-view>
+
+<body ng-app="myApp">
+
+<!-- Our navigation router with some animations set -->
+<pane nav-router animation="slide-left-right-ios7">
+    <!-- The nav bar that will be updated as we navigate -->
+    <nav-bar class="nav-title-slide-ios7" type="bar-default" back-button-type="button-icon" back-button-icon="icon ion-arrow-left-c"></nav-bar>
+    <ng-view></ng-view>
+</pane>
+</body>
+    <!-- Create the nav page, and bind left and right buttons that will update in the nav bar as
+         we progress through the tutorial
+    -->
+<script id="intro.html" type="text/ng-template">
+    <nav-page id="intro-page" left-buttons="leftButtons" right-buttons="rightButtons">
+
+        <!-- create the slidebox. Listen for on-slide-changed events we will wire up later. -->
+        <slide-box on-slide-changed="slideChanged(index)">
+
+            <!-- first slide -->
+            <slide>
+                <h3>Thank you for choosing the Awesome App!</h3>
+                <div id="logo">
+                    <img src="http://code.ionicframework.com/assets/img/app_icon.png">
+                </div>
+                <p>
+                    We've worked super hard to make you happy.
+                </p>
+                <p>
+                    But if you are angry, too bad.
+                </p>
+            </slide>
+
+            <!-- second slide -->
+            <slide>
+                <h3>Using Awesome</h3>
+
+                <div id="list">
+                    <h5>Just three steps:</h5>
+                    <ol>
+                        <li>Be awesome</li>
+                        <li>Stay awesome</li>
+                        <li>There is no step 3</li>
+                    </ol>
+                </div>
+            </slide>
+
+            <!-- third slide -->
+            <slide>
+                <h3>Any questions?</h3>
+                <p>
+                    Too bad!
+                </p>
+            </slide>
+        </slide-box>
+    </nav-page>
+
+</script>
+
+
+<!--<ion-view title="Intro" hide-nav-bar="true">-->
+<!--<ion-slide-box show-pager="true">-->
+    <!--<ion-slide>-->
+        <!--<div class="box blue">-->
+            <!--<h1>What is Settle</h1>-->
+            <!--<ul>-->
+                <!--<li>A micro payment app</li>-->
+                <!--<li>Use between friends and colleagues</li>-->
+                <!--<li>Use it to keep track of your money matter</li>-->
+                <!--<li>Create groups/pools for lunch, poker, mahjong and travel...</li>-->
+                <!--<li>Never settle with Cash</li>-->
+                <!--&lt;!&ndash;<li>Use it as a leaderboard for your games</li>&ndash;&gt;-->
+
+            <!--</ul>-->
+            <!--<button class="button-small" ng-click="goToLogin()">-->
+                <!--Skip-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</ion-slide>-->
+    <!--<ion-slide>-->
+        <!--<div class="box yellow"><h1>YELLOW</h1></div>-->
+    <!--</ion-slide>-->
+    <!--<ion-slide>-->
+        <!--<div class="box pink"><h1>PINK</h1></div>-->
+    <!--</ion-slide>-->
+<!--</ion-slide-box>-->
+<!--</ion-view>-->

@@ -1,4 +1,7 @@
 angular.module('starter.controllers', [])
+.controller('IntroCtrl', function($rootScope, $scope, $state) {
+
+})
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.alert = function(title, message){
@@ -1007,8 +1010,17 @@ angular.module('starter.controllers', [])
         }
 
         $scope.logout = function(){
-            ParseService.logout();
-            $state.go('login');
+            if (window.plugins) {
+                parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
+                    console.log('unsubscribe', msg);
+                    ParseService.logout();
+                    $state.go('login');
+                }, function (e) {
+                    conlog.log('error', e.message);
+                });
+            }
+
+
 
         };
         //To make sure default currency is displayed
