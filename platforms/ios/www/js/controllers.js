@@ -89,10 +89,10 @@ angular.module('starter.controllers', [])
 
                 }
                 $scope.balancelistFiltered = $scope.balancelist;
-
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = 'hidden';
                 $scope.$apply();
-//                $scope.$broadcast('scroll.refreshComplete');
+
             })
         }
 
@@ -206,7 +206,7 @@ angular.module('starter.controllers', [])
             user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
                 $scope.balances = balances;
                 $scope.balancesFiltered = balances;
-
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = 'hidden';
                 $scope.$apply();
             })

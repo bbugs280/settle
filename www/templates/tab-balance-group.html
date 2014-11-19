@@ -14,11 +14,11 @@
     </ion-nav-buttons>
   <ion-content>
       <ion-list>
-          <!--<ion-refresher-->
-                  <!--pulling-icon="icon ion-arrow-down-c"-->
-                  <!--refreshing-icon="icon ion-loading-c"-->
-                  <!--on-refresh="loadGroup()">-->
-          <!--</ion-refresher>-->
+          <ion-refresher
+                  pulling-icon="icon ion-arrow-down-c"
+                  refreshing-icon="icon ion-loading-c"
+                  on-refresh="loadGroup()">
+          </ion-refresher>
           <ion-item class="item item-icon-right" ng-click="openTrans()">
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
               Your Group Balance is

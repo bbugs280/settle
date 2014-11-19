@@ -19,6 +19,11 @@
     </ion-nav-buttons>
   <ion-content  class="has-header" >
       <ion-list>
+          <ion-refresher
+                  pulling-icon="ion-arrow-down-c"
+                  refreshing-icon="ion-loading-c"
+                  on-refresh="loadTrans()">
+          </ion-refresher>
           <ion-item class="item " >
               Your Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
                <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
