@@ -1,11 +1,12 @@
 
 var SUser = Parse.User.extend({
     // Instance methods
-    createTempAccount :function(email, callback){
+    createTempAccount :function(email, currency, callback){
         var User = Parse.Object.extend("User");
         var user = new User();
         user.set('username',email.substring(0,email.indexOf('@')));
         user.set('email',email);
+        user.set('default_currency',currency);
         user.set('password','Abcd1234');
 
 

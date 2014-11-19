@@ -83,6 +83,13 @@ module.exports = [
         "clobbers": [
             "device"
         ]
+    },
+    {
+        "file": "plugins/com.sharinglabs.cordova.plugin.cache/www/Cache.js",
+        "id": "com.sharinglabs.cordova.plugin.cache.Cache",
+        "clobbers": [
+            "cache"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -95,7 +102,8 @@ module.exports.metadata =
     "org.apache.cordova.camera": "0.3.3",
     "org.apache.cordova.console": "0.2.11",
     "org.apache.cordova.core.parseplugin": "0.1.0",
-    "org.apache.cordova.device": "0.2.12"
+    "org.apache.cordova.device": "0.2.12",
+    "com.sharinglabs.cordova.plugin.cache": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

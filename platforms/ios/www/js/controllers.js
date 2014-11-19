@@ -337,7 +337,9 @@ angular.module('starter.controllers', [])
 
             if($rootScope.inviteEmail){
                 if(sendform.inviteEmail){
-                    console.log("invite Email ", sendform.inviteEmail);
+
+                    console.log("invite Email sendform.inviteEmail= ", sendform.inviteEmail);
+                    console.log("invite Email $rootScope.inviteEmail= ", $rootScope.inviteEmail);
                     if (sendform.input.$error.email){
                         $rootScope.alert('Invalid email', 'Please check the email');
                         throw ("Invalid Email Invite");
@@ -355,7 +357,7 @@ angular.module('starter.controllers', [])
         $scope.createAccount = function(email,sendform){
 
             var user = new SUser();
-            user.createTempAccount(email, function(suser){
+            user.createTempAccount(email, $rootScope.user.get('default_currency'), function(suser){
                 if (suser.message){
                     $rootScope.alert("Create Account Failed",suser.message);
                     throw ("Create Account Failed");

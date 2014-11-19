@@ -26,15 +26,15 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
       }
 //      clear cache
-//      var success = function(status) {
-//          console.log('Clean Cache Message: ' + status);
-//      }
-//      var error = function(status) {
-//          console.log('Clean Cache Error: ' + status);
-//      }
-//      if (window.cache){
-//          window.cache.clear( success, error );
-//      }
+      var success = function(status) {
+          console.log('Clean Cache Message: ' + status);
+      }
+      var error = function(status) {
+          console.log('Clean Cache Error: ' + status);
+      }
+      if (window.cache){
+          window.cache.clear( success, error );
+      }
 
       //$rootScope.user = Parse.User.current();
 //      if (!$rootScope.user){

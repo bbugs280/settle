@@ -25,6 +25,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Cache\"><param name=\"android-package\" value=\"com.sharinglabs.cordova.plugin.cache.Cache\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
                             "count": 1
                         },
@@ -618,6 +622,9 @@
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.phonegap.plugins.barcodescanner": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "com.sharinglabs.cordova.plugin.cache": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.camera": {
