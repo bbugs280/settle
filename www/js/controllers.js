@@ -343,7 +343,7 @@ angular.module('starter.controllers', [])
 
                     console.log("invite Email sendform.inviteEmail= ", sendform.inviteEmail);
                     console.log("invite Email $rootScope.inviteEmail= ", $rootScope.inviteEmail);
-                    if (sendform.input.$error.email){
+                    if (sendform.inviteEmail.$error.email){
                         $rootScope.alert('Invalid email', 'Please check the email');
                         throw ("Invalid Email Invite");
                     }
@@ -508,6 +508,11 @@ angular.module('starter.controllers', [])
                         sendPushMessage(message, tran.get('touser').id);
                     }
             });
+
+        }
+
+        $scope.cancelInvite = function(){
+            $rootScope.inviteEmail = undefined;
 
         }
 
