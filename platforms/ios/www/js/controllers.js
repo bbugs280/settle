@@ -66,7 +66,9 @@ angular.module('starter.controllers', [])
             //Then calculate Total Balance
             var user = new SUser();
             $scope.loading = 'visible';
+
             user.getBalanceOverview($rootScope.user,function(bals){
+                $scope.balance.amount = 0;
                 $scope.balancelist = bals;
                 console.log("loadOverview ", $rootScope.user.get('default_currency').get('code'));
                 for (var i in bals){
