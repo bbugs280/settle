@@ -16,11 +16,14 @@
         </span>
     </ion-nav-buttons>
   <ion-content class="has-header">
-      <ion-item class="item item-avatar item-icon-right" ng-click="selectGroup()"  ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
+      <ion-item class="item item-avatar item-icon-right"
+                style="font-size: small"
+                ng-click="selectGroup()"
+                ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
           <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon').url()==undefined">
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
           <h2 ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</h2>
-          <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">is selected</p>
+          <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friends').length}} people in group</p>
           <h2 ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</h2>
           <!--<h2 ng-if="selectedGroup!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</h2>-->
           <!--<p ng-if="selectedGroup!=undefined">is selected</p>-->
@@ -29,13 +32,14 @@
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>
       <ion-item class="item item-avatar item-icon-right"
+                style="font-size: small"
                 ng-click="selectUser()"
-                ng-class="{'item-assertive':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
+                ng-class="{'item-energized':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
                 ng-if="inviteEmail==undefined">
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon').url()==undefined">
           <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon').url()!=undefined">
           <h2 ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}}</h2>
-          <p ng-if="selectedFriend!=undefined" style="color: white">is selected</p>
+          <p ng-if="selectedFriend!=undefined" style="color: white">{{selectedFriend.get('email')}}</p>
           <h2 ng-if="selectedFriend==undefined">Select Friend</h2>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
@@ -63,12 +67,12 @@
               <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency>
           </label>
           <button class="button button-stable" type="submit" style="font-size: large;border-radius: 10px">
-              <i class="icon ion-ios7-keypad"></i>
+              <!--<i class="icon ion-card"></i>-->
               Pay
           </button>
       </ion-item>
       <label class="item item-input">
-          <input type="text" placeholder="Note" ng-model="sendform.note" >
+          <input type="text" placeholder="Note" ng-model="sendform.note" maxlength="40">
       </label>
       </form>
 
@@ -77,8 +81,9 @@
           <!--Pay by QRCode-->
       <!--</button>-->
       <ion-item class="item item-icon-left item-icon-right" style="text-align: center" ng-click="goToQRCode(sendform)">
-          <i class="icon ion-ios7-arrow-back" style="color: gray; font-size: larger"></i>
-          Pay by QRCode <i class="icon ion-qr-scanner"></i>
+          <!--<i class="icon ion-ios7-arrow-back" style="color: gray; font-size: larger"></i>-->
+          <i class="icon ion-qr-scanner"></i>
+          Pay by QRCode
 
       </ion-item>
       <!--<label class="item item-input">-->

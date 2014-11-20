@@ -150,7 +150,9 @@ angular.module('starter.controllers', [])
 
         }
 
-
+        $scope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
+        }
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {

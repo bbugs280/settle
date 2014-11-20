@@ -97,9 +97,11 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/css/style.css \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/delete1.png \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/group-1.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/group.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/icon.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/ionic.png \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/people-1.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/people.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/app.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/controllers.js \

@@ -150,7 +150,9 @@ angular.module('starter.controllers', [])
 
         }
 
-
+        $scope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
+        }
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
@@ -1012,6 +1014,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.logout = function(){
+
             if (window.plugins) {
                 parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
                     console.log('unsubscribe', msg);
@@ -1020,6 +1023,9 @@ angular.module('starter.controllers', [])
                 }, function (e) {
                     conlog.log('error', e.message);
                 });
+            }else{
+                ParseService.logout();
+                $state.go('login');
             }
 
 

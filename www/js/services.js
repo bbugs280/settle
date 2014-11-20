@@ -144,7 +144,7 @@ angular.module('starter.services', [])
                     }else{
 
                         //Save Transaction
-                        console.log("recordQRCode - Valid QRCode with TranID = " + tran.get('tranId'));
+
                         console.log("recordQRCode - before tran save : " + tran.get('tranId') +" | "+ tran.get('amount') +" | "+ tran.get('from') +" | "+ tran.get('to') +" | "+ tran.get('note') +" | "+ user.get('email'));
                         tran.save(null,
                             {
@@ -188,7 +188,7 @@ angular.module('starter.services', [])
                                         user.updateBalance(yourbal,function(r){
                                             console.log("recordQRCode - your balance saved");
 
-                                        })
+                                        });
                                         // 3. Update Group List with both friend and your email
                                         var friendArray = [user.get('email'),friendEmail];
                                         var nameArray = [user.get('username'),friendName];
@@ -206,11 +206,12 @@ angular.module('starter.services', [])
                                                 },error:function(obj,error){
                                                     console.log("Tran is updated with Latest Rates with Error", error.message);
                                                 }
-                                            })
+                                            });
                                         });
 
                                         //Now update your friend Records
                                         //1. get Friend Balance
+                                        console.log("before Friend getBalanceByEmail friend"+friend.get('default_currency'));
                                         user.getBalanceByEmail(group,friend,function(friendbal){
                                             console.log("friend balance found and being updated");
                                             //console.log("Friend Group Found with Curr = "+friend.get('default_currency').get('code'));
@@ -253,17 +254,9 @@ angular.module('starter.services', [])
                                                     },error:function(obj,error){
                                                         console.log("Tran is updated with Latest Rates with Error", error.message);
                                                     }
-                                                })
-                                            })
+                                                });
+                                            });
                                         });
-                                        //Update Tran with new rate
-                                        //tran.save(null, {
-                                        //    success:function(r){
-                                        //        console.log("Tran is updated with Latest Rates");
-                                        //    },error:function(obj,error){
-                                        //        console.log("Tran is updated with Latest Rates with Error", error.message);
-                                        //    }
-                                        //})
 
                                     });
 

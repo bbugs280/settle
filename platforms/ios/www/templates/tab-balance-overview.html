@@ -1,4 +1,12 @@
 <ion-view title="Settle" hide-back-button="true">
+    <ion-nav-buttons side="right" >
+        <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
+            <!--<span>-->
+              <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
+              <img src="./img/icon.png" height="32px" style="border-radius: 50px" ng-if="user.get('icon')==undefined">
+          <!--</span>-->
+        </button>
+    </ion-nav-buttons>
   <ion-content>
       <ion-list can-swipe="true">
           <ion-refresher
@@ -6,9 +14,9 @@
                   refreshing-icon="icon ion-loading-c"
                   on-refresh="loadOverview()">
           </ion-refresher>
-          <ion-item class="item item-icon-right">
+          <ion-item class="item item-divider item-icon-right" style="font-size: small;">
               <i  class=" ion-loading-c" style="visibility:{{loading}}"></i>
-              Your Total Balance is
+              Total Balance is
               <span class="item-note" style="color:black">
                     <span ng-if="balance.amount<0">
                           <span style="color: red">{{balance.amount | currency:user.get('default_currency').get('code')}}</span>
@@ -50,11 +58,6 @@
               <span style="font-weight: bold" ng-if="balance.get('group').get('ispersonal')==true">{{balance.get('frienduser').get('username')}}</span>
               <!--group name-->
               <span style="font-weight: bold" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('group')}}</span>
-              <!--counter badge-->
-              <i class="badge badge-assertive" style="top:50px;left:40px;width: 28px" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}}</i>
-
-              <span  style="font-size: small" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}} people in group</span>
-              <br>
               <!--amount-->
               <span class="item-note" style="color:black">
                        <span ng-if="balance.get('balance')<0">
@@ -64,6 +67,12 @@
                            <span style="color:olivedrab">{{balance.get('balance')| currency:balance.get('currency').get('code')}}</span>
                         </span>
               </span>
+              <!--counter badge-->
+              <i class="badge badge-assertive" style="top:50px;left:40px;width: 28px" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}}</i>
+              <br ng-if="balance.get('group').get('ispersonal')!=true">
+              <span  style="font-size: small" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}} people in group</span>
+
+
 
               <br>
 
@@ -74,11 +83,11 @@
               <!--<button class="button button-clear" ng-if="balance.get('group').get('ispersonal')==true">-->
                   <!--<i class="ion-paper-airplane"></i>-->
               <!--</button>-->
-              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">Pay <i class="icon ion-ios7-keypad"></i></ion-option-button>
+              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">Pay <i class="icon ion-card"></i></ion-option-button>
               <ion-option-button class="button-calm" ng-click="editGroup(balance.get('group'))" ng-if="balance.get('group').get('ispersonal')!=true">Edit<i class="icon ion-edit"></i></ion-option-button>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
-          <ion-item class="item" style="text-align: center">
+          <ion-item class="item" style="text-align: center" ng-if="balancelistFiltered.length ==0">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
               <span style="font-weight: bold">Friend not in here?</span>
               <p>Go pay with Settle to invite</p>
