@@ -26,9 +26,9 @@
           <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon').url()==undefined">
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
 
-          <h2 ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</h2>
-          <!--<p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">is selected</p>-->
-          <h2 ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</h2>
+          <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</p>
+          <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friends').length}} people in group</p>
+          <p ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</p>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
       </ion-item>

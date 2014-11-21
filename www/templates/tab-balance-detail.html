@@ -1,6 +1,6 @@
 <ion-view title="{{selectedFriend.getUsername()}} {{selectedGroup.get('group')}}"  hide-back-button="true">
     <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="goToBalanceOverview()" ng-if="selectedFriend !=undefined ">
+        <button class="button button-clear" ng-click="goToBalanceOverview()" ng-if="selectedFriend !=undefined && (selectedGroup.get('ispersonal') == true || selectedGroup == undefined)">
             <i class="icon ion-ios7-arrow-back"></i>
             Back
         </button>
@@ -24,7 +24,7 @@
                   refreshing-icon="ion-loading-c"
                   on-refresh="loadTrans()">
           </ion-refresher>
-          <ion-item class="item item-divider" style="font-size: small;">
+          <ion-item class="item item-divider item-dark" style="font-size: small;">
                Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
                <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
 

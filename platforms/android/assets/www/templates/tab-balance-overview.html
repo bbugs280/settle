@@ -3,7 +3,7 @@
         <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
             <!--<span>-->
               <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
-              <img src="./img/icon.png" height="32px" style="border-radius: 50px" ng-if="user.get('icon')==undefined">
+              <img src="./img/people.png" height="32px" style="border-radius: 50px" ng-if="user.get('icon')==undefined">
           <!--</span>-->
         </button>
     </ion-nav-buttons>
@@ -14,7 +14,7 @@
                   refreshing-icon="icon ion-loading-c"
                   on-refresh="loadOverview()">
           </ion-refresher>
-          <ion-item class="item item-divider item-icon-right" style="font-size: small;">
+          <ion-item class="item item-divider item-dark item-icon-right" style="font-size: small;">
               <i  class=" ion-loading-c" style="visibility:{{loading}}"></i>
               Total Balance is
               <span class="item-note" style="color:black">
