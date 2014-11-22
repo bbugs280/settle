@@ -1,8 +1,5 @@
 <ion-view title="Intro" hide-nav-bar="false">
-    <ion-nav-bar class="bar bar-light" style="border-bottom-style: solid">
-        <ion-nav-back-button>
-        </ion-nav-back-button>
-    </ion-nav-bar>
+
     <ion-nav-buttons side="left">
         <button class="button button-positive button-clear no-animation"
                 style="font-size: small"
@@ -24,7 +21,7 @@
         <button class="button button-positive button-clear no-animation"
                 style="font-size: small"
                 ng-click="startApp()" ng-if="slideIndex == 2">
-            Start using Settle
+            Start!
         </button>
     </ion-nav-buttons>
 
@@ -37,20 +34,22 @@
                     <div id="logo">
                         <img src="./img/icon.png" style="border-radius: 10px">
                     </div>
-
-                        <p>A micro payment app</p>
-                        <p>Use between friends and colleagues</p>
-                        <p>Use it to keep track of your money matter</p>
-                        <p>Create groups/pools for lunch, poker, mahjong and travel... etc.</p>
-                        <p>Never settle with Cash</p>
-                        <!--<p>Use it as a leaderboard for your games</p>-->
-
+                    <div class="intro-list">
+                        <ul>
+                            <li>A micro payment app</li>
+                            <li>Use between friends and colleagues</li>
+                            <li>Use it to keep track of your money matter</li>
+                            <li>Create groups/pools for lunch, poker, mahjong and travel... etc.</li>
+                            <li>Your balance net off</li>
+                            <li>Never settle with Cash</li>
+                            <!--<p>Use it as a leaderboard for your games</p>-->
+                        </ul>
+                    </div>
                 </ion-slide>
                 <!-- second slide -->
                 <ion-slide>
                     <h3>How to use</h3>
-
-                    <div id="list">
+                    <div class="intro-list">
                         <h5>Just three steps:</h5>
                         <ol>
                             <li>Be awesome</li>

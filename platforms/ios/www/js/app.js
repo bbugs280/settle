@@ -102,14 +102,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       abstract: true,
       templateUrl: "templates/tabs.html"
       })
-      .state('intro', {
-          url: '/intro',
-          templateUrl: "templates/intro.html",
-          controller: 'IntroCtrl',
-          data: {
-              authenticate: false
-          }
-      })
+
       .state('tab.balance-overview', {
           url:'/balance-overview',
           views:{
@@ -284,6 +277,14 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           url:'/login',
           templateUrl: 'templates/user-login.html',
           controller: 'LoginCtrl',
+          data: {
+              authenticate: false
+          }
+    })
+    .state('intro', {
+          url: '/intro',
+          templateUrl: "templates/intro.html",
+          controller: 'IntroCtrl',
           data: {
               authenticate: false
           }

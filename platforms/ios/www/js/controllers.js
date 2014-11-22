@@ -1,9 +1,14 @@
 angular.module('starter.controllers', [])
 .controller('IntroCtrl', function($rootScope, $scope, $state,$ionicSlideBoxDelegate) {
+        $rootScope.intro = true;
+
 
         $scope.startApp = function() {
+            // Set a flag that we finished the tutorial
+            window.localStorage['didTutorial'] = true;
             $state.go('tab.balance-overview');
         };
+
         $scope.next = function() {
             $ionicSlideBoxDelegate.next();
         };
@@ -56,7 +61,7 @@ angular.module('starter.controllers', [])
 
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
-
+        $rootScope.intro = false;
         console.log("controller - BalanceOverviewCtrl start");
         $scope.balance = {};
         $scope.balance.amount = 0;
@@ -162,6 +167,7 @@ angular.module('starter.controllers', [])
 
         }
         $scope.goToIntro = function(){
+
             $state.go(('intro'));
         }
         $scope.goToUserSetup = function(){
@@ -602,6 +608,11 @@ angular.module('starter.controllers', [])
                     }
                 ]
             });
+        }
+
+        $scope.editGroup = function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.setupgroup-edit');
         }
 
         $scope.selectGroup=function(group){
@@ -1093,11 +1104,8 @@ angular.module('starter.controllers', [])
         }
         $scope.loadCurrencies();
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,Common) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
 
-        //if (!$rootScope.selectedGroup){
-        //    $state.go('tab.balance-overview');
-        //}
         $scope.loadGroupSetup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
@@ -1172,12 +1180,18 @@ angular.module('starter.controllers', [])
             })
         }
         $scope.editGroup = function(group){
+            console.log("editGroup");
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
         $scope.loadGroupSetup();
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
+
+        if(window.localStorage['didTutorial'] !== "true") {
+            $state.go('intro');
+            return;
+        }
 
         $scope.goTosignUp = function(){
             //$location.path('/tab/signup');

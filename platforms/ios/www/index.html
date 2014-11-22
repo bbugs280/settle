@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Settle</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -69,7 +69,9 @@
     <ion-side-menus>
 
         <ion-side-menu-content ng-controller="NavCtrl">
-            <ion-nav-bar class="bar bar-positive">
+            <ion-nav-bar class="bar "
+                         style="border-bottom-width:1px; border-bottom-color: grey; border-bottom-style:solid"
+                         ng-class="{'bar-light':intro==true,'bar-positive':intro!=true}" >
                 <!--Back Button-->
                 <ion-nav-back-button class="button-icon icon ion-ios7-arrow-back">
 
