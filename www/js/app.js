@@ -97,23 +97,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
     // setup an abstract state for the tabs directive
 
-
-
-
-      .state('tab', {
+     .state('tab', {
       url: '/tab',
       abstract: true,
       templateUrl: "templates/tabs.html"
-    })
-      .state('intro', {
-          url: '/intro',
-          templateUrl: "templates/intro.html",
-          controller: 'IntroCtrl',
-          data: {
-              authenticate: false
-          }
       })
-    // Each tab has its own nav history stack:
+
       .state('tab.balance-overview', {
           url:'/balance-overview',
           views:{
@@ -123,8 +112,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: true
+              authenticate: true
           }
       })
       .state('tab.balance-group', {
@@ -164,8 +152,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
         }
       },
           data: {
-              authenticate: true,
-              needgroup: true
+              authenticate: true
           }
     })
       .state('tab.send-remote', {
@@ -177,8 +164,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: true
+              authenticate: true
           }
       })
     .state('tab.send-group', {
@@ -214,8 +200,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: false
+              authenticate: true
           }
      })
     .state('tab.setup', {
@@ -227,8 +212,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: false
+              authenticate: true
           }
      })
     .state('tab.setupuser', {
@@ -240,8 +224,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: false
+              authenticate: true
           }
      })
       .state('currencies', {
@@ -267,8 +250,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: false
+              authenticate: true
           }
      })
       .state('tab.setupgroup-edit', {
@@ -280,36 +262,35 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               }
           },
           data: {
-              authenticate: true,
-              needgroup: false
+              authenticate: true
           }
       })
     .state('signup', {
           url:'/signup',
           templateUrl: 'templates/user-signup.html',
           controller: 'SignUpCtrl',
-
           data: {
-              authenticate: false,
-              needgroup: false
+              authenticate: false
           }
      })
     .state('login', {
           url:'/login',
           templateUrl: 'templates/user-login.html',
           controller: 'LoginCtrl',
-          //views:{
-          //    'login':{
-          //
-          //    }
-          //},
           data: {
-              authenticate: false,
-              needgroup: false
+              authenticate: false
+          }
+    })
+    .state('intro', {
+          url: '/intro',
+          templateUrl: "templates/intro.html",
+          controller: 'IntroCtrl',
+          data: {
+              authenticate: false
           }
     })
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/intro');
 
 });
 

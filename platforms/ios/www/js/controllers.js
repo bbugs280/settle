@@ -1,6 +1,18 @@
 angular.module('starter.controllers', [])
-.controller('IntroCtrl', function($rootScope, $scope, $state) {
+.controller('IntroCtrl', function($rootScope, $scope, $state,$ionicSlideBoxDelegate) {
 
+        $scope.startApp = function() {
+            $state.go('tab.balance-overview');
+        };
+        $scope.next = function() {
+            $ionicSlideBoxDelegate.next();
+        };
+        $scope.previous = function() {
+            $ionicSlideBoxDelegate.previous();
+        };
+        $scope.slideChanged = function(index) {
+            $scope.slideIndex = index;
+        };
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
@@ -149,7 +161,9 @@ angular.module('starter.controllers', [])
             $scope.balancelistFiltered = result;
 
         }
-
+        $scope.goToIntro = function(){
+            $state.go(('intro'));
+        }
         $scope.goToUserSetup = function(){
             $state.go('tab.setupuser');
         }

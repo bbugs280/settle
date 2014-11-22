@@ -83,8 +83,14 @@
               <!--<button class="button button-clear" ng-if="balance.get('group').get('ispersonal')==true">-->
                   <!--<i class="ion-paper-airplane"></i>-->
               <!--</button>-->
-              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">Pay <i class="icon ion-card"></i></ion-option-button>
-              <ion-option-button class="button-calm" ng-click="editGroup(balance.get('group'))" ng-if="balance.get('group').get('ispersonal')!=true">Edit<i class="icon ion-edit"></i></ion-option-button>
+              <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">
+                   Pay
+                  <!--<i class="icon ion-card"></i>-->
+              </ion-option-button>
+              <ion-option-button class="button-calm" ng-click="editGroup(balance.get('group'))" ng-if="balance.get('group').get('ispersonal')!=true">
+                   Edit
+                  <!--<i class="icon ion-edit"></i>-->
+              </ion-option-button>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item" style="text-align: center" ng-if="balancelistFiltered.length ==0">
