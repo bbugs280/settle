@@ -25,7 +25,7 @@
         </button>
     </ion-nav-buttons>
 
-    <!--<ion-content>-->
+    <ion-content class="has-header" padding="true">
             <!-- create the slidebox. Listen for on-slide-changed events we will wire up later. -->
             <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true">
                 <!-- first slide -->
@@ -82,9 +82,19 @@
                         <b>Trip</b> - Going on a trip with your friends, use Settle to keep track of money spent in foreign currency and paid by different person.
                         Your balances between your friends will be calculated in your default currency. You can settle them at the end of you trip with ease.
                         You won't have to worry about keeping all your receipts and doing the after math.
+
+
                     </p>
+                    <p class="para" style="text-align: center;">
+                        <button class="button button-positive button-clear" ng-click="startApp()">
+                            Start!
+                        </button>
+
+                    </p>
+                    <br>
+                    <br>
                 </ion-slide>
             </ion-slide-box>
 
-    <!--</ion-content>-->
+    </ion-content>
 </ion-view>
