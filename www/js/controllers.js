@@ -167,7 +167,7 @@ angular.module('starter.controllers', [])
 
         }
         $scope.goToIntro = function(){
-            $rootState.introAgain = true;
+            
             $state.go(('intro'));
         }
         $scope.goToUserSetup = function(){
