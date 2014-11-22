@@ -1,9 +1,14 @@
 <ion-view title="Settle" hide-back-button="true">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToIntro()">
+            <i class=" ion-android-information"></i>
+        </button>
+    </ion-nav-buttons>
     <ion-nav-buttons side="right" >
         <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
             <!--<span>-->
               <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
-              <img src="./img/people.png" height="32px" style="border-radius: 50px" ng-if="user.get('icon')==undefined">
+              <img src="./img/people.png" height="32px" style="border-radius: 50px;background-color: grey" ng-if="user.get('icon')==undefined">
           <!--</span>-->
         </button>
     </ion-nav-buttons>
@@ -44,15 +49,19 @@
 
           <ion-item class="item item-avatar item-icon-right"  ng-repeat="balance in balancelistFiltered" ng-click="openBalance(balance)" ng-if="balance.get('group').get('hidden')!==true">
               <!--personal icon-->
-              <img src="{{balance.get('frienduser').get('icon').url()}}" style="border-radius: 10px;width: 50px"
+              <img src="{{balance.get('frienduser').get('icon').url()}}"
+                   class="avatar"
                    ng-if="balance.get('group').get('ispersonal')==true && balance.get('frienduser').get('icon')!=undefined">
-              <img src="./img/people.png" style="border-radius: 10px;width: 50px"
+              <img src="./img/people.png"
+                   class="avatar"
                    ng-if="balance.get('group').get('ispersonal')==true && balance.get('frienduser').get('icon')==undefined">
               <!--group icon-->
-              <img src="{{balance.get('group').get('icon').url()}}" style="border-radius: 10px;width: 50px"
+              <img src="{{balance.get('group').get('icon').url()}}"
+                   class="avatar"
                    ng-if="balance.get('group').get('ispersonal')!=true && balance.get('group').get('icon')!=undefined">
 
-              <img src="./img/group.png" height="50px" style="border-radius: 10px;width: 50px"
+              <img src="./img/group.png"
+                   class="avatar"
                    ng-if="balance.get('group').get('ispersonal')!=true && balance.get('group').get('icon')==undefined">
               <!--person name-->
               <span style="font-weight: bold" ng-if="balance.get('group').get('ispersonal')==true">{{balance.get('frienduser').get('username')}}</span>

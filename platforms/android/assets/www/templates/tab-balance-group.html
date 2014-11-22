@@ -2,7 +2,7 @@
     <ion-nav-buttons side="left">
         <button class="button button-clear" ng-click="goToBalanceOverview()">
             <i class="icon ion-ios7-arrow-back"></i>
-            Back
+            <!--Back-->
         </button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined" ng-click="goToGroupEdit(selectedGroup)">
@@ -45,8 +45,8 @@
           </ion-item>
 
           <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: medium;" ng-repeat="bal in balancesFiltered" ng-click="goToSend(bal.get('user'))" ng-if="user.id!=bal.get('user').id">
-              <img src="{{bal.get('user').get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()!=undefined">
-              <img src="./img/people.png"  width="50px" style="border-radius: 10px" ng-if="bal.get('user').get('icon').url()==undefined">
+              <img src="{{bal.get('user').get('icon').url()}}" class="avatar" ng-if="bal.get('user').get('icon').url()!=undefined">
+              <img src="./img/people.png" class="avatar" ng-if="bal.get('user').get('icon').url()==undefined">
 
                  <span>
                   <b>{{bal.get('user').get('username')}}</b>
