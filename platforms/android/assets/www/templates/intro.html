@@ -1,0 +1,109 @@
+<ion-view title="Intro" hide-nav-bar="false">
+
+    <ion-nav-buttons side="left">
+        <button class="button button-positive button-clear no-animation"
+                style="font-size: small"
+                ng-click="startApp()" ng-if="!slideIndex">
+            Skip Intro
+        </button>
+        <button class="button button-positive button-clear no-animation"
+                style="font-size: small"
+                ng-click="previous()" ng-if="slideIndex > 0">
+            Previous
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-positive button-clear no-animation"
+                style="font-size: small"
+                ng-click="next()" ng-if="slideIndex != 2">
+            Next
+        </button>
+        <button class="button button-positive button-clear no-animation"
+                style="font-size: small"
+                ng-click="startApp()" ng-if="slideIndex == 2">
+            Start!
+        </button>
+    </ion-nav-buttons>
+
+    <!--<ion-content class="has-header" padding="true">-->
+            <!-- create the slidebox. Listen for on-slide-changed events we will wire up later. -->
+            <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true">
+                <!-- first slide -->
+                <ion-slide>
+                    <h3>What is Settle</h3>
+                    <div id="logo">
+                        <img src="./img/icon.png" style="border-radius: 10px">
+                    </div>
+                    <div class="intro-list">
+                        <ul>
+                            <li>A micro payment app</li>
+                            <li>Use between friends and colleagues</li>
+                            <li>Support wide range of mobile devices</li>
+                            <li>Use it to keep track of your money matter</li>
+                            <li>Create groups/pools for lunch, poker, mahjong and travel... etc.</li>
+                            <li>Your balance net off between friends</li>
+                            <li>Never settle with Cash</li>
+                            <!--<p>Use it as a leaderboard for your games</p>-->
+                        </ul>
+                    </div>
+                </ion-slide>
+                <!-- second slide -->
+                <ion-slide>
+                    <h3>How to use</h3>
+                    <div class="intro-list">
+                        <h5>Pay by QRCode</h5>
+                        <ol>
+                            <li>Generate QRCode</li>
+                            <li>Let your friend scan</li>
+                            <li>Check your Balance</li>
+                        </ol>
+                        <h5>Pay on Cloud</h5>
+                        <ol>
+                            <li>Select a friend Or group</li>
+                            <li>Enter amount and send</li>
+                            <li>Your friend will receive a notification</li>
+                        </ol>
+
+                    </div>
+                </ion-slide>
+                <!-- third slide -->
+                <ion-slide>
+
+                    <h3>When to use Settle</h3>
+                    <p class="para">
+                        <b>Meals</b> -
+                        Easily split the bill without any mess of loose change or coins.
+                        Say Bye to hard to use online banking.
+
+                        <!--go out with your friend or colleague for lunch/dinner. One of you paid the bill at the restaurant.-->
+                        <!--Now, each one of you need to pay your friend back in cash and messy loose change.-->
+                        <!--Or you can just pay your friend back in Settle by a simple click or a scan. Next time when whoever has higher debit pay the bill!-->
+                        <!--If you have a regular group of lunch buddies, you can even have a lunch pool by creating a group in Settle.-->
+                    </p>
+                    <!--<p class="para">-->
+                        <!--<b>Games</b> - When was the last time in a Poker-->
+                    <!--</p>-->
+                    <p class="para">
+                        <b>Trip</b> -
+                        Track your spending in foreign currency.
+                        Settle will do the math for you.
+                    </p>
+                    <p class="para">
+                        <b>Card Games</b> -
+                        Keep track of your winning.
+                        Use it as a leader board.
+
+                    </p>
+                    <p class="para" style="text-align: center;">
+                        <button class="button button-positive button-clear" ng-click="startApp()">
+                            Start!
+                        </button>
+
+                    </p>
+                    <br>
+                    <br>
+                </ion-slide>
+            </ion-slide-box>
+
+    <!--</ion-content>-->
+</ion-view>
