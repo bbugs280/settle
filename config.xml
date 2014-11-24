@@ -7,7 +7,7 @@
     </description>
   <author email="yeung.vincent@gmail.com" href="">
       Bumble Team
-    </author>   
+    </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
