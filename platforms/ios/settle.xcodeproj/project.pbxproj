@@ -644,7 +644,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "Settle";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Settle/Plugins/org.apache.cordova.core.parseplugin\"",
@@ -680,7 +680,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "Settle";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Settle/Plugins/org.apache.cordova.core.parseplugin\"",
