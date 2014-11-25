@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
                             }else{
                                 $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
-                            $scope.balancelist[i].set('balance',Number($scope.balancelist[i].get('balance'))*-1);
+                            $scope.balancelist[i].set('balance',Number($scope.balancelist[i].get('balance')));
                         }
                     }
 

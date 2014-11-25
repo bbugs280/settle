@@ -44,11 +44,10 @@ console.log("x ", x);
 console.log("y ", y);
 console.log("width ", image.width);
 console.log("height ", image.height);
-
 //        ctx.drawImage(image, x, y, image.width, image.height);
         ctx.drawImage(image, x, y, output_width, output_height, 0, 0, MAX_WIDTH, MAX_HEIGHT);
-        ctx.rotate(90 * TO_RADIANS);
-        ctx.drawImage(image, 0,0);
+        //ctx.rotate(90 * TO_RADIANS);
+        //ctx.drawImage(image, 0,0);
 
         callback(canvas.toDataURL());
     }
