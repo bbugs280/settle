@@ -424,12 +424,15 @@ angular.module('starter.controllers', [])
         }
         $scope.sendEmailToNewUser= function(email,username, from) {
             var body = "Dear new Settler, ";
-            body += "<p><br>Congrats! Your friend <b>"+from+ "</b> paid you with Settle.</p>";
-            body += "<p>Please download 'Settle' app from Apple Store or Google Play</p>";
+            body += "<p><br>Hi! I have just paid you with Settle.";
+            body += "<img src='https://yeungvincent.files.wordpress.com/2014/11/icon.png' width='100' style='border-radius:10px;text-align: center'></p>";
+            body += "<p>Please download from Apple Store [<a href='http://goo.gl/FQyHHq'>download</a>]</p>";
+            body += "<p>Or Google Play [<a href='http://goo.gl/nQtLFL'>download</a>] </p>";
             body += "<p>Your account name is <b>"+ username + "</b></p>";
             body += "<p>There's a separate email to set your password.</p>";
-            body += "<p>Your truly, <br>The Settle Team</p>";
+            body += "<p>Your truly, ";
 
+            console.log(body);
             if(window.plugins && window.plugins.emailComposer) {
                 window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
                         console.log("Response -> " + result);
@@ -1046,6 +1049,8 @@ angular.module('starter.controllers', [])
                     ParseService.logout();
                     $state.go('login');
                 }, function (e) {
+                    ParseService.logout();
+                    $state.go('login');
                     conlog.log('error', e.message);
                 });
             }else{

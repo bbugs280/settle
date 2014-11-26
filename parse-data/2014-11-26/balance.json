@@ -1,0 +1,556 @@
+{ "results": [
+	{
+        "balance": 60,
+        "createdAt": "2014-10-26T16:22:35.966Z",
+        "credit": 243,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 183,
+        "email": "galiotis@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "11rHuNteMt",
+        "updatedAt": "2014-11-21T06:12:28.250Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "QDYo9OLvKz"
+        },
+        "username": "aris"
+    },
+	{
+        "balance": -144,
+        "createdAt": "2014-10-26T16:21:57.990Z",
+        "credit": 0,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 144,
+        "email": "flam0519@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "5Sq7lmdl8M",
+        "updatedAt": "2014-11-16T14:09:31.624Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "DgvNRw6RJ0"
+        },
+        "username": "felix"
+    },
+	{
+        "balance": -111,
+        "createdAt": "2014-10-26T16:20:43.311Z",
+        "credit": 63,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 174,
+        "email": "arlolo@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "Jsza1sUrmR",
+        "updatedAt": "2014-11-16T14:09:32.679Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "yuPBlZAdgG"
+        },
+        "username": "edward"
+    },
+	{
+        "balance": 48,
+        "createdAt": "2014-10-26T16:20:10.045Z",
+        "credit": 98,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 50,
+        "email": "ryan.ctchin@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "1S54ltin5f",
+        "updatedAt": "2014-11-16T14:09:33.141Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "KSAgoUPIy9"
+        },
+        "username": "ryan"
+    },
+	{
+        "balance": -171,
+        "createdAt": "2014-10-26T16:19:38.885Z",
+        "credit": 50,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 221,
+        "email": "denis.kan@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "1uJ1mHF5da",
+        "updatedAt": "2014-11-18T04:10:07.354Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "fwqnJFqjwh"
+        },
+        "username": "denis"
+    },
+	{
+        "balance": -204.6,
+        "createdAt": "2014-10-26T16:18:44.108Z",
+        "credit": 796.4,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 1001,
+        "email": "harrylo@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "FdDc0kVAdS",
+        "updatedAt": "2014-11-21T06:00:58.520Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "L7alKKQvSs"
+        },
+        "username": "harry"
+    },
+	{
+        "balance": 230,
+        "createdAt": "2014-10-26T16:18:06.278Z",
+        "credit": 660,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 430,
+        "email": "lawrence.yim@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "2m0UklsTpV",
+        "updatedAt": "2014-11-18T13:34:13.563Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "lzzy1qk4BP"
+        },
+        "username": "lawrence"
+    },
+	{
+        "balance": 215,
+        "createdAt": "2014-10-26T16:17:24.155Z",
+        "credit": 720,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 505,
+        "email": "twyl@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "eM7iDMtUL2",
+        "updatedAt": "2014-11-16T14:09:35.324Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "cuBB5SEx3U"
+        },
+        "username": "thomas"
+    },
+	{
+        "balance": 59.2,
+        "createdAt": "2014-10-26T16:16:43.956Z",
+        "credit": 1000,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 940.8,
+        "email": "alfred.yctan@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "v2rdWssDOC",
+        "updatedAt": "2014-11-18T04:09:00.355Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zlCbiEBdId"
+        },
+        "username": "alfred"
+    },
+	{
+        "balance": -129,
+        "createdAt": "2014-10-26T16:16:07.963Z",
+        "credit": 410,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 539,
+        "email": "ballsuen@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "Rc4fIaNAPM",
+        "updatedAt": "2014-11-16T14:09:36.464Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "xK0fgYHYKk"
+        },
+        "username": "eric.s"
+    },
+	{
+        "balance": 125,
+        "createdAt": "2014-10-26T16:15:30.754Z",
+        "credit": 683,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 558,
+        "email": "enoch.hy.lam@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "P7Kt67zJ89",
+        "updatedAt": "2014-11-21T05:14:18.089Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "Fdxwrdofm6"
+        },
+        "username": "enoch"
+    },
+	{
+        "balance": -175.29999999999995,
+        "createdAt": "2014-10-26T16:14:46.255Z",
+        "credit": 1286.5,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 1461.8,
+        "email": "llhchung@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "TENOR5sWL3",
+        "updatedAt": "2014-11-25T13:50:19.791Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "y6yVvcps6R"
+        },
+        "username": "lewis"
+    },
+	{
+        "balance": 194.19999999999982,
+        "createdAt": "2014-10-26T16:10:54.514Z",
+        "credit": 2532,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 2337.8,
+        "email": "yeung.vincent@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "IJABWchuMA",
+        "updatedAt": "2014-11-25T13:50:18.041Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        },
+        "username": "vincent"
+    },
+	{
+        "balance": 0,
+        "createdAt": "2014-11-05T04:36:32.074Z",
+        "credit": 0,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 0,
+        "email": "billykan@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "4WdzOoamnj",
+        "updatedAt": "2014-11-21T04:08:44.470Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "SP4o7dPNdn"
+        },
+        "username": "Billy"
+    },
+	{
+        "balance": 73,
+        "createdAt": "2014-10-26T16:21:19.519Z",
+        "credit": 772,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 699,
+        "email": "mankee.lee@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "pxjZCW7KUb",
+        "updatedAt": "2014-11-21T06:10:34.772Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "HZmTuy7EkP"
+        },
+        "username": "kei"
+    },
+	{
+        "balance": 30.5,
+        "createdAt": "2014-10-26T16:13:29.738Z",
+        "credit": 97.5,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 67,
+        "email": "raymondlbtang@gmail.com",
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "bMT7ZbH5So"
+        },
+        "groupId": "bMT7ZbH5So",
+        "objectId": "qsfPlYQZgZ",
+        "updatedAt": "2014-11-21T04:08:21.010Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ugEvayGbYi"
+        },
+        "username": "raymond"
+    },
+	{
+        "balance": 15,
+        "createdAt": "2014-11-24T14:07:35.697Z",
+        "credit": 25,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 10,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "lfIAtkkemV"
+        },
+        "objectId": "KNzhyiSs0D",
+        "updatedAt": "2014-11-24T14:08:02.758Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "lirSB5mnCL"
+        }
+    },
+	{
+        "balance": -15,
+        "createdAt": "2014-11-24T14:07:36.286Z",
+        "credit": 10,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 25,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "lfIAtkkemV"
+        },
+        "objectId": "yix0Nz70IT",
+        "updatedAt": "2014-11-24T14:08:01.622Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        }
+    },
+	{
+        "balance": -432,
+        "createdAt": "2014-11-25T01:56:12.179Z",
+        "credit": 0,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 432,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "7ElLDn6ZU8"
+        },
+        "objectId": "zEmQUGQqNs",
+        "updatedAt": "2014-11-25T01:56:12.179Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "HZmTuy7EkP"
+        }
+    },
+	{
+        "balance": 432,
+        "createdAt": "2014-11-25T01:56:12.992Z",
+        "credit": 432,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 0,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "7ElLDn6ZU8"
+        },
+        "objectId": "tjuWPNtdAl",
+        "updatedAt": "2014-11-25T01:56:12.992Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        }
+    },
+	{
+        "balance": -5,
+        "createdAt": "2014-11-25T05:18:16.727Z",
+        "credit": 0,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 5,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "Red9KA1Zao"
+        },
+        "objectId": "XwqaRESOAS",
+        "updatedAt": "2014-11-25T05:18:16.727Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        }
+    },
+	{
+        "balance": 5,
+        "createdAt": "2014-11-25T05:18:18.094Z",
+        "credit": 5,
+        "currency": {
+            "__type": "Pointer",
+            "className": "currencies",
+            "objectId": "K1ewmtJPB5"
+        },
+        "debit": 0,
+        "group": {
+            "__type": "Pointer",
+            "className": "friendlist",
+            "objectId": "Red9KA1Zao"
+        },
+        "objectId": "ffU0PvExcp",
+        "updatedAt": "2014-11-25T05:18:18.094Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "y6yVvcps6R"
+        }
+    }
+] }

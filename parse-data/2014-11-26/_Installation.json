@@ -1,0 +1,347 @@
+{ "results": [
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "badge": 0,
+        "channels": [
+            "zBUMIrpiw2"
+        ],
+        "createdAt": "2014-11-14T05:50:44.374Z",
+        "deviceToken": "4f1414aa6ea86d38e91237280a68149b25c8141a2b44dc58dc7d9463f125d222",
+        "deviceType": "ios",
+        "installationId": "fd7f22e2-0613-4165-b018-ae683ca771b4",
+        "objectId": "spx00ZhRBn",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-18T14:51:36.858Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.1",
+        "badge": 0,
+        "channels": [
+            "Q2mKIFr1wM"
+        ],
+        "createdAt": "2014-11-14T11:22:45.430Z",
+        "deviceToken": "212ef9c06d788876911fc041cd72c4d5ca61d8906813aceb7be869131e3e3fca",
+        "deviceType": "ios",
+        "installationId": "ad032c11-9404-4ea1-b4bf-f7a8e260fdbc",
+        "objectId": "0D0gqUooII",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-24T00:35:38.898Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "0.1.0",
+        "channels": [
+            "lirSB5mnCL"
+        ],
+        "createdAt": "2014-11-14T13:05:58.451Z",
+        "deviceType": "android",
+        "installationId": "91b56f8a-b175-48a4-9ad1-90d9182ff341",
+        "objectId": "CJXI9i53iP",
+        "parseVersion": "1.3.5",
+        "timeZone": "America/New_York",
+        "updatedAt": "2014-11-14T13:05:58.451Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.0.0",
+        "channels": [
+            "lirSB5mnCL"
+        ],
+        "createdAt": "2014-11-16T02:56:56.040Z",
+        "deviceType": "android",
+        "installationId": "35087b6d-d42a-4a89-a767-4bf234a233e6",
+        "objectId": "x9PeftTPnW",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-16T02:56:56.040Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.0.0",
+        "channels": [
+            "zlCbiEBdId"
+        ],
+        "createdAt": "2014-11-17T05:43:32.933Z",
+        "deviceType": "android",
+        "installationId": "f2a5b203-2d1d-4a1f-bce7-6541ddb29f57",
+        "objectId": "1UOVp6hhRk",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-17T05:43:32.933Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.0.0",
+        "channels": [
+            "ugEvayGbYi"
+        ],
+        "createdAt": "2014-11-17T09:12:34.179Z",
+        "deviceType": "android",
+        "installationId": "8c3cac49-c7f9-4920-bcdf-041e245990cb",
+        "objectId": "KsfmGJlttd",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-17T09:12:34.179Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "badge": 0,
+        "channels": [
+            "L7alKKQvSs"
+        ],
+        "createdAt": "2014-11-18T08:17:52.624Z",
+        "deviceType": "ios",
+        "installationId": "deab4370-40bd-4308-ade2-886a12c57818",
+        "objectId": "mELBRMkQcU",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-18T11:13:14.614Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.1",
+        "badge": 0,
+        "channels": [
+            "lzzy1qk4BP"
+        ],
+        "createdAt": "2014-11-18T13:29:39.181Z",
+        "deviceToken": "9781b287730f8fadf3eac217cd51c2604ab8f16a0dbf64d70c2856dc9951d3c5",
+        "deviceType": "ios",
+        "installationId": "7ff3de59-5646-4be1-97ce-e091e8cbee9e",
+        "objectId": "bcm9XEQ0dt",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-23T03:54:24.125Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.3",
+        "badge": 0,
+        "channels": [
+            "zBUMIrpiw2"
+        ],
+        "createdAt": "2014-11-18T15:03:26.819Z",
+        "deviceToken": "f32afad6b10b861d4c151fea519ece32f3c9161e09298fe40f8bc96d7033ce21",
+        "deviceType": "ios",
+        "installationId": "dae434cd-f51c-4a34-b692-c2d0df2a2acd",
+        "objectId": "jz2X2VfKZK",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-26T01:05:47.301Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "ugEvayGbYi"
+        ],
+        "createdAt": "2014-11-19T04:18:32.567Z",
+        "deviceType": "android",
+        "installationId": "0721abd4-fc81-472f-84e5-b95540c64351",
+        "objectId": "ckW7YaVkNN",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-19T04:18:32.567Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "Fdxwrdofm6"
+        ],
+        "createdAt": "2014-11-19T05:06:50.963Z",
+        "deviceType": "android",
+        "installationId": "16585d13-77cf-4175-824c-3a9c6b796855",
+        "objectId": "ttYHQelguu",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-19T05:06:50.963Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "HZmTuy7EkP"
+        ],
+        "createdAt": "2014-11-19T05:08:48.016Z",
+        "deviceType": "android",
+        "installationId": "d771fbb5-23de-4d95-af79-08495d495995",
+        "objectId": "3AzxqY8mra",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-19T05:08:48.016Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "zlCbiEBdId"
+        ],
+        "createdAt": "2014-11-20T07:22:18.126Z",
+        "deviceType": "android",
+        "installationId": "9af43c7f-d2b5-4045-89b8-9672825a9a08",
+        "objectId": "21DVfZlOmh",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-20T07:22:18.126Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "lirSB5mnCL"
+        ],
+        "createdAt": "2014-11-21T00:59:38.218Z",
+        "deviceType": "android",
+        "installationId": "e539a673-a090-4ac9-8821-718ba3d0d781",
+        "objectId": "glafJSlaQ7",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-21T00:59:38.218Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.0",
+        "channels": [
+            "Fdxwrdofm6"
+        ],
+        "createdAt": "2014-11-21T05:13:59.572Z",
+        "deviceType": "android",
+        "installationId": "da663bfc-7dbf-460b-a1ad-0981e87358cb",
+        "objectId": "SuvowosO2G",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-21T05:13:59.572Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.1",
+        "badge": 0,
+        "channels": [
+            "SP4o7dPNdn"
+        ],
+        "createdAt": "2014-11-23T03:34:10.310Z",
+        "deviceToken": "91c1394c2772c34ce436a33641471b6f8f9ceef94f1f29c743063b7267b00631",
+        "deviceType": "ios",
+        "installationId": "94e21f0e-ad20-4f90-ac2c-f226cb364dff",
+        "objectId": "IAIM8x0MmG",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-23T03:34:22.448Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "badge": 0,
+        "channels": [
+            "I8BbJcSpyW"
+        ],
+        "createdAt": "2014-11-24T04:28:09.528Z",
+        "deviceType": "ios",
+        "installationId": "13bc6148-8cad-43d6-bf7d-c3731558b71e",
+        "objectId": "N55pkcq2gV",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-24T04:53:30.003Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "badge": 0,
+        "channels": [
+            "I8BbJcSpyW"
+        ],
+        "createdAt": "2014-11-24T04:43:09.672Z",
+        "deviceType": "ios",
+        "installationId": "1b61dfc1-2ca8-455e-abea-8701b9eabcab",
+        "objectId": "xsfjQA3t7d",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-24T04:43:09.672Z"
+    },
+	{
+        "appIdentifier": "com.bumble.Settle",
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "badge": 0,
+        "channels": [
+            "I8BbJcSpyW"
+        ],
+        "createdAt": "2014-11-24T04:48:07.482Z",
+        "deviceType": "ios",
+        "installationId": "89857fb3-0a17-4f8c-b88e-0372da94c4f3",
+        "objectId": "41LcTH6I7M",
+        "parseVersion": "1.2.16",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-24T04:48:07.482Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "channels": [
+            "I8BbJcSpyW"
+        ],
+        "createdAt": "2014-11-24T05:57:31.137Z",
+        "deviceType": "android",
+        "installationId": "a563cf5c-18a5-41ea-8e8b-d69f4b2ce4b2",
+        "objectId": "jARo2ypijM",
+        "parseVersion": "1.3.5",
+        "timeZone": "America/New_York",
+        "updatedAt": "2014-11-24T05:57:31.137Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.1",
+        "channels": [
+            "Tho3FmanMY"
+        ],
+        "createdAt": "2014-11-24T07:43:39.556Z",
+        "deviceType": "android",
+        "installationId": "7bc3bdc5-03be-4ff7-bbb2-c48ce9abfe54",
+        "objectId": "RRyVh6xalM",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-24T07:43:39.556Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "channels": [
+            "HZmTuy7EkP"
+        ],
+        "createdAt": "2014-11-25T01:50:48.321Z",
+        "deviceType": "android",
+        "installationId": "6eac806e-b47e-444d-87ef-01e9ff07b207",
+        "objectId": "MogN0NiruV",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-25T01:50:48.321Z"
+    },
+	{
+        "appName": "Settle",
+        "appVersion": "1.1.2",
+        "channels": [
+            "ugEvayGbYi"
+        ],
+        "createdAt": "2014-11-25T10:07:43.133Z",
+        "deviceType": "android",
+        "installationId": "b6f4d881-bf88-4d25-adad-1ee9e84e0d50",
+        "objectId": "ppcA0JdMN8",
+        "parseVersion": "1.3.5",
+        "timeZone": "Asia/Hong_Kong",
+        "updatedAt": "2014-11-25T10:07:43.133Z"
+    }
+] }

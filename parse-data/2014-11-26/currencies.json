@@ -1,0 +1,1447 @@
+{ "results": [
+	{
+        "code": "AED",
+        "createdAt": "2014-11-09T10:04:34.463Z",
+        "currencyname": "United Arab Emirates dirham",
+        "locations": "United Arab Emirates",
+        "objectId": "11CxSE5GLf",
+        "updatedAt": "2014-11-09T10:04:34.463Z"
+    },
+	{
+        "code": "AFN",
+        "createdAt": "2014-11-09T10:04:34.490Z",
+        "currencyname": "Afghani",
+        "locations": "Afghanistan",
+        "objectId": "8JC0wX7OwK",
+        "updatedAt": "2014-11-09T10:04:34.490Z"
+    },
+	{
+        "code": "ALL",
+        "createdAt": "2014-11-09T10:04:34.511Z",
+        "currencyname": "Lek",
+        "locations": "Albania",
+        "objectId": "RDregwu97Y",
+        "updatedAt": "2014-11-09T10:04:34.511Z"
+    },
+	{
+        "code": "AMD",
+        "createdAt": "2014-11-09T10:04:34.532Z",
+        "currencyname": "Armenian Dram",
+        "locations": "Armenia",
+        "objectId": "woH3uDPz5p",
+        "updatedAt": "2014-11-09T10:04:34.532Z"
+    },
+	{
+        "code": "ANG",
+        "createdAt": "2014-11-09T10:04:34.554Z",
+        "currencyname": "Netherlands Antillian Guilder",
+        "locations": "Netherlands Antilles",
+        "objectId": "qopUMDzGrX",
+        "updatedAt": "2014-11-09T10:04:34.554Z"
+    },
+	{
+        "code": "AOA",
+        "createdAt": "2014-11-09T10:04:34.584Z",
+        "currencyname": "Kwanza",
+        "locations": "Angola",
+        "objectId": "1Lev1yAJ5O",
+        "updatedAt": "2014-11-09T10:04:34.584Z"
+    },
+	{
+        "code": "ARS",
+        "createdAt": "2014-11-09T10:04:34.616Z",
+        "currencyname": "Argentine Peso",
+        "locations": "Argentina",
+        "objectId": "1t2sbMxZF5",
+        "updatedAt": "2014-11-09T10:04:34.616Z"
+    },
+	{
+        "code": "AUD",
+        "createdAt": "2014-11-09T10:04:34.638Z",
+        "currencyname": "Australian Dollar",
+        "enabled": true,
+        "locations": "Australia, Australian Antarctic Territory, Christmas Island, Cocos (Keeling) Islands, Heard and McDonald Islands, Kiribati, Nauru, Norfolk Island, Tuvalu",
+        "objectId": "br7lKWD9KX",
+        "updatedAt": "2014-11-15T03:09:07.810Z"
+    },
+	{
+        "code": "AWG",
+        "createdAt": "2014-11-09T10:04:34.659Z",
+        "currencyname": "Aruban Guilder",
+        "locations": "Aruba",
+        "objectId": "WwR8m1FhLF",
+        "updatedAt": "2014-11-09T10:04:34.659Z"
+    },
+	{
+        "code": "AZN",
+        "createdAt": "2014-11-09T10:04:34.680Z",
+        "currencyname": "Azerbaijanian Manat",
+        "locations": "Azerbaijan",
+        "objectId": "LVMvcfUyD4",
+        "updatedAt": "2014-11-09T10:04:34.680Z"
+    },
+	{
+        "code": "BAM",
+        "createdAt": "2014-11-09T10:04:34.703Z",
+        "currencyname": "Convertible Marks",
+        "locations": "Bosnia and Herzegovina",
+        "objectId": "R4PGh2CGJX",
+        "updatedAt": "2014-11-09T10:04:34.703Z"
+    },
+	{
+        "code": "BBD",
+        "createdAt": "2014-11-09T10:04:34.723Z",
+        "currencyname": "Barbados Dollar",
+        "locations": "Barbados",
+        "objectId": "TxKtLzsU7S",
+        "updatedAt": "2014-11-09T10:04:34.723Z"
+    },
+	{
+        "code": "BDT",
+        "createdAt": "2014-11-09T10:04:34.745Z",
+        "currencyname": "Bangladeshi Taka",
+        "locations": "Bangladesh",
+        "objectId": "v7sCNktibi",
+        "updatedAt": "2014-11-09T10:04:34.745Z"
+    },
+	{
+        "code": "BGN",
+        "createdAt": "2014-11-09T10:04:34.765Z",
+        "currencyname": "Bulgarian Lev",
+        "locations": "Bulgaria",
+        "objectId": "IOERWLwHMu",
+        "updatedAt": "2014-11-09T10:04:34.765Z"
+    },
+	{
+        "code": "BHD",
+        "createdAt": "2014-11-09T10:04:34.787Z",
+        "currencyname": "Bahraini Dinar",
+        "locations": "Bahrain",
+        "objectId": "DL9oaPTwIi",
+        "updatedAt": "2014-11-09T10:04:34.787Z"
+    },
+	{
+        "code": "BIF",
+        "createdAt": "2014-11-09T10:04:34.808Z",
+        "currencyname": "Burundian Franc",
+        "locations": "Burundi",
+        "objectId": "OdwIAiGkA8",
+        "updatedAt": "2014-11-09T10:04:34.808Z"
+    },
+	{
+        "code": "BMD",
+        "createdAt": "2014-11-09T10:04:34.829Z",
+        "currencyname": "Bermudian Dollar (customarily known as Bermuda Dollar)",
+        "locations": "Bermuda",
+        "objectId": "ITmQuhWfi7",
+        "updatedAt": "2014-11-09T10:04:34.829Z"
+    },
+	{
+        "code": "BND",
+        "createdAt": "2014-11-09T10:04:34.853Z",
+        "currencyname": "Brunei Dollar",
+        "locations": "Brunei",
+        "objectId": "cDfHrgjNEI",
+        "updatedAt": "2014-11-09T10:04:34.853Z"
+    },
+	{
+        "code": "BOB",
+        "createdAt": "2014-11-09T10:04:34.874Z",
+        "currencyname": "Boliviano",
+        "locations": "Bolivia",
+        "objectId": "tJcuVG4Pty",
+        "updatedAt": "2014-11-09T10:04:34.874Z"
+    },
+	{
+        "code": "BOV",
+        "createdAt": "2014-11-09T10:04:34.895Z",
+        "currencyname": "Bolivian Mvdol (Funds code)",
+        "locations": "Bolivia",
+        "objectId": "iZLSsZTeq0",
+        "updatedAt": "2014-11-09T10:04:34.895Z"
+    },
+	{
+        "code": "BRL",
+        "createdAt": "2014-11-09T10:04:34.916Z",
+        "currencyname": "Brazilian Real",
+        "locations": "Brazil",
+        "objectId": "Zf5NPLWiOB",
+        "updatedAt": "2014-11-09T10:04:34.916Z"
+    },
+	{
+        "code": "BSD",
+        "createdAt": "2014-11-09T10:04:34.936Z",
+        "currencyname": "Bahamian Dollar",
+        "locations": "Bahamas",
+        "objectId": "ihWnUFQJpM",
+        "updatedAt": "2014-11-09T10:04:34.936Z"
+    },
+	{
+        "code": "BTN",
+        "createdAt": "2014-11-09T10:04:34.966Z",
+        "currencyname": "Ngultrum",
+        "locations": "Bhutan",
+        "objectId": "1iylEE8kV3",
+        "updatedAt": "2014-11-09T10:04:34.966Z"
+    },
+	{
+        "code": "BWP",
+        "createdAt": "2014-11-09T10:04:34.989Z",
+        "currencyname": "Pula",
+        "locations": "Botswana",
+        "objectId": "om5kdVe5FE",
+        "updatedAt": "2014-11-09T10:04:34.989Z"
+    },
+	{
+        "code": "BYR",
+        "createdAt": "2014-11-09T10:04:35.011Z",
+        "currencyname": "Belarussian Ruble",
+        "locations": "Belarus",
+        "objectId": "HY4m39ivQf",
+        "updatedAt": "2014-11-09T10:04:35.011Z"
+    },
+	{
+        "code": "BZD",
+        "createdAt": "2014-11-09T10:04:35.032Z",
+        "currencyname": "Belize Dollar",
+        "locations": "Belize",
+        "objectId": "YEvQEq5yWk",
+        "updatedAt": "2014-11-09T10:04:35.032Z"
+    },
+	{
+        "code": "CDF",
+        "createdAt": "2014-11-09T10:04:35.081Z",
+        "currencyname": "Franc Congolais",
+        "locations": "Democratic Republic of Congo",
+        "objectId": "qJnxjXgrDo",
+        "updatedAt": "2014-11-09T10:04:35.081Z"
+    },
+	{
+        "code": "CHE",
+        "createdAt": "2014-11-09T10:04:35.103Z",
+        "currencyname": "WIR Euro (complementary currency)",
+        "locations": "Switzerland",
+        "objectId": "43dSHJAI0W",
+        "updatedAt": "2014-11-09T10:04:35.103Z"
+    },
+	{
+        "code": "CHF",
+        "createdAt": "2014-11-09T10:04:35.124Z",
+        "currencyname": "Swiss Franc",
+        "locations": "Switzerland, Liechtenstein",
+        "objectId": "sixpysK3ah",
+        "updatedAt": "2014-11-09T10:04:35.124Z"
+    },
+	{
+        "code": "CHW",
+        "createdAt": "2014-11-09T10:04:35.147Z",
+        "currencyname": "WIR Franc (complementary currency)",
+        "locations": "Switzerland",
+        "objectId": "ravIx4yCch",
+        "updatedAt": "2014-11-09T10:04:35.147Z"
+    },
+	{
+        "code": "CLF",
+        "createdAt": "2014-11-09T10:04:35.168Z",
+        "currencyname": "Unidades de formento (Funds code)",
+        "locations": "Chile",
+        "objectId": "8RC5SmrWZU",
+        "updatedAt": "2014-11-09T10:04:35.168Z"
+    },
+	{
+        "code": "CLP",
+        "createdAt": "2014-11-09T10:04:35.201Z",
+        "currencyname": "Chilean Peso",
+        "locations": "Chile",
+        "objectId": "N7BGqZYOmK",
+        "updatedAt": "2014-11-09T10:04:35.201Z"
+    },
+	{
+        "code": "COP",
+        "createdAt": "2014-11-09T10:04:35.245Z",
+        "currencyname": "Colombian Peso",
+        "locations": "Colombia",
+        "objectId": "m5NP6CuiD3",
+        "updatedAt": "2014-11-09T10:04:35.245Z"
+    },
+	{
+        "code": "COU",
+        "createdAt": "2014-11-09T10:04:35.267Z",
+        "currencyname": "Unidad de Valor Real",
+        "locations": "Colombia",
+        "objectId": "Ys4lf6f6rE",
+        "updatedAt": "2014-11-09T10:04:35.267Z"
+    },
+	{
+        "code": "CRC",
+        "createdAt": "2014-11-09T10:04:35.292Z",
+        "currencyname": "Costa Rican Colon",
+        "locations": "Costa Rica",
+        "objectId": "PSqEmD4KyC",
+        "updatedAt": "2014-11-09T10:04:35.292Z"
+    },
+	{
+        "code": "CUP",
+        "createdAt": "2014-11-09T10:04:35.321Z",
+        "currencyname": "Cuban Peso",
+        "locations": "Cuba",
+        "objectId": "PB8507HczV",
+        "updatedAt": "2014-11-09T10:04:35.321Z"
+    },
+	{
+        "code": "CVE",
+        "createdAt": "2014-11-09T10:04:35.343Z",
+        "currencyname": "Cape Verde Escudo",
+        "locations": "Cape Verde",
+        "objectId": "41epF8H56G",
+        "updatedAt": "2014-11-09T10:04:35.343Z"
+    },
+	{
+        "code": "CYP",
+        "createdAt": "2014-11-09T10:04:35.364Z",
+        "currencyname": "Cyprus Pound",
+        "locations": "Cyprus",
+        "objectId": "gjWrux9oe1",
+        "updatedAt": "2014-11-09T10:04:35.364Z"
+    },
+	{
+        "code": "CZK",
+        "createdAt": "2014-11-09T10:04:35.386Z",
+        "currencyname": "Czech Koruna",
+        "locations": "Czech Republic",
+        "objectId": "ojF9LuWLLi",
+        "updatedAt": "2014-11-09T10:04:35.386Z"
+    },
+	{
+        "code": "DJF",
+        "createdAt": "2014-11-09T10:04:35.407Z",
+        "currencyname": "Djibouti Franc",
+        "locations": "Djibouti",
+        "objectId": "hBAmz315LS",
+        "updatedAt": "2014-11-09T10:04:35.407Z"
+    },
+	{
+        "code": "DKK",
+        "createdAt": "2014-11-09T10:04:35.434Z",
+        "currencyname": "Danish Krone",
+        "locations": "Denmark, Faroe Islands, Greenland",
+        "objectId": "NOSyGGePcg",
+        "updatedAt": "2014-11-09T10:04:35.434Z"
+    },
+	{
+        "code": "DOP",
+        "createdAt": "2014-11-09T10:04:35.455Z",
+        "currencyname": "Dominican Peso",
+        "locations": "Dominican Republic",
+        "objectId": "ntTShBRZJV",
+        "updatedAt": "2014-11-09T10:04:35.455Z"
+    },
+	{
+        "code": "DZD",
+        "createdAt": "2014-11-09T10:04:35.476Z",
+        "currencyname": "Algerian Dinar",
+        "locations": "Algeria",
+        "objectId": "wab9s8uuqV",
+        "updatedAt": "2014-11-09T10:04:35.476Z"
+    },
+	{
+        "code": "EEK",
+        "createdAt": "2014-11-09T10:04:35.497Z",
+        "currencyname": "Kroon",
+        "locations": "Estonia",
+        "objectId": "XzWBv0DHMO",
+        "updatedAt": "2014-11-09T10:04:35.497Z"
+    },
+	{
+        "code": "EGP",
+        "createdAt": "2014-11-09T10:04:35.519Z",
+        "currencyname": "Egyptian Pound",
+        "locations": "Egypt",
+        "objectId": "h7wYYGKMPS",
+        "updatedAt": "2014-11-09T10:04:35.519Z"
+    },
+	{
+        "code": "ERN",
+        "createdAt": "2014-11-09T10:04:35.561Z",
+        "currencyname": "Nakfa",
+        "locations": "Eritrea",
+        "objectId": "FFrnOY3UGm",
+        "updatedAt": "2014-11-09T10:04:35.561Z"
+    },
+	{
+        "code": "ETB",
+        "createdAt": "2014-11-09T10:04:35.582Z",
+        "currencyname": "Ethiopian Birr",
+        "locations": "Ethiopia",
+        "objectId": "SySV16Jbsd",
+        "updatedAt": "2014-11-09T10:04:35.582Z"
+    },
+	{
+        "code": "EUR",
+        "createdAt": "2014-11-09T10:04:35.603Z",
+        "currencyname": "Euro",
+        "enabled": true,
+        "locations": "European Union, see eurozone",
+        "objectId": "EUDn2Igq54",
+        "updatedAt": "2014-11-15T03:10:14.784Z"
+    },
+	{
+        "code": "FJD",
+        "createdAt": "2014-11-09T10:04:35.625Z",
+        "currencyname": "Fiji Dollar",
+        "locations": "Fiji",
+        "objectId": "ODbXrWNwE0",
+        "updatedAt": "2014-11-09T10:04:35.625Z"
+    },
+	{
+        "code": "FKP",
+        "createdAt": "2014-11-09T10:04:35.646Z",
+        "currencyname": "Falkland Islands Pound",
+        "locations": "Falkland Islands",
+        "objectId": "5I6eHvDXsG",
+        "updatedAt": "2014-11-09T10:04:35.646Z"
+    },
+	{
+        "code": "GBP",
+        "createdAt": "2014-11-09T10:04:35.681Z",
+        "currencyname": "Pound Sterling",
+        "locations": "United Kingdom",
+        "objectId": "NMFdTj0924",
+        "updatedAt": "2014-11-09T10:04:35.681Z"
+    },
+	{
+        "code": "GEL",
+        "createdAt": "2014-11-09T10:04:35.686Z",
+        "currencyname": "Lari",
+        "locations": "Georgia",
+        "objectId": "zAZmjBlahg",
+        "updatedAt": "2014-11-09T10:04:35.686Z"
+    },
+	{
+        "code": "GHS",
+        "createdAt": "2014-11-09T10:04:35.691Z",
+        "currencyname": "Cedi",
+        "locations": "Ghana",
+        "objectId": "5N9fs6oX0i",
+        "updatedAt": "2014-11-09T10:04:35.691Z"
+    },
+	{
+        "code": "GIP",
+        "createdAt": "2014-11-09T10:04:35.696Z",
+        "currencyname": "Gibraltar pound",
+        "locations": "Gibraltar",
+        "objectId": "738IoUZYTK",
+        "updatedAt": "2014-11-09T10:04:35.696Z"
+    },
+	{
+        "code": "GMD",
+        "createdAt": "2014-11-09T10:04:35.700Z",
+        "currencyname": "Dalasi",
+        "locations": "Gambia",
+        "objectId": "DEtHDRVSLl",
+        "updatedAt": "2014-11-09T10:04:35.700Z"
+    },
+	{
+        "code": "GNF",
+        "createdAt": "2014-11-09T10:04:35.704Z",
+        "currencyname": "Guinea Franc",
+        "locations": "Guinea",
+        "objectId": "HMssbJ7qdQ",
+        "updatedAt": "2014-11-09T10:04:35.704Z"
+    },
+	{
+        "code": "GTQ",
+        "createdAt": "2014-11-09T10:04:35.709Z",
+        "currencyname": "Quetzal",
+        "locations": "Guatemala",
+        "objectId": "t6lK3hQ7rb",
+        "updatedAt": "2014-11-09T10:04:35.709Z"
+    },
+	{
+        "code": "GYD",
+        "createdAt": "2014-11-09T10:04:35.713Z",
+        "currencyname": "Guyana Dollar",
+        "locations": "Guyana",
+        "objectId": "GQqVJ11bmP",
+        "updatedAt": "2014-11-09T10:04:35.713Z"
+    },
+	{
+        "code": "HNL",
+        "createdAt": "2014-11-09T10:04:35.722Z",
+        "currencyname": "Lempira",
+        "locations": "Honduras",
+        "objectId": "Ikqi0pnO3O",
+        "updatedAt": "2014-11-09T10:04:35.722Z"
+    },
+	{
+        "code": "HRK",
+        "createdAt": "2014-11-09T10:04:35.726Z",
+        "currencyname": "Croatian Kuna",
+        "locations": "Croatia",
+        "objectId": "eWU3zcrC62",
+        "updatedAt": "2014-11-09T10:04:35.726Z"
+    },
+	{
+        "code": "HTG",
+        "createdAt": "2014-11-09T10:04:35.730Z",
+        "currencyname": "Haiti Gourde",
+        "locations": "Haiti",
+        "objectId": "FZmDo8HE2A",
+        "updatedAt": "2014-11-09T10:04:35.730Z"
+    },
+	{
+        "code": "HUF",
+        "createdAt": "2014-11-09T10:04:35.735Z",
+        "currencyname": "Forint",
+        "locations": "Hungary",
+        "objectId": "Zbrsp1jvOo",
+        "updatedAt": "2014-11-09T10:04:35.735Z"
+    },
+	{
+        "code": "IDR",
+        "createdAt": "2014-11-09T10:04:35.739Z",
+        "currencyname": "Rupiah",
+        "locations": "Indonesia",
+        "objectId": "Vpp6gLHh6z",
+        "updatedAt": "2014-11-09T10:04:35.739Z"
+    },
+	{
+        "code": "ILS",
+        "createdAt": "2014-11-09T10:04:35.743Z",
+        "currencyname": "New Israeli Shekel",
+        "locations": "Israel",
+        "objectId": "KKyGqnziRb",
+        "updatedAt": "2014-11-09T10:04:35.743Z"
+    },
+	{
+        "code": "INR",
+        "createdAt": "2014-11-09T10:04:35.748Z",
+        "currencyname": "Indian Rupee",
+        "locations": "Bhutan, India",
+        "objectId": "OObmihrzok",
+        "updatedAt": "2014-11-09T10:04:35.748Z"
+    },
+	{
+        "code": "IQD",
+        "createdAt": "2014-11-09T10:04:35.753Z",
+        "currencyname": "Iraqi Dinar",
+        "locations": "Iraq",
+        "objectId": "i0xKyb0Euh",
+        "updatedAt": "2014-11-09T10:04:35.753Z"
+    },
+	{
+        "code": "IRR",
+        "createdAt": "2014-11-09T10:04:35.757Z",
+        "currencyname": "Iranian Rial",
+        "locations": "Iran",
+        "objectId": "QoDus2VOfl",
+        "updatedAt": "2014-11-09T10:04:35.757Z"
+    },
+	{
+        "code": "ISK",
+        "createdAt": "2014-11-09T10:04:35.761Z",
+        "currencyname": "Iceland Krona",
+        "locations": "Iceland",
+        "objectId": "Hwx84MwhVK",
+        "updatedAt": "2014-11-09T10:04:35.761Z"
+    },
+	{
+        "code": "JMD",
+        "createdAt": "2014-11-09T10:04:35.779Z",
+        "currencyname": "Jamaican Dollar",
+        "locations": "Jamaica",
+        "objectId": "sHrAtj54ka",
+        "updatedAt": "2014-11-09T10:04:35.779Z"
+    },
+	{
+        "code": "JOD",
+        "createdAt": "2014-11-09T10:04:35.783Z",
+        "currencyname": "Jordanian Dinar",
+        "locations": "Jordan",
+        "objectId": "2YedW8pvvx",
+        "updatedAt": "2014-11-09T10:04:35.783Z"
+    },
+	{
+        "code": "THB",
+        "createdAt": "2014-11-09T10:04:36.335Z",
+        "currencyname": "Baht",
+        "enabled": true,
+        "locations": "Thailand",
+        "objectId": "Um145Zbahl",
+        "updatedAt": "2014-11-15T03:09:59.057Z"
+    },
+	{
+        "code": "CNY",
+        "createdAt": "2014-11-09T10:04:35.222Z",
+        "currencyname": "Yuan Renminbi",
+        "enabled": true,
+        "locations": "Mainland China",
+        "objectId": "N5sYLcFNvX",
+        "updatedAt": "2014-11-18T03:36:36.140Z"
+    },
+	{
+        "code": "JPY",
+        "createdAt": "2014-11-09T10:04:35.787Z",
+        "currencyname": "Japanese yen",
+        "enabled": true,
+        "locations": "Japan",
+        "objectId": "vqXs70BLMp",
+        "updatedAt": "2014-11-15T03:31:52.948Z"
+    },
+	{
+        "code": "KES",
+        "createdAt": "2014-11-09T10:04:35.792Z",
+        "currencyname": "Kenyan Shilling",
+        "locations": "Kenya",
+        "objectId": "iPs6rWr7u0",
+        "updatedAt": "2014-11-09T10:04:35.792Z"
+    },
+	{
+        "code": "KGS",
+        "createdAt": "2014-11-09T10:04:35.798Z",
+        "currencyname": "Som",
+        "locations": "Kyrgyzstan",
+        "objectId": "pZiGLtbHMi",
+        "updatedAt": "2014-11-09T10:04:35.798Z"
+    },
+	{
+        "code": "KHR",
+        "createdAt": "2014-11-09T10:04:35.803Z",
+        "currencyname": "Riel",
+        "locations": "Cambodia",
+        "objectId": "c0waxP8mTM",
+        "updatedAt": "2014-11-09T10:04:35.803Z"
+    },
+	{
+        "code": "KMF",
+        "createdAt": "2014-11-09T10:04:35.807Z",
+        "currencyname": "Comoro Franc",
+        "locations": "Comoros",
+        "objectId": "QS0sh1G7kA",
+        "updatedAt": "2014-11-09T10:04:35.807Z"
+    },
+	{
+        "code": "KPW",
+        "createdAt": "2014-11-09T10:04:35.811Z",
+        "currencyname": "North Korean Won",
+        "locations": "North Korea",
+        "objectId": "XcnykNBo8b",
+        "updatedAt": "2014-11-09T10:04:35.811Z"
+    },
+	{
+        "code": "KWD",
+        "createdAt": "2014-11-09T10:04:35.822Z",
+        "currencyname": "Kuwaiti Dinar",
+        "locations": "Kuwait",
+        "objectId": "Ew2HkSPvOe",
+        "updatedAt": "2014-11-09T10:04:35.822Z"
+    },
+	{
+        "code": "KYD",
+        "createdAt": "2014-11-09T10:04:35.833Z",
+        "currencyname": "Cayman Islands Dollar",
+        "locations": "Cayman Islands",
+        "objectId": "ij17JCKbBd",
+        "updatedAt": "2014-11-09T10:04:35.833Z"
+    },
+	{
+        "code": "KZT",
+        "createdAt": "2014-11-09T10:04:35.837Z",
+        "currencyname": "Tenge",
+        "locations": "Kazakhstan",
+        "objectId": "Qba7bunuzM",
+        "updatedAt": "2014-11-09T10:04:35.837Z"
+    },
+	{
+        "code": "LAK",
+        "createdAt": "2014-11-09T10:04:35.841Z",
+        "currencyname": "Kip",
+        "locations": "Laos",
+        "objectId": "tep7Vm4nZm",
+        "updatedAt": "2014-11-09T10:04:35.841Z"
+    },
+	{
+        "code": "LBP",
+        "createdAt": "2014-11-09T10:04:35.846Z",
+        "currencyname": "Lebanese Pound",
+        "locations": "Lebanon",
+        "objectId": "2aO4A1Zzqu",
+        "updatedAt": "2014-11-09T10:04:35.846Z"
+    },
+	{
+        "code": "LKR",
+        "createdAt": "2014-11-09T10:04:35.850Z",
+        "currencyname": "Sri Lanka Rupee",
+        "locations": "Sri Lanka",
+        "objectId": "BroHrvy9wk",
+        "updatedAt": "2014-11-09T10:04:35.850Z"
+    },
+	{
+        "code": "LRD",
+        "createdAt": "2014-11-09T10:04:35.855Z",
+        "currencyname": "Liberian Dollar",
+        "locations": "Liberia",
+        "objectId": "jI6yR7shpy",
+        "updatedAt": "2014-11-09T10:04:35.855Z"
+    },
+	{
+        "code": "LSL",
+        "createdAt": "2014-11-09T10:04:35.859Z",
+        "currencyname": "Loti",
+        "locations": "Lesotho",
+        "objectId": "06z17AKILi",
+        "updatedAt": "2014-11-09T10:04:35.859Z"
+    },
+	{
+        "code": "LTL",
+        "createdAt": "2014-11-09T10:04:35.864Z",
+        "currencyname": "Lithuanian Litas",
+        "locations": "Lithuania",
+        "objectId": "HBcCBqDwKh",
+        "updatedAt": "2014-11-09T10:04:35.864Z"
+    },
+	{
+        "code": "LVL",
+        "createdAt": "2014-11-09T10:04:35.869Z",
+        "currencyname": "Latvian Lats",
+        "locations": "Latvia",
+        "objectId": "avRkuSI288",
+        "updatedAt": "2014-11-09T10:04:35.869Z"
+    },
+	{
+        "code": "LYD",
+        "createdAt": "2014-11-09T10:04:35.874Z",
+        "currencyname": "Libyan Dinar",
+        "locations": "Libya",
+        "objectId": "PmPsK2hkzc",
+        "updatedAt": "2014-11-09T10:04:35.874Z"
+    },
+	{
+        "code": "MAD",
+        "createdAt": "2014-11-09T10:04:35.878Z",
+        "currencyname": "Moroccan Dirham",
+        "locations": "Morocco, Western Sahara",
+        "objectId": "VRoDo1k2Xz",
+        "updatedAt": "2014-11-09T10:04:35.878Z"
+    },
+	{
+        "code": "MDL",
+        "createdAt": "2014-11-09T10:04:35.899Z",
+        "currencyname": "Moldovan Leu",
+        "locations": "Moldova",
+        "objectId": "kppp3JUoXB",
+        "updatedAt": "2014-11-09T10:04:35.899Z"
+    },
+	{
+        "code": "MGA",
+        "createdAt": "2014-11-09T10:04:35.909Z",
+        "currencyname": "Malagasy Ariary",
+        "locations": "Madagascar",
+        "objectId": "TLvc5Gah9m",
+        "updatedAt": "2014-11-09T10:04:35.909Z"
+    },
+	{
+        "code": "MKD",
+        "createdAt": "2014-11-09T10:04:35.914Z",
+        "currencyname": "Denar",
+        "locations": "Former Yugoslav Republic of Macedonia",
+        "objectId": "ALmUKeizJd",
+        "updatedAt": "2014-11-09T10:04:35.914Z"
+    },
+	{
+        "code": "MMK",
+        "createdAt": "2014-11-09T10:04:35.918Z",
+        "currencyname": "Kyat",
+        "locations": "Myanmar",
+        "objectId": "f5yMbYC9ys",
+        "updatedAt": "2014-11-09T10:04:35.918Z"
+    },
+	{
+        "code": "MNT",
+        "createdAt": "2014-11-09T10:04:35.922Z",
+        "currencyname": "Tugrik",
+        "locations": "Mongolia",
+        "objectId": "xaINjtsY3j",
+        "updatedAt": "2014-11-09T10:04:35.922Z"
+    },
+	{
+        "code": "MOP",
+        "createdAt": "2014-11-09T10:04:35.927Z",
+        "currencyname": "Pataca",
+        "locations": "Macau Special Administrative Region",
+        "objectId": "AgexAKE1kp",
+        "updatedAt": "2014-11-09T10:04:35.927Z"
+    },
+	{
+        "code": "MRO",
+        "createdAt": "2014-11-09T10:04:35.931Z",
+        "currencyname": "Ouguiya",
+        "locations": "Mauritania",
+        "objectId": "cqTxRbPOE4",
+        "updatedAt": "2014-11-09T10:04:35.931Z"
+    },
+	{
+        "code": "MTL",
+        "createdAt": "2014-11-09T10:04:35.935Z",
+        "currencyname": "Maltese Lira",
+        "locations": "Malta",
+        "objectId": "hp2IcnHWHK",
+        "updatedAt": "2014-11-09T10:04:35.935Z"
+    },
+	{
+        "code": "MUR",
+        "createdAt": "2014-11-09T10:04:35.939Z",
+        "currencyname": "Mauritius Rupee",
+        "locations": "Mauritius",
+        "objectId": "g77DA2SybZ",
+        "updatedAt": "2014-11-09T10:04:35.939Z"
+    },
+	{
+        "code": "MVR",
+        "createdAt": "2014-11-09T10:04:35.944Z",
+        "currencyname": "Rufiyaa",
+        "locations": "Maldives",
+        "objectId": "EBkRxXJ4DP",
+        "updatedAt": "2014-11-09T10:04:35.944Z"
+    },
+	{
+        "code": "MWK",
+        "createdAt": "2014-11-09T10:04:35.966Z",
+        "currencyname": "Kwacha",
+        "locations": "Malawi",
+        "objectId": "D1342pPXKV",
+        "updatedAt": "2014-11-09T10:04:35.966Z"
+    },
+	{
+        "code": "MXN",
+        "createdAt": "2014-11-09T10:04:35.970Z",
+        "currencyname": "Mexican Peso",
+        "locations": "Mexico",
+        "objectId": "oRJTP6Wac9",
+        "updatedAt": "2014-11-09T10:04:35.970Z"
+    },
+	{
+        "code": "MXV",
+        "createdAt": "2014-11-09T10:04:35.975Z",
+        "currencyname": "Mexican Unidad de Inversion (UDI) (Funds code)",
+        "locations": "Mexico",
+        "objectId": "lT2NbjJ0Er",
+        "updatedAt": "2014-11-09T10:04:35.975Z"
+    },
+	{
+        "code": "MYR",
+        "createdAt": "2014-11-09T10:04:35.979Z",
+        "currencyname": "Malaysian Ringgit",
+        "locations": "Malaysia",
+        "objectId": "v41j1P4Xr3",
+        "updatedAt": "2014-11-09T10:04:35.979Z"
+    },
+	{
+        "code": "MZN",
+        "createdAt": "2014-11-09T10:04:35.985Z",
+        "currencyname": "Metical",
+        "locations": "Mozambique",
+        "objectId": "v6xYFEB0NL",
+        "updatedAt": "2014-11-09T10:04:35.985Z"
+    },
+	{
+        "code": "NAD",
+        "createdAt": "2014-11-09T10:04:35.992Z",
+        "currencyname": "Namibian Dollar",
+        "locations": "Namibia",
+        "objectId": "FdGVIHwdDm",
+        "updatedAt": "2014-11-09T10:04:35.992Z"
+    },
+	{
+        "code": "NGN",
+        "createdAt": "2014-11-09T10:04:35.997Z",
+        "currencyname": "Naira",
+        "locations": "Nigeria",
+        "objectId": "IzVFZMZEbJ",
+        "updatedAt": "2014-11-09T10:04:35.997Z"
+    },
+	{
+        "code": "NIO",
+        "createdAt": "2014-11-09T10:04:36.014Z",
+        "currencyname": "Cordoba Oro",
+        "locations": "Nicaragua",
+        "objectId": "rCUjUBk22t",
+        "updatedAt": "2014-11-09T10:04:36.014Z"
+    },
+	{
+        "code": "NOK",
+        "createdAt": "2014-11-09T10:04:36.018Z",
+        "currencyname": "Norwegian Krone",
+        "locations": "Norway",
+        "objectId": "LtGlQT7GCQ",
+        "updatedAt": "2014-11-09T10:04:36.018Z"
+    },
+	{
+        "code": "NPR",
+        "createdAt": "2014-11-09T10:04:36.024Z",
+        "currencyname": "Nepalese Rupee",
+        "locations": "Nepal",
+        "objectId": "YmOTaIDv4w",
+        "updatedAt": "2014-11-09T10:04:36.024Z"
+    },
+	{
+        "code": "NZD",
+        "createdAt": "2014-11-09T10:04:36.030Z",
+        "currencyname": "New Zealand Dollar",
+        "locations": "Cook Islands, New Zealand, Niue, Pitcairn, Tokelau",
+        "objectId": "VRhRXr7573",
+        "updatedAt": "2014-11-09T10:04:36.030Z"
+    },
+	{
+        "code": "OMR",
+        "createdAt": "2014-11-09T10:04:36.036Z",
+        "currencyname": "Rial Omani",
+        "locations": "Oman",
+        "objectId": "beuaFWshyf",
+        "updatedAt": "2014-11-09T10:04:36.036Z"
+    },
+	{
+        "code": "PAB",
+        "createdAt": "2014-11-09T10:04:36.040Z",
+        "currencyname": "Balboa",
+        "locations": "Panama",
+        "objectId": "tyZa7F73eH",
+        "updatedAt": "2014-11-09T10:04:36.040Z"
+    },
+	{
+        "code": "PEN",
+        "createdAt": "2014-11-09T10:04:36.045Z",
+        "currencyname": "Nuevo Sol",
+        "locations": "Peru",
+        "objectId": "O1dVn1IziA",
+        "updatedAt": "2014-11-09T10:04:36.045Z"
+    },
+	{
+        "code": "PGK",
+        "createdAt": "2014-11-09T10:04:36.049Z",
+        "currencyname": "Kina",
+        "locations": "Papua New Guinea",
+        "objectId": "5X2YkASXlZ",
+        "updatedAt": "2014-11-09T10:04:36.049Z"
+    },
+	{
+        "code": "PHP",
+        "createdAt": "2014-11-09T10:04:36.053Z",
+        "currencyname": "Philippine Peso",
+        "locations": "Philippines",
+        "objectId": "yzNy4oCiFx",
+        "updatedAt": "2014-11-09T10:04:36.053Z"
+    },
+	{
+        "code": "PKR",
+        "createdAt": "2014-11-09T10:04:36.060Z",
+        "currencyname": "Pakistan Rupee",
+        "locations": "Pakistan",
+        "objectId": "CzMQ7piGVw",
+        "updatedAt": "2014-11-09T10:04:36.060Z"
+    },
+	{
+        "code": "PLN",
+        "createdAt": "2014-11-09T10:04:36.064Z",
+        "currencyname": "Zloty",
+        "locations": "Poland",
+        "objectId": "BQF0lEpypb",
+        "updatedAt": "2014-11-09T10:04:36.064Z"
+    },
+	{
+        "code": "PYG",
+        "createdAt": "2014-11-09T10:04:36.068Z",
+        "currencyname": "Guarani",
+        "locations": "Paraguay",
+        "objectId": "7xqILGRDvd",
+        "updatedAt": "2014-11-09T10:04:36.068Z"
+    },
+	{
+        "code": "QAR",
+        "createdAt": "2014-11-09T10:04:36.073Z",
+        "currencyname": "Qatari Rial",
+        "locations": "Qatar",
+        "objectId": "CjF8oOPhpy",
+        "updatedAt": "2014-11-09T10:04:36.073Z"
+    },
+	{
+        "code": "RON",
+        "createdAt": "2014-11-09T10:04:36.077Z",
+        "currencyname": "Romanian New Leu",
+        "locations": "Romania",
+        "objectId": "FzrsHrpdLn",
+        "updatedAt": "2014-11-09T10:04:36.077Z"
+    },
+	{
+        "code": "RSD",
+        "createdAt": "2014-11-09T10:04:36.083Z",
+        "currencyname": "Serbian Dinar",
+        "locations": "Serbia",
+        "objectId": "0YtNDFDNiD",
+        "updatedAt": "2014-11-09T10:04:36.083Z"
+    },
+	{
+        "code": "RUB",
+        "createdAt": "2014-11-09T10:04:36.087Z",
+        "currencyname": "Russian Ruble",
+        "locations": "Russia, Abkhazia, South Ossetia",
+        "objectId": "rff5I6XpKT",
+        "updatedAt": "2014-11-09T10:04:36.087Z"
+    },
+	{
+        "code": "RWF",
+        "createdAt": "2014-11-09T10:04:36.092Z",
+        "currencyname": "Rwanda Franc",
+        "locations": "Rwanda",
+        "objectId": "kyhjMxJBr3",
+        "updatedAt": "2014-11-09T10:04:36.092Z"
+    },
+	{
+        "code": "SAR",
+        "createdAt": "2014-11-09T10:04:36.096Z",
+        "currencyname": "Saudi Riyal",
+        "locations": "Saudi Arabia",
+        "objectId": "LLEPvX6KW5",
+        "updatedAt": "2014-11-09T10:04:36.096Z"
+    },
+	{
+        "code": "SBD",
+        "createdAt": "2014-11-09T10:04:36.249Z",
+        "currencyname": "Solomon Islands Dollar",
+        "locations": "Solomon Islands",
+        "objectId": "tVVFdODeGR",
+        "updatedAt": "2014-11-09T10:04:36.249Z"
+    },
+	{
+        "code": "SCR",
+        "createdAt": "2014-11-09T10:04:36.256Z",
+        "currencyname": "Seychelles Rupee",
+        "locations": "Seychelles",
+        "objectId": "Kj4T1x0FL7",
+        "updatedAt": "2014-11-09T10:04:36.256Z"
+    },
+	{
+        "code": "SDG",
+        "createdAt": "2014-11-09T10:04:36.277Z",
+        "currencyname": "Sudanese Pound",
+        "locations": "Sudan",
+        "objectId": "C1RttobGBi",
+        "updatedAt": "2014-11-09T10:04:36.277Z"
+    },
+	{
+        "code": "SEK",
+        "createdAt": "2014-11-09T10:04:36.283Z",
+        "currencyname": "Swedish Krona",
+        "locations": "Sweden",
+        "objectId": "h3L9wM2lsh",
+        "updatedAt": "2014-11-09T10:04:36.283Z"
+    },
+	{
+        "code": "SGD",
+        "createdAt": "2014-11-09T10:04:36.293Z",
+        "currencyname": "Singapore Dollar",
+        "locations": "Singapore",
+        "objectId": "96KIZLosQY",
+        "updatedAt": "2014-11-09T10:04:36.293Z"
+    },
+	{
+        "code": "SHP",
+        "createdAt": "2014-11-09T10:04:36.297Z",
+        "currencyname": "Saint Helena Pound",
+        "locations": "Saint Helena",
+        "objectId": "qVyqZciTD8",
+        "updatedAt": "2014-11-09T10:04:36.297Z"
+    },
+	{
+        "code": "SKK",
+        "createdAt": "2014-11-09T10:04:36.301Z",
+        "currencyname": "Slovak Koruna",
+        "locations": "Slovakia",
+        "objectId": "YcZJsRmYSm",
+        "updatedAt": "2014-11-09T10:04:36.301Z"
+    },
+	{
+        "code": "SLL",
+        "createdAt": "2014-11-09T10:04:36.306Z",
+        "currencyname": "Leone",
+        "locations": "Sierra Leone",
+        "objectId": "hLz6Mg8OmM",
+        "updatedAt": "2014-11-09T10:04:36.306Z"
+    },
+	{
+        "code": "SOS",
+        "createdAt": "2014-11-09T10:04:36.312Z",
+        "currencyname": "Somali Shilling",
+        "locations": "Somalia",
+        "objectId": "9T60wfvfA8",
+        "updatedAt": "2014-11-09T10:04:36.312Z"
+    },
+	{
+        "code": "SRD",
+        "createdAt": "2014-11-09T10:04:36.316Z",
+        "currencyname": "Surinam Dollar",
+        "locations": "Suriname",
+        "objectId": "8K3s8wrWpH",
+        "updatedAt": "2014-11-09T10:04:36.316Z"
+    },
+	{
+        "code": "STD",
+        "createdAt": "2014-11-09T10:04:36.320Z",
+        "currencyname": "Dobra",
+        "locations": "S�o Tom� and Pr�ncipe",
+        "objectId": "3o6IGoVxzX",
+        "updatedAt": "2014-11-09T10:04:36.320Z"
+    },
+	{
+        "code": "SYP",
+        "createdAt": "2014-11-09T10:04:36.325Z",
+        "currencyname": "Syrian Pound",
+        "locations": "Syria",
+        "objectId": "ZHGviXjWKO",
+        "updatedAt": "2014-11-09T10:04:36.325Z"
+    },
+	{
+        "code": "SZL",
+        "createdAt": "2014-11-09T10:04:36.331Z",
+        "currencyname": "Lilangeni",
+        "locations": "Swaziland",
+        "objectId": "Sc9n5gSY85",
+        "updatedAt": "2014-11-09T10:04:36.331Z"
+    },
+	{
+        "code": "TJS",
+        "createdAt": "2014-11-09T10:04:36.340Z",
+        "currencyname": "Somoni",
+        "locations": "Tajikistan",
+        "objectId": "NGY8RBddMX",
+        "updatedAt": "2014-11-09T10:04:36.340Z"
+    },
+	{
+        "code": "TMM",
+        "createdAt": "2014-11-09T10:04:36.344Z",
+        "currencyname": "Manat",
+        "locations": "Turkmenistan",
+        "objectId": "YMam2CY31H",
+        "updatedAt": "2014-11-09T10:04:36.344Z"
+    },
+	{
+        "code": "TND",
+        "createdAt": "2014-11-09T10:04:36.349Z",
+        "currencyname": "Tunisian Dinar",
+        "locations": "Tunisia",
+        "objectId": "uhUigqABD8",
+        "updatedAt": "2014-11-09T10:04:36.349Z"
+    },
+	{
+        "code": "TOP",
+        "createdAt": "2014-11-09T10:04:36.353Z",
+        "currencyname": "Pa'anga",
+        "locations": "Tonga",
+        "objectId": "T4csMDJXpg",
+        "updatedAt": "2014-11-09T10:04:36.353Z"
+    },
+	{
+        "code": "TRY",
+        "createdAt": "2014-11-09T10:04:36.357Z",
+        "currencyname": "New Turkish Lira",
+        "locations": "Turkey",
+        "objectId": "c4npY0bwHw",
+        "updatedAt": "2014-11-09T10:04:36.357Z"
+    },
+	{
+        "code": "TTD",
+        "createdAt": "2014-11-09T10:04:36.362Z",
+        "currencyname": "Trinidad and Tobago Dollar",
+        "locations": "Trinidad and Tobago",
+        "objectId": "bbR0O29vdl",
+        "updatedAt": "2014-11-09T10:04:36.362Z"
+    },
+	{
+        "code": "TWD",
+        "createdAt": "2014-11-09T10:04:36.366Z",
+        "currencyname": "New Taiwan Dollar",
+        "locations": "Taiwan and other islands that are under the effective control of the Republic of China (ROC)",
+        "objectId": "W78qFG7CDf",
+        "updatedAt": "2014-11-09T10:04:36.366Z"
+    },
+	{
+        "code": "TZS",
+        "createdAt": "2014-11-09T10:04:36.370Z",
+        "currencyname": "Tanzanian Shilling",
+        "locations": "Tanzania",
+        "objectId": "utDdSfeWeQ",
+        "updatedAt": "2014-11-09T10:04:36.370Z"
+    },
+	{
+        "code": "UAH",
+        "createdAt": "2014-11-09T10:04:36.380Z",
+        "currencyname": "Hryvnia",
+        "locations": "Ukraine",
+        "objectId": "HRM7W1yIN6",
+        "updatedAt": "2014-11-09T10:04:36.380Z"
+    },
+	{
+        "code": "UGX",
+        "createdAt": "2014-11-09T10:04:36.396Z",
+        "currencyname": "Uganda Shilling",
+        "locations": "Uganda",
+        "objectId": "o43wOpJgPj",
+        "updatedAt": "2014-11-09T10:04:36.396Z"
+    },
+	{
+        "code": "USN",
+        "createdAt": "2014-11-09T10:04:36.405Z",
+        "locations": "United States",
+        "objectId": "RZJup5JULY",
+        "updatedAt": "2014-11-09T10:04:36.405Z"
+    },
+	{
+        "code": "USS",
+        "createdAt": "2014-11-09T10:04:36.410Z",
+        "locations": "United States",
+        "objectId": "OlDtXsecxr",
+        "updatedAt": "2014-11-09T10:04:36.410Z"
+    },
+	{
+        "code": "UYU",
+        "createdAt": "2014-11-09T10:04:36.415Z",
+        "currencyname": "Peso Uruguayo",
+        "locations": "Uruguay",
+        "objectId": "NPzr3USCnO",
+        "updatedAt": "2014-11-09T10:04:36.415Z"
+    },
+	{
+        "code": "UZS",
+        "createdAt": "2014-11-09T10:04:36.419Z",
+        "currencyname": "Uzbekistan Som",
+        "locations": "Uzbekistan",
+        "objectId": "WfWRIEX4so",
+        "updatedAt": "2014-11-09T10:04:36.419Z"
+    },
+	{
+        "code": "VEB",
+        "createdAt": "2014-11-09T10:04:36.424Z",
+        "currencyname": "Venezuelan bol�var",
+        "locations": "Venezuela",
+        "objectId": "gNU3ZeKPmI",
+        "updatedAt": "2014-11-09T10:04:36.424Z"
+    },
+	{
+        "code": "VND",
+        "createdAt": "2014-11-09T10:04:36.428Z",
+        "currencyname": "Vietnamese __ng",
+        "locations": "Vietnam",
+        "objectId": "jIzxPChUS7",
+        "updatedAt": "2014-11-09T10:04:36.428Z"
+    },
+	{
+        "code": "VUV",
+        "createdAt": "2014-11-09T10:04:36.432Z",
+        "currencyname": "Vatu",
+        "locations": "Vanuatu",
+        "objectId": "IQQBVSX125",
+        "updatedAt": "2014-11-09T10:04:36.432Z"
+    },
+	{
+        "code": "WST",
+        "createdAt": "2014-11-09T10:04:36.437Z",
+        "currencyname": "Samoan Tala",
+        "locations": "Samoa",
+        "objectId": "Pw06A3j4qa",
+        "updatedAt": "2014-11-09T10:04:36.437Z"
+    },
+	{
+        "code": "XAF",
+        "createdAt": "2014-11-09T10:04:36.441Z",
+        "currencyname": "CFA Franc BEAC",
+        "locations": "Cameroon, Central African Republic, Congo, Chad, Equatorial Guinea, Gabon",
+        "objectId": "qDkvZxhyMh",
+        "updatedAt": "2014-11-09T10:04:36.441Z"
+    },
+	{
+        "code": "XAG",
+        "createdAt": "2014-11-09T10:04:36.446Z",
+        "currencyname": "Silver (one Troy ounce)",
+        "objectId": "qieZ7BUhIh",
+        "updatedAt": "2014-11-09T10:04:36.446Z"
+    },
+	{
+        "code": "XAU",
+        "createdAt": "2014-11-09T10:04:36.452Z",
+        "currencyname": "Gold (one Troy ounce)",
+        "objectId": "uIyHLzDX5p",
+        "updatedAt": "2014-11-09T10:04:36.452Z"
+    },
+	{
+        "code": "XBA",
+        "createdAt": "2014-11-09T10:04:36.456Z",
+        "currencyname": "European Composite Unit (EURCO) (Bonds market unit)",
+        "objectId": "7slOyCbne0",
+        "updatedAt": "2014-11-09T10:04:36.456Z"
+    },
+	{
+        "code": "XBB",
+        "createdAt": "2014-11-09T10:04:36.461Z",
+        "currencyname": "European Monetary Unit (E.M.U.-6) (Bonds market unit)",
+        "objectId": "D5BNp9FR7L",
+        "updatedAt": "2014-11-09T10:04:36.461Z"
+    },
+	{
+        "code": "XBC",
+        "createdAt": "2014-11-09T10:04:36.465Z",
+        "currencyname": "European Unit of Account 9 (E.U.A.-9) (Bonds market unit)",
+        "objectId": "aA6yxaKDSb",
+        "updatedAt": "2014-11-09T10:04:36.465Z"
+    },
+	{
+        "code": "XBD",
+        "createdAt": "2014-11-09T10:04:36.469Z",
+        "currencyname": "European Unit of Account 17 (E.U.A.-17) (Bonds market unit)",
+        "objectId": "5CtMYpeqae",
+        "updatedAt": "2014-11-09T10:04:36.469Z"
+    },
+	{
+        "code": "XCD",
+        "createdAt": "2014-11-09T10:04:36.476Z",
+        "currencyname": "East Caribbean Dollar",
+        "locations": "Anguilla, Antigua and Barbuda, Dominica, Grenada, Montserrat, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines",
+        "objectId": "MDxmbDEA1H",
+        "updatedAt": "2014-11-09T10:04:36.476Z"
+    },
+	{
+        "code": "XDR",
+        "createdAt": "2014-11-09T10:04:36.480Z",
+        "currencyname": "Special Drawing Rights",
+        "locations": "International Monetary Fund",
+        "objectId": "VPQ7Hqio1Y",
+        "updatedAt": "2014-11-09T10:04:36.480Z"
+    },
+	{
+        "code": "XFO",
+        "createdAt": "2014-11-09T10:04:36.485Z",
+        "currencyname": "Gold franc (special settlement currency)",
+        "locations": "Bank for International Settlements",
+        "objectId": "JAxOgaUk5J",
+        "updatedAt": "2014-11-09T10:04:36.485Z"
+    },
+	{
+        "code": "XFU",
+        "createdAt": "2014-11-09T10:04:36.489Z",
+        "currencyname": "UIC franc (special settlement currency)",
+        "locations": "International Union of Railways",
+        "objectId": "dL9FaLzRJ7",
+        "updatedAt": "2014-11-09T10:04:36.489Z"
+    },
+	{
+        "code": "XOF",
+        "createdAt": "2014-11-09T10:04:36.493Z",
+        "currencyname": "CFA Franc BCEAO",
+        "locations": "Benin, Burkina Faso, C�te d'Ivoire, Guinea-Bissau, Mali, Niger, Senegal, Togo",
+        "objectId": "MjPRAE7zNo",
+        "updatedAt": "2014-11-09T10:04:36.493Z"
+    },
+	{
+        "code": "XPD",
+        "createdAt": "2014-11-09T10:04:36.499Z",
+        "currencyname": "Palladium (one Troy ounce)",
+        "objectId": "HoMDqgMIHh",
+        "updatedAt": "2014-11-09T10:04:36.499Z"
+    },
+	{
+        "code": "XPF",
+        "createdAt": "2014-11-09T10:04:36.511Z",
+        "currencyname": "CFP franc",
+        "locations": "French Polynesia, New Caledonia, Wallis and Futuna",
+        "objectId": "etL66NRN4r",
+        "updatedAt": "2014-11-09T10:04:36.511Z"
+    },
+	{
+        "code": "XPT",
+        "createdAt": "2014-11-09T10:04:36.515Z",
+        "currencyname": "Platinum (one Troy ounce)",
+        "objectId": "uJ6eeuuW2W",
+        "updatedAt": "2014-11-09T10:04:36.515Z"
+    },
+	{
+        "code": "XTS",
+        "createdAt": "2014-11-09T10:04:36.520Z",
+        "currencyname": "Code reserved for testing purposes",
+        "objectId": "CyKqkIJu7i",
+        "updatedAt": "2014-11-09T10:04:36.520Z"
+    },
+	{
+        "code": "XXX",
+        "createdAt": "2014-11-09T10:04:36.524Z",
+        "currencyname": "No currency",
+        "objectId": "IrFgeUxQPo",
+        "updatedAt": "2014-11-09T10:04:36.524Z"
+    },
+	{
+        "code": "YER",
+        "createdAt": "2014-11-09T10:04:36.528Z",
+        "currencyname": "Yemeni Rial",
+        "locations": "Yemen",
+        "objectId": "wVv6QclaPn",
+        "updatedAt": "2014-11-09T10:04:36.528Z"
+    },
+	{
+        "code": "ZAR",
+        "createdAt": "2014-11-09T10:04:36.533Z",
+        "currencyname": "South African Rand",
+        "locations": "South Africa",
+        "objectId": "FKvwZ1SQ2I",
+        "updatedAt": "2014-11-09T10:04:36.533Z"
+    },
+	{
+        "code": "ZMK",
+        "createdAt": "2014-11-09T10:04:36.537Z",
+        "currencyname": "Kwacha",
+        "locations": "Zambia",
+        "objectId": "8JnXttQRJe",
+        "updatedAt": "2014-11-09T10:04:36.537Z"
+    },
+	{
+        "code": "ZWD",
+        "createdAt": "2014-11-09T10:04:36.543Z",
+        "currencyname": "Zimbabwe Dollar",
+        "locations": "Zimbabwe",
+        "objectId": "JXt4HTsUOv",
+        "updatedAt": "2014-11-09T10:04:36.543Z"
+    },
+	{
+        "code": "CAD",
+        "createdAt": "2014-11-09T10:04:35.053Z",
+        "currencyname": "Canadian Dollar",
+        "enabled": true,
+        "locations": "Canada",
+        "objectId": "mzEyXJHxSz",
+        "updatedAt": "2014-11-15T01:53:23.454Z"
+    },
+	{
+        "code": "HKD",
+        "createdAt": "2014-11-09T10:04:35.717Z",
+        "currencyname": "Hong Kong Dollar",
+        "enabled": true,
+        "locations": "Hong Kong Special Administrative Region",
+        "objectId": "K1ewmtJPB5",
+        "updatedAt": "2014-11-15T03:09:30.465Z"
+    },
+	{
+        "code": "USD",
+        "createdAt": "2014-11-09T10:04:36.400Z",
+        "currencyname": "US Dollar",
+        "enabled": true,
+        "locations": "American Samoa, British Indian Ocean Territory, Ecuador, El Salvador, Guam, Haiti, Marshall Islands, Micronesia, Northern Mariana Islands, Palau, Panama, Puerto Rico, East Timor, Turks and Caicos Islands, United States, Virgin Islands",
+        "objectId": "6RvwpF8uN9",
+        "updatedAt": "2014-11-15T03:09:56.420Z"
+    },
+	{
+        "code": "KRW",
+        "createdAt": "2014-11-09T10:04:35.817Z",
+        "currencyname": "South Korean Won",
+        "enabled": true,
+        "locations": "South Korea",
+        "objectId": "cTa1oa22Hc",
+        "updatedAt": "2014-11-18T03:36:57.323Z"
+    }
+] }

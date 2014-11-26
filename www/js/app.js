@@ -18,7 +18,13 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
       if(window.plugins){
           parsePlugin.initialize(appId, clientKey, function() {
+              parsePlugin.getInstallationId(function(id){
+                  console.log("ParsePlugin Init - Installation Id = "+ id);
+                  //alert("ParsePlugin Init - Installation Id = "+ id);
+              });
+
               registerPush();
+
               subscribe(Parse.User.current().id);
           }, function(e) {
               console.log('error');

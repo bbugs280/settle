@@ -1,0 +1,132 @@
+{ "results": [
+	{
+        "createdAt": "2014-11-03T16:28:14.049Z",
+        "friendnames": [
+            "vincent",
+            "harry",
+            "Billy",
+            "lewis",
+            "enoch",
+            "denis",
+            "kei",
+            "raymond",
+            "lawrence"
+        ],
+        "friends": [
+            "alfred.yctan@gmail.com",
+            "arlolo@gmail.com",
+            "ballsuen@gmail.com",
+            "billykan@gmail.com",
+            "denis.kan@gmail.com",
+            "enoch.hy.lam@gmail.com",
+            "flam0519@gmail.com",
+            "galiotis@gmail.com",
+            "harrylo@gmail.com",
+            "lawrence.yim@gmail.com",
+            "llhchung@gmail.com",
+            "mankee.lee@gmail.com",
+            "raymondlbtang@gmail.com",
+            "ryan.ctchin@gmail.com",
+            "twyl@gmail.com",
+            "twyl@gmail.com",
+            "yeung.vincent@gmail.com"
+        ],
+        "group": "FX Lunch",
+        "hidden": false,
+        "icon": {
+            "__type": "File",
+            "name": "tfss-1fc15f37-3f07-47e5-96da-63191544da7e-icon.jpg",
+            "url": "http://files.parsetfss.com/54ad8743-917c-43a4-9618-03a0adc3d516/tfss-1fc15f37-3f07-47e5-96da-63191544da7e-icon.jpg"
+        },
+        "objectId": "bMT7ZbH5So",
+        "updatedAt": "2014-11-25T13:50:18.064Z",
+        "user1": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        },
+        "user2": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "y6yVvcps6R"
+        }
+    },
+	{
+        "createdAt": "2014-11-24T14:07:34.586Z",
+        "friendnames": [
+            "test-sim",
+            "vincent"
+        ],
+        "friends": [
+            "test-sim@test.com",
+            "yeung.vincent@gmail.com"
+        ],
+        "ispersonal": true,
+        "objectId": "lfIAtkkemV",
+        "updatedAt": "2014-11-24T14:08:01.714Z",
+        "user1": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        },
+        "user2": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "lirSB5mnCL"
+        },
+        "username1": "test-sim",
+        "username2": "vincent"
+    },
+	{
+        "createdAt": "2014-11-25T01:56:10.564Z",
+        "friendnames": [
+            "kei",
+            "vincent"
+        ],
+        "friends": [
+            "mankee.lee@gmail.com",
+            "yeung.vincent@gmail.com"
+        ],
+        "ispersonal": true,
+        "objectId": "7ElLDn6ZU8",
+        "updatedAt": "2014-11-25T01:56:12.213Z",
+        "user1": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "HZmTuy7EkP"
+        },
+        "user2": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        },
+        "username1": "kei",
+        "username2": "vincent"
+    },
+	{
+        "createdAt": "2014-11-25T05:18:14.280Z",
+        "friendnames": [
+            "vincent",
+            "lewis"
+        ],
+        "friends": [
+            "llhchung@gmail.com",
+            "yeung.vincent@gmail.com"
+        ],
+        "ispersonal": true,
+        "objectId": "Red9KA1Zao",
+        "updatedAt": "2014-11-25T05:18:18.026Z",
+        "user1": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "zBUMIrpiw2"
+        },
+        "user2": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "y6yVvcps6R"
+        },
+        "username1": "vincent",
+        "username2": "lewis"
+    }
+] }
