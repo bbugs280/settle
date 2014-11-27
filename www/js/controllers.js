@@ -1042,18 +1042,22 @@ angular.module('starter.controllers', [])
         }
 
         $scope.logout = function(){
-
+            console.log("logout is called");
             if (window.plugins) {
                 parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
-                    console.log('unsubscribe', msg);
+                    console.log("unsubscribed success");
+                    console.log('unsubscribe'+ msg);
                     ParseService.logout();
                     $state.go('login');
                 }, function (e) {
+                    console.log("unsubscribed failed");
+                    conlog.log('error'+ e.message);
                     ParseService.logout();
                     $state.go('login');
-                    conlog.log('error', e.message);
+
                 });
             }else{
+                console.log("no plugin");
                 ParseService.logout();
                 $state.go('login');
             }

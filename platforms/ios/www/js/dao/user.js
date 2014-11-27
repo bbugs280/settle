@@ -42,15 +42,17 @@ var SUser = Parse.User.extend({
             console.log(" have result success ? " + result.length);
             if (result.length > 0) {
 
-                var r = new SUser();
+                //var r = new SUser();
 
-                r.id = result[0].id;
-
-                r.set({"username": result[0].get('username')});
-                r.set({"email": result[0].get('email')});
-                console.log("getUserByEmail -  this.username = " + r.get('username'));
-                console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
-                callback(r);
+                //
+                //r.id = result[0].id;
+                //
+                //r.set({"username": result[0].get('username')});
+                //r.set({"email": result[0].get('email')});
+                //console.log("getUserByEmail -  this.username = " + r.get('username'));
+                //console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
+                //callback(r);
+                callback(result[0]);
             } else {
                 callback(null);
             }
@@ -101,24 +103,33 @@ var SUser = Parse.User.extend({
     query.equalTo("user", user);
     query.equalTo("group", group);
 //    console.log("getBalanceByEmail - user default currency = ", user.get('default_currency').get('code'));
-    var r = new Balance();
+
 
         query.find({
         success: function (result) {
             // The object was retrieved successfully.
             console.log("getBalanceByEmail -  have result success result.length = " + result.length);
             if (result.length > 0) {
+                var r = new Balance();
                 r = result[0];
                 r.set('balance', r.get('credit') - r.get('debit'));
                 //console.log("getBalanceByEmail - has balance and all set");
             } else {
+                console.log("getBalanceByEmail - no balance and creating new");
+                var r = new Balance();
                 r.set('user', user);
+                console.log("getBalanceByEmail - no balance and creating new - setted user properties");
+                console.log("getBalanceByEmail - no balance and creating new - currency id = "+user.get('default_currency').id);
                 //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
+                console.log("getBalanceByEmail - no balance and creating new - setted currency properties");
                 r.set('currency', user.get('default_currency'));
                 r.set('group',group);
+                console.log("getBalanceByEmail - no balance and creating new - setted group properties");
                 r.set('credit',0);
                 r.set('debit',0);
-                r.set('balance', r.get('credit')- r.get('debit'));
+                r.set('balance',0);
+                //r.set('balance', r.get('credit')- r.get('debit'));
+                console.log("getBalanceByEmail - no balance and creating new - setted all properties");
             }
             callback(r);
         },
