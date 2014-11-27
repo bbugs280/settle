@@ -12,7 +12,8 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     console.log("ionicPlatform ready!!");
-//    Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
+
+    Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
 
       var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
       var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
@@ -25,7 +26,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
               registerPush();
 
-              subscribe(Parse.User.current().id);
+              subscribe("P_"+Parse.User.current().id);
               subscribeAllGroups(Parse.User.current().get('email'));
           }, function(e) {
               console.log('error');
