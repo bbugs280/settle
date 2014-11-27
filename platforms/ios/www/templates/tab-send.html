@@ -27,7 +27,7 @@
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
 
           <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</p>
-          <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friends').length}} people in group</p>
+          <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friends').length}} people in group</p>
           <p ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</p>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
@@ -41,7 +41,7 @@
           </button>
           <label class=" item-input-wrapper " style="height: 50px">
               <!--<i class=" ion-social-usd placeholder-icon"></i>-->
-              <input type="tel" placeholder="Amount" ng-model="sendform.amount" ng-blur="makeQRCode(sendform)" value="{{sendform.amount}}" style="font-size: large" ng-currency min="1" max="500">
+              <input type="tel" placeholder="Amount" ng-model="sendform.amount" ng-blur="makeQRCode(sendform)" value="{{sendform.amount}}" style="font-size: large" ng-currency min="1" max="500" required>
           </label>
           <button class="button" ng-click="makeQRCode(sendform)" style="font-size: large;border-radius: 10px">
               <!--<i class="icon ion-grid"></i>-->

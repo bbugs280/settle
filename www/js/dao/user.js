@@ -236,6 +236,26 @@ var SUser = Parse.User.extend({
         });
 
     },
+    getFriendListForSub: function (email, callback) {
+        var Friendlist = Parse.Object.extend("friendlist");
+
+        var query = new Parse.Query(Friendlist);
+        query.equalTo("friends", email);
+        //query.notEqualTo("ispersonal",true);
+        query.notEqualTo("hidden", true);
+        query.addAscending('group');
+        query.find({
+            success: function (result) {
+                // The object was retrieved successfully.
+                console.log("getFriendListAll - success count " + result.length);
+                callback(result);
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+
+    },
     getBalanceOverview: function (user, callback) {
 
         var Balance = Parse.Object.extend("balance");

@@ -328,6 +328,11 @@ angular.module('starter.controllers', [])
                 groupname = $rootScope.selectedGroup.get('group');
             }
 
+            if (isNaN(sendform.amount)){
+                $rootScope.alert("Invalid Amount");
+                throw ("invalid amount");
+            }
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -379,6 +384,11 @@ angular.module('starter.controllers', [])
 
                 $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
+
+                if(isNaN(sendform.amount)){
+                    $rootScope.alert("Invalid amount");
+                    throw ("invalid amount");
+                }
                 console.log("SendForm amount ", sendform.amount);
                 console.log("sendform note ", sendform.note);
                 $scope.sendRemote(sendform);
@@ -1044,18 +1054,23 @@ angular.module('starter.controllers', [])
         $scope.logout = function(){
             console.log("logout is called");
             if (window.plugins) {
-                parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
-                    console.log("unsubscribed success");
-                    console.log('unsubscribe'+ msg);
+                //parsePlugin.unsubscribe($rootScope.user.id, function (msg) {
+                //    console.log("unsubscribed success");
+                //    console.log('unsubscribe'+ msg);
+                //    ParseService.logout();
+                //    $state.go('login');
+                //}, function (e) {
+                //    console.log("unsubscribed failed");
+                //    conlog.log('error'+ e.message);
+                //    ParseService.logout();
+                //    $state.go('login');
+                //
+                //});
+                unsubscribeAll(function(s){
                     ParseService.logout();
                     $state.go('login');
-                }, function (e) {
-                    console.log("unsubscribed failed");
-                    conlog.log('error'+ e.message);
-                    ParseService.logout();
-                    $state.go('login');
+                })
 
-                });
             }else{
                 console.log("no plugin");
                 ParseService.logout();
@@ -1156,6 +1171,11 @@ angular.module('starter.controllers', [])
                             $rootScope.hideLoading();
 //                            $rootScope.selectedGroup=group;
                             $scope.$apply();
+                            var msg="";
+                            msg = $rootScope.selectedGroup.get('group') ;
+                            msg += " has a new look! ";
+                            msg += $rootScope.user.get('username') + " changed the icon.";
+                            sendPushMessage(msg, $rootScope.selectedGroup.id);
 
 
                         },error:function(obj,error){
@@ -1173,14 +1193,20 @@ angular.module('starter.controllers', [])
         }
         $scope.saveGroup = function(group){
             $rootScope.showLoading('Saving...');
-
+            var oldGroupName = $rootScope.selectedGroup.get('group');
             if(group)
                 $rootScope.selectedGroup.set('group', group.name);
-            $rootScope.selectedGroup.save(null,{
+                $rootScope.selectedGroup.save(null,{
                 success:function(group){
                     console.log("SetupGroupEditCtrl - saveGroup done");
                     $rootScope.hideLoading();
                     $scope.back();
+                    var msg = "";
+                    msg = oldGroupName ;
+                    msg += " is updated! ";
+                    msg += $rootScope.user.get('username') + " changed its name to ";
+                    msg += group.get('group');
+                    sendPushMessage(msg, $rootScope.selectedGroup.id);
 
                 },error:function(obj,error){
                     $rootScope.hideLoading();
@@ -1188,6 +1214,11 @@ angular.module('starter.controllers', [])
                 }
             })
         }
+
+        $scope.archGroup = function(group){
+
+        }
+
         $scope.editGroup = function(group){
             console.log("editGroup");
             $rootScope.selectedGroup = group;

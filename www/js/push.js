@@ -43,6 +43,7 @@ function registerPush(){
     }
 }
 
+
 function subscribe(channel){
 
     parsePlugin.subscribe(channel, function(){
@@ -50,6 +51,35 @@ function subscribe(channel){
     },function(e){
         alert(" subscribe Error ");
     });
+}
+
+function subscribeAllGroups(email){
+    //Get related channels
+    var user = new SUser();
+    user.getFriendListForSub(email, function(g){
+        //console.log(g);
+        if (g.length !=0){
+            for (var i in g){
+                subscribe(g[i].id);
+            }
+        }
+    });
+
+}
+function unsubscribeAll(callback){
+    parsePlugin.getSubscriptions(function(s){
+        for (var i in s){
+            console.log(s[i]);
+            parsePlugin.unsubscribe(s[i], function(r){
+                console.log("unsubscribed = "+s[i]);
+
+            },function(e){
+                console.log("error "+ e.message);
+                callback(e);
+            });
+        }
+        callback(s);
+    })
 }
 
 function successHandler (result) {
@@ -175,10 +205,9 @@ function resetBadge(){
 }
 
 
-function sendPushMessage (message, toUserId){
+function sendPushMessage (message, channel){
     var query = new Parse.Query(Parse.Installation);
-    query.equalTo('channels', toUserId); // Set our channel
-    //query.equalTo('deviceType', 'android'); // Set our channel
+    query.equalTo('channels', channel); // Set our channel
 
     Parse.Push.send({
         where: query,
