@@ -118,18 +118,15 @@ var SUser = Parse.User.extend({
                 console.log("getBalanceByEmail - no balance and creating new");
                 var r = new Balance();
                 r.set('user', user);
-                console.log("getBalanceByEmail - no balance and creating new - setted user properties");
-                console.log("getBalanceByEmail - no balance and creating new - currency id = "+user.get('default_currency').id);
                 //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
                 console.log("getBalanceByEmail - no balance and creating new - setted currency properties");
                 r.set('currency', user.get('default_currency'));
                 r.set('group',group);
-                console.log("getBalanceByEmail - no balance and creating new - setted group properties");
                 r.set('credit',0);
                 r.set('debit',0);
                 r.set('balance',0);
                 //r.set('balance', r.get('credit')- r.get('debit'));
-                console.log("getBalanceByEmail - no balance and creating new - setted all properties");
+
             }
             callback(r);
         },

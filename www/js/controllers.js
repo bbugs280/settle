@@ -328,6 +328,11 @@ angular.module('starter.controllers', [])
                 groupname = $rootScope.selectedGroup.get('group');
             }
 
+            if (isNaN(sendform.amount)){
+                $rootScope.alert("Invalid Amount");
+                throw ("invalid amount");
+            }
+
             if (sendform.amount){
                 $rootScope.sendamount = sendform.amount;
             }
@@ -379,6 +384,11 @@ angular.module('starter.controllers', [])
 
                 $scope.createAccount($rootScope.inviteEmail,sendform);
             }else{
+
+                if(isNaN(sendform.amount)){
+                    $rootScope.alert("Invalid amount");
+                    throw ("invalid amount");
+                }
                 console.log("SendForm amount ", sendform.amount);
                 console.log("sendform note ", sendform.note);
                 $scope.sendRemote(sendform);

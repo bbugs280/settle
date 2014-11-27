@@ -121,6 +121,10 @@ angular.module('starter.services', [])
                 tran.set('note',note);
                 tran.set('location',location);
 
+                if (isNaN(tran.get('amount'))){
+                    throw ("invalid amount");
+                }
+
                 if (from==user.get('email')){
                     tran.set('fromname',user.get('username'));
                     tran.set('toname',friend.get('username'));
