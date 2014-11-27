@@ -69,7 +69,7 @@ function subscribeAllGroups(email){
 function unsubscribeAll(callback){
     parsePlugin.getSubscriptions(function(s){
         for (var i in s){
-            
+
             parsePlugin.unsubscribe(s[i], function(r){
                 console.log("unsubscribed = "+s[i]);
 

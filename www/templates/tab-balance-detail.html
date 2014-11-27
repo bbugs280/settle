@@ -46,42 +46,47 @@
            </ion-item>
           <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
           <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->
-          <ion-item class="item " style="font-size: medium;" ng-repeat="tran in transactions">
-              <span ng-if="tran.get('from')==user.get('email')">
-                  <i class="icon ion-ios7-upload-outline"></i>
-                  Paid
-                  <span style="color:red">{{tran.get('amount')*-1| currency: tran.get('currency').get('code')}}</span>
-                  <span class="item-note" style="font-size: x-small" ng-if="tran.get('from_rate')!=1 && tran.get('from_rate')!=undefined">
-                    x {{tran.get('from_rate')}} (exchange rate from Yahoo)  =
-                      <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('from_rate') | currency : balance.get('currency').get('code')}}</span>
-                  </span>
-                  <span style="font-style: italic;font-size: small">
-                    to <b>{{tran.get('toname')}}</b></span>
-                    </span>
-              <span ng-if="tran.get('to')==user.get('email')">
+          <div class="content">
+              <p ng-repeat="tran in transactions"
+                        class=" triangle-right "
+                      ng-class="{'right':tran.get('from')==user.get('email'),'left':tran.get('to')==user.get('email')}">
+                  <span ng-if="tran.get('from')==user.get('email')">
+                      <!--<i class="icon ion-ios7-upload-outline"></i>-->
 
-                  <i class="icon ion-ios7-download-outline"></i>
-                  Received
-                  <span style="color:olivedrab">{{tran.get('amount')| currency: tran.get('currency').get('code')}}</span>
-                  <span class="item-note" style="font-size: x-small" ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
-                       x {{tran.get('from_rate')}} (exchange rate from Yahoo) =
-                      <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('to_rate') | currency : balance.get('currency').get('code')}}</span>
+                      <span style="color:red">{{tran.get('amount')*-1| currency: tran.get('currency').get('code')}}</span>
+                      <span class="item-note" style="font-size: x-small" ng-if="tran.get('from_rate')!=1 && tran.get('from_rate')!=undefined">
+                        x {{tran.get('from_rate')}} (exchange rate from Yahoo)  =
+                          <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('from_rate') | currency : balance.get('currency').get('code')}}</span>
+                      </span>
+                      <span style="font-style: italic;font-size: small">
+                        to <b>{{tran.get('toname')}}</b></span>
+                        </span>
 
-                  </span>
-                  <span style="font-style: italic;font-size: small">
-                    from <b>{{tran.get('fromname')}}</b></span>
-                  </span>
-                    <BR ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
-                  <span style="font-style: italic;font-size: small;color:gray">
-                      <br>on {{tran.createdAt.toLocaleDateString()}}
-                  </span>
-              <span class="item-note" ng-if="tran.get('note').trim() !='' && tran.get('note')!=undefined && tran.get('note')!='undefined'">
-                  <span style="font-style: italic;font-size: small;color:gray">
-                      ( <span style="color:darkblue">{{tran.get('note')}} </span>)
-                  </span>
-              </span>
+                  <span ng-if="tran.get('to')==user.get('email')">
+                      <span style="font-style: italic;font-size: small">
+                         <b>{{tran.get('fromname')}}</b></span>
+                      </span>
 
-          </ion-item>
+                      <!--<i class="icon ion-ios7-download-outline"></i>-->
+                      Received
+                      <span style="color:olivedrab">{{tran.get('amount')| currency: tran.get('currency').get('code')}}</span>
+                      <span class="item-note" style="font-size: x-small" ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
+                           x {{tran.get('from_rate')}} (exchange rate from Yahoo) =
+                          <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('to_rate') | currency : balance.get('currency').get('code')}}</span>
+
+                      </span>
+
+                        <BR ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
+                      <span class="item-note"  style="font-style: italic;font-size: small;color:gray">
+                          <br>on {{tran.createdAt.toLocaleDateString()}}
+                      </span>
+                  <span ng-if="tran.get('note').trim() !='' && tran.get('note')!=undefined && tran.get('note')!='undefined'">
+                      <span style="font-style: italic;font-size: small;color:gray">
+                          ( <span style="color:darkblue">{{tran.get('note')}} </span>)
+                      </span>
+                  </span>
+              </p>
+          </div>
       </ion-list>
   </ion-content>
 </ion-view>
