@@ -1322,4 +1322,37 @@ angular.module('starter.controllers', [])
         }
 
 
-});
+})
+    .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate, ParseService) {
+        $rootScope.intro = true;
+
+        $scope.verifyByPhone = function(form){
+            //Check if user exist by Phone Number
+            // If so get
+
+            Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
+                success: function(ratings) {
+                    // ratings should be 4.5
+                },
+                error: function(error) {
+                }
+            });
+        }
+
+        $scope.sendVerifyCode = function (form){
+
+        }
+        $scope.updateUser = function(form){
+
+        }
+        $scope.next = function() {
+            $ionicSlideBoxDelegate.next();
+        };
+        $scope.previous = function() {
+            $ionicSlideBoxDelegate.previous();
+        };
+        $scope.slideChanged = function(index) {
+            $scope.slideIndex = index;
+        };
+    }
+);

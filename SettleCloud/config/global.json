@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "settle"
+        }, 
+        "settle": {
+            "applicationId": "eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", 
+            "masterKey": "QaxVxptkEh7RX7ZlnnJp7aXjOhnGvAapqw1HWhfC"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.2"
+    }
+}

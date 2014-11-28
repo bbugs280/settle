@@ -281,6 +281,14 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: false
           }
      })
+      .state('verifyByPhone', {
+          url:'/verify',
+          templateUrl: 'templates/user-verify-phone.html',
+          controller: 'VerifyCtrl',
+          data: {
+              authenticate: false
+          }
+      })
     .state('login', {
           url:'/login',
           templateUrl: 'templates/user-login.html',
