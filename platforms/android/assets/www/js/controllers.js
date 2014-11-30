@@ -545,7 +545,7 @@ angular.module('starter.controllers', [])
                             message += "\n ("+tran.get('note')+")";
                         }
 
-                        sendPushMessage(message, tran.get('touser').id);
+                        sendPushMessage(message, "P_"+tran.get('touser').id);
                     }
             });
 
@@ -1175,7 +1175,7 @@ angular.module('starter.controllers', [])
                             msg = $rootScope.selectedGroup.get('group') ;
                             msg += " has a new look! ";
                             msg += $rootScope.user.get('username') + " changed the icon.";
-                            sendPushMessage(msg, $rootScope.selectedGroup.id);
+                            sendPushMessage(msg, "GRP_"+$rootScope.selectedGroup.id);
 
 
                         },error:function(obj,error){
@@ -1206,7 +1206,7 @@ angular.module('starter.controllers', [])
                     msg += " is updated! ";
                     msg += $rootScope.user.get('username') + " changed its name to ";
                     msg += group.get('group');
-                    sendPushMessage(msg, $rootScope.selectedGroup.id);
+                    sendPushMessage(msg, "GRP_"+$rootScope.selectedGroup.id);
 
                 },error:function(obj,error){
                     $rootScope.hideLoading();
@@ -1307,7 +1307,8 @@ angular.module('starter.controllers', [])
                 $rootScope.$apply();
 
                 if (window.plugins && window.plugins.pushNotification){
-                    subscribe(user.id);
+                    subscribe("P_"+user.id);
+                    subscribeAllGroups(user.get('email'));
                 }
 
                 $state.go('tab.balance-overview');

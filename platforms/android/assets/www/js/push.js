@@ -57,10 +57,10 @@ function subscribeAllGroups(email){
     //Get related channels
     var user = new SUser();
     user.getFriendListForSub(email, function(g){
-        //console.log(g);
+        console.log(g.length);
         if (g.length !=0){
             for (var i in g){
-                subscribe(g[i].id);
+                subscribe("GRP_"+g[i].id);
             }
         }
     });
@@ -69,7 +69,7 @@ function subscribeAllGroups(email){
 function unsubscribeAll(callback){
     parsePlugin.getSubscriptions(function(s){
         for (var i in s){
-            console.log(s[i]);
+
             parsePlugin.unsubscribe(s[i], function(r){
                 console.log("unsubscribed = "+s[i]);
 

@@ -7,19 +7,19 @@
         </button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <button class="button button-positive button-clear no-animation"
-                style="font-size: small"
-                ng-click="next()" ng-if="slideIndex != 2">
-            Next
-        </button>
-        <button class="button button-positive button-clear no-animation"
-                style="font-size: small"
-                ng-click="startApp()" ng-if="slideIndex == 2">
-            Start!
-        </button>
+        <!--<button class="button button-positive button-clear no-animation"-->
+                <!--style="font-size: small"-->
+                <!--ng-click="next()" ng-if="slideIndex > 0">-->
+            <!--Next-->
+        <!--</button>-->
+        <!--<button class="button button-positive button-clear no-animation"-->
+                <!--style="font-size: small"-->
+                <!--ng-click="startApp()" ng-if="slideIndex == 2">-->
+            <!--Start!-->
+        <!--</button>-->
     </ion-nav-buttons>
 
-    <ion-slide-box on-slide-changed="slideChanged(index)">
+    <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
         <!-- first slide -->
         <ion-slide>
 
@@ -28,10 +28,10 @@
             </div>
             <form ng-submit="verifyByPhone(form)">
                 <div class="list" align="center">
+                    <p></p>
+                    <label class="item item-input" >
 
-                    <label class="item item-input">
-
-                        <input type="tel" placeholder="Your Mobile Number (e.g. +1-201-123-4567)" ng-model="form.phonenumber">
+                        <input type="tel" placeholder="Your Mobile Number (e.g. +1-201-123-4567)" ng-model="form.phone_number">
                     </label>
 
                 </div>
@@ -42,8 +42,11 @@
         </ion-slide>
         <!-- second slide -->
         <ion-slide>
-            <p>Verification Code is sent via SMS, please enter</p>
+            <!--<div class="item ">-->
+                <!--{{phone_number}}-->
+            <!--</div>-->
 
+            <p style="font-weight: bold">Verification Code is sent via SMS, please enter</p>
 
             <form ng-submit="sendVerifyCode(form)">
                 <div class="list" align="center">
@@ -56,17 +59,19 @@
                     Verify
                 </button>
             </form>
-            <p>If SMS is not received, please go back to try again</p>
+            <p style="color:grey">If SMS is not received, please check your number and try again</p>
         </ion-slide>
         <!-- third slide -->
         <ion-slide>
+            <p style="font-weight: bold">Update your person details </p>
+            <p>(Optional, you can do this later.)</p>
             <form ng-submit="updateUser(form)">
                 <div class="list" align="center">
                     <label class="item item-input">
-                        <input type="text" placeholder="Your Name" ng-model="form.username">
+                        <input type="text" placeholder="Your Display Name" ng-model="form.username">
                     </label>
                     <label class="item item-input">
-                        <input type="email" placeholder="Your Email" ng-model="form.email">
+                        <input type="email" placeholder="Your Email" ng-model="form.email" >
                     </label>
                 </div>
                 <button class="button button-block button-stable" type="submit" >

@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -200,6 +204,9 @@
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.vibration": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.bumble.Settle"
         }
     },

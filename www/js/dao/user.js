@@ -293,6 +293,7 @@ var SUser = Parse.User.extend({
         query.equalTo("ispersonal", true);
 
         console.log("getPersonalListByEmails prepared");
+        console.log("getPersonalListByEmails - email Array = "+emailArray);
         query.find({
             success: function (friendlist) {
                 // The object was retrieved successfully.
@@ -309,7 +310,7 @@ var SUser = Parse.User.extend({
                            callback(result);
                        },error:function(error){
                             throw error.message;
-                        }
+                       }
                     });
                 }else{
                     callback(friendlist[0]);

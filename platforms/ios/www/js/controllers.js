@@ -807,14 +807,14 @@ angular.module('starter.controllers', [])
                     var groupName=res[5];
                     var currencyId=res[6];
                     console.log(currencyId);
-                    var friendemail;
-
-
-                    if (from == $rootScope.user.get('email')){
-                        friendemail = to;
-                    }else{
-                        friendemail = from;
-                    }
+                    var friendemail = from;
+//
+//
+//                    if (from == $rootScope.user.get('email')){
+//                        friendemail = to;
+//                    }else{
+//                        friendemail = from;
+//                    }
 
                     var user = new SUser();
 
@@ -830,7 +830,7 @@ angular.module('starter.controllers', [])
                             user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
                                 $scope.recordQRCode(friendlist, tranId,currencyId, amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
-                            })
+                            });
                         }else{
                             console.log("ReceiveCtrl.scan Group Found = "+ groupId);
                             var Friendlist = Parse.Object.extend("friendlist");
@@ -1068,7 +1068,8 @@ angular.module('starter.controllers', [])
                 //});
                 unsubscribeAll(function(s){
                     ParseService.logout();
-                    $state.go('login');
+                    $state.go('verifyByPhone');
+//                    $state.go('login');
                 })
 
             }else{
@@ -1322,4 +1323,95 @@ angular.module('starter.controllers', [])
         }
 
 
-});
+})
+    .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
+        $rootScope.intro = true;
+        //Check if user have seen intro
+        if(window.localStorage['didTutorial'] !== "true") {
+            $state.go('intro');
+            return;
+        }
+        //Check if user already logIn
+        if (ParseService.getUser()){
+            $state.go('tab.balance-overview');
+        }else{
+//            if (!window.plugins) {
+//                $scope.go('login');
+//            }
+        }
+
+
+        $scope.verifyByPhone = function(form){
+
+//            var install = Parse.Installation.current();
+//            var timeZone = install.get("timeZone");
+            $scope.phone_number = form.phone_number;
+            navigator.globalization.getLocaleName(function(localeName){
+                Parse.Cloud.run('sendVerificationCode', { phone_number: form.phone_number, locale: localeName.value}, {
+                    success: function(r) {
+                        console.log("sendVerificationCode successful");
+
+                        $ionicSlideBoxDelegate.next();
+                    },
+                    error: function(error) {
+                        console.log("sendVerificationCode error = "+error.message);
+                    }
+                });
+            }, function(error){
+                console.log("getLocaleName error = "+error.message);
+            });
+
+        }
+
+        $scope.sendVerifyCode = function (form){
+            var User = Parse.Object.extend("User");
+            var query = new Parse.Query(User);
+            query.equalTo("phone_number",$scope.phone_number);
+            query.first({
+                success:function(user){
+                    user.set('password',form.verifycode);
+                    user.logIn({
+                        success:function(r){
+                            console.log("login successful");
+                            $rootScope.user = r;
+                            if (r.getUsername()== r.get('phone_number')){
+                                $ionicSlideBoxDelegate.next();
+                            }else{
+                                $state.go('tab.balance-overview');
+                            }
+                        },error:function(obj, error){
+                            console.log("login failed: invalid verification code");
+                            $rootScope.alert("Invalid verification code","please try again");
+                            $ionicSlideBoxDelegate.previous();
+                        }
+                    });
+                },error:function(obj, error){
+                    console.log(error.message);
+                }
+            });
+        }
+
+        $scope.updateUser = function(form){
+            $rootScope.user.set('username',form.username);
+            $rootScope.user.set('email',form.email);
+            $rootScope.user.save(null,{
+                success:function(r){
+
+                    $state.go('tab.balance-overview');
+                },error:function(obj, error){
+                    console.log("updateUser failed error = "+error.message);
+                    $rootScope.alert("Problem", error.message);
+                }
+            })
+        }
+        $scope.next = function() {
+            $ionicSlideBoxDelegate.next();
+        };
+        $scope.previous = function() {
+            $ionicSlideBoxDelegate.previous();
+        };
+        $scope.slideChanged = function(index) {
+            $scope.slideIndex = index;
+        };
+    }
+);

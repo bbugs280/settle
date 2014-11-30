@@ -281,6 +281,14 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: false
           }
      })
+      .state('verifyByPhone', {
+          url:'/verify',
+          templateUrl: 'templates/user-verify-phone.html',
+          controller: 'VerifyCtrl',
+          data: {
+              authenticate: false
+          }
+      })
     .state('login', {
           url:'/login',
           templateUrl: 'templates/user-login.html',
@@ -298,7 +306,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           }
     })
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/verify');
 
 });
 

@@ -121,10 +121,6 @@ angular.module('starter.services', [])
                 tran.set('note',note);
                 tran.set('location',location);
 
-                if (isNaN(tran.get('amount'))){
-                    throw ("invalid amount");
-                }
-
                 if (from==user.get('email')){
                     tran.set('fromname',user.get('username'));
                     tran.set('toname',friend.get('username'));
@@ -167,8 +163,7 @@ angular.module('starter.services', [])
                                     // First update your own records
                                     //1. get Your Balance
                                     user.getBalanceByEmail(group,user,function(yourbal){
-                                        var yourcredit = trancredit + yourbal.get('credit');
-                                        var yourdebit = trandebit + yourbal.get('debit');
+
                                         //2. update Your Balance
 //                                        yourbal.set('group', group);
 //                                        yourbal.set('user', user);
@@ -185,9 +180,11 @@ angular.module('starter.services', [])
                                         }else{
                                             tran.set('to_rate', toRate);
                                         }
+                                        var yourcredit = (trancredit*toRate) + yourbal.get('credit');
+                                        var yourdebit = (trandebit*toRate) + yourbal.get('debit');
 
-                                        yourbal.set('credit', yourcredit*toRate);
-                                        yourbal.set('debit', yourdebit*toRate);
+                                        yourbal.set('credit', yourcredit);
+                                        yourbal.set('debit', yourdebit);
         //                                yourbal.set('balance', yourcredit - yourdebit);
                                         user.updateBalance(yourbal,function(r){
                                             console.log("recordQRCode - your balance saved");
@@ -219,8 +216,7 @@ angular.module('starter.services', [])
                                         user.getBalanceByEmail(group,friend,function(friendbal){
                                             console.log("friend balance found and being updated");
                                             //console.log("Friend Group Found with Curr = "+friend.get('default_currency').get('code'));
-                                            var friendcredit = trandebit + friendbal.get('credit');
-                                            var frienddebit = trancredit + friendbal.get('debit');
+
                                             //Getting FX Rate
                                             var fromCurrency = tran.get('currency').get('code');
                                             var toCurrency = friendbal.get('currency').get('code');
@@ -240,8 +236,11 @@ angular.module('starter.services', [])
                                             //2. update Friend Balance
                                             //friendbal.set('group', group);
                                             //friendbal.set('user', {__type: "Pointer", className: "User", objectId: friend.id});
-                                            friendbal.set('credit', friendcredit*toRate);
-                                            friendbal.set('debit', frienddebit*toRate);
+
+                                            var friendcredit = (trandebit*toRate) + friendbal.get('credit');
+                                            var frienddebit = (trancredit*toRate) + friendbal.get('debit');
+                                            friendbal.set('credit', friendcredit);
+                                            friendbal.set('debit', frienddebit);
                                             //friendbal.set('balance', friendcredit - frienddebit);
                                             user.updateBalance(friendbal,function(r){
                                                 console.log("recordQRCode - friend balance saved");

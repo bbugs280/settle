@@ -17,16 +17,16 @@
             Pay
         </button>
     </ion-nav-buttons>
-  <ion-content  class="has-header" >
-      <ion-list>
-          <ion-refresher
-                  pulling-icon="ion-arrow-down-c"
-                  refreshing-icon="ion-loading-c"
-                  on-refresh="loadTrans()">
-          </ion-refresher>
-          <ion-item class="item item-divider item-dark" style="font-size: small;">
-               Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
-               <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
+    <ion-content  class="has-header" >
+        <ion-list>
+            <ion-refresher
+                    pulling-icon="ion-arrow-down-c"
+                    refreshing-icon="ion-loading-c"
+                    on-refresh="loadTrans()">
+            </ion-refresher>
+            <ion-item class="item item-divider item-dark" style="font-size: small;">
+                Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
+                <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
 
               <span class="item-note" style="color:black">
                 <span ng-if="balance.get('balance')<0">
@@ -39,14 +39,14 @@
               </span>
 
 
-          </ion-item>
-          <ion-item class="item item-divider item-icon-right" style="font-size:small;font-weight: normal">
-              10 recent transactions
-              <i id="tran_loading" style="visibility: {{loading}}" class=" ion-loading-c"></i>
-           </ion-item>
-          <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
-          <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->
-          <ion-item class="item " style="font-size: medium;" ng-repeat="tran in transactions">
+            </ion-item>
+            <ion-item class="item item-divider item-icon-right" style="font-size:small;font-weight: normal">
+                10 recent transactions
+                <i id="tran_loading" style="visibility: {{loading}}" class=" ion-loading-c"></i>
+            </ion-item>
+            <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
+            <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->
+            <ion-item class="item " style="font-size: medium;" ng-repeat="tran in transactions">
               <span ng-if="tran.get('from')==user.get('email')">
                   <i class="icon ion-ios7-upload-outline"></i>
                   Paid
@@ -71,7 +71,7 @@
                   <span style="font-style: italic;font-size: small">
                     from <b>{{tran.get('fromname')}}</b></span>
                   </span>
-                    <BR ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
+                <BR ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
                   <span style="font-style: italic;font-size: small;color:gray">
                       <br>on {{tran.createdAt.toLocaleDateString()}}
                   </span>
@@ -81,7 +81,7 @@
                   </span>
               </span>
 
-          </ion-item>
-      </ion-list>
-  </ion-content>
+            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>
