@@ -199,7 +199,7 @@ angular.module('starter.controllers', [])
 
             //Load recent transactions
             var tran = new Transaction();
-            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user.get('email'), function(transactions){
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user, function(transactions){
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
@@ -498,7 +498,7 @@ angular.module('starter.controllers', [])
                     var user = new SUser();
                     user.getPersonalListByEmails(userIdArray,friendemails, friendnames, function(friendlist){
                         console.log("SendCtrl.sendRemote "+ friendlist.id);
-                        ParseService.recordQRCode(friendlist, tranId,currencyId,sendform.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),sendform.note,location , $scope.user,$rootScope.selectedFriend,function(r){
+                        ParseService.recordQRCode(friendlist, tranId,currencyId,sendform.amount,$rootScope.user,$rootScope.selectedFriend,sendform.note,location , $scope.user,$rootScope.selectedFriend,function(r){
 
                             if (r.message){
                                 $rootScope.alert('Error',r.message);
@@ -512,7 +512,7 @@ angular.module('starter.controllers', [])
                         });
                     })
                 }else{
-                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,currencyId,sendform.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),sendform.note,location, $scope.user,$rootScope.selectedFriend,function(r){
+                    ParseService.recordQRCode($rootScope.selectedGroup, tranId,currencyId,sendform.amount,$rootScope.user,$rootScope.selectedFriend,sendform.note,location, $scope.user,$rootScope.selectedFriend,function(r){
 
                         if (r.message){
                             $rootScope.hideLoading();
@@ -608,8 +608,10 @@ angular.module('starter.controllers', [])
                                 var Friendlist = Parse.Object.extend("friendlist");
                                 var fl = new Friendlist();
                                 fl.set('group',$scope.data.group);
-                                //fl.set('email',ParseService.getUser().get('email'));
+
                                 fl.addUnique('friends',ParseService.getUser().get('email'));
+                                fl.addUnique('friendnames',ParseService.getUser().get('username'));
+                                fl.addUnique('friend_userid',ParseService.getUser().id);
                                 fl.save(null,{
                                     success: function (result) {
                                         console.log("Add New Group Successfully");
@@ -811,13 +813,7 @@ angular.module('starter.controllers', [])
                     var fromUserId=res[7];
                     console.log(currencyId);
                     var friendemail = from;
-//
-//
-//                    if (from == $rootScope.user.get('email')){
-//                        friendemail = to;
-//                    }else{
-//                        friendemail = from;
-//                    }
+
 
                     var user = new SUser();
 
@@ -829,12 +825,11 @@ angular.module('starter.controllers', [])
                             console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
                             var userIdArray = [$scope.user.id,friend.id];
                             var friendemails = [$scope.user.get('email'),friendemail];
-                            var friendemails = [$scope.user.get('email'),friendemail];
                             var friendnames = [$scope.user.get('username'),friend.get('username')];
 
                             user.getPersonalListByEmails(userIdArray,friendemails, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
-                                $scope.recordQRCode(friendlist, tranId,currencyId, amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                $scope.recordQRCode(friendlist, tranId,currencyId, amount,friend,$scope.user,note,location, $scope.user,friend);
                             });
                         }else{
                             console.log("ReceiveCtrl.scan Group Found = "+ groupId);
@@ -847,7 +842,7 @@ angular.module('starter.controllers', [])
                             queryFd.get(groupId,{
                                 success:function(grp){
                                     console.log("ReceiveCtrl.scan successfully got group");
-                                    $scope.recordQRCode(grp, tranId,currencyId,amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
+                                    $scope.recordQRCode(grp, tranId,currencyId,amount,friend,$scope.user,note,location, $scope.user,friend);
                                 },error:function(obj, error){
                                     console.log("ReceiveCtrl.scan failed got group: "+ error.message);
 //                                    throw (error.message);
@@ -867,10 +862,10 @@ angular.module('starter.controllers', [])
             } );
         }
 
-        $scope.recordQRCode = function(group, id,currencyId,amount,from,youremail,note,location, user,friend){
+        $scope.recordQRCode = function(group, id,currencyId,amount,fromuser,touser,note,location, user,friend){
 
-            ParseService.recordQRCode(group,id,currencyId,amount,from,youremail,note,location, user,friend, function(r){
-                //console.log("Controllers Receive - recordQRCode Successfully Return message = "+r.message);
+            ParseService.recordQRCode(group,id,currencyId,amount,fromuser,touser,note,location, user,friend, function(r){
+
                 if (r.message== undefined){
                     console.log("Controllers Receive - recordQRCode Successfully");
 //                                $scope.scanresult.group = group;
@@ -1400,7 +1395,6 @@ angular.module('starter.controllers', [])
             $rootScope.user.set('email',form.email);
             $rootScope.user.save(null,{
                 success:function(r){
-
                     $state.go('tab.balance-overview');
                 },error:function(obj, error){
                     console.log("updateUser failed error = "+error.message);
