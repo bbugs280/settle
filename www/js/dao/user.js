@@ -225,7 +225,7 @@ var SUser = Parse.User.extend({
             console.log("getFriendListAll showhidden is false");
             query.notEqualTo("hidden", true);
         }
-        console.log("getFriends - this.email ==" + email);
+
         query.addAscending('group');
         query.find({
             success: function (result) {

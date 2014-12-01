@@ -118,3 +118,32 @@ function getDefaultCurrency(locale, callback){
 //    response.error("Invalid verification code.");
 //  }
 //});
+
+//Parse.Cloud.job("groupMigration", function(request, status) {
+//
+////    Parse.Cloud.useMasterKey();
+//    var counter = 0;
+//    // Query for all users
+//    var FriendList = Parse.Object.extend("friendlist");
+//    var query = new Parse.Query(FriendList);
+//    query.equalTo('friend_userid',undefined);
+//    query.each(function(fl) {
+//        // Update Column "friend_userid" with "friends"
+//        for (var i in fl.get('friends')){
+//
+//        }
+//        user.set("plan", request.params.plan);
+//        if (counter % 100 === 0) {
+//            // Set the  job's progress status
+//            status.message(counter + " users processed.");
+//        }
+//        counter += 1;
+//        return fl.save();
+//    }).then(function() {
+//        // Set the job's success status
+//        status.success("Migration completed successfully.");
+//    }, function(error) {
+//        // Set the job's error status
+//        status.error("Uh oh, something went wrong." + error.message);
+//    });
+//});

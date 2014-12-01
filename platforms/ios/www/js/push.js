@@ -53,10 +53,10 @@ function subscribe(channel){
     });
 }
 
-function subscribeAllGroups(email){
+function subscribeAllGroups(userId){
     //Get related channels
     var user = new SUser();
-    user.getFriendListForSub(email, function(g){
+    user.getFriendListForSub(userId, function(g){
         console.log(g.length);
         if (g.length !=0){
             for (var i in g){

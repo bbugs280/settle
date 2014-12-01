@@ -12,14 +12,14 @@
                 <!--ng-click="next()" ng-if="slideIndex > 0">-->
             <!--Next-->
         <!--</button>-->
-        <button class="button button-positive button-clear no-animation"
-                style="font-size: small"
-                ng-click="startApp()" ng-if="slideIndex == 2">
-            Start!
-        </button>
+        <!--<button class="button button-positive button-clear no-animation"-->
+                <!--style="font-size: small"-->
+                <!--ng-click="startApp()" ng-if="slideIndex == 2">-->
+            <!--Start!-->
+        <!--</button>-->
     </ion-nav-buttons>
 
-    <ion-slide-box on-slide-changed="slideChanged(index)">
+    <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
         <!-- first slide -->
         <ion-slide>
 
@@ -68,10 +68,10 @@
             <form ng-submit="updateUser(form)">
                 <div class="list" align="center">
                     <label class="item item-input">
-                        <input type="text" placeholder="Your Display Name" ng-model="form.username" value="{{user.get('username')}}">
+                        <input type="text" placeholder="Your Display Name" ng-model="form.username">
                     </label>
                     <label class="item item-input">
-                        <input type="email" placeholder="Your Email" ng-model="form.email"  value="{{user.get('email')}}">
+                        <input type="email" placeholder="Your Email" ng-model="form.email" >
                     </label>
                 </div>
                 <button class="button button-block button-stable" type="submit" >
