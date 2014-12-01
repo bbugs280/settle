@@ -1013,6 +1013,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.vibration \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www/keyboard.js \
@@ -1033,6 +1034,9 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin/www/cdv-plugin-parse.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization/www \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization/www/globalization.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization/www/GlobalizationError.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.vibration/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.vibration/www/vibration.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/intro.html \
@@ -1054,4 +1058,5 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tabs.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-login.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-signup.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-verify-phone.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/AndroidManifest.xml \

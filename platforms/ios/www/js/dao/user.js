@@ -225,7 +225,7 @@ var SUser = Parse.User.extend({
             console.log("getFriendListAll showhidden is false");
             query.notEqualTo("hidden", true);
         }
-        
+
         query.addAscending('group');
         query.find({
             success: function (result) {
@@ -293,7 +293,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
 
-        query.containsAll("friends", emailArray);
+        query.containsAll("friend_userid", userIdArray);
         query.equalTo("ispersonal", true);
 
         console.log("getPersonalListByEmails prepared");

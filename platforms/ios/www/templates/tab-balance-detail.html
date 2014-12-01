@@ -47,7 +47,7 @@
             <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
             <!--<span id="tran_loading" style="width:100%;height:50px;text-align: center;"><center><i class="icon ion-loading-c"></i></center></span>-->
             <ion-item class="item " style="font-size: medium;" ng-repeat="tran in transactions">
-              <span ng-if="tran.get('from')==user.get('email')">
+              <span ng-if="tran.get('fromuser').id==user.id">
                   <i class="icon ion-ios7-upload-outline"></i>
                   Paid
                   <span style="color:red">{{tran.get('amount')*-1| currency: tran.get('currency').get('code')}}</span>
@@ -56,9 +56,9 @@
                       <span style="font-weight: bold;font-color:black">{{tran.get('amount')*tran.get('from_rate') | currency : balance.get('currency').get('code')}}</span>
                   </span>
                   <span style="font-style: italic;font-size: small">
-                    to <b>{{tran.get('toname')}}</b></span>
+                    to <b>{{tran.get('touser').get('username')}}</b></span>
                     </span>
-              <span ng-if="tran.get('to')==user.get('email')">
+              <span ng-if="tran.get('touser').id==user.id">
 
                   <i class="icon ion-ios7-download-outline"></i>
                   Received
@@ -69,7 +69,7 @@
 
                   </span>
                   <span style="font-style: italic;font-size: small">
-                    from <b>{{tran.get('fromname')}}</b></span>
+                    from <b>{{tran.get('fromuser').get('username')}}</b></span>
                   </span>
                 <BR ng-if="tran.get('to_rate')!=1  && tran.get('to_rate')!=undefined">
                   <span style="font-style: italic;font-size: small;color:gray">

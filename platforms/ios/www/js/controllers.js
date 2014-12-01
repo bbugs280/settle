@@ -880,7 +880,7 @@ angular.module('starter.controllers', [])
                         display+="Group : " + group.get('group') +"<BR><BR>";
                     }
 
-                    display+="From : " + from +"<BR><BR>";
+                    display+="From : " + fromuser.get('username') +"<BR><BR>";
 
                     if (note!='undefined'){
                         display+="Note : "+note;
@@ -978,22 +978,22 @@ angular.module('starter.controllers', [])
         $scope.saveSetup = function(userp){
             var user = ParseService.getUser();
             $rootScope.showLoading('Saving...');
-
-
-            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
-//                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
-                $rootScope.alert('Weak Password', 'Please Enter Password with At least 6 character with one upper case and numeric')
-
-                throw("Weak Password");
-            }
-
-            if (userp.password!=userp.con_password){
-                $rootScope.alert('Password Mismatch','Please check and confirm your password')
-                throw("Invalid Password");
-            }
-            user.set('password',userp.password);
-            user.set('default_currency',$rootScope.user.get('default_currency'));
-            user.save(null,{
+//            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
+////                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
+//                $rootScope.alert('Weak Password', 'Please Enter Password with At least 6 character with one upper case and numeric')
+//
+//                throw("Weak Password");
+//            }
+//
+//            if (userp.password!=userp.con_password){
+//                $rootScope.alert('Password Mismatch','Please check and confirm your password')
+//                throw("Invalid Password");
+//            }
+//            user.set('password',userp.password);
+            $rootScope.user.set('username',userp.username);
+            $rootScope.user.set('email',userp.email);
+            $rootScope.user.set('default_currency',$rootScope.user.get('default_currency'));
+            $rootScope.user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
                     $rootScope.hideLoading();
@@ -1334,9 +1334,9 @@ angular.module('starter.controllers', [])
         if (ParseService.getUser()){
             $state.go('tab.balance-overview');
         }else{
-//            if (!window.plugins) {
-//                $scope.go('login');
-//            }
+            if (!window.plugins) {
+                $state.go('login');
+            }
         }
 
 

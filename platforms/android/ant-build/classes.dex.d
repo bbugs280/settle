@@ -39,6 +39,9 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/core/ParsePlugin$6.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/core/ParsePlugin.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/device/Device.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/globalization/Globalization$1.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/globalization/Globalization.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/globalization/GlobalizationError.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/vibration/Vibration.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/classes-af0a0edba45c7898cd10beade3e82d98.jar \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/Parse-1.3.8-a59f6cc4ab8cd9f0eecc97f12323faae.jar \

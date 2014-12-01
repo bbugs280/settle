@@ -98,17 +98,11 @@ angular.module('starter.services', [])
 
             // Get current logged in user
             getUser : function getUser() {
-//                 var user = new SUser();
 
-                //Parse.User.current().get('default_currency').fetch({
-                //    success:function(){
-                //        return
-                //    }
-                //});
                  return Parse.User.current();
             },
-
-            recordQRCode : function recordQRCode(group, tranId, currencyId, amount, from, to, note, location, user, friend, callback){
+//TODO remove user & friend params later
+            recordQRCode : function recordQRCode(group, tranId, currencyId, amount, fromuser, touser, note, location, user, friend, callback){
                 var tran = new Transaction();
                 tran.set('group',group);
                 tran.set('groupId',group.id);
@@ -116,22 +110,14 @@ angular.module('starter.services', [])
                 tran.set('currency',{__type: "Pointer", className: "currencies", objectId: currencyId});
                 tran.get('currency').fetch();
                 tran.set('amount',Number(amount));
-                tran.set('from',from);
-                tran.set('to',to);
+                tran.set('from',fromuser.get('email'));
+                tran.set('to',touser.get('email'));
                 tran.set('note',note);
                 tran.set('location',location);
-
-                if (from==user.get('email')){
-                    tran.set('fromname',user.get('username'));
-                    tran.set('toname',friend.get('username'));
-                    tran.set('fromuser',{__type: "Pointer", className: "User", objectId: user.id});
-                    tran.set('touser',{__type: "Pointer", className: "User", objectId: friend.id});
-                }else{
-                    tran.set('fromname',friend.get('username'));
-                    tran.set('toname',user.get('username'));
-                    tran.set('fromuser',{__type: "Pointer", className: "User", objectId: friend.id});
-                    tran.set('touser',{__type: "Pointer", className: "User", objectId: user.id});
-                }
+                tran.set('fromname',fromuser.get('username'));
+                tran.set('toname',touser.get('username'));
+                tran.set('fromuser',{__type: "Pointer", className: "User", objectId: fromuser.id});
+                tran.set('touser',{__type: "Pointer", className: "User", objectId: touser.id});
 
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
@@ -144,25 +130,19 @@ angular.module('starter.services', [])
                     }else{
 
                         //Save Transaction
-
-                        console.log("recordQRCode - before tran save : " + tran.get('tranId') +" | "+ tran.get('amount') +" | "+ tran.get('from') +" | "+ tran.get('to') +" | "+ tran.get('note') +" | "+ user.get('email'));
                         tran.save(null,
                             {
                                 success: function(tran){
                                     //Found out who is your friend
                                     console.log("recordQRCode - Saved Tran successfully with TranID = " + tran.get('tranId'));
                                     console.log("recordQRCode - after tran save ");
-
-                                    var friendEmail = tran.getFriendEmail(user.getEmail());
-                                    var friendName = tran.getFriendName(user.get('username'));
-//                                    console.log("recordQRCode - get friend email "+ friendEmail);
                                     //Update your Records e.g. Balance and Friend list
 
-                                    var trancredit = tran.getYourCredit(user.get('email'));
-                                    var trandebit = tran.getYourDebit(user.get('email'));
+                                    var trancredit = tran.getYourCredit(user.id);
+                                    var trandebit = tran.getYourDebit(user.id);
                                     // First update your own records
                                     //1. get Your Balance
-                                    user.getBalanceByEmail(group,user,function(yourbal){
+                                    user.getBalanceByGroupAndUser(group,user,function(yourbal){
 
                                         //2. update Your Balance
 //                                        yourbal.set('group', group);
@@ -191,13 +171,14 @@ angular.module('starter.services', [])
 
                                         });
                                         // 3. Update Group List with both friend and your email
-                                        var friendArray = [user.get('email'),friendEmail];
-                                        var nameArray = [user.get('username'),friendName];
+                                        var userIdArray = [user.id,friend.id];
+                                        var friendArray = [user.get('email'),friend.get('email')];
+                                        var nameArray = [user.get('username'),friend.get('username')];
                                         //set frienduser and user
                                         group.set('user1',user);
                                         group.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
 
-                                        user.addFriends(group, nameArray,friendArray, function(friends){
+                                        user.addFriends(group, userIdArray, nameArray,friendArray, function(friends){
                                         //console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
                                             console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
                                             //Update Tran with new rate
@@ -212,8 +193,8 @@ angular.module('starter.services', [])
 
                                         //Now update your friend Records
                                         //1. get Friend Balance
-                                        console.log("before Friend getBalanceByEmail friend"+friend.get('default_currency'));
-                                        user.getBalanceByEmail(group,friend,function(friendbal){
+                                        console.log("before Friend getBalanceByGroupAndUser friend"+friend.get('default_currency'));
+                                        user.getBalanceByGroupAndUser(group,friend,function(friendbal){
                                             console.log("friend balance found and being updated");
                                             //console.log("Friend Group Found with Curr = "+friend.get('default_currency').get('code'));
 

@@ -62,7 +62,7 @@
                 </span>
 
               <br>
-              <span style="font-size: x-small;color:gray">Last transaction on <b>{{bal.createdAt.toLocaleDateString()}}</b></span>
+              <span style="font-size: x-small;color:gray">Last transaction on <b>{{bal.updatedAt.toLocaleDateString()}}</b></span>
               <button class="button button-clear" ng-click="goToSend(bal.get('user'))" ng-if="user.id!=bal.get('user').id">
                   <i class="icon ion-card"></i>
               </button>

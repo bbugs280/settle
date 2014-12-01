@@ -880,7 +880,7 @@ angular.module('starter.controllers', [])
                         display+="Group : " + group.get('group') +"<BR><BR>";
                     }
 
-                    display+="From : " + from +"<BR><BR>";
+                    display+="From : " + fromuser.get('username') +"<BR><BR>";
 
                     if (note!='undefined'){
                         display+="Note : "+note;

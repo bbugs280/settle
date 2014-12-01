@@ -32,6 +32,27 @@ var SUser = Parse.User.extend({
         })
 
     },
+    getUserById : function (id, callback) {
+        var User = Parse.Object.extend("User");
+        var query = new Parse.Query(User);
+        query.include('default_currency');
+        //query.equalTo("email", emailp);
+        query.get(id,{
+            success: function(result) {
+                if (result) {
+                    console.log(" getUserById - have result");
+                    callback(result);
+                } else {
+                    console.log(" getUserById - no result");
+                    callback(null);
+                }
+            },
+            error: function (object, error) {
+                throw("Error: " + error.code + " " + error.message);
+            }
+        });
+    },
+    //TODO to be remove after 1.1.6
     getUserByEmail : function (emailp, callback) {
     var User = Parse.Object.extend("User");
     var query = new Parse.Query(User);
@@ -72,39 +93,21 @@ var SUser = Parse.User.extend({
         var mainQuery = Parse.Query.or(query, query2);
         mainQuery.first({
             success: function(result) {
-//                console.log(" have result success ? " + result.length);
                 callback(result);
-//                if (result.length > 0) {
-//
-//                    var r = new SUser();
-//
-//                    r.id = result[0].id;
-//
-//                    r.set({"username": result[0].get('username')});
-//                    r.set({"email": result[0].get('email')});
-//                    console.log("getUserByEmail -  this.username = " + r.get('username'));
-//                    console.log("getUserByEmail -  result[0].get(email) = " + result[0].get("email"));
-//                    callback(r);
-//                } else {
-//                    callback(null);
-//                }
+
             },
             error: function (object, error) {
                 throw("Error: " + error.code + " " + error.message);
             }
         });
     },
-    getBalanceByEmail : function (group, user, callback) {
-
-        console.log("getBalanceByEmail - start");
+    getBalanceByGroupAndUser : function (group, user, callback) {
+        console.log("getBalanceByGroupAndUser - start");
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
     query.include('currency');
     query.equalTo("user", user);
     query.equalTo("group", group);
-//    console.log("getBalanceByEmail - user default currency = ", user.get('default_currency').get('code'));
-
-
         query.find({
         success: function (result) {
             // The object was retrieved successfully.
@@ -136,12 +139,12 @@ var SUser = Parse.User.extend({
         }
     });
 },
-    getBalanceByEmails : function (group, emailarray, callback) {
+    getBalanceByGroupAndUserIDs : function (group, useridArray, callback) {
         var Balance = Parse.Object.extend("balance");
         var User = Parse.Object.extend("User");
         var query = new Parse.Query(Balance);
         var innerQuery = new Parse.Query(User);
-        innerQuery.containedIn("email", emailarray);
+        innerQuery.containedIn("objectId", useridArray);
         query.include('user');
         query.include('currency');
 //        query.containedIn("email", emailarray);
@@ -212,17 +215,17 @@ var SUser = Parse.User.extend({
     });
 
 },
-    getFriendListAll: function (email, showHidden, callback) {
+    getFriendListAll: function (userId, showHidden, callback) {
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
-        query.equalTo("friends", email);
+        query.equalTo("friend_userid", userId);
         query.notEqualTo("ispersonal",true);
         if (!showHidden){
             console.log("getFriendListAll showhidden is false");
             query.notEqualTo("hidden", true);
         }
-        console.log("getFriends - this.email ==" + email);
+
         query.addAscending('group');
         query.find({
             success: function (result) {
@@ -236,11 +239,11 @@ var SUser = Parse.User.extend({
         });
 
     },
-    getFriendListForSub: function (email, callback) {
+    getFriendListForSub: function (userId, callback) {
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
-        query.equalTo("friends", email);
+        query.equalTo("friend_userid", userId);
         //query.notEqualTo("ispersonal",true);
         query.notEqualTo("hidden", true);
         query.addAscending('group');
@@ -284,15 +287,17 @@ var SUser = Parse.User.extend({
         });
 
     },
-    getPersonalListByEmails: function (emailArray, nameArray, callback) {
+    //TODO name and email array to be removed after all user is upgraded to 1.1.6
+    getPersonalListByEmails: function (userIdArray,emailArray, nameArray, callback) {
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
 
-        query.containsAll("friends", emailArray);
+        query.containsAll("friend_userid", userIdArray);
         query.equalTo("ispersonal", true);
 
         console.log("getPersonalListByEmails prepared");
+        console.log("getPersonalListByEmails - email Array = "+emailArray);
         query.find({
             success: function (friendlist) {
                 // The object was retrieved successfully.
@@ -300,6 +305,7 @@ var SUser = Parse.User.extend({
                 if (friendlist.length == 0){
                     var fl = new Friendlist();
                     fl.set('friends', emailArray);
+                    fl.set('friend_userid', userIdArray);
                     fl.set('username1',nameArray[0]);
                     fl.set('username2',nameArray[1]);
                     fl.set('friendnames', nameArray);
@@ -309,7 +315,7 @@ var SUser = Parse.User.extend({
                            callback(result);
                        },error:function(error){
                             throw error.message;
-                        }
+                       }
                     });
                 }else{
                     callback(friendlist[0]);
@@ -322,12 +328,12 @@ var SUser = Parse.User.extend({
         });
 
     },
-    findPersonalList: function (email, callback) {
+    findPersonalList: function (userId, callback) {
         var Friendlist = Parse.Object.extend("friendlist");
 
         var query = new Parse.Query(Friendlist);
 
-        query.equalTo("friends", email);
+        query.equalTo("friend_userid", userId);
         query.equalTo("ispersonal", true);
         console.log("findPersonalList prepared");
         query.find({
@@ -344,7 +350,8 @@ var SUser = Parse.User.extend({
         });
 
     },
-    addFriends : function (friendlist, nameArray, friendemailArray, callback) {
+    //TODO name and email array to be removed after all user is upgraded to 1.1.6
+    addFriends : function (friendlist, useridArray, nameArray, friendemailArray, callback) {
     var Friendlist = Parse.Object.extend("friendlist");
 
         if (!friendlist instanceof Friendlist){
@@ -358,6 +365,7 @@ var SUser = Parse.User.extend({
 //        for (var i= 0;i< friendemailArray.length;i++) {
         for (var i in friendemailArray){
             console.log("addFriends - addUnique email = "+friendemailArray[i]);
+            friendlist.addUnique('friend_userid', useridArray[i]);
             friendlist.addUnique('friends', friendemailArray[i]);
             friendlist.addUnique('friendnames', nameArray[i]);
         }
