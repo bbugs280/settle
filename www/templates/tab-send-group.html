@@ -34,7 +34,7 @@
                             <img src="{{list.get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()!=undefined">
                             <img src="./img/group.png"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()==undefined">
                             <p style="font-style: oblique;font-weight: bolder">{{list.get('group')}}</p>
-                            <p>{{list.get('friends').length}} people in group</p>
+                            <p>{{list.get('friend_userid').length}} people in group</p>
                             <ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>
 
                             <span ng-if="selectedGroup.id == list.id ">

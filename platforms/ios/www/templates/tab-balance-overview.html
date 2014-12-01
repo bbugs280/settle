@@ -77,21 +77,16 @@
                         </span>
               </span>
               <!--counter badge-->
-              <i class="badge badge-assertive" style="top:50px;left:40px;width: 28px" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}}</i>
+              <i class="badge badge-assertive" style="top:50px;left:40px;width: 28px" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friend_userid').length}}</i>
               <br ng-if="balance.get('group').get('ispersonal')!=true">
-              <span  style="font-size: small" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friends').length}} people in group</span>
+              <span  style="font-size: small" ng-if="balance.get('group').get('ispersonal')!=true">{{balance.get('group').get('friend_userid').length}} people in group</span>
 
 
 
               <br>
 
               <span style="font-size: x-small;color:gray">Last transaction on <b>{{balance.updatedAt.toLocaleDateString()}}</b></span>
-              <!--<span ng-if="balance.get('group').get('ispersonal')!=true">-->
-                <!--<span class="badge badge-assertive">{{balance.get('group').get('friends').length}}</span>-->
-              <!--</span>   -->
-              <!--<button class="button button-clear" ng-if="balance.get('group').get('ispersonal')==true">-->
-                  <!--<i class="ion-paper-airplane"></i>-->
-              <!--</button>-->
+
               <ion-option-button class="button-assertive" ng-click="sendPerson(balance.get('frienduser'))" ng-if="balance.get('group').get('ispersonal')==true">
                    Pay
                   <!--<i class="icon ion-card"></i>-->
