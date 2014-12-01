@@ -162,7 +162,7 @@ angular.module('starter.services', [])
                                     var trandebit = tran.getYourDebit(user.get('email'));
                                     // First update your own records
                                     //1. get Your Balance
-                                    user.getBalanceByEmail(group,user,function(yourbal){
+                                    user.getBalanceByGroupAndUser(group,user,function(yourbal){
 
                                         //2. update Your Balance
 //                                        yourbal.set('group', group);
@@ -191,13 +191,14 @@ angular.module('starter.services', [])
 
                                         });
                                         // 3. Update Group List with both friend and your email
+                                        var userIdArray = [user.id,friend.id];
                                         var friendArray = [user.get('email'),friendEmail];
                                         var nameArray = [user.get('username'),friendName];
                                         //set frienduser and user
                                         group.set('user1',user);
                                         group.set('user2',{__type: "Pointer", className: "User", objectId: friend.id});
 
-                                        user.addFriends(group, nameArray,friendArray, function(friends){
+                                        user.addFriends(group, userIdArray, nameArray,friendArray, function(friends){
                                         //console.log("recordQRCode - your friendlist saved with friends no = "+friends.get('friends').length);
                                             console.log("recordQRCode - Your Balance and Friends are UP2Date!!!");
                                             //Update Tran with new rate
@@ -213,7 +214,7 @@ angular.module('starter.services', [])
                                         //Now update your friend Records
                                         //1. get Friend Balance
                                         console.log("before Friend getBalanceByEmail friend"+friend.get('default_currency'));
-                                        user.getBalanceByEmail(group,friend,function(friendbal){
+                                        user.getBalanceByGroupAndUser(group,friend,function(friendbal){
                                             console.log("friend balance found and being updated");
                                             //console.log("Friend Group Found with Curr = "+friend.get('default_currency').get('code'));
 

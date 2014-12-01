@@ -27,7 +27,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               registerPush();
 
               subscribe("P_"+Parse.User.current().id);
-              subscribeAllGroups(Parse.User.current().get('email'));
+              subscribeAllGroups(Parse.User.current().id);
           }, function(e) {
               console.log('error');
           });

@@ -191,7 +191,7 @@ angular.module('starter.controllers', [])
         var user = new SUser();
         $scope.loadTrans = function(){
             $scope.loading = 'visible';
-            user.getBalanceByEmail($rootScope.selectedGroup,$rootScope.user, function(balance){
+            user.getBalanceByGroupAndUser($rootScope.selectedGroup,$rootScope.user, function(balance){
                 $scope.balance = balance;
                 console.log("controller balance - Balance = "+$scope.balance.get('balance'));
                 $scope.$apply();
@@ -227,13 +227,13 @@ angular.module('starter.controllers', [])
         $scope.loadGroup = function(){
             $scope.loading = 'visible';
             var user = new SUser();
-            user.getBalanceByEmail($rootScope.selectedGroup, $rootScope.user, function(balance){
+            user.getBalanceByGroupAndUser($rootScope.selectedGroup, $rootScope.user, function(balance){
                 $scope.balance = balance;
                 $scope.$apply();
             })
 
             //Load Friends Balance
-            user.getBalanceByEmails($rootScope.selectedGroup,$rootScope.selectedGroup.get('friends'), function(balances){
+            user.getBalanceByGroupAndUserIDs($rootScope.selectedGroup,$rootScope.selectedGroup.get('friend_userid'), function(balances){
                 $scope.balances = balances;
                 $scope.balancesFiltered = balances;
                 $scope.$broadcast('scroll.refreshComplete');
@@ -322,6 +322,7 @@ angular.module('starter.controllers', [])
             var groupId = "";
             var groupname = "";
             var currencyId = "";
+            var fromUserId = $rootScope.user.id;
 
             if ($rootScope.selectedGroup){
                 groupId = $rootScope.selectedGroup.id;
@@ -345,7 +346,7 @@ angular.module('starter.controllers', [])
             }else{
                 currencyId = $rootScope.user.get('default_currency').id;
             }
-            var sendString = tranId+"|"+ email +"|"+ $rootScope.sendamount +"|"+ $rootScope.sendnote +"|"+groupId+"|"+groupname + "|"+currencyId;
+            var sendString = tranId+"|"+ email +"|"+ $rootScope.sendamount +"|"+ $rootScope.sendnote +"|"+groupId+"|"+groupname + "|"+currencyId+"|"+fromUserId;
             console.log(sendString.toString());
             sendString = Common.encrypt(sendString.toString());
 
@@ -491,10 +492,11 @@ angular.module('starter.controllers', [])
                 var location;
                 if (!$rootScope.selectedGroup){
                     console.log("SendCtrl.sendRemote  Finding Person Group ");
+                    var userIdArray = [$scope.user.id,$rootScope.selectedFriend.id];
                     var friendemails = [$scope.user.get('email'),$rootScope.selectedFriend.get('email')];
                     var friendnames = [$scope.user.get('username'),$rootScope.selectedFriend.get('username')];
                     var user = new SUser();
-                    user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
+                    user.getPersonalListByEmails(userIdArray,friendemails, friendnames, function(friendlist){
                         console.log("SendCtrl.sendRemote "+ friendlist.id);
                         ParseService.recordQRCode(friendlist, tranId,currencyId,sendform.amount,$rootScope.user.get('email'),$rootScope.selectedFriend.get('email'),sendform.note,location , $scope.user,$rootScope.selectedFriend,function(r){
 
@@ -570,7 +572,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadGroup = function(){
             var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), false, function(friendlists){
+            user.getFriendListAll(ParseService.getUser().id, false, function(friendlists){
                 console.log("SendGroupCtrl Ctrl - load Group Completed get Friendall");
                 $scope.friendlists = friendlists;
                 $scope.$apply();
@@ -643,7 +645,7 @@ angular.module('starter.controllers', [])
         $scope.loadRelatedPersonalUsers = function(){
             var user = new SUser();
             //$rootScope.showLoading("Loading...");
-            user.findPersonalList($rootScope.user.get('email'), function(friendlists){
+            user.findPersonalList($rootScope.user.id, function(friendlists){
                 console.log("SelectUserCtrl Ctrl - load Group Completed get Friendall ");
 
                 var Friendlist = Parse.Object.extend("friendlist");
@@ -806,6 +808,7 @@ angular.module('starter.controllers', [])
                     var groupId=res[4];
                     var groupName=res[5];
                     var currencyId=res[6];
+                    var fromUserId=res[7];
                     console.log(currencyId);
                     var friendemail = from;
 //
@@ -818,16 +821,18 @@ angular.module('starter.controllers', [])
 
                     var user = new SUser();
 
-                    user.getUserByEmail(friendemail, function(friend){
+                    user.getUserById(fromUserId, function(friend){
                         //If Group Id is Empty, then it's Personal/Direct Transfer
                         //1. Find Personal Group Or create one
                         console.log("ReceiveCtrl.scan  groupId = "+ groupId);
                         if (groupId==''){
                             console.log("ReceiveCtrl.scan  Finding Person Group groupId = "+ groupId);
+                            var userIdArray = [$scope.user.id,friend.id];
+                            var friendemails = [$scope.user.get('email'),friendemail];
                             var friendemails = [$scope.user.get('email'),friendemail];
                             var friendnames = [$scope.user.get('username'),friend.get('username')];
 
-                            user.getPersonalListByEmails(friendemails, friendnames, function(friendlist){
+                            user.getPersonalListByEmails(userIdArray,friendemails, friendnames, function(friendlist){
                                 console.log("ReceiveCtrl.scan "+ friendlist.id);
                                 $scope.recordQRCode(friendlist, tranId,currencyId, amount,from,$scope.user.get('email'),note,location, $scope.user,friend);
                             });
@@ -1132,7 +1137,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadGroupSetup = function(){
             var user = new SUser();
-            user.getFriendListAll(ParseService.getUser().get('email'), true, function(friendlists){
+            user.getFriendListAll(ParseService.getUser().id, true, function(friendlists){
                 $scope.friendlistsSetup = friendlists;
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.$apply();
@@ -1308,7 +1313,7 @@ angular.module('starter.controllers', [])
 
                 if (window.plugins && window.plugins.pushNotification){
                     subscribe("P_"+user.id);
-                    subscribeAllGroups(user.get('email'));
+                    subscribeAllGroups(user.id);
                 }
 
                 $state.go('tab.balance-overview');
