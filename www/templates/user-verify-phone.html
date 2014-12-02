@@ -1,4 +1,4 @@
-<ion-view title="Settle" hide-nav-bar="false">
+<ion-view title="Settle" hide-nav-bar="false" hide-back-button="true">
     <ion-nav-buttons side="left">
         <button class="button button-positive button-clear no-animation"
                 style="font-size: small"
@@ -12,11 +12,11 @@
                 <!--ng-click="next()" ng-if="slideIndex > 0">-->
             <!--Next-->
         <!--</button>-->
-        <!--<button class="button button-positive button-clear no-animation"-->
-                <!--style="font-size: small"-->
-                <!--ng-click="startApp()" ng-if="slideIndex == 2">-->
-            <!--Start!-->
-        <!--</button>-->
+        <button class="button button-positive button-clear no-animation"
+                style="font-size: small"
+                ng-click="startApp()" ng-if="slideIndex == 2">
+            Update Later
+        </button>
     </ion-nav-buttons>
 
     <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
@@ -75,7 +75,7 @@
                     </label>
                 </div>
                 <button class="button button-block button-stable" type="submit" >
-                    Start
+                    Update
                 </button>
             </form>
 

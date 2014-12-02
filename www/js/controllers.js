@@ -1325,6 +1325,7 @@ angular.module('starter.controllers', [])
 })
     .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
         $rootScope.intro = true;
+        $ionicSlideBoxDelegate.enableSlide(false);
         //Check if user have seen intro
         if(window.localStorage['didTutorial'] !== "true") {
             $state.go('intro');
