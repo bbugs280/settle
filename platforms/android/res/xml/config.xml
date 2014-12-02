@@ -56,4 +56,7 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="WebSecurity" value="disable" />
     <preference name="target-device" value="handset" />
+    <feature name="Contacts">
+        <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
+    </feature>
 </widget>

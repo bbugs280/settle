@@ -35,8 +35,9 @@
                     </label>
 
                 </div>
-                <button class="button button-block button-stable" type="submit" >
-                    Next
+                <button class="button button-block button-stable" type="submit" ng-disabled="sendButtonDisabled">
+                    <i class="icon ion-loading-c" style="visibility:{{loading}}"></i>
+                    Get Verification Code
                 </button>
             </form>
         </ion-slide>

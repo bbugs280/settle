@@ -55,6 +55,10 @@
                         {
                             "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Contacts\"><param name=\"ios-package\" value=\"CDVContacts\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -112,7 +116,7 @@
                     "CoreGraphics.framework": [
                         {
                             "xml": "false",
-                            "count": 3
+                            "count": 4
                         }
                     ],
                     "MobileCoreServices.framework": [
@@ -158,6 +162,18 @@
                     "SystemConfiguration.framework": [
                         {
                             "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "AddressBook.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "AddressBookUI.framework": [
+                        {
+                            "xml": "true",
                             "count": 1
                         }
                     ]
@@ -207,6 +223,9 @@
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.globalization": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "org.apache.cordova.contacts": {
             "PACKAGE_NAME": "com.bumble.Settle"
         }
     },
