@@ -20,53 +20,34 @@ angular.module('starter.controllers', [])
         };
 })
 .controller('FriendsCtrl', function($rootScope, $scope) {
-        $scope.Friends = [];
-        $scope.FriendsFiltered=[];
+        //$scope.Friends;
+        //$scope.FriendsFiltered;
+
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
-
-            navigator.globalization.getLocaleName(function(localeName){
-                console.log(localeName.value);
-//                var countryCode = localeName.value.substring(localeName.length-2,localeName.length).toUpperCase();
-//                console.log(countryCode);
-                //Construct phone array
-                var phoneArray=[];
-                for (var i=0;i<contacts.length;i++){
-                    if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
-                        for (var j=0;j<contacts[i].phoneNumbers.length;j++){
-                            var phone = contacts[i].phoneNumbers[j].value;
+            console.log("country Code = "+$rootScope.countryCode);
+            //Construct phone array
+            var phoneArray=[];
+            for (var i=0;i<contacts.length;i++){
+                if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
+                    for (var j=0;j<contacts[i].phoneNumbers.length;j++){
+                        var phone_no = contacts[i].phoneNumbers[j].value;
 //                            phone = phone.replace(/\s+/g, '');
 //                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
-//                            phone=cleanPhone(phone);
-//                            phone=formatE164(phone,countryCode);
-//                            phone = phone.replace(/[^0-9]/g, '');
-                            console.log(phone);
-//                            if (isValidNumber(phone,countryCode)){
-//                                phoneArray.push(phone);
-//                            }
-                        }
+                            phone_no=cleanPhone(phone_no);
+
+                            if (isValidNumber(phone_no,$rootScope.countryCode)){
+                                phone_no=formatE164($rootScope.countryCode,phone_no);
+                                //console.log("valid = " +phone_no);
+                                phoneArray.push(phone_no);
+                            }
                     }
                 }
+            }
 
-                //Now get user from Parse using Array
-                console.log(phoneArray.length);
-                var User = Parse.Object.extend("User");
-                var query = new Parse.Query(User);
-                query.contains('phone_number', phoneArray);
-                query.find({
-                    success:function(users){
-                        console.log(users.length);
-                        $scope.Friends=users;
-                        $scope.$apply();
-                        $scope.$broadcast('scroll.refreshComplete');
-                    }
-                });
-
-            },function(error){
-                console.log("getLocaleName error = "+error.message);
-            });
+            $scope.loadFromParse(phoneArray);
         }
 
         function onError(contactError) {
@@ -87,7 +68,52 @@ angular.module('starter.controllers', [])
         }
     }
 
-        $scope.loadFriends();
+        $scope.loadFromParse = function(phoneArray){
+            //Now get user from Parse using Array
+            console.log("phoneArray ="+ phoneArray.length);
+            var User = Parse.Object.extend("User");
+            var query = new Parse.Query(User);
+            query.containedIn('phone_number', phoneArray);
+            query.addAscending('username');
+            query.find({
+                success:function(users){
+                    console.log("found user = "+users.length);
+                    $rootScope.Friends=users;
+                    $scope.FriendsFiltered=users;
+                    $scope.$apply();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, error:function(obj, error){
+                    console.log("error "+ error.message);
+                }
+            });
+        }
+
+        $scope.loadInit = function(){
+            if (!$rootScope.Friends) {
+                $scope.loadFriends();
+            }
+        }
+        $scope.searchFriend = function(txt){
+            console.log("searchFriend "+txt);
+            var result = [];
+            for (var i in $rootScope.Friends){
+                if ($rootScope.Friends[i].getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.Friends[i].getUsername());
+                    result.push($rootScope.Friends[i]);
+                }
+            }
+            $scope.FriendsFiltered = result;
+        }
+
+        $scope.goToSend = function(user){
+            $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
+        }
+        $scope.getInfo = function(user){
+            
+        }
+        $scope.loadInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
@@ -1420,6 +1446,10 @@ angular.module('starter.controllers', [])
 //            var timeZone = install.get("timeZone");
             $scope.phone_number = form.phone_number;
             navigator.globalization.getLocaleName(function(localeName){
+                var countryCode = localeName.value.substring(localeName.value.length - 2, localeName.value.length).toUpperCase();
+                console.log("country code = " + countryCode);
+                $rootScope.countryCode = countryCode;
+
                 Parse.Cloud.run('sendVerificationCode', { phone_number: form.phone_number, locale: localeName.value}, {
                     success: function(r) {
                         console.log("sendVerificationCode successful");

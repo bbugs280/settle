@@ -16,8 +16,28 @@
                </label>
 
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right"  ng-repeat="friend in Friends">
-                {{friend.get('username')}}
+          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered" ng-click="goToSend(friend)">
+              <img src="{{friend.get('icon').url()}}"
+                   class="avatar"
+                   ng-if="friend.get('icon')!=undefined">
+              <img src="./img/people.png"
+                   class="avatar"
+                   ng-if="friend.get('icon')==undefined">
+                <p><b>{{friend.get('username')}}</b> {{friend.get('email')}}</p>
+                <p>{{friend.get('phone_number')}}</p>
+              <button class="button button-clear" ng-click="getInfo(friend)">
+                  <i class="icon ion-ios7-information-outline"></i>
+              </button>
+
+          </ion-item>
+          <ion-item class="item" style="text-align: center" ng-click="">
+              <!--<i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>-->
+              <!--<span style="font-weight: bold">Friend not in here?</span>-->
+              <p>Invite Friend to Settle</p>
+              <!--<button class="button button-stable" ng-click="sendPerson()">-->
+                  <!--<i class="icon ion-card"></i>-->
+                  <!--Make Payment-->
+              <!--</button>-->
           </ion-item>
       </ion-list>
   </ion-content>
