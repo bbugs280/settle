@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope) {
+.controller('FriendsCtrl', function($rootScope, $scope,$state) {
         //$scope.Friends;
         //$scope.FriendsFiltered;
 

@@ -23,9 +23,11 @@
               <img src="./img/people.png"
                    class="avatar"
                    ng-if="friend.get('icon')==undefined">
-                <p><b>{{friend.get('username')}}</b> </p>
-                <p>{{friend.get('email')}}</p>
-                <p>{{friend.get('phone_number')}}</p>
+                <p><b>{{friend.get('username')}}</b> <br>
+                    {{friend.get('email')}}<br>
+                    {{friend.get('phone_number')}}
+                </p>
+
               <button class="button button-clear" ng-click="getInfo(friend)">
                   <i class="icon ion-ios7-information-outline"></i>
               </button>
