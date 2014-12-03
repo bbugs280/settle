@@ -91,6 +91,8 @@ angular.module('starter.controllers', [])
         $scope.loadInit = function(){
             if (!$rootScope.Friends) {
                 $scope.loadFriends();
+            }else{
+                $scope.FriendsFiltered = $rootScope.Friends;
             }
         }
         $scope.searchFriend = function(txt){
@@ -106,13 +108,15 @@ angular.module('starter.controllers', [])
         }
 
         $scope.goToSend = function(user){
+            console.log("goToSend");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
         }
         $scope.getInfo = function(user){
-            
+
         }
+
         $scope.loadInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
