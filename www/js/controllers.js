@@ -81,15 +81,19 @@ angular.module('starter.controllers', [])
                     $rootScope.Friends=users;
                     $scope.FriendsFiltered=users;
                     $scope.$apply();
+                    $scope.loading = 'hidden';
                     $scope.$broadcast('scroll.refreshComplete');
                 }, error:function(obj, error){
+                    $scope.loading = 'hidden';
                     console.log("error "+ error.message);
                 }
             });
         }
 
         $scope.loadInit = function(){
+
             if (!$rootScope.Friends) {
+                $scope.loading = 'visible';
                 $scope.loadFriends();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
@@ -116,7 +120,9 @@ angular.module('starter.controllers', [])
         $scope.getInfo = function(user){
 
         }
+        $scope.invite = function(){
 
+        }
         $scope.loadInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
@@ -132,11 +138,16 @@ angular.module('starter.controllers', [])
         $rootScope.back = function(){
             history.go(-1);
         }
-
+        $rootScope.goToIntro = function(){
+            $state.go('intro');
+        }
         $rootScope.showLoading = function(message){
             $ionicLoading.show({
                 template: message
             });
+        }
+        $rootScope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
         }
         $rootScope.hideLoading = function(){
             $ionicLoading.hide();
@@ -265,13 +276,6 @@ angular.module('starter.controllers', [])
             }
             $scope.balancelistFiltered = result;
 
-        }
-        $scope.goToIntro = function(){
-
-            $state.go(('intro'));
-        }
-        $scope.goToUserSetup = function(){
-            $state.go('tab.setupuser');
         }
 
 })
@@ -1096,6 +1100,7 @@ angular.module('starter.controllers', [])
             $rootScope.user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
+                    $rootScope.user = user;
                     $rootScope.hideLoading();
                 },error:function(user, error){
                     $rootScope.hideLoading();
@@ -1453,7 +1458,13 @@ angular.module('starter.controllers', [])
                 var countryCode = localeName.value.substring(localeName.value.length - 2, localeName.value.length).toUpperCase();
                 console.log("country code = " + countryCode);
                 $rootScope.countryCode = countryCode;
+                if (!isValidNumber(form.phone_number,countryCode)){
+                    $rootScope.alert("Invalid Phone Number", "Please check and try again");
+                    $scope.sendButtonDisabled = false;
+                    $scope.loading = "hidden";
+                    throw ("invalid phone number");
 
+                }
                 Parse.Cloud.run('sendVerificationCode', { phone_number: form.phone_number, locale: localeName.value}, {
                     success: function(r) {
                         console.log("sendVerificationCode successful");
@@ -1474,6 +1485,10 @@ angular.module('starter.controllers', [])
                 $scope.loading = "hidden";
             });
 
+        }
+
+        $scope.checkPhoneNumber = function(form){
+            form.phone_number=formatE164($rootScope.countryCode,form.phone_number);
         }
 
         $scope.sendVerifyCode = function (form){
