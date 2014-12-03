@@ -31,6 +31,15 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/CameraLauncher.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/ExifHelper.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/camera/FileHelper.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessor$WhereOptions.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessor.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessorSdk5.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactInfoDTO.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$1.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$2.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$3.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$4.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/core/ParsePlugin$1.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/core/ParsePlugin$2.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/org/apache/cordova/core/ParsePlugin$3.class \

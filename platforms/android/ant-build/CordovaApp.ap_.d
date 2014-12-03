@@ -131,6 +131,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/parse \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/PhoneFormat.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode2 \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader \
@@ -1011,6 +1012,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.PushPlugin \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.sharinglabs.cordova.plugin.cache \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization \
@@ -1030,6 +1032,16 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraConstants.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraPopoverHandle.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/Contact.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactAddress.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactError.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactField.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactFieldType.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactFindOptions.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactName.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/ContactOrganization.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/contacts.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.core.parseplugin/www/cdv-plugin-parse.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
@@ -1050,6 +1062,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-overview.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-remote.html \

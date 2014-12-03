@@ -20,25 +20,53 @@ angular.module('starter.controllers', [])
         };
 })
 .controller('FriendsCtrl', function($rootScope, $scope) {
-    $scope.Friends = [];
-    $scope.loadFriends = function(){
+        $scope.Friends = [];
+        $scope.FriendsFiltered=[];
+        $scope.loadFriends = function(){
         console.log("loadFriends is called");
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
-            //console.log('Contacts Found ' + contacts[0].phoneNumbers[0] + ' contacts.');
-            //Construct phone array
-            var phoneArray = new Array();
-            for (var i=0;i<contacts.length;i++){
-                console.log("in contacts"+ i);
-                for (var j=0;j<contacts[i].phoneNumbers.length;j++){
-                    console.log(contacts[i].phoneNumbers[j]);
-                    if (contacts[i].phoneNumbers[j].trim()!=""){
-                        phoneArray.push(contacts[i].phoneNumbers[j]);
+
+            navigator.globalization.getLocaleName(function(localeName){
+                console.log(localeName.value);
+//                var countryCode = localeName.value.substring(localeName.length-2,localeName.length).toUpperCase();
+//                console.log(countryCode);
+                //Construct phone array
+                var phoneArray=[];
+                for (var i=0;i<contacts.length;i++){
+                    if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
+                        for (var j=0;j<contacts[i].phoneNumbers.length;j++){
+                            var phone = contacts[i].phoneNumbers[j].value;
+//                            phone = phone.replace(/\s+/g, '');
+//                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
+//                            phone=cleanPhone(phone);
+//                            phone=formatE164(phone,countryCode);
+//                            phone = phone.replace(/[^0-9]/g, '');
+                            console.log(phone);
+//                            if (isValidNumber(phone,countryCode)){
+//                                phoneArray.push(phone);
+//                            }
+                        }
                     }
                 }
-            }
-            //$scope.Friends =
-            $scope.$broadcast('scroll.refreshComplete');
+
+                //Now get user from Parse using Array
+                console.log(phoneArray.length);
+                var User = Parse.Object.extend("User");
+                var query = new Parse.Query(User);
+                query.contains('phone_number', phoneArray);
+                query.find({
+                    success:function(users){
+                        console.log(users.length);
+                        $scope.Friends=users;
+                        $scope.$apply();
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }
+                });
+
+            },function(error){
+                console.log("getLocaleName error = "+error.message);
+            });
         }
 
         function onError(contactError) {
@@ -52,9 +80,9 @@ angular.module('starter.controllers', [])
             var options      = new ContactFindOptions();
             options.filter   = "";
             options.multiple = true;
-            options.desiredFields = ["phoneNumbers"];
+            options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
 
-            var fields       = ["phoneNumbers"];
+            var fields       = [navigator.contacts.fieldType.phoneNumbers];
             navigator.contacts.find(fields, onSuccess, onError, options);
         }
     }

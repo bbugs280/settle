@@ -8,7 +8,8 @@
     <ion-nav-buttons side="right" ng-if="selectedGroup!=undefined" ng-click="goToGroupEdit(selectedGroup)">
         <button class="button button-clear" ng-click="goToGroupEdit(selectedGroup)">
             <span>
-              <img src="{{selectedGroup.get('icon').url()}}" height="32px" style="border-radius: 50px">
+              <img src="{{selectedGroup.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="selectedGroup.get('icon')">
+              <img src="./img/group.png" height="32px" style="border-radius: 50px;background-color: grey" ng-if="!selectedGroup.get('icon')">
           </span>
         </button>
     </ion-nav-buttons>

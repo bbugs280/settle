@@ -19,6 +19,76 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
+.controller('FriendsCtrl', function($rootScope, $scope) {
+        $scope.Friends = [];
+        $scope.FriendsFiltered=[];
+        $scope.loadFriends = function(){
+        console.log("loadFriends is called");
+        function onSuccess(contacts) {
+            console.log('Contacts Found ' + contacts.length + ' contacts.');
+
+            navigator.globalization.getLocaleName(function(localeName){
+                console.log(localeName.value);
+//                var countryCode = localeName.value.substring(localeName.length-2,localeName.length).toUpperCase();
+//                console.log(countryCode);
+                //Construct phone array
+                var phoneArray=[];
+                for (var i=0;i<contacts.length;i++){
+                    if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
+                        for (var j=0;j<contacts[i].phoneNumbers.length;j++){
+                            var phone = contacts[i].phoneNumbers[j].value;
+//                            phone = phone.replace(/\s+/g, '');
+//                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
+//                            phone=cleanPhone(phone);
+//                            phone=formatE164(phone,countryCode);
+//                            phone = phone.replace(/[^0-9]/g, '');
+                            console.log(phone);
+//                            if (isValidNumber(phone,countryCode)){
+//                                phoneArray.push(phone);
+//                            }
+                        }
+                    }
+                }
+
+                //Now get user from Parse using Array
+                console.log(phoneArray.length);
+                var User = Parse.Object.extend("User");
+                var query = new Parse.Query(User);
+                query.contains('phone_number', phoneArray);
+                query.find({
+                    success:function(users){
+                        console.log(users.length);
+                        $scope.Friends=users;
+                        $scope.$apply();
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }
+                });
+
+            },function(error){
+                console.log("getLocaleName error = "+error.message);
+            });
+        }
+
+        function onError(contactError) {
+            console.log('load Contact from phone error! ');
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+
+
+        // find all contacts with values in Phone Numbers
+        if (window.navigator && window.navigator.contacts){
+            var options      = new ContactFindOptions();
+            options.filter   = "";
+            options.multiple = true;
+            options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
+
+            var fields       = [navigator.contacts.fieldType.phoneNumbers];
+            navigator.contacts.find(fields, onSuccess, onError, options);
+        }
+    }
+
+        $scope.loadFriends();
+})
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.alert = function(title, message){
@@ -1325,6 +1395,10 @@ angular.module('starter.controllers', [])
 })
     .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
         $rootScope.intro = true;
+        $scope.sendButtonDisabled = false;
+        $scope.loading = "hidden";
+        $ionicSlideBoxDelegate.enableSlide(false);
+
         //Check if user have seen intro
         if(window.localStorage['didTutorial'] !== "true") {
             $state.go('intro');
@@ -1334,14 +1408,14 @@ angular.module('starter.controllers', [])
         if (ParseService.getUser()){
             $state.go('tab.balance-overview');
         }else{
-            if (!window.plugins) {
+            if (!window.navigator) {
                 $state.go('login');
             }
         }
 
-
         $scope.verifyByPhone = function(form){
-
+            $scope.sendButtonDisabled = true;
+            $scope.loading = "visible";
 //            var install = Parse.Installation.current();
 //            var timeZone = install.get("timeZone");
             $scope.phone_number = form.phone_number;
@@ -1351,13 +1425,19 @@ angular.module('starter.controllers', [])
                         console.log("sendVerificationCode successful");
 
                         $ionicSlideBoxDelegate.next();
+                        $scope.loading = "hidden";
+                        $scope.sendButtonDisabled = false;
                     },
                     error: function(error) {
                         console.log("sendVerificationCode error = "+error.message);
+                        $scope.sendButtonDisabled = false;
+                        $scope.loading = "hidden";
                     }
                 });
             }, function(error){
                 console.log("getLocaleName error = "+error.message);
+                $scope.sendButtonDisabled = false;
+                $scope.loading = "hidden";
             });
 
         }
@@ -1410,6 +1490,13 @@ angular.module('starter.controllers', [])
         };
         $scope.slideChanged = function(index) {
             $scope.slideIndex = index;
+            // Update Page is not allowed when user is not verified
+            if (index == 2){
+                if (!ParseService.getUser()){
+                    $scope.previous();
+                }
+            }
+
         };
     }
 );

@@ -110,7 +110,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       abstract: true,
       templateUrl: "templates/tabs.html"
       })
-
+      .state('tab.friends', {
+          url:'/friends',
+          views:{
+              'tab-balance':{
+                  templateUrl: 'templates/tab-friends.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
       .state('tab.balance-overview', {
           url:'/balance-overview',
           views:{
