@@ -19,12 +19,13 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope,$state) {
+.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
         //$scope.Friends;
         //$scope.FriendsFiltered;
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
+            $scope.loading = 'visible';
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
             console.log("country Code = "+$rootScope.countryCode);
@@ -70,6 +71,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadFromParse = function(phoneArray){
             //Now get user from Parse using Array
+            $scope.loading = 'visible';
             console.log("phoneArray ="+ phoneArray.length);
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
@@ -93,7 +95,7 @@ angular.module('starter.controllers', [])
         $scope.loadInit = function(){
 
             if (!$rootScope.Friends) {
-                $scope.loading = 'visible';
+
                 $scope.loadFriends();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
@@ -120,8 +122,39 @@ angular.module('starter.controllers', [])
         $scope.getInfo = function(user){
 
         }
-        $scope.invite = function(){
 
+        $ionicModal.fromTemplateUrl('templates/user-invite-options.html',{
+            scope:$scope
+        }).then(function(modal){
+            $scope.modal=modal;
+
+        });
+        $scope.showInviteOptions = function() {
+            $scope.modal.show();
+        }
+
+        $scope.hideInviteOptions = function() {
+            $scope.modal.hide();
+        }
+
+        $scope.inviteBySMS = function(){
+            navigator.contacts.pickContact(function(contact){
+                console.log('The following contact has been selected:' + JSON.stringify(contact));
+                //var messageInfo = {
+                //    phoneNumber: contact.phoneNumber[0].value,
+                //    textMessage: "This is a test message"
+                //};
+
+                //sms.sendMessage(messageInfo, function(message) {
+                //    console.log("success: " + message);
+                //}, function(error) {
+                //    console.log("code: " + error.code + ", message: " + error.message);
+                //});
+                $scope.hideInviteOptions();
+            },function(err){
+                console.log('Error: ' + err);
+                $scope.hideInviteOptions();
+            });
         }
         $scope.loadInit();
 })
@@ -146,6 +179,8 @@ angular.module('starter.controllers', [])
                 template: message
             });
         }
+
+
         $rootScope.goToUserSetup = function(){
             $state.go('tab.setupuser');
         }

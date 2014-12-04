@@ -189,6 +189,13 @@ module.exports = [
         "merges": [
             "Contact"
         ]
+    },
+    {
+        "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
+        "id": "com.jsmobile.plugins.sms.sms",
+        "clobbers": [
+            "window.sms"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -205,7 +212,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.12",
     "org.apache.cordova.vibration": "0.3.11",
     "org.apache.cordova.globalization": "0.3.2",
-    "org.apache.cordova.contacts": "0.2.14"
+    "org.apache.cordova.contacts": "0.2.14",
+    "com.jsmobile.plugins.sms": "0.0.1"
 }
 // BOTTOM OF METADATA
 });

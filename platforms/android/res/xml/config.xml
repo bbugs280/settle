@@ -59,4 +59,7 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="WebSecurity" value="disable" />
     <preference name="target-device" value="handset" />
+    <feature name="Sms">
+        <param name="android-package" value="com.jsmobile.plugins.sms.Sms" />
+    </feature>
 </widget>

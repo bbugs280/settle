@@ -28,7 +28,7 @@
                </label>
 
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered" ng-click="goToSend(friend)">
+          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered" ng-click="goToSend(friend)" ng-if="friend.id!=user.id">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">
@@ -51,7 +51,7 @@
               <!--</ion-option-button>-->
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
-          <ion-item class="item" style="text-align: center" ng-click="invite()">
+          <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
               <!--<span style="font-weight: bold">Friend not in here?</span>-->
               <p style="color:blue">Invite Friend to Settle</p>
