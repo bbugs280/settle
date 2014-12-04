@@ -20,12 +20,10 @@ angular.module('starter.controllers', [])
         };
 })
 .controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
-        //$scope.Friends;
-        //$scope.FriendsFiltered;
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
-            $scope.loading = 'visible';
+        $scope.loading = 'visible';
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
             console.log("country Code = "+$rootScope.countryCode);
@@ -123,39 +121,75 @@ angular.module('starter.controllers', [])
 
         }
 
+        $ionicModal.fromTemplateUrl('templates/user-invite-pick.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPick = modal;
+        });
+
         $ionicModal.fromTemplateUrl('templates/user-invite-options.html',{
             scope:$scope
         }).then(function(modal){
-            $scope.modal=modal;
+            $scope.modalOptions=modal;
 
         });
         $scope.showInviteOptions = function() {
-            $scope.modal.show();
+            $scope.modalOptions.show();
         }
 
         $scope.hideInviteOptions = function() {
-            $scope.modal.hide();
+            $scope.modalOptions.hide();
         }
 
-        $scope.inviteBySMS = function(){
+        $scope.inviteFromContacts = function(){
             navigator.contacts.pickContact(function(contact){
-                console.log('The following contact has been selected:' + JSON.stringify(contact));
-                //var messageInfo = {
-                //    phoneNumber: contact.phoneNumber[0].value,
-                //    textMessage: "This is a test message"
-                //};
+//                console.log('The following contact has been selected:' + JSON.stringify(contact));
+                if (contact){
+                    $scope.selectedContact = contact;
+                    $scope.modalPick.show();
+                }else{
+                    $scope.modalPick.hide();
+                }
 
-                //sms.sendMessage(messageInfo, function(message) {
-                //    console.log("success: " + message);
-                //}, function(error) {
-                //    console.log("code: " + error.code + ", message: " + error.message);
-                //});
                 $scope.hideInviteOptions();
             },function(err){
                 console.log('Error: ' + err);
                 $scope.hideInviteOptions();
             });
         }
+        $scope.inviteBySMS = function(phone){
+            phone = formatE164($rootScope.countryCode, phone);
+            console.log("phone no: "+phone);
+            var messageInfo = {
+                phoneNumber: phone,
+                textMessage: inviteMessage
+            };
+
+            sms.sendMessage(messageInfo, function(message) {
+                console.log("success: " + message);
+                $scope.modelPick.hide();
+            }, function(error) {
+                console.log("code: " + error.code + ", message: " + error.message);
+                $scope.modelPick.hide();
+            });
+        }
+
+        $scope.inviteByEmail = function(email){
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "Settle with SettleApp  ", // Subject
+                    inviteEmailMessage,                      // Body
+                    [email],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
+
         $scope.loadInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
