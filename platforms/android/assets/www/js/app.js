@@ -43,7 +43,17 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       if (window.cache){
           window.cache.clear( success, error );
       }
-
+      if (window.navigator && window.navigator.globalization){
+          console.log("getting Locale on app load");
+          navigator.globalization.getLocaleName(function(localeName) {
+              var countryCode = localeName.value.substring(localeName.value.length - 2, localeName.value.length).toUpperCase();
+              console.log("country code = " + countryCode);
+              $rootScope.countryCode = countryCode;
+              $rootScope.$apply();
+          },function(error){
+              console.log(error.message);
+          });
+      }
       //$rootScope.user = Parse.User.current();
 //      if (!$rootScope.user){
           $rootScope.user = Parse.User.current();
@@ -66,8 +76,6 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
-
 
 
 

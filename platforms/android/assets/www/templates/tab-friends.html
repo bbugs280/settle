@@ -1,5 +1,17 @@
-<ion-view title="Settle" hide-back-button="true">
-
+<ion-view title="Friends" hide-back-button="true">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToIntro()">
+            <i class=" ion-android-information"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right" >
+        <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
+            <!--<span>-->
+            <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
+            <img src="./img/people.png" height="32px" style="border-radius: 50px;background-color: grey" ng-if="user.get('icon')==undefined">
+            <!--</span>-->
+        </button>
+    </ion-nav-buttons>
   <ion-content>
       <ion-list can-swipe="true">
           <ion-refresher
@@ -16,8 +28,37 @@
                </label>
 
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right"  ng-repeat="friend in Friends">
-                {{friend.get('username')}}
+          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered" ng-click="goToSend(friend)" ng-if="friend.id!=user.id">
+              <img src="{{friend.get('icon').url()}}"
+                   class="avatar"
+                   ng-if="friend.get('icon')!=undefined">
+              <img src="./img/people.png"
+                   class="avatar"
+                   ng-if="friend.get('icon')==undefined">
+                <p>
+                    <b>{{friend.get('username')}}</b> <span class="item-note" style="font-size: small"><b>{{friend.get('phone_number')}}</b></span> <br>
+                    <span style="font-size: x-small">{{friend.get('email')}} </span>
+                </p>
+
+              <!--<button class="button button-clear" ng-click="getInfo(friend)">-->
+                  <!--<i class="icon ion-ios7-information-outline"></i>-->
+              <!--</button>-->
+              <ion-option-button class="button-assertive" ng-click="goToSend(friend)">
+                  Pay
+              </ion-option-button>
+              <!--<ion-option-button class="button-calm" ng-click="getInfo(friend)">-->
+                  <!--Details-->
+              <!--</ion-option-button>-->
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+          <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
+              <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
+              <!--<span style="font-weight: bold">Friend not in here?</span>-->
+              <p style="color:blue">Invite Friend to Settle</p>
+              <!--<button class="button button-stable" ng-click="sendPerson()">-->
+                  <!--<i class="icon ion-card"></i>-->
+                  <!--Make Payment-->
+              <!--</button>-->
           </ion-item>
       </ion-list>
   </ion-content>

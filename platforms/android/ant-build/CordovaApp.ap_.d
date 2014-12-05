@@ -104,6 +104,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/people-1.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/img/people.png \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/app.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/common.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/controllers.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/fx.js \
@@ -1008,6 +1009,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/jsqrcode-combined.min.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jsmobile.plugins.sms \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.PushPlugin \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.sharinglabs.cordova.plugin.cache \
@@ -1021,6 +1023,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www/keyboard.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer/www/EmailComposer.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jsmobile.plugins.sms/www \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jsmobile.plugins.sms/www/sms.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.phonegap.plugins.PushPlugin/www \
@@ -1069,6 +1073,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-selectuser.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tabs.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-invite-options.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-invite-pick.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-login.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-signup.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/user-verify-phone.html \

@@ -23,7 +23,8 @@ angular.module('starter.controllers', [])
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
-        $scope.loading = 'visible';
+//        $scope.loading = 'visible';
+            $scope.loading = "hidden";
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
             console.log("country Code = "+$rootScope.countryCode);
@@ -93,7 +94,6 @@ angular.module('starter.controllers', [])
         $scope.loadInit = function(){
 
             if (!$rootScope.Friends) {
-
                 $scope.loadFriends();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
@@ -471,7 +471,8 @@ angular.module('starter.controllers', [])
         $scope.selectUser = function(sendform){
             console.log("SendCtrl - sendform :"+sendform);
             $scope.sendform = sendform;
-            $state.go('tab.send-selectuser');
+//            $state.go('tab.send-selectuser');
+            $state.go('tab.friends');
         }
 
         var qrcode;
@@ -807,7 +808,7 @@ angular.module('starter.controllers', [])
 
         $scope.selectGroup=function(group){
             $rootScope.selectedGroup = group;
-            $rootScope.selectedFriend = undefined;
+//            $rootScope.selectedFriend = undefined;
             $rootScope.inviteEmail = undefined;
             history.go(-1);
 //            $state.go('tab.send');

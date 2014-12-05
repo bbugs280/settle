@@ -21,6 +21,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/jcjee/plugins/EmailAttachmentProvider.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/jcjee/plugins/EmailComposer.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/jsmobile/plugins/sms/Sms$1.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/jsmobile/plugins/sms/Sms.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/phonegap/plugins/barcodescanner/BarcodeScanner.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/plugin/gcm/CordovaGCMBroadcastReceiver.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/plugin/gcm/GCMIntentService.class \

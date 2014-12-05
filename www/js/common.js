@@ -21,7 +21,7 @@ invitePaidMessage += "For iPhone, download from Apple Store http://goo.gl/FQyHHq
 invitePaidMessage += "For Android, Google Play http://goo.gl/nQtLFL";
 
 
-var invitePaidEmailMessage = "Dear new Settler, ";
+var invitePaidEmailMessage = "";
 invitePaidEmailMessage += "<p><br>Hi! I have just paid you with Settle.";
 invitePaidEmailMessage += "<img src='https://yeungvincent.files.wordpress.com/2014/11/icon.png' width='100' style='border-radius:10px;text-align: center'></p>";
 invitePaidEmailMessage += "<p>Please download from Apple Store [<a href='http://goo.gl/FQyHHq'>download</a>]</p>";

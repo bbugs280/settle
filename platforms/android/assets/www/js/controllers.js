@@ -19,54 +19,35 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope) {
-        $scope.Friends = [];
-        $scope.FriendsFiltered=[];
+.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
+//        $scope.loading = 'visible';
+            $scope.loading = "hidden";
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
-
-            navigator.globalization.getLocaleName(function(localeName){
-                console.log(localeName.value);
-//                var countryCode = localeName.value.substring(localeName.length-2,localeName.length).toUpperCase();
-//                console.log(countryCode);
-                //Construct phone array
-                var phoneArray=[];
-                for (var i=0;i<contacts.length;i++){
-                    if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
-                        for (var j=0;j<contacts[i].phoneNumbers.length;j++){
-                            var phone = contacts[i].phoneNumbers[j].value;
+            console.log("country Code = "+$rootScope.countryCode);
+            //Construct phone array
+            var phoneArray=[];
+            for (var i=0;i<contacts.length;i++){
+                if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
+                    for (var j=0;j<contacts[i].phoneNumbers.length;j++){
+                        var phone_no = contacts[i].phoneNumbers[j].value;
 //                            phone = phone.replace(/\s+/g, '');
 //                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
-//                            phone=cleanPhone(phone);
-//                            phone=formatE164(phone,countryCode);
-//                            phone = phone.replace(/[^0-9]/g, '');
-                            console.log(phone);
-//                            if (isValidNumber(phone,countryCode)){
-//                                phoneArray.push(phone);
-//                            }
-                        }
+                            phone_no=cleanPhone(phone_no);
+
+                            if (isValidNumber(phone_no,$rootScope.countryCode)){
+                                phone_no=formatE164($rootScope.countryCode,phone_no);
+                                //console.log("valid = " +phone_no);
+                                phoneArray.push(phone_no);
+                            }
                     }
                 }
+            }
 
-                //Now get user from Parse using Array
-                console.log(phoneArray.length);
-                var User = Parse.Object.extend("User");
-                var query = new Parse.Query(User);
-                query.contains('phone_number', phoneArray);
-                query.find({
-                    success:function(users){
-                        console.log(users.length);
-                        $scope.Friends=users;
-                        $scope.$apply();
-                        $scope.$broadcast('scroll.refreshComplete');
-                    }
-                });
-
-            },function(error){
-                console.log("getLocaleName error = "+error.message);
-            });
+            $scope.loadFromParse(phoneArray);
         }
 
         function onError(contactError) {
@@ -87,7 +68,129 @@ angular.module('starter.controllers', [])
         }
     }
 
-        $scope.loadFriends();
+        $scope.loadFromParse = function(phoneArray){
+            //Now get user from Parse using Array
+            $scope.loading = 'visible';
+            console.log("phoneArray ="+ phoneArray.length);
+            var User = Parse.Object.extend("User");
+            var query = new Parse.Query(User);
+            query.containedIn('phone_number', phoneArray);
+            query.addAscending('username');
+            query.find({
+                success:function(users){
+                    console.log("found user = "+users.length);
+                    $rootScope.Friends=users;
+                    $scope.FriendsFiltered=users;
+                    $scope.$apply();
+                    $scope.loading = 'hidden';
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, error:function(obj, error){
+                    $scope.loading = 'hidden';
+                    console.log("error "+ error.message);
+                }
+            });
+        }
+
+        $scope.loadInit = function(){
+
+            if (!$rootScope.Friends) {
+                $scope.loadFriends();
+            }else{
+                $scope.FriendsFiltered = $rootScope.Friends;
+            }
+        }
+        $scope.searchFriend = function(txt){
+            console.log("searchFriend "+txt);
+            var result = [];
+            for (var i in $rootScope.Friends){
+                if ($rootScope.Friends[i].getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.Friends[i].getUsername());
+                    result.push($rootScope.Friends[i]);
+                }
+            }
+            $scope.FriendsFiltered = result;
+        }
+
+        $scope.goToSend = function(user){
+            console.log("goToSend");
+            $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
+        }
+        $scope.getInfo = function(user){
+
+        }
+
+        $ionicModal.fromTemplateUrl('templates/user-invite-pick.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPick = modal;
+        });
+
+        $ionicModal.fromTemplateUrl('templates/user-invite-options.html',{
+            scope:$scope
+        }).then(function(modal){
+            $scope.modalOptions=modal;
+
+        });
+        $scope.showInviteOptions = function() {
+            $scope.modalOptions.show();
+        }
+
+        $scope.hideInviteOptions = function() {
+            $scope.modalOptions.hide();
+        }
+
+        $scope.inviteFromContacts = function(){
+            navigator.contacts.pickContact(function(contact){
+//                console.log('The following contact has been selected:' + JSON.stringify(contact));
+                if (contact){
+                    $scope.selectedContact = contact;
+                    $scope.modalPick.show();
+                }else{
+                    $scope.modalPick.hide();
+                }
+
+                $scope.hideInviteOptions();
+            },function(err){
+                console.log('Error: ' + err);
+                $scope.hideInviteOptions();
+            });
+        }
+        $scope.inviteBySMS = function(phone){
+            phone = formatE164($rootScope.countryCode, phone);
+            console.log("phone no: "+phone);
+            var messageInfo = {
+                phoneNumber: phone,
+                textMessage: inviteMessage
+            };
+
+            sms.sendMessage(messageInfo, function(message) {
+                console.log("success: " + message);
+                $scope.modelPick.hide();
+            }, function(error) {
+                console.log("code: " + error.code + ", message: " + error.message);
+                $scope.modelPick.hide();
+            });
+        }
+
+        $scope.inviteByEmail = function(email){
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "Settle with SettleApp  ", // Subject
+                    inviteEmailMessage,                      // Body
+                    [email],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
+
+        $scope.loadInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
@@ -102,11 +205,18 @@ angular.module('starter.controllers', [])
         $rootScope.back = function(){
             history.go(-1);
         }
-
+        $rootScope.goToIntro = function(){
+            $state.go('intro');
+        }
         $rootScope.showLoading = function(message){
             $ionicLoading.show({
                 template: message
             });
+        }
+
+
+        $rootScope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
         }
         $rootScope.hideLoading = function(){
             $ionicLoading.hide();
@@ -236,13 +346,6 @@ angular.module('starter.controllers', [])
             $scope.balancelistFiltered = result;
 
         }
-        $scope.goToIntro = function(){
-
-            $state.go(('intro'));
-        }
-        $scope.goToUserSetup = function(){
-            $state.go('tab.setupuser');
-        }
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
@@ -368,7 +471,8 @@ angular.module('starter.controllers', [])
         $scope.selectUser = function(sendform){
             console.log("SendCtrl - sendform :"+sendform);
             $scope.sendform = sendform;
-            $state.go('tab.send-selectuser');
+//            $state.go('tab.send-selectuser');
+            $state.go('tab.friends');
         }
 
         var qrcode;
@@ -704,7 +808,7 @@ angular.module('starter.controllers', [])
 
         $scope.selectGroup=function(group){
             $rootScope.selectedGroup = group;
-            $rootScope.selectedFriend = undefined;
+//            $rootScope.selectedFriend = undefined;
             $rootScope.inviteEmail = undefined;
             history.go(-1);
 //            $state.go('tab.send');
@@ -1066,6 +1170,7 @@ angular.module('starter.controllers', [])
             $rootScope.user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
+                    $rootScope.user = user;
                     $rootScope.hideLoading();
                 },error:function(user, error){
                     $rootScope.hideLoading();
@@ -1420,6 +1525,16 @@ angular.module('starter.controllers', [])
 //            var timeZone = install.get("timeZone");
             $scope.phone_number = form.phone_number;
             navigator.globalization.getLocaleName(function(localeName){
+                var countryCode = localeName.value.substring(localeName.value.length - 2, localeName.value.length).toUpperCase();
+                console.log("country code = " + countryCode);
+                $rootScope.countryCode = countryCode;
+                if (!isValidNumber(form.phone_number,countryCode)){
+                    $rootScope.alert("Invalid Phone Number", "Please check and try again");
+                    $scope.sendButtonDisabled = false;
+                    $scope.loading = "hidden";
+                    throw ("invalid phone number");
+
+                }
                 Parse.Cloud.run('sendVerificationCode', { phone_number: form.phone_number, locale: localeName.value}, {
                     success: function(r) {
                         console.log("sendVerificationCode successful");
@@ -1440,6 +1555,10 @@ angular.module('starter.controllers', [])
                 $scope.loading = "hidden";
             });
 
+        }
+
+        $scope.checkPhoneNumber = function(form){
+            form.phone_number=formatE164($rootScope.countryCode,form.phone_number);
         }
 
         $scope.sendVerifyCode = function (form){
