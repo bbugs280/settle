@@ -3,15 +3,15 @@
  */
 
 var inviteMessage = "";
-inviteMessage += "Hi! I have just paid you with Settle. \n";
+inviteMessage += "Hi! I'd like to pay you with Settle. \n";
 inviteMessage += "For iPhone, download from Apple Store http://goo.gl/FQyHHq \n";
 inviteMessage += "For Android, Google Play http://goo.gl/nQtLFL";
 
 var inviteEmailMessage = "";
 inviteEmailMessage += "<p>Hi! I'd like to pay you with Settle.";
 inviteEmailMessage += "<img src='https://yeungvincent.files.wordpress.com/2014/11/icon.png' width='100' style='border-radius:10px;text-align: center'></p>";
-inviteEmailMessage += "<p>Please download from Apple Store href='http://goo.gl/FQyHHq</p>";
-inviteEmailMessage += "<p>Or Google Play http://goo.gl/nQtLFL</p>";
+inviteEmailMessage += "<p>Please download from Apple Store <a href='http://goo.gl/FQyHHq'>http://goo.gl/FQyHHq</a></p>";
+inviteEmailMessage += "<p>Or Google Play <a href='http://goo.gl/nQtLFL'>http://goo.gl/nQtLFL</a></p>";
 inviteEmailMessage += "<p>Your truly, ";
 
 
@@ -20,7 +20,8 @@ invitePaidMessage += "Hi! I have just paid you with Settle. \n";
 invitePaidMessage += "For iPhone, download from Apple Store http://goo.gl/FQyHHq \n";
 invitePaidMessage += "For Android, Google Play http://goo.gl/nQtLFL";
 
-var invitePaidEmailMessage = "Dear new Settler, ";
+
+var invitePaidEmailMessage = "";
 invitePaidEmailMessage += "<p><br>Hi! I have just paid you with Settle.";
 invitePaidEmailMessage += "<img src='https://yeungvincent.files.wordpress.com/2014/11/icon.png' width='100' style='border-radius:10px;text-align: center'></p>";
 invitePaidEmailMessage += "<p>Please download from Apple Store [<a href='http://goo.gl/FQyHHq'>download</a>]</p>";
