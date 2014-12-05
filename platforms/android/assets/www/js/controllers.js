@@ -1,5 +1,9 @@
 angular.module('starter.controllers', [])
 .controller('IntroCtrl', function($rootScope, $scope, $state,$ionicSlideBoxDelegate) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Intro');
+        }
         $rootScope.intro = true;
 
 
@@ -20,11 +24,15 @@ angular.module('starter.controllers', [])
         };
 })
 .controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Friends');
+        }
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
-//        $scope.loading = 'visible';
-            $scope.loading = "hidden";
+        $scope.loading = 'visible';
+//            $scope.loading = "hidden";
         function onSuccess(contacts) {
             console.log('Contacts Found ' + contacts.length + ' contacts.');
             console.log("country Code = "+$rootScope.countryCode);
@@ -97,6 +105,7 @@ angular.module('starter.controllers', [])
                 $scope.loadFriends();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
+                $scope.loading = "hidden";
             }
         }
         $scope.searchFriend = function(txt){
@@ -241,26 +250,43 @@ angular.module('starter.controllers', [])
 
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Balance Overview');
+        }
         $rootScope.intro = false;
         console.log("controller - BalanceOverviewCtrl start");
         $scope.balance = {};
         $scope.balance.amount = 0;
         $scope.loading = 'visible';
-//        console.log("controller - BalanceOverviewCtrl start | rootScope user = "+$rootScope.user.get('username'));
-        $rootScope.user = ParseService.getUser();
-        console.log($rootScope.user.getUsername());
-        $rootScope.user.get('default_currency').fetch({
-            success:function(r){
-                $rootScope.$apply();
-                $scope.loadOverview();
 
+
+        $scope.init = function(){
+            //Check already run before
+            if (!$scope.balancelist){
+
+                    $rootScope.user = ParseService.getUser()
+                    $rootScope.user.get('default_currency').fetch({
+                        success:function(r){
+                            $rootScope.$apply();
+                            //$scope.init();
+                            $scope.loadOverview();
+                        }
+                    });
+
+            }else{
+                $scope.balancelistFiltered = $scope.balancelist;
+                $scope.loading = "hidden";
             }
-        });
+        }
 
+        $scope.init();
 
         $scope.loadOverview = function(){
+
             //Load Groups & Personal Accounts
             //Then calculate Total Balance
+
             var user = new SUser();
             $scope.loading = 'visible';
 
@@ -349,6 +375,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Balance Detail');
+        }
         if (!$rootScope.selectedGroup){
             $state.go('tab.balance-overview');
         }
@@ -391,7 +421,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('BalanceGroupCtrl', function($rootScope, $scope, $state) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Balance Group');
+        }
         if (!$rootScope.selectedGroup){
             $state.go('tab.balance-overview');
         }
@@ -446,6 +479,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Send');
+        }
         $rootScope.user.get('default_currency').fetch({
             success:function(r){
                 $rootScope.$apply();
@@ -743,7 +780,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('SendGroupCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Send - Group select');
+        }
         $scope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().id, false, function(friendlists){
@@ -817,7 +857,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SelectUserCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
-
+//TODO to be demised
         $scope.loadRelatedPersonalUsers = function(){
             var user = new SUser();
             //$rootScope.showLoading("Loading...");
@@ -937,6 +977,10 @@ angular.module('starter.controllers', [])
 
     })
 .controller('ReceiveCtrl', function($rootScope,$scope, $location, ParseService, Common) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Receive QRCode');
+        }
         console.log("Receive Ctrl start");
         $scope.user = ParseService.getUser();
         var location;
@@ -1078,6 +1122,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('SignUpCtrl', function($rootScope,$scope,$location,$state, $ionicPopup,ParseService) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Signup');
+        }
         // Called when the form is submitted
         console.log('Signup Ctrl');
 
@@ -1133,7 +1181,10 @@ angular.module('starter.controllers', [])
         };
 })
 .controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Setup');
+        }
         console.log("controller - SetupCtrl start");
 
         $scope.user = ParseService.getUser();
@@ -1260,7 +1311,10 @@ angular.module('starter.controllers', [])
 
 })
 .controller('SelectCurrencyCtrl', function($rootScope,$scope, $state) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Currency Select');
+        }
         $scope.loadCurrencies = function(){
             var Currencies = Parse.Object.extend('currencies');
             var query = new Parse.Query(Currencies);
@@ -1304,7 +1358,10 @@ angular.module('starter.controllers', [])
         $scope.loadCurrencies();
 })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Group Setup');
+        }
         $scope.loadGroupSetup = function(){
             var user = new SUser();
             user.getFriendListAll(ParseService.getUser().id, true, function(friendlists){
@@ -1402,7 +1459,10 @@ angular.module('starter.controllers', [])
         $scope.loadGroupSetup();
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
-
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Login');
+        }
         if(window.localStorage['didTutorial'] !== "true") {
             $state.go('intro');
             return;
@@ -1499,6 +1559,10 @@ angular.module('starter.controllers', [])
 
 })
     .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Verify by Phone');
+        }
         $rootScope.intro = true;
         $scope.sendButtonDisabled = false;
         $scope.loading = "hidden";
@@ -1572,6 +1636,8 @@ angular.module('starter.controllers', [])
                         success:function(r){
                             console.log("login successful");
                             $rootScope.user = r;
+                            //Google Analytics
+                            analytics.setUserId($rootScope.user.getUsername());
                             if (r.getUsername()== r.get('phone_number')){
                                 $ionicSlideBoxDelegate.next();
                             }else{

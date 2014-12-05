@@ -64,6 +64,14 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           });
 //      }
 
+//Google Anaytics
+      if (typeof analytics !== 'undefined'){
+          console.log("Google Analytics starts");
+          analytics.startTrackerWithId('UA-41925733-2');
+          if ($rootScope.user){
+              analytics.setUserId($rootScope.user.getUsername());
+          }
+      }
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);

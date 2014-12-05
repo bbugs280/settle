@@ -21,7 +21,7 @@
           </ion-refresher>
           <ion-item class="item item-divider item-dark item-icon-right" style="font-size: small;">
               <i  class=" ion-loading-c" style="visibility:{{loading}}"></i>
-              Total Balance is
+              Your Total Balance is
               <span class="item-note" style="color:black">
                     <span ng-if="balance.amount<0">
                           <span style="color: red">{{balance.amount | currency:user.get('default_currency').get('code')}}</span>

@@ -196,6 +196,13 @@ module.exports = [
         "clobbers": [
             "window.sms"
         ]
+    },
+    {
+        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
+        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "clobbers": [
+            "analytics"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -213,7 +220,8 @@ module.exports.metadata =
     "org.apache.cordova.vibration": "0.3.11",
     "org.apache.cordova.globalization": "0.3.2",
     "org.apache.cordova.contacts": "0.2.14",
-    "com.jsmobile.plugins.sms": "0.0.1"
+    "com.jsmobile.plugins.sms": "0.0.1",
+    "com.danielcwilson.plugins.googleanalytics": "0.6.0"
 }
 // BOTTOM OF METADATA
 });

@@ -63,6 +63,10 @@
                         {
                             "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"UniversalAnalytics\"><param name=\"ios-package\" value=\"UniversalAnalyticsPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -166,7 +170,7 @@
                     "SystemConfiguration.framework": [
                         {
                             "xml": "false",
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "AddressBook.framework": [
@@ -178,6 +182,24 @@
                     "AddressBookUI.framework": [
                         {
                             "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "CoreData.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "libz.dylib": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "libsqlite3.0.dylib": [
+                        {
+                            "xml": "false",
                             "count": 1
                         }
                     ]
@@ -233,6 +255,9 @@
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.jsmobile.plugins.sms": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "com.danielcwilson.plugins.googleanalytics": {
             "PACKAGE_NAME": "com.bumble.Settle"
         }
     },

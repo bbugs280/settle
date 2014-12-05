@@ -104,6 +104,7 @@ angular.module('starter.services', [])
 //TODO remove user & friend params later
             recordQRCode : function recordQRCode(group, tranId, currencyId, amount, fromuser, touser, note, location, user, friend, callback){
                 var tran = new Transaction();
+
                 tran.set('group',group);
                 tran.set('groupId',group.id);
                 tran.set('tranId',tranId);
@@ -119,6 +120,7 @@ angular.module('starter.services', [])
                 tran.set('fromuser',{__type: "Pointer", className: "User", objectId: fromuser.id});
                 tran.set('touser',{__type: "Pointer", className: "User", objectId: touser.id});
 
+                var currencyCode = tran.get('currency').code;
                 tran.isTranIdExist(tranId, function(hasTranId){
                     if (hasTranId){
                         error_snd.play();
@@ -136,6 +138,11 @@ angular.module('starter.services', [])
                                     //Found out who is your friend
                                     console.log("recordQRCode - Saved Tran successfully with TranID = " + tran.get('tranId'));
                                     console.log("recordQRCode - after tran save ");
+
+                                    //Google Anaytics
+                                    if (typeof analytics !== 'undefined') {
+                                        analytics.addTransactionItem(tran.get('tranId'), fromuser.id + "-" + touser.id, '', '', amount, 1, currencyCode);
+                                    }
                                     //Update your Records e.g. Balance and Friend list
 
                                     var trancredit = tran.getYourCredit(user.id);
