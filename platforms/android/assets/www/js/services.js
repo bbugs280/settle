@@ -104,6 +104,8 @@ angular.module('starter.services', [])
 //TODO remove user & friend params later
             recordQRCode : function recordQRCode(group, tranId, currencyId, amount, fromuser, touser, note, location, user, friend, callback){
                 var tran = new Transaction();
+                console.log("friend = "+friend.getUsername());
+                console.log("user = "+user.getUsername());
 
                 tran.set('group',group);
                 tran.set('groupId',group.id);
