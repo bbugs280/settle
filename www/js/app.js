@@ -57,6 +57,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       //$rootScope.user = Parse.User.current();
 //      if (!$rootScope.user){
           $rootScope.user = Parse.User.current();
+
           $rootScope.user.get('default_currency').fetch({
               success:function (r){
                   $rootScope.$apply();

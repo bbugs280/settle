@@ -57,8 +57,11 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       //$rootScope.user = Parse.User.current();
 //      if (!$rootScope.user){
           $rootScope.user = Parse.User.current();
+        console.log("before user name = "+$rootScope.user.getUsername());
           $rootScope.user.get('default_currency').fetch({
               success:function (r){
+                  console.log("Login user refreshed");
+                  console.log("user name = "+$rootScope.user.getUsername());
                   $rootScope.$apply();
               }
           });

@@ -1,0 +1,41 @@
+<ion-view title="{{selectedGroup.get('group')}}" hide-back-button="true">
+    <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
+                    Back
+                </button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <ion-list class="list">
+            <ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">
+                <img src="{{selectedGroup.get('icon').url()}}"  style="border-radius: 5px;width: 100px;height: 100px" ng-if="selectedGroup.get('icon')!=undefined" ng-click="openCamera(selectedGroup.get('group'))">
+                <img src="./img/group.png"  style="border-width:1px;border-radius: 5px;width: 200px;background-color: grey" ng-click="openCamera()" ng-if="selectedGroup.get('icon')==undefined" ng-click="openCamera(selectedGroup.get('group'))">
+                <!--<p style="font-size: smaller;color: blue"><-- edit group icon</p>-->
+                <p>{{selectedGroup.get('friend_userid').length}} settlers in group</p>
+                <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+            </ion-item>
+
+            <label class="item item-input">
+                <input type="text" placeholder="Group Name" ng-model="group.name" value="{{selectedGroup.get('group')}}">
+            </label>
+
+
+            <button class="button button-block button-stable" ng-click="saveGroup(group)" >
+                Save
+            </button>
+            <!--<button class="button button-block button-assertive" ng-click="archGroup(selectedGroup)" >-->
+
+                <!--<span ng-if="selectedGroup.get('hidden')==true">-->
+                                    <!--Unarchive-->
+                <!--</span>-->
+                <!--<span ng-if="selectedGroup.get('hidden')==false||list.get('hidden')==undefined">-->
+                                    <!--Archive-->
+                <!--</span>-->
+            <!--</button>-->
+
+        </ion-list>
+
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>

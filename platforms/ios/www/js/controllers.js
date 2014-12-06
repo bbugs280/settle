@@ -255,7 +255,7 @@ angular.module('starter.controllers', [])
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Balance Overview');
         }
-
+        $rootScope.user = ParseService.getUser();
         $rootScope.intro = false;
         $scope.loading = 'visible';
 
@@ -264,7 +264,7 @@ angular.module('starter.controllers', [])
             //Check already run before
             if (!$rootScope.balancelist){
                     console.log("balance list is empty");
-                    $rootScope.user = ParseService.getUser()
+                    $rootScope.user = ParseService.getUser();
                     $rootScope.user.get('default_currency').fetch({
                         success:function(r){
                             $rootScope.$apply();

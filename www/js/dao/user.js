@@ -102,7 +102,7 @@ var SUser = Parse.User.extend({
         });
     },
     getBalanceByGroupAndUser : function (group, user, callback) {
-        console.log("getBalanceByGroupAndUser - start");
+    console.log("getBalanceByGroupAndUser - start");
     var Balance = Parse.Object.extend("balance");
     var query = new Parse.Query(Balance);
     query.include('currency');
@@ -117,6 +117,7 @@ var SUser = Parse.User.extend({
                 r = result[0];
                 r.set('balance', r.get('credit') - r.get('debit'));
                 //console.log("getBalanceByEmail - has balance and all set");
+                callback(r);
             } else {
                 console.log("getBalanceByEmail - no balance and creating new");
                 var r = new Balance();
@@ -124,14 +125,22 @@ var SUser = Parse.User.extend({
                 //r.set('currency', {__type: "Pointer", className: "currencies", objectId: user.get('default_currency').id});
                 console.log("getBalanceByEmail - no balance and creating new - setted currency properties");
                 r.set('currency', user.get('default_currency'));
+
                 r.set('group',group);
                 r.set('credit',0);
                 r.set('debit',0);
                 r.set('balance',0);
-                //r.set('balance', r.get('credit')- r.get('debit'));
+                r.set('balance', r.get('credit')- r.get('debit'));
+                r.get('currency').fetch({
+                    success:function(curr){
+                        console.log("currency : "+curr.code);
+                        callback(r);
+                    }
+
+                });
 
             }
-            callback(r);
+
         },
         error: function (object, error) {
 
