@@ -250,21 +250,20 @@ angular.module('starter.controllers', [])
 
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
+        console.log("controller - BalanceOverviewCtrl start");
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Balance Overview');
         }
+
         $rootScope.intro = false;
-        console.log("controller - BalanceOverviewCtrl start");
-        $scope.balance = {};
-        $scope.balance.amount = 0;
         $scope.loading = 'visible';
 
 
         $scope.init = function(){
             //Check already run before
-            if (!$scope.balancelist){
-
+            if (!$rootScope.balancelist){
+                    console.log("balance list is empty");
                     $rootScope.user = ParseService.getUser()
                     $rootScope.user.get('default_currency').fetch({
                         success:function(r){
@@ -275,6 +274,7 @@ angular.module('starter.controllers', [])
                     });
 
             }else{
+                console.log("balance list has content");
                 $scope.balancelistFiltered = $scope.balancelist;
                 $scope.loading = "hidden";
             }
@@ -283,7 +283,8 @@ angular.module('starter.controllers', [])
         $scope.init();
 
         $scope.loadOverview = function(){
-
+            $rootScope.balance = {};
+            $rootScope.balance.amount = 0;
             //Load Groups & Personal Accounts
             //Then calculate Total Balance
 
@@ -291,32 +292,32 @@ angular.module('starter.controllers', [])
             $scope.loading = 'visible';
 
             user.getBalanceOverview($rootScope.user,function(bals){
-                $scope.balance.amount = 0;
-                $scope.balancelist = bals;
+                $rootScope.balance.amount = 0;
+                $rootScope.balancelist = bals;
                 console.log("loadOverview ", $rootScope.user.get('default_currency').get('code'));
                 for (var i in bals){
                     if ($rootScope.user.get('default_currency').get('code')!=bals[i].get('currency').get('code')){
 
-                        $scope.balance.amount += Number(bals[i].get('balance')) * getFXRate(bals[i].get('currency').get('code'),$rootScope.user.get('default_currency').get('code'));
+                        $rootScope.balance.amount += Number(bals[i].get('balance')) * getFXRate(bals[i].get('currency').get('code'),$rootScope.user.get('default_currency').get('code'));
 
                     }else{
-                        $scope.balance.amount += Number(bals[i].get('balance'));
+                        $rootScope.balance.amount += Number(bals[i].get('balance'));
                     }
 
                     //for personal group set your friend user
                     if (bals[i].get('group')){
                         if (bals[i].get('group').get('ispersonal')==true){
                             if (bals[i].get('group').get('user1').id==$rootScope.user.id){
-                                $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user2'));
+                                $rootScope.balancelist[i].set('frienduser',bals[i].get('group').get('user2'));
                             }else{
-                                $scope.balancelist[i].set('frienduser',bals[i].get('group').get('user1'));
+                                $rootScope.balancelist[i].set('frienduser',bals[i].get('group').get('user1'));
                             }
-                            $scope.balancelist[i].set('balance',Number($scope.balancelist[i].get('balance')));
+                            $rootScope.balancelist[i].set('balance',Number($rootScope.balancelist[i].get('balance')));
                         }
                     }
 
                 }
-                $scope.balancelistFiltered = $scope.balancelist;
+                $scope.balancelistFiltered = $rootScope.balancelist;
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = 'hidden';
                 $scope.$apply();

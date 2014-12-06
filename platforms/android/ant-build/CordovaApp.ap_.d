@@ -1007,6 +1007,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode2/qrcode.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/html5-qrcode.min.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/jsqrcode-combined.min.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.danielcwilson.plugins.googleanalytics \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jsmobile.plugins.sms \
@@ -1019,6 +1020,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.device \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.globalization \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/org.apache.cordova.vibration \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.danielcwilson.plugins.googleanalytics/www \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard/www/keyboard.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer/www \

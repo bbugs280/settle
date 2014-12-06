@@ -5,74 +5,32 @@
     },
     "config_munge": {
         "files": {
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"EmailComposer\"><param name=\"ios-package\" value=\"EmailComposer\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Cache\"><param name=\"ios-package\" value=\"Cache\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"ParsePlugin\"><param name=\"ios-package\" value=\"CDVParsePlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Contacts\"><param name=\"ios-package\" value=\"CDVContacts\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"UniversalAnalytics\"><param name=\"ios-package\" value=\"UniversalAnalyticsPlugin\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "framework": {
                 "parents": {
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "false",
+                            "count": 2
+                        }
+                    ],
+                    "CoreData.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "libz.dylib": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "libsqlite3.0.dylib": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
                     "MessageUI.framework": [
                         {
                             "xml": "true",
@@ -133,6 +91,18 @@
                             "count": 2
                         }
                     ],
+                    "AddressBook.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "AddressBookUI.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
                     "AudioToolbox.framework": [
                         {
                             "xml": "false",
@@ -166,40 +136,70 @@
                             "xml": "false",
                             "count": 1
                         }
-                    ],
-                    "SystemConfiguration.framework": [
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
                         {
-                            "xml": "false",
-                            "count": 2
-                        }
-                    ],
-                    "AddressBook.framework": [
-                        {
-                            "xml": "true",
+                            "xml": "<feature name=\"UniversalAnalytics\"><param name=\"ios-package\" value=\"UniversalAnalyticsPlugin\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "AddressBookUI.framework": [
+                        },
                         {
-                            "xml": "true",
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "CoreData.framework": [
+                        },
                         {
-                            "xml": "false",
+                            "xml": "<feature name=\"EmailComposer\"><param name=\"ios-package\" value=\"EmailComposer\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "libz.dylib": [
+                        },
                         {
-                            "xml": "false",
+                            "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "libsqlite3.0.dylib": [
+                        },
                         {
-                            "xml": "false",
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Cache\"><param name=\"ios-package\" value=\"Cache\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Contacts\"><param name=\"ios-package\" value=\"CDVContacts\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ParsePlugin\"><param name=\"ios-package\" value=\"CDVParsePlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -218,10 +218,16 @@
         }
     },
     "installed_plugins": {
+        "com.danielcwilson.plugins.googleanalytics": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.jcjee.plugins.emailcomposer": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "com.jsmobile.plugins.sms": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "com.phonegap.plugins.PushPlugin": {
@@ -239,25 +245,19 @@
         "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
+        "org.apache.cordova.contacts": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
         "org.apache.cordova.core.parseplugin": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
-        "org.apache.cordova.vibration": {
-            "PACKAGE_NAME": "com.bumble.Settle"
-        },
         "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.bumble.Settle"
         },
-        "org.apache.cordova.contacts": {
-            "PACKAGE_NAME": "com.bumble.Settle"
-        },
-        "com.jsmobile.plugins.sms": {
-            "PACKAGE_NAME": "com.bumble.Settle"
-        },
-        "com.danielcwilson.plugins.googleanalytics": {
+        "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.bumble.Settle"
         }
     },

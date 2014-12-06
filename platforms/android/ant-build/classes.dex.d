@@ -15,6 +15,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/bumble/Settle/R$string.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/bumble/Settle/R$xml.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/bumble/Settle/R.class \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/danielcwilson/plugins/analytics/UniversalAnalyticsPlugin.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$1.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$2.class \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/classes/com/ionic/keyboard/IonicKeyboard$3.class \
@@ -58,4 +59,5 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/Parse-1.3.8-a59f6cc4ab8cd9f0eecc97f12323faae.jar \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/com.google.zxing.client.android.captureactivity-3a4d45df68055919e0f8f7d7a6d67cd2.jar \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/gcm-e981ac823d8e9e20945d23f69a267256.jar \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/libGoogleAnalyticsServices-25a73b952e143f6f710a2a68b0a6e256.jar \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/ant-build/dexedLibs/android-support-v13-4e09b8c1a9141deeef40a0d5c94fc698.jar \

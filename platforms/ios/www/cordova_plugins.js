@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
+        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "clobbers": [
+            "analytics"
+        ]
+    },
+    {
         "file": "plugins/com.ionic.keyboard/www/keyboard.js",
         "id": "com.ionic.keyboard.keyboard",
         "clobbers": [
@@ -12,6 +19,13 @@ module.exports = [
         "id": "com.jcjee.plugins.emailcomposer.EmailComposer",
         "clobbers": [
             "EmailComposer"
+        ]
+    },
+    {
+        "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
+        "id": "com.jsmobile.plugins.sms.sms",
+        "clobbers": [
+            "window.sms"
         ]
     },
     {
@@ -75,42 +89,6 @@ module.exports = [
         "id": "org.apache.cordova.console.logger",
         "clobbers": [
             "cordova.logger"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.core.parseplugin/www/cdv-plugin-parse.js",
-        "id": "org.apache.cordova.core.parseplugin.ParsePlugin",
-        "clobbers": [
-            "window.parsePlugin"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
-        "id": "org.apache.cordova.vibration.notification",
-        "merges": [
-            "navigator.notification",
-            "navigator"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.globalization/www/GlobalizationError.js",
-        "id": "org.apache.cordova.globalization.GlobalizationError",
-        "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.globalization/www/globalization.js",
-        "id": "org.apache.cordova.globalization.globalization",
-        "clobbers": [
-            "navigator.globalization"
         ]
     },
     {
@@ -191,37 +169,59 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
-        "id": "com.jsmobile.plugins.sms.sms",
+        "file": "plugins/org.apache.cordova.core.parseplugin/www/cdv-plugin-parse.js",
+        "id": "org.apache.cordova.core.parseplugin.ParsePlugin",
         "clobbers": [
-            "window.sms"
+            "window.parsePlugin"
         ]
     },
     {
-        "file": "plugins/com.danielcwilson.plugins.googleanalytics/www/analytics.js",
-        "id": "com.danielcwilson.plugins.googleanalytics.UniversalAnalytics",
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
         "clobbers": [
-            "analytics"
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.globalization/www/GlobalizationError.js",
+        "id": "org.apache.cordova.globalization.GlobalizationError",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.globalization/www/globalization.js",
+        "id": "org.apache.cordova.globalization.globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
+        "id": "org.apache.cordova.vibration.notification",
+        "merges": [
+            "navigator.notification",
+            "navigator"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.danielcwilson.plugins.googleanalytics": "0.6.0",
     "com.ionic.keyboard": "1.0.3",
     "com.jcjee.plugins.emailcomposer": "1.4.6",
+    "com.jsmobile.plugins.sms": "0.0.1",
     "com.phonegap.plugins.PushPlugin": "2.2.0",
     "com.phonegap.plugins.barcodescanner": "2.0.0",
     "com.sharinglabs.cordova.plugin.cache": "1.0.0",
     "org.apache.cordova.camera": "0.3.3",
     "org.apache.cordova.console": "0.2.11",
+    "org.apache.cordova.contacts": "0.2.14",
     "org.apache.cordova.core.parseplugin": "0.1.0",
     "org.apache.cordova.device": "0.2.12",
-    "org.apache.cordova.vibration": "0.3.11",
     "org.apache.cordova.globalization": "0.3.2",
-    "org.apache.cordova.contacts": "0.2.14",
-    "com.jsmobile.plugins.sms": "0.0.1",
-    "com.danielcwilson.plugins.googleanalytics": "0.6.0"
+    "org.apache.cordova.vibration": "0.3.11"
 }
 // BOTTOM OF METADATA
 });
