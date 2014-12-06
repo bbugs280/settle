@@ -12,10 +12,10 @@
                     <p style="font-size: smaller;color: blue">add / change icon</p>
                 </ion-item>
                 <label class="item item-input">
-                    <input type="text" placeholder="Display Name" ng-model="user.username" value="{{user.get('username')}}">
+                    <input type="text" placeholder="Display Name" ng-model="user.username"  ng-model-options="{ getterSetter: true }" >
                 </label>
                 <label class="item item-input">
-                    <input type="email" placeholder="Email" ng-model="user.email" value="{{user.get('email')}}">
+                    <input type="email" placeholder="Email" ng-model="user.email" ng-model-options="{ getterSetter: true }" >
                 </label>
                 <ion-item class="item item-icon-right" ng-click="openCurrencies('tab.setupuser')" style="font-size: 15px">
                     <span ng-if="user.get('default_currency')==undefined">Default Currency</span>
@@ -33,7 +33,7 @@
             <button class="button button-block button-stable" type="submit">
                 Save
             </button>
-            <button class="button button-block button-stable"  ng-click="logout()" >Logout</button>
+            <!--<button class="button button-block button-stable"  type="button" ng-click="logout()" >Logout</button>-->
             </ion-list>
         </form>
 

@@ -26,6 +26,6 @@ invitePaidEmailMessage += "<p><br>Hi! I have just paid you with Settle.";
 invitePaidEmailMessage += "<img src='https://yeungvincent.files.wordpress.com/2014/11/icon.png' width='100' style='border-radius:10px;text-align: center'></p>";
 invitePaidEmailMessage += "<p>Please download from Apple Store [<a href='http://goo.gl/FQyHHq'>download</a>]</p>";
 invitePaidEmailMessage += "<p>Or Google Play [<a href='http://goo.gl/nQtLFL'>download</a>] </p>";
-invitePaidEmailMessage += "<p>Your account name is <b>"+ username + "</b></p>";
+//invitePaidEmailMessage += "<p>Your account name is <b>"+ username + "</b></p>";
 invitePaidEmailMessage += "<p>There's a separate email to set your password.</p>";
 invitePaidEmailMessage += "<p>Your truly, ";

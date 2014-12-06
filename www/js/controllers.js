@@ -1187,8 +1187,10 @@ angular.module('starter.controllers', [])
             analytics.trackView('Setup');
         }
         console.log("controller - SetupCtrl start");
-
-        $scope.user = ParseService.getUser();
+//        $scope.user = ParseService.getUser();
+        $scope.user = $rootScope.user;
+        $scope.user.username =  $rootScope.user.getUsername();
+        $scope.user.email =  $rootScope.user.getEmail();
         $scope.refreshUser = function(){
             if ($scope.user.get('default_currency')){
                 $scope.user.get('default_currency').fetch({
@@ -1202,7 +1204,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.saveSetup = function(userp){
-            var user = ParseService.getUser();
+//            var user = ParseService.getUser();
             $rootScope.showLoading('Saving...');
 //            if (!checkPassStrength(userp.password) == 'good' || !checkPassStrength(userp.password) == 'strong'){
 ////                alert("Please Enter Password with At least 6 character with one upper case and numeric ");
@@ -1216,18 +1218,18 @@ angular.module('starter.controllers', [])
 //                throw("Invalid Password");
 //            }
 //            user.set('password',userp.password);
+
             $rootScope.user.set('username',userp.username);
             $rootScope.user.set('email',userp.email);
             $rootScope.user.set('default_currency',$rootScope.user.get('default_currency'));
             $rootScope.user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
-                    $rootScope.user = user;
+//                    $rootScope.user = user;
                     $rootScope.hideLoading();
                 },error:function(user, error){
                     $rootScope.hideLoading();
                     $rootScope.alert("Problem", error.message);
-//                    alert(error.message);
                 }
             })
         }
