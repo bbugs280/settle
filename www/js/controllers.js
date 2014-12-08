@@ -142,8 +142,8 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup.save(null, {
                 success:function(r){
                     console.log("success addFriendTogroup");
-                    $rootScope.addFriendToGroup = undefined;
-                    $state.go('tab.setupgroup-edit');
+                    //$rootScope.addFriendToGroup = undefined;
+                    //$state.go('tab.setupgroup-edit');
                 }
             });
         }
