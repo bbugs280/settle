@@ -27,17 +27,17 @@
                             <!--</span>-->
                             <span style="text-decoration: line-through" ng-if="list.get('hidden')==true"><b>{{list.get('group')}}</b></span>
                             <span ng-if="list.get('hidden')!=true"><b>{{list.get('group')}}</b></span>
-                            <p>{{list.get('friends').length}} people in group</p>
+                            <p>{{list.get('friend_userid').length}} people in group</p>
                             <!--<ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>-->
                             <!--<ion-option-button class="button-stable" ng-click="openCamera(list)">Icon</ion-option-button>-->
-                            <ion-option-button class="button-assertive" ng-click="archGroup(list)">
-                                <span ng-if="list.get('hidden')==true">
-                                    Unarchive
-                                </span>
-                                <span ng-if="list.get('hidden')==false||list.get('hidden')==undefined">
-                                    Archive
-                                </span>
-                            </ion-option-button>
+                            <!--<ion-option-button class="button-assertive" ng-click="archGroup(list)">-->
+                                <!--<span ng-if="list.get('hidden')==true">-->
+                                    <!--Unarchive-->
+                                <!--</span>-->
+                                <!--<span ng-if="list.get('hidden')==false||list.get('hidden')==undefined">-->
+                                    <!--Archive-->
+                                <!--</span>-->
+                            <!--</ion-option-button>-->
                             <!--<ion-reorder-button class="ion-navicon"-->
                                                 <!--on-reorder="reorderGroup(list, $fromIndex, $toIndex)">-->
                             <!--</ion-reorder-button>-->

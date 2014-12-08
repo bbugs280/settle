@@ -229,6 +229,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friend_userid", userId);
+        query.include('admin');
         query.notEqualTo("ispersonal",true);
         if (!showHidden){
             console.log("getFriendListAll showhidden is false");

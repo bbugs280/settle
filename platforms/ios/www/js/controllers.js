@@ -138,15 +138,25 @@ angular.module('starter.controllers', [])
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
             $rootScope.selectedGroup.addUnique("friend_userid", user.id);
-            console.log(user.id);
+
             $rootScope.selectedGroup.save(null, {
                 success:function(r){
                     console.log("success addFriendTogroup");
                     //$rootScope.addFriendToGroup = undefined;
                     //$state.go('tab.setupgroup-edit');
+                    $rootScope.getFriendsForSelectedGroup($rootScope.selectedGroup);
+                    $rootScope.modalFriendSelect.hide();
+                    $rootScope.$apply();
+                    var msgToNewUser = "You have been added to "+$rootScope.selectedGroup.get('group');
+                    var msgToGroup = user.getUsername() + " is added to "+ $rootScope.selectedGroup.get('group');
+                    sendPushMessage(msgToNewUser, "P_"+user.id);
+                    sendPushMessage(msgToGroup, "GRP_"+$rootScope.selectedGroup.id);
+
                 }
             });
         }
+
+
 
         $scope.getInfo = function(user){
 
@@ -879,7 +889,6 @@ angular.module('starter.controllers', [])
         }
         $scope.loadGroup();
 })
-
 .controller('SelectUserCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
 //TODO to be demised
         $scope.loadRelatedPersonalUsers = function(){
@@ -1485,17 +1494,17 @@ angular.module('starter.controllers', [])
         $ionicModal.fromTemplateUrl('templates/tab-friends-select.html',{
             scope:$scope
         }).then(function(modal) {
-            $scope.modalFriendSelect = modal;
+            $rootScope.modalFriendSelect = modal;
         });
 
         $scope.addFriendToGroup = function(){
-            $scope.modalFriendSelect.show();
+            $rootScope.modalFriendSelect.show();
 
             //$rootScope.addFriendToGroup = true;
             //$state.go('tab.friends');
         }
 
-        $scope.getFriendsForSelectedGroup = function(selectedGroup){
+        $rootScope.getFriendsForSelectedGroup = function(selectedGroup){
             if (selectedGroup){
                 var User = Parse.Object.extend("User");
                 var query = new Parse.Query(User);
@@ -1617,7 +1626,7 @@ angular.module('starter.controllers', [])
 
 
 })
-    .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
+.controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Verify by Phone');
