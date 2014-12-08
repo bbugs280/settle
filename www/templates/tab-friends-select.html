@@ -1,18 +1,5 @@
-<ion-view title="Friends" hide-back-button="true">
-    <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="goToIntro()">
-            <i class=" ion-android-information"></i>
-        </button>
-    </ion-nav-buttons>
-    <ion-nav-buttons side="right" >
-        <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
-            <!--<span>-->
-            <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
-            <img src="./img/people.png" height="32px" style="border-radius: 50px;background-color: grey" ng-if="user.get('icon')==undefined">
-            <!--</span>-->
-        </button>
-    </ion-nav-buttons>
-  <ion-content>
+<ion-view title="Select Friend" hide-back-button="true">
+  <ion-content data-ng-controller="SetupGroupCtrl">
       <ion-list can-swipe="true">
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
@@ -55,10 +42,7 @@
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
               <!--<span style="font-weight: bold">Friend not in here?</span>-->
               <p style="color:blue">Invite Friend to Settle</p>
-              <!--<button class="button button-stable" ng-click="sendPerson()">-->
-                  <!--<i class="icon ion-card"></i>-->
-                  <!--Make Payment-->
-              <!--</button>-->
+
           </ion-item>
       </ion-list>
   </ion-content>

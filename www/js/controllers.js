@@ -120,12 +120,34 @@ angular.module('starter.controllers', [])
             $scope.FriendsFiltered = result;
         }
 
-        $scope.goToSend = function(user){
+        $scope.goToAction = function(user){
+
             console.log("goToSend");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
+            //if ($rootScope.addFriendToGroup){
+            //
+            //
+            //}else{
+            //    //Got to Default Send page if no action is selected e.g. $rootScope.addFriendToGroup
+            //
+            //}
+
         }
+        $scope.addFriendToGroup = function(user){
+            console.log("addFriendTogroup");
+            $rootScope.selectedGroup.addUnique("friend_userid", user.id);
+            console.log(user.id);
+            $rootScope.selectedGroup.save(null, {
+                success:function(r){
+                    console.log("success addFriendTogroup");
+                    $rootScope.addFriendToGroup = undefined;
+                    $state.go('tab.setupgroup-edit');
+                }
+            });
+        }
+
         $scope.getInfo = function(user){
 
         }
@@ -823,6 +845,7 @@ angular.module('starter.controllers', [])
                                 var Friendlist = Parse.Object.extend("friendlist");
                                 var fl = new Friendlist();
                                 fl.set('group',$scope.data.group);
+                                fl.set('admin',$rootScope.user);
 
                                 fl.addUnique('friends',ParseService.getUser().get('email'));
                                 fl.addUnique('friendnames',ParseService.getUser().get('username'));
@@ -1360,7 +1383,7 @@ angular.module('starter.controllers', [])
         }
         $scope.loadCurrencies();
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,$ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Group Setup');
@@ -1459,7 +1482,40 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
+        $ionicModal.fromTemplateUrl('templates/tab-friends-select.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalFriendSelect = modal;
+        });
+
+        $scope.addFriendToGroup = function(){
+            $scope.modalFriendSelect.show();
+
+            //$rootScope.addFriendToGroup = true;
+            //$state.go('tab.friends');
+        }
+
+        $scope.getFriendsForSelectedGroup = function(selectedGroup){
+            if (selectedGroup){
+                var User = Parse.Object.extend("User");
+                var query = new Parse.Query(User);
+                query.containedIn('objectId',selectedGroup.get('friend_userid'));
+
+                query.find({
+                    success:function(users){
+                        //console.log("success = "+users.length);
+                        $scope.friends = users;
+                        $scope.$apply();
+                    },error:function(obj, error){
+                        console.log("error "+ error.message);
+                    }
+                });
+            }
+
+        }
+
         $scope.loadGroupSetup();
+        $scope.getFriendsForSelectedGroup($rootScope.selectedGroup);
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
         //Google Anaytics

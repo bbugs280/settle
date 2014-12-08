@@ -139,6 +139,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
       })
+      .state('tab.friends-select', {
+          url:'/friends-select',
+          views:{
+              'tab-balance':{
+                  templateUrl: 'templates/tab-friends-select.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
       .state('tab.balance-overview', {
           url:'/balance-overview',
           views:{
@@ -282,7 +294,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           views:{
               'tab-setup':{
                   templateUrl: 'templates/setup-group.html',
-                  controller: 'SetupGroupCtrl'
+                  controller: 'SendGroupCtrl'
               }
           },
           data: {
