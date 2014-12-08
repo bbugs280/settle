@@ -50,8 +50,8 @@
           </ion-item>
 
           <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: medium;" ng-repeat="bal in balancesFiltered" ng-click="user.id==bal.get('user').id||goToSend(bal.get('user'))" ng-class="{'disabled':user.id==bal.get('user').id}">
-              <img src="{{bal.get('user').get('icon').url()}}" class="avatar" ng-if="bal.get('user').get('icon').url()!=undefined">
-              <img src="./img/people.png" class="avatar" ng-if="bal.get('user').get('icon').url()==undefined">
+              <img src="{{bal.get('user').get('icon').url()}}" class="avatar" ng-if="bal.get('user').get('icon')!=undefined">
+              <img src="./img/people.png" class="avatar" ng-if="bal.get('user').get('icon')==undefined">
 
                  <span>
                   <b>{{bal.get('user').get('username')}}</b>

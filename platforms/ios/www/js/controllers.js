@@ -42,8 +42,7 @@ angular.module('starter.controllers', [])
                 if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
                     for (var j=0;j<contacts[i].phoneNumbers.length;j++){
                         var phone_no = contacts[i].phoneNumbers[j].value;
-//                            phone = phone.replace(/\s+/g, '');
-//                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
+
                             phone_no=cleanPhone(phone_no);
 
                             if (isValidNumber(phone_no,$rootScope.countryCode)){
@@ -58,24 +57,33 @@ angular.module('starter.controllers', [])
             $scope.loadFromParse(phoneArray);
         }
 
+
         function onError(contactError) {
             console.log('load Contact from phone error! ');
             $scope.$broadcast('scroll.refreshComplete');
         }
 
 
-        // find all contacts with values in Phone Numbers
-        if (window.navigator && window.navigator.contacts){
-            var options      = new ContactFindOptions();
-            options.filter   = "";
-            options.multiple = true;
-            options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
+            // find all contacts with values in Phone Numbers
+            if (window.navigator && window.navigator.contacts){
+                var options      = new ContactFindOptions();
+                options.filter   = "";
+                options.multiple = true;
+                options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
 
-            var fields       = [navigator.contacts.fieldType.phoneNumbers];
-            navigator.contacts.find(fields, onSuccess, onError, options);
+                var fields       = [navigator.contacts.fieldType.phoneNumbers];
+                navigator.contacts.find(fields, onSuccess, onError, options);
+            }
         }
-    }
 
+        $scope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll($rootScope.user.id, false, function(groups){
+                $rootScope.Groups = groups;
+                $scope.GroupsFiltered = groups;
+            });
+
+        }
         $scope.loadFromParse = function(phoneArray){
             //Now get user from Parse using Array
             $scope.loading = 'visible';
@@ -99,15 +107,25 @@ angular.module('starter.controllers', [])
             });
         }
 
+        $scope.loadFriendsGroups = function(){
+            $scope.loadFriends();
+            $scope.loadGroup();
+        }
         $scope.loadInit = function(){
 
             if (!$rootScope.Friends) {
-                $scope.loadFriends();
+                $scope.loadFriendsGroups();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
+                $scope.GroupsFiltered = $rootScope.Groups;
                 $scope.loading = "hidden";
             }
         }
+
+//        $scope.searchCancel = function(){
+//            $scope.searchText = "";
+//        }
+
         $scope.searchFriend = function(txt){
             console.log("searchFriend "+txt);
             var result = [];
@@ -118,6 +136,56 @@ angular.module('starter.controllers', [])
                 }
             }
             $scope.FriendsFiltered = result;
+        }
+
+        $scope.searchGroup = function(txt){
+            console.log("searchGroup "+txt);
+            var result = [];
+            for (var i in $rootScope.Groups){
+                if ($rootScope.Groups[i].get('group').toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.Groups[i].get('group'));
+                    result.push($rootScope.Groups[i]);
+                }
+            }
+            $scope.GroupsFiltered = result;
+        }
+
+        $scope.searchFriendGroup = function(txt){
+            $scope.searchFriend(txt);
+            $scope.searchGroup(txt);
+        }
+
+        $scope.goToFriends = function(){
+            $state.go('tab.friends');
+        }
+        $scope.goToGroupEdit = function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.setupgroup-edit');
+        }
+        $scope.goToGroupDetail = function(group){
+            console.log("goToGroupDetail");
+            $rootScope.selectedGroup = group;
+
+            $state.go('tab.friends-group');
+        }
+        $scope.loadGroupFriends = function(){
+            var User = Parse.Object.extend("User");
+            var query = new Parse.Query(User);
+            query.containedIn('objectId', $rootScope.selectedGroup.get('friend_userid'));
+            query.addAscending('username');
+            query.find({
+                success:function(users){
+                    console.log("found user = "+users.length);
+
+                    $scope.GroupFriends=users;
+                    $scope.$apply();
+                    $scope.loading = 'hidden';
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, error:function(obj, error){
+                    $scope.loading = 'hidden';
+                    console.log("error "+ error.message);
+                }
+            });
         }
 
         $scope.goToAction = function(user){
@@ -1500,8 +1568,6 @@ angular.module('starter.controllers', [])
         $scope.addFriendToGroup = function(){
             $rootScope.modalFriendSelect.show();
 
-            //$rootScope.addFriendToGroup = true;
-            //$state.go('tab.friends');
         }
 
         $rootScope.getFriendsForSelectedGroup = function(selectedGroup){
@@ -1509,7 +1575,7 @@ angular.module('starter.controllers', [])
                 var User = Parse.Object.extend("User");
                 var query = new Parse.Query(User);
                 query.containedIn('objectId',selectedGroup.get('friend_userid'));
-
+                query.addAscending('username');
                 query.find({
                     success:function(users){
                         //console.log("success = "+users.length);

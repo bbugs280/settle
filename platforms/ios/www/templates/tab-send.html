@@ -23,8 +23,8 @@
     <!--</ion-nav-buttons>-->
   <ion-content class="has-header">
       <ion-item class="item item-avatar item-icon-right" ng-click="selectGroup()"  ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
-          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon').url()==undefined">
-          <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon').url()!=undefined">
+          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon')==undefined">
+          <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon')!=undefined">
 
           <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</p>
           <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friend_userid').length}} people in group</p>

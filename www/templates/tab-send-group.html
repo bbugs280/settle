@@ -31,8 +31,8 @@
                 <!--</label>-->
             <!--</ion-item>-->
                         <ion-item ng-repeat="list in friendlists" class="item item-avatar item-icon-right " ng-click="selectGroup(list)">
-                            <img src="{{list.get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()!=undefined">
-                            <img src="./img/group.png"  width="50px" style="border-radius: 10px" ng-if="list.get('icon').url()==undefined">
+                            <img src="{{list.get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="list.get('icon')!=undefined">
+                            <img src="./img/group.png"  width="50px" style="border-radius: 10px" ng-if="list.get('icon')==undefined">
                             <p style="font-style: oblique;font-weight: bolder">{{list.get('group')}}</p>
                             <p>{{list.get('friend_userid').length}} people in group</p>
                             <ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>
