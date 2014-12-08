@@ -42,8 +42,7 @@ angular.module('starter.controllers', [])
                 if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
                     for (var j=0;j<contacts[i].phoneNumbers.length;j++){
                         var phone_no = contacts[i].phoneNumbers[j].value;
-//                            phone = phone.replace(/\s+/g, '');
-//                            phone = phone.replace(/[-&\/\\#,()$~%.'":*?<>{}]/g, '');
+
                             phone_no=cleanPhone(phone_no);
 
                             if (isValidNumber(phone_no,$rootScope.countryCode)){
@@ -58,24 +57,33 @@ angular.module('starter.controllers', [])
             $scope.loadFromParse(phoneArray);
         }
 
+
         function onError(contactError) {
             console.log('load Contact from phone error! ');
             $scope.$broadcast('scroll.refreshComplete');
         }
 
 
-        // find all contacts with values in Phone Numbers
-        if (window.navigator && window.navigator.contacts){
-            var options      = new ContactFindOptions();
-            options.filter   = "";
-            options.multiple = true;
-            options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
+            // find all contacts with values in Phone Numbers
+            if (window.navigator && window.navigator.contacts){
+                var options      = new ContactFindOptions();
+                options.filter   = "";
+                options.multiple = true;
+                options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
 
-            var fields       = [navigator.contacts.fieldType.phoneNumbers];
-            navigator.contacts.find(fields, onSuccess, onError, options);
+                var fields       = [navigator.contacts.fieldType.phoneNumbers];
+                navigator.contacts.find(fields, onSuccess, onError, options);
+            }
         }
-    }
 
+        $scope.loadGroup = function(){
+            var user = new SUser();
+            user.getFriendListAll($rootScope.user.id, false, function(groups){
+                $rootScope.Groups = groups;
+                $scope.GroupsFiltered = groups;
+            });
+
+        }
         $scope.loadFromParse = function(phoneArray){
             //Now get user from Parse using Array
             $scope.loading = 'visible';
@@ -99,15 +107,25 @@ angular.module('starter.controllers', [])
             });
         }
 
+        $scope.loadFriendsGroups = function(){
+            $scope.loadFriends();
+            $scope.loadGroup();
+        }
         $scope.loadInit = function(){
 
             if (!$rootScope.Friends) {
-                $scope.loadFriends();
+                $scope.loadFriendsGroups();
             }else{
                 $scope.FriendsFiltered = $rootScope.Friends;
+                $scope.GroupsFiltered = $rootScope.Groups;
                 $scope.loading = "hidden";
             }
         }
+
+//        $scope.searchCancel = function(){
+//            $scope.searchText = "";
+//        }
+
         $scope.searchFriend = function(txt){
             console.log("searchFriend "+txt);
             var result = [];
@@ -120,12 +138,94 @@ angular.module('starter.controllers', [])
             $scope.FriendsFiltered = result;
         }
 
-        $scope.goToSend = function(user){
+        $scope.searchGroup = function(txt){
+            console.log("searchGroup "+txt);
+            var result = [];
+            for (var i in $rootScope.Groups){
+                if ($rootScope.Groups[i].get('group').toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.Groups[i].get('group'));
+                    result.push($rootScope.Groups[i]);
+                }
+            }
+            $scope.GroupsFiltered = result;
+        }
+
+        $scope.searchFriendGroup = function(txt){
+            $scope.searchFriend(txt);
+            $scope.searchGroup(txt);
+        }
+
+        $scope.goToFriends = function(){
+            $state.go('tab.friends');
+        }
+        $scope.goToGroupEdit = function(group){
+            $rootScope.selectedGroup = group;
+            $state.go('tab.setupgroup-edit');
+        }
+        $scope.goToGroupDetail = function(group){
+            console.log("goToGroupDetail");
+            $rootScope.selectedGroup = group;
+
+            $state.go('tab.friends-group');
+        }
+        $scope.loadGroupFriends = function(){
+            var User = Parse.Object.extend("User");
+            var query = new Parse.Query(User);
+            query.containedIn('objectId', $rootScope.selectedGroup.get('friend_userid'));
+            query.addAscending('username');
+            query.find({
+                success:function(users){
+                    console.log("found user = "+users.length);
+
+                    $scope.GroupFriends=users;
+                    $scope.$apply();
+                    $scope.loading = 'hidden';
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, error:function(obj, error){
+                    $scope.loading = 'hidden';
+                    console.log("error "+ error.message);
+                }
+            });
+        }
+
+        $scope.goToAction = function(user){
+
             console.log("goToSend");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
+            //if ($rootScope.addFriendToGroup){
+            //
+            //
+            //}else{
+            //    //Got to Default Send page if no action is selected e.g. $rootScope.addFriendToGroup
+            //
+            //}
+
         }
+        $scope.addFriendToGroup = function(user){
+            console.log("addFriendTogroup");
+            $rootScope.selectedGroup.addUnique("friend_userid", user.id);
+
+            $rootScope.selectedGroup.save(null, {
+                success:function(r){
+                    console.log("success addFriendTogroup");
+                    //$rootScope.addFriendToGroup = undefined;
+                    //$state.go('tab.setupgroup-edit');
+                    $rootScope.getFriendsForSelectedGroup($rootScope.selectedGroup);
+                    $rootScope.modalFriendSelect.hide();
+                    $rootScope.$apply();
+                    var msgToNewUser = "You have been added to "+$rootScope.selectedGroup.get('group');
+                    var msgToGroup = user.getUsername() + " is added to "+ $rootScope.selectedGroup.get('group');
+                    sendPushMessage(msgToNewUser, "P_"+user.id);
+                    sendPushMessage(msgToGroup, "GRP_"+$rootScope.selectedGroup.id);
+
+                }
+            });
+        }
+
+
+
         $scope.getInfo = function(user){
 
         }
@@ -823,6 +923,7 @@ angular.module('starter.controllers', [])
                                 var Friendlist = Parse.Object.extend("friendlist");
                                 var fl = new Friendlist();
                                 fl.set('group',$scope.data.group);
+                                fl.set('admin',$rootScope.user);
 
                                 fl.addUnique('friends',ParseService.getUser().get('email'));
                                 fl.addUnique('friendnames',ParseService.getUser().get('username'));
@@ -856,7 +957,6 @@ angular.module('starter.controllers', [])
         }
         $scope.loadGroup();
 })
-
 .controller('SelectUserCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {
 //TODO to be demised
         $scope.loadRelatedPersonalUsers = function(){
@@ -1360,7 +1460,7 @@ angular.module('starter.controllers', [])
         }
         $scope.loadCurrencies();
 })
-.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService) {
+.controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,$ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Group Setup');
@@ -1459,7 +1559,38 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
+        $ionicModal.fromTemplateUrl('templates/tab-friends-select.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $rootScope.modalFriendSelect = modal;
+        });
+
+        $scope.addFriendToGroup = function(){
+            $rootScope.modalFriendSelect.show();
+
+        }
+
+        $rootScope.getFriendsForSelectedGroup = function(selectedGroup){
+            if (selectedGroup){
+                var User = Parse.Object.extend("User");
+                var query = new Parse.Query(User);
+                query.containedIn('objectId',selectedGroup.get('friend_userid'));
+                query.addAscending('username');
+                query.find({
+                    success:function(users){
+                        //console.log("success = "+users.length);
+                        $scope.friends = users;
+                        $scope.$apply();
+                    },error:function(obj, error){
+                        console.log("error "+ error.message);
+                    }
+                });
+            }
+
+        }
+
         $scope.loadGroupSetup();
+        $scope.getFriendsForSelectedGroup($rootScope.selectedGroup);
 })
 .controller('LoginCtrl', function( $rootScope,$scope, $state, $ionicPopup, $location, ParseService) {
         //Google Anaytics
@@ -1561,7 +1692,7 @@ angular.module('starter.controllers', [])
 
 
 })
-    .controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
+.controller('VerifyCtrl', function( $rootScope,$scope, $state, $ionicSlideBoxDelegate,ParseService) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Verify by Phone');

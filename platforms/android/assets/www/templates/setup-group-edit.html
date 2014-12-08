@@ -10,7 +10,7 @@
                 <img src="{{selectedGroup.get('icon').url()}}"  style="border-radius: 5px;width: 100px;height: 100px" ng-if="selectedGroup.get('icon')!=undefined" ng-click="openCamera(selectedGroup.get('group'))">
                 <img src="./img/group.png"  style="border-width:1px;border-radius: 5px;width: 200px;background-color: grey" ng-click="openCamera()" ng-if="selectedGroup.get('icon')==undefined" ng-click="openCamera(selectedGroup.get('group'))">
                 <!--<p style="font-size: smaller;color: blue"><-- edit group icon</p>-->
-                <p>{{selectedGroup.get('friend_userid').length}} settlers in group</p>
+                <p style="font-size: smaller;color: blue">edit group icon</p>
                 <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
             </ion-item>
 
@@ -31,7 +31,22 @@
                                     <!--Archive-->
                 <!--</span>-->
             <!--</button>-->
-
+            <ion-item class="item item-dark item-divider" style="font-size: small">
+                Friends
+                <span class="item-note" style="font-size:x-small;">{{selectedGroup.get('friend_userid').length}} settlers in group</span>
+            </ion-item>
+            <ion-item class="item item-avatar" ng-repeat="friend in friends">
+                <img src="{{friend.get('icon').url()}}" class="avatar" ng-if="friend.get('icon')!=undefined">
+                <img src="./img/people.png" class="avatar" ng-if="friend.get('icon')==undefined">
+               <b>{{friend.getUsername()}}</b>
+                <span style="font-size: x-small">{{friend.getEmail()}} <br>{{friend.get('phone_number')}}</span>
+                <span class="item-note" style="color:blue" ng-if="selectedGroup.get('admin').id == friend.id">
+                    group admin
+                </span>
+            </ion-item>
+            <ion-item style="text-align: center" ng-click="addFriendToGroup()">
+                <p style="color:blue">Add Friend to Group</p>
+            </ion-item>
         </ion-list>
 
         </ion-list>

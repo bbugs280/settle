@@ -1069,6 +1069,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-overview.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-group.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-select.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-send-group.html \
