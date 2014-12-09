@@ -4,9 +4,9 @@
             <i class=" ion-android-information"></i>
         </button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right" >
+    <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="addRequest()">
-            <i class="ion-ios-plus"></i>
+            <i class="icon ion-plus-circled"></i>
         </button>
     </ion-nav-buttons>
   <ion-content data-ng-controller="RequestsCtrl" data-ng-init="loadInit()">
@@ -20,12 +20,30 @@
           <ion-item class="item item-divider " >
               <label class="item item-input" style="border-radius: 5px;height: 30px">
                   <i class="icon ion-search placeholder-icon"></i>
-                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchRequest(searchText)">
+                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchBoth(searchText)">
                </label>
+          </ion-item>
+          <ion-item class="item item-dark  item-divider" style="font-size: small">
+              <i class="ion-loading-c" style="visibility: {{loading}}"></i>
+              Incoming Requests
+          </ion-item>
+          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" ng-click="goToRequestDetail(request)">
+              {{incomingrequest.get('parent').get('title')}}
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+          <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequestsFiltered.length == 0">
+              No Incoming Requests
+          </ion-item>
+          <ion-item class="item item-dark  item-divider" style="font-size: small">
+              <i class="ion-loading-c" style="visibility: {{loading}}"></i>
+              Sent Requests
           </ion-item>
           <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="request in RequestsFiltered" ng-click="goToRequestDetail(request)">
               {{request.get('title')}}
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+          <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="RequestsFiltered.length == 0">
+              No Sent Requests
           </ion-item>
 
       </ion-list>

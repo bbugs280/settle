@@ -205,7 +205,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
         }
     })
-      .state('tab.requests', {
+    .state('tab.requests', {
           url: '/requests',
           views: {
               'tab-requests': {
@@ -216,7 +216,19 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           data: {
               authenticate: true
           }
-      })
+    })
+    .state('tab.requests-detail', {
+          url: '/requests-detail',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-requests-detail.html',
+                  controller: 'RequestsDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+    })
     .state('tab.send', {
       url: '/send',
       views: {

@@ -303,17 +303,95 @@ angular.module('starter.controllers', [])
 
         //$rootScope.loadFriendsInit();
 })
-    .controller('RequestsCtrl', function($rootScope, $scope, $state) {
+.controller('RequestsCtrl', function($rootScope, $scope, $state) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Requests');
         }
 
-
-        $scope.loadInit = function(){
-
+        $scope.loading = "visible";
+        $scope.loadRequests = function(){
+            var Request = Parse.Object.extend("request");
+//            var RequestDetail = Parse.Object.extend("request_detail");
+            var query = new Parse.Query(Request);
+            query.equalTo('createdby',$rootScope.user);
+            query.find({
+                success:function(requests){
+                    $rootScope.Requests = requests;
+                    $scope.RequestsFiltered = requests;
+                    $scope.loading = "hidden";
+                    $scope.$broadcast('scroll.refreshComplete');
+                }
+            })
         }
-    })
+        $scope.loadIncomingRequests = function(){
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var query = new Parse.Query(RequestDetail);
+            query.include('parent');
+            query.equalTo('user', $rootScope.user);
+            query.find({
+                success:function(requestdetails){
+                    $rootScope.IncomingRequests = requestdetails;
+                    $scope.IncomingRequestsFiltered = requestdetails;
+                    $scope.loading = "hidden";
+                    $scope.$broadcast('scroll.refreshComplete');
+                }
+            })
+        }
+        $scope.loadBoth = function(){
+            $scope.loadRequests();
+            $scope.loadIncomingRequests();
+        }
+        $scope.addRequest = function(){
+            $rootScope.selectedRequest;
+            $state.go('tab.requests-detail');
+        }
+
+        $scope.searchRequest = function(txt){
+            var result = [];
+            for (var i in $rootScope.Requests){
+                if ($rootScope.Requests[i].get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.Requests[i].get('title'));
+                    result.push($rootScope.Requests[i]);
+                }
+            }
+            $scope.RequestsFiltered = result;
+        }
+        $scope.searchIncomingRequest = function(txt){
+            var result = [];
+            for (var i in $rootScope.IncomingRequests){
+                if ($rootScope.IncomingRequests[i].get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.IncomingRequests[i].get('title'));
+                    result.push($rootScope.IncomingRequests[i]);
+                }
+            }
+            $scope.IncomingRequestsFiltered = result;
+        }
+
+        $scope.searchBoth = function(txt){
+            $scope.searchRequest(txt);
+            $scope.searchIncomingRequest(txt);
+        }
+        $scope.loadInit = function(){
+            if (!$rootScope.Requests) {
+                console.log("loadInit - load from parse");
+                $scope.loadBoth();
+            }else{
+                console.log("loadInit - load from scope");
+                $scope.RequestsFiltered = $rootScope.Requests;
+                $scope.IncomingRequestsFiltered = $rootScope.IncomingRequests;
+                $scope.loading = "hidden";
+            }
+        }
+})
+.controller('RequestsDetailCtrl', function($rootScope, $scope, $state){
+        $scope.selectGroup = function(){
+            $state.go('tab.send-group');
+        }
+        $scope.clear = function(){
+            $rootScope.selectedGroup = undefined;
+        }
+})
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.alert = function(title, message){
@@ -608,9 +686,10 @@ angular.module('starter.controllers', [])
         $scope.sendnote = {};
         $scope.sendform = {};
 
-        $scope.selectGroup = function(sendform){
-            console.log("SendCtrl - sendform :"+sendform);
-            $scope.sendform = sendform;
+        $scope.selectGroup = function(){
+            console.log("selectgroup");
+//            console.log("SendCtrl - sendform :"+sendform);
+//            $scope.sendform = sendform;
             $state.go('tab.send-group');
         }
         $scope.clearGroup = function(){
@@ -961,7 +1040,7 @@ angular.module('starter.controllers', [])
             $state.go('tab.setupgroup-edit');
         }
 
-        $scope.selectGroup=function(group){
+        $scope.selectedGroup=function(group){
             $rootScope.selectedGroup = group;
 //            $rootScope.selectedFriend = undefined;
             $rootScope.inviteEmail = undefined;
@@ -1454,6 +1533,10 @@ angular.module('starter.controllers', [])
                 case 'tab.send-remote':
                     $rootScope.selectedCurrency=curr;
                     $state.go('tab.send-remote');
+                    break;
+                case 'tab.requests-detail':
+                    $rootScope.selectedCurrency=curr;
+                    $state.go('tab.requests-detail');
                     break;
                 case 'signup':
 
