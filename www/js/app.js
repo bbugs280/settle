@@ -60,7 +60,10 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
           $rootScope.user.get('default_currency').fetch({
               success:function (r){
+                  console.log("default currency loaded");
+                  //$rootScope.loadFriendsInit();
                   $rootScope.$apply();
+
               }
           });
 //      }
@@ -130,7 +133,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       .state('tab.friends', {
           url:'/friends',
           views:{
-              'tab-balance':{
+              'tab-friends':{
                   templateUrl: 'templates/tab-friends.html',
                   controller: 'FriendsCtrl'
               }
@@ -142,7 +145,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       .state('tab.friends-group', {
           url:'/friends-group',
           views:{
-              'tab-balance':{
+              'tab-friends':{
                   templateUrl: 'templates/tab-friends-group.html',
                   controller: 'FriendsCtrl'
               }
@@ -154,7 +157,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       .state('tab.friends-select', {
           url:'/friends-select',
           views:{
-              'tab-balance':{
+              'tab-friends':{
                   templateUrl: 'templates/tab-friends-select.html',
                   controller: 'FriendsCtrl'
               }
@@ -202,7 +205,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
         }
     })
-
+      .state('tab.requests', {
+          url: '/requests',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-requests.html',
+                  controller: 'RequestsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.send', {
       url: '/send',
       views: {

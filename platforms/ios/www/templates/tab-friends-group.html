@@ -40,7 +40,10 @@
                     <span style="font-size: x-small">{{friend.get('email')}} </span>
                 </p>
 
-              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+              <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+              <button class="button button-clear"  ng-click="goToAction(friend)">
+                  <i class="icon ion-card"></i>
+              </button>
           </ion-item>
           <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>

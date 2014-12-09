@@ -111,7 +111,7 @@ angular.module('starter.controllers', [])
             $scope.loadFriends();
             $scope.loadGroup();
         }
-        $scope.loadInit = function(){
+        $rootScope.loadFriendsInit = function(){
 
             if (!$rootScope.Friends) {
                 $scope.loadFriendsGroups();
@@ -299,7 +299,7 @@ angular.module('starter.controllers', [])
             }
         }
 
-        $scope.loadInit();
+        //$rootScope.loadFriendsInit();
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 

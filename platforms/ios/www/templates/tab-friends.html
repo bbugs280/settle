@@ -12,7 +12,7 @@
             <!--</span>-->
         </button>
     </ion-nav-buttons>
-  <ion-content>
+  <ion-content data-ng-controller="FriendsCtrl" data-ng-init="loadFriendsInit()">
       <ion-list can-swipe="true">
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
@@ -60,7 +60,10 @@
               <!--<ion-option-button class="button-calm" ng-click="getInfo(friend)">-->
                   <!--Details-->
               <!--</ion-option-button>-->
-              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+              <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+              <button class="button button-clear"  ng-click="goToAction(friend)">
+                  <i class="icon ion-card"></i>
+              </button>
           </ion-item>
           <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>

@@ -111,11 +111,13 @@ angular.module('starter.controllers', [])
             $scope.loadFriends();
             $scope.loadGroup();
         }
-        $scope.loadInit = function(){
+        $rootScope.loadFriendsInit = function(){
 
             if (!$rootScope.Friends) {
+                console.log("loadFriendsInit - load from parse");
                 $scope.loadFriendsGroups();
             }else{
+                console.log("loadFriendsInit - load from scope");
                 $scope.FriendsFiltered = $rootScope.Friends;
                 $scope.GroupsFiltered = $rootScope.Groups;
                 $scope.loading = "hidden";
@@ -299,8 +301,19 @@ angular.module('starter.controllers', [])
             }
         }
 
-        $scope.loadInit();
+        //$rootScope.loadFriendsInit();
 })
+    .controller('RequestsCtrl', function($rootScope, $scope, $state) {
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Requests');
+        }
+
+
+        $scope.loadInit = function(){
+
+        }
+    })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
         $rootScope.alert = function(title, message){
@@ -358,7 +371,6 @@ angular.module('starter.controllers', [])
         $rootScope.user = ParseService.getUser();
         $rootScope.intro = false;
         $scope.loading = 'visible';
-
 
         $scope.init = function(){
             //Check already run before
@@ -473,6 +485,7 @@ angular.module('starter.controllers', [])
             $scope.balancelistFiltered = result;
 
         }
+
 
 })
 .controller('BalanceDetailCtrl', function($rootScope, $scope,$state) {
