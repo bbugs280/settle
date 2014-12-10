@@ -229,6 +229,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
     })
+    .state('tab.incomingrequest-detail', {
+          url: '/incomingrequest-detail',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-incomingrequest-detail.html',
+                  controller: 'IncomingRequestDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+    })
     .state('tab.send', {
       url: '/send',
       views: {

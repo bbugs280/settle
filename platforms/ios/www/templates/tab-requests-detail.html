@@ -60,18 +60,20 @@
                      class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')==undefined">
                 <b>{{detail.get('user').getUsername()}}</b>
+                 <span class="item-note" style="font-size: x-small" ng-if="detail.get('balance')!=0">
+                     <span style="color:red;font-weight: bold">OB = </span>
+                     {{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}
+                 </span>
+                <span class="item-note" style="font-size: x-small;color:blue;font-weight: bold" ng-if="detail.get('balance')==0">
+                     Done
+                </span>
                 <div class=" item-input-inset">
                     <span style="font-size: small;">{{selectedRequest.get('currency').get('code')}}</span>
                     <label class="item-input-wrapper item-note">
-                        <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-currency required>
+                        <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
                     </label>
                 </div>
-
-
             </ion-item>
-            <!--<ion-item class="item item-avatar" style="font-size:small;text-align: center;font-weight: bold" ng-if="requestdetails.length==0">-->
-                <!--No one in this request-->
-            <!--</ion-item>-->
             <ion-item style="text-align: center" ng-click="modalFriendRequestSelect.show()">
                 <p style="color:blue">Add Friend to Request</p>
             </ion-item>

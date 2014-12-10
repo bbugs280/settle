@@ -315,6 +315,7 @@ angular.module('starter.controllers', [])
 //            var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(Request);
             query.include('currency');
+            query.include('group');
             query.equalTo('created_by',$rootScope.user);
             query.find({
                 success:function(requests){
@@ -329,6 +330,8 @@ angular.module('starter.controllers', [])
             var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(RequestDetail);
             query.include('parent');
+            query.include('parent.group');
+            query.include('parent.currency');
             query.equalTo('user', $rootScope.user);
             query.find({
                 success:function(requestdetails){
@@ -361,8 +364,8 @@ angular.module('starter.controllers', [])
         $scope.searchIncomingRequest = function(txt){
             var result = [];
             for (var i in $rootScope.IncomingRequests){
-                if ($rootScope.IncomingRequests[i].get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1){
-                    console.log($rootScope.IncomingRequests[i].get('title'));
+                if ($rootScope.IncomingRequests[i].get('parent').get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1){
+                    console.log($rootScope.IncomingRequests[i].get('parent').get('title'));
                     result.push($rootScope.IncomingRequests[i]);
                 }
             }
@@ -383,6 +386,10 @@ angular.module('starter.controllers', [])
                 $scope.IncomingRequestsFiltered = $rootScope.IncomingRequests;
                 $scope.loading = "hidden";
             }
+        }
+        $scope.goToIncomingRequestDetail = function(irequest){
+            $rootScope.selectedIncomingRequest = irequest;
+            $state.go('tab.incomingrequest-detail');
         }
         $scope.goToRequestDetail = function(request){
             $rootScope.selectedRequest = request;
@@ -424,17 +431,42 @@ angular.module('starter.controllers', [])
             var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(RequestDetail);
             query.include('user');
+            query.include('tran.amount');
             query.equalTo('parent', $rootScope.selectedRequest);
             query.find({
                 success:function(details){
                     $scope.requestdetails=details;
                     for (var i in $scope.requestdetails){
                         $scope.requestdetails[i].amount = $scope.requestdetails[i].get('amount');
+                        var paidAmount = 0;
+                        var ownAmount = 0;
+                        ownAmount = $scope.requestdetails[i].get('amount');
+                        if ($scope.requestdetails[i].get('tran')){
+                            paidAmount = $scope.requestdetails[i].get('tran').get('amount');
+                        }
+                        $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
                     }
                     $scope.$apply();
                 }
             });
         }
+
+        $scope.calcTotalAmount = function(){
+            var amount = 0;
+            for (var i in $scope.requestdetails){
+                amount += $scope.requestdetails[i].amount;
+                var paidAmount = 0;
+                var ownAmount = 0;
+                ownAmount = $scope.requestdetails[i].amount;
+                if ($scope.requestdetails[i].get('tran')){
+                    paidAmount = $scope.requestdetails[i].get('tran').get('amount');
+                }
+                $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
+                $scope.$apply();
+            }
+            $rootScope.selectedRequest.amount = amount;
+        }
+
         $scope.addFriendToRequest = function(user){
             console.log("addFriendToRequest");
             var RequestDetail = Parse.Object.extend("request_detail");
@@ -448,12 +480,13 @@ angular.module('starter.controllers', [])
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
+            $rootScope.showLoading('Saving');
             $rootScope.selectedRequest.set('title', request.title);
             $rootScope.selectedRequest.set('amount', request.amount);
             $rootScope.selectedRequest.set('note', request.note);
             //$rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
-            $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
-            $rootScope.selectedRequest.set('createdby', $rootScope.user);
+//            $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
+            $rootScope.selectedRequest.set('created_by', $rootScope.user);
             $rootScope.selectedRequest.save(null,{
                 success:function (request){
                     console.log("Request saved");
@@ -463,44 +496,70 @@ angular.module('starter.controllers', [])
                             $scope.requestdetails[i].set('parent',request);
                             $scope.requestdetails[i].set('amount',$scope.requestdetails[i].amount);
                             $scope.requestdetails[i].save();
-                            //TODO send push
+                            // send push
+                            var msg = "Please pay " + $rootScope.user.getUsername();
+                            msg += " " + $scope.requestdetails[i].amount;
+                            msg += " for " + $rootScope.selectedRequest.get('title');
+                            sendPushMessage(msg, "P_"+$scope.requestdetails[i].get('user').id);
+
                             $scope.$apply();
+                            $rootScope.hideLoading();
+
+                            $state.go('tab.requests');
                         }
                     }
 
                     $rootScope.$apply();
 
+                },error:function(obj, error){
+                    console.log('error '+error.message);
+                    $rootScope.hideLoading();
                 }
             })
         }
 
-        if (!$rootScope.selectedRequest){
-            var Request = Parse.Object.extend("request");
-            $rootScope.selectedRequest = new Request();
-            $rootScope.selectedRequest.set('currency',$rootScope.user.get('default_currency'));
-            console.log("create selectedRequest");
-        }else{
-            //Refresh Request object for Display
-            $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
-            $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
-            $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
-            if ($rootScope.selectedRequest.get('currency')){
-                $rootScope.selectedRequest.get('currency').fetch({
-                    success:function(r){
-                        $rootScope.$apply();
-                    }
-                });
+        $scope.init = function(){
+            if (!$rootScope.selectedRequest){
+                var Request = Parse.Object.extend("request");
+                $rootScope.selectedRequest = new Request();
+                $rootScope.selectedRequest.set('currency',$rootScope.user.get('default_currency'));
+                console.log("create selectedRequest");
+            }else{
+                //Refresh Request object for Display
+                $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
+                $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
+                $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
+                if ($rootScope.selectedRequest.get('currency')){
+                    $rootScope.selectedRequest.get('currency').fetch({
+                        success:function(r){
+                            $rootScope.$apply();
+                        }
+                    });
+                }
+                if ($rootScope.selectedRequest.get('group')){
+                    $rootScope.selectedRequest.get('group').fetch({
+                        success:function(r){
+                            $rootScope.$apply();
+                        }
+                    });
+                }
+
+                $scope.loadRequestDetails();
             }
-            $rootScope.selectedRequest.get('group').fetch({
-                 success:function(r){
-                     $rootScope.$apply();
-                 }
-             });
-            $scope.loadRequestDetails();
+
+            if (!$scope.requestdetails){
+                console.log("$scope.requestdetails empty and it's init");
+                $scope.requestdetails = [];
+            }
         }
-        if (!$scope.requestdetails){
-            console.log("$scope.requestdetails empty and it's init");
-            $scope.requestdetails = [];
+
+        $scope.init();
+
+})
+.controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal){
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Incoming Request Detail');
         }
 
 
@@ -638,7 +697,6 @@ angular.module('starter.controllers', [])
             }else{
 
                 //Personal Account will go to Transaction Detail i.e. BalanceDetail
-//                $rootScope.selectedGroup = undefined;
                 $rootScope.selectedFriend = balance.get('frienduser');
                 $state.go('tab.balance-detail');
             }
@@ -754,6 +812,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.openTrans = function(bal){
+            $rootScope.selectedFriend = undefined;
             $state.go('tab.balance-detail');
         }
         $scope.goToSend = function(user){
