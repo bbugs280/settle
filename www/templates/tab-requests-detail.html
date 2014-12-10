@@ -18,12 +18,12 @@
             <ion-item class="item item-avatar item-icon-right"
                       style="font-size: normal"
                       ng-click="selectGroup()"
-                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true,'item-stable':selectedRequest.get('group')==undefined || selectedRequest.get('group').get('ispersonal')==true}">
+                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined ">
                 <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
                 <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
-                <p ng-if="selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
-                <p  ng-if="selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
-                <p ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('ispersonal')==true">Select Group (optional)</p>
+                <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
+                <p  ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
+                <p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>
 
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>

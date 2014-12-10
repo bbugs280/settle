@@ -314,6 +314,7 @@ angular.module('starter.controllers', [])
             var Request = Parse.Object.extend("request");
 //            var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(Request);
+            query.include('currency');
             query.equalTo('created_by',$rootScope.user);
             query.find({
                 success:function(requests){
@@ -415,6 +416,9 @@ angular.module('starter.controllers', [])
             query.find({
                 success:function(details){
                     $scope.requestdetails=details;
+                    for (var i in $scope.requestdetails){
+                        $scope.requestdetails[i].amount = $scope.requestdetails[i].get('amount');
+                    }
                     $scope.$apply();
                 }
             });
@@ -435,7 +439,7 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest.set('title', request.title);
             $rootScope.selectedRequest.set('amount', request.amount);
             $rootScope.selectedRequest.set('note', request.note);
-            $rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
+            //$rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
             $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
             $rootScope.selectedRequest.set('createdby', $rootScope.user);
             $rootScope.selectedRequest.save(null,{
@@ -461,13 +465,25 @@ angular.module('starter.controllers', [])
         if (!$rootScope.selectedRequest){
             var Request = Parse.Object.extend("request");
             $rootScope.selectedRequest = new Request();
+            $rootScope.selectedRequest.set('currency',$rootScope.user.get('default_currency'));
             console.log("create selectedRequest");
         }else{
             //Refresh Request object for Display
             $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
             $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
             $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
-            $rootScope.selectedRequest.group = $rootScope.selectedRequest.get('group');
+            if ($rootScope.selectedRequest.get('currency')){
+                $rootScope.selectedRequest.get('currency').fetch({
+                    success:function(r){
+                        $rootScope.$apply();
+                    }
+                });
+            }
+            $rootScope.selectedRequest.get('group').fetch({
+                 success:function(r){
+                     $rootScope.$apply();
+                 }
+             });
             $scope.loadRequestDetails();
         }
         if (!$scope.requestdetails){
@@ -1621,7 +1637,8 @@ angular.module('starter.controllers', [])
                     $state.go('tab.send-remote');
                     break;
                 case 'tab.requests-detail':
-                    $rootScope.selectedCurrency=curr;
+                    //$rootScope.selectedCurrency=curr;
+                    $rootScope.selectedRequest.set('currency',curr);
                     $state.go('tab.requests-detail');
                     break;
                 case 'signup':
