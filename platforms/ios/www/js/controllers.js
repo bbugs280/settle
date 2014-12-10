@@ -395,17 +395,29 @@ angular.module('starter.controllers', [])
             analytics.trackView('Requests Detail');
         }
 
+        $ionicModal.fromTemplateUrl('templates/select-currencies.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalCurrencySelect = modal;
+        });
+
         $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
             scope:$scope
         }).then(function(modal) {
             $scope.modalFriendRequestSelect = modal;
         });
 
+        $scope.selectACurrency = function(curr){
+            console.log("select currency");
+            $rootScope.selectedRequest.set('currency', curr);
+            $scope.modalCurrencySelect.hide();
+        }
+
         $scope.selectGroup = function(){
             $state.go('tab.send-group');
         }
         $scope.clear = function(){
-            $rootScope.selectedGroup = undefined;
+            $rootScope.selectedRequest.set('group', undefined);
         }
 
         $scope.loadRequestDetails=function(){

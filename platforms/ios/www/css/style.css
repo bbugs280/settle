@@ -68,10 +68,10 @@ input.input-required {
 
 .avatar{
     background-color:lightgray;
-    width: 50px
+    /*width:40px*/
     float: left;
     /*max-height: 50px;*/
-    max-width: 50px;
+    max-width: 40px;
     margin-right: 1em;
     border-radius: 50px;
 }

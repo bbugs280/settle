@@ -1,7 +1,7 @@
 <ion-view title="Request" hide-back-button="true">
     <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
-                    Back
+
                 </button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
@@ -18,7 +18,7 @@
             <ion-item class="item item-avatar item-icon-right"
                       style="font-size: normal"
                       ng-click="selectGroup()"
-                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined ">
+                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined}">
                 <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
                 <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
                 <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
@@ -34,7 +34,7 @@
                 </button>
             </label>
             <ion-item class="item item-input-inset" >
-                <button class="button button-clear" type="button" ng-click="openCurrencies('tab.requests-detail')" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
+                <button class="button button-clear" type="button" ng-click="modalCurrencySelect.show()" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedRequest.get('currency')==undefined">
                   <span ng-if="user.get('default_currency')!=undefined">{{user.get('default_currency').get('code')}}</span>
               </span>
@@ -46,21 +46,28 @@
 
             </ion-item>
             <label class="item item-input">
-                <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
+                <textarea placeholder="Note" ng-model="selectedRequest.note"></textarea>
             </label>
             <ion-item class="item item-dark item-divider" style="font-size: small">
                 Friends
                 <span class="item-note" style="font-size:x-small;">{{requestdetails.length}} friends in this request</span>
             </ion-item>
-            <ion-item class="item item-avatar" ng-repeat="detail in requestdetails">
+            <ion-item class="item" ng-repeat="detail in requestdetails">
                 <img src="{{detail.get('user').get('icon').url()}}"
-                     class="avatar"
+                     class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')!=undefined">
                 <img src="./img/people.png"
-                     class="avatar"
+                     class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')==undefined">
-                    <b>{{detail.get('user').getUsername()}}</b>
-                <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-currency required>
+                <b>{{detail.get('user').getUsername()}}</b>
+                <div class=" item-input-inset">
+                    <span style="font-size: small;">{{selectedRequest.get('currency').get('code')}}</span>
+                    <label class="item-input-wrapper item-note">
+                        <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-currency required>
+                    </label>
+                </div>
+
+
             </ion-item>
             <!--<ion-item class="item item-avatar" style="font-size:small;text-align: center;font-weight: bold" ng-if="requestdetails.length==0">-->
                 <!--No one in this request-->

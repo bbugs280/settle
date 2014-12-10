@@ -39,11 +39,14 @@
               Sent Requests
           </ion-item>
           <ion-item class="item item-icon-right item-button-right"  ng-repeat="request in RequestsFiltered" ng-click="goToRequestDetail(request)">
-              <b>{{request.get('title')}}</b>
-              <span style="font-size: x-small;color:gray">Last updated on <b>{{request.updatedAt.toLocaleDateString()}}</b></span>
-              <span class="item-note" style="color:black">
-                  {{request.get('amount')| currency:request.get('currency').get('code')}}
+              <b>{{request.get('title')}}</b> <span style="font-size:small">{{request.get('group').get('group')}}</span>
+              <span class="item-note">
+                  <b>{{request.get('amount')| currency:request.get('currency').get('code')}}</b>
               </span>
+              <br>
+              <span style="font-size: x-small;color:gray">{{request.get('note')}} </span>
+
+              <span class="item-note" style="font-size: x-small"> <b>{{request.createdAt.toLocaleString()}} </b></span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="RequestsFiltered.length == 0">

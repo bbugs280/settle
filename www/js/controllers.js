@@ -315,6 +315,7 @@ angular.module('starter.controllers', [])
 //            var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(Request);
             query.include('currency');
+            query.include('group');
             query.equalTo('created_by',$rootScope.user);
             query.find({
                 success:function(requests){
@@ -395,17 +396,29 @@ angular.module('starter.controllers', [])
             analytics.trackView('Requests Detail');
         }
 
+        $ionicModal.fromTemplateUrl('templates/select-currencies.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalCurrencySelect = modal;
+        });
+
         $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
             scope:$scope
         }).then(function(modal) {
             $scope.modalFriendRequestSelect = modal;
         });
 
+        $scope.selectACurrency = function(curr){
+            console.log("select currency");
+            $rootScope.selectedRequest.set('currency', curr);
+            $scope.modalCurrencySelect.hide();
+        }
+
         $scope.selectGroup = function(){
             $state.go('tab.send-group');
         }
         $scope.clear = function(){
-            $rootScope.selectedGroup = undefined;
+            $rootScope.selectedRequest.set('group', undefined);
         }
 
         $scope.loadRequestDetails=function(){
@@ -617,10 +630,10 @@ angular.module('starter.controllers', [])
         }
 
         $scope.openBalance = function(balance){
-            $rootScope.selectedGroup = balance.get('group');
+
             if (balance.get('group').get('ispersonal')!=true){
                 //Group Account goes to BalanceGroup
-
+                $rootScope.selectedGroup = balance.get('group');
                 $rootScope.selectedFriend = undefined;
                 $state.go('tab.balance-group');
             }else{
@@ -628,6 +641,7 @@ angular.module('starter.controllers', [])
                 //Personal Account will go to Transaction Detail i.e. BalanceDetail
 //                $rootScope.selectedGroup = undefined;
                 $rootScope.selectedFriend = balance.get('frienduser');
+                $rootScope.selectedGroup = undefined;
                 $state.go('tab.balance-detail');
             }
 
@@ -742,6 +756,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.openTrans = function(bal){
+            $rootScope.selectedFriend = undefined;
             $state.go('tab.balance-detail');
         }
         $scope.goToSend = function(user){
