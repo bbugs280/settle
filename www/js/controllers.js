@@ -630,18 +630,16 @@ angular.module('starter.controllers', [])
         }
 
         $scope.openBalance = function(balance){
-
+            $rootScope.selectedGroup = balance.get('group');
             if (balance.get('group').get('ispersonal')!=true){
                 //Group Account goes to BalanceGroup
-                $rootScope.selectedGroup = balance.get('group');
+
                 $rootScope.selectedFriend = undefined;
                 $state.go('tab.balance-group');
             }else{
 
                 //Personal Account will go to Transaction Detail i.e. BalanceDetail
-//                $rootScope.selectedGroup = undefined;
                 $rootScope.selectedFriend = balance.get('frienduser');
-                $rootScope.selectedGroup = undefined;
                 $state.go('tab.balance-detail');
             }
 
