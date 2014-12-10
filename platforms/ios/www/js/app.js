@@ -97,7 +97,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
 
      if (toState.data.authenticate && !Parse.User.current()){
           // User isn’t authenticated
-          $state.transitionTo("login");
+          $state.go("verifyByPhone");
           event.preventDefault();
      }
 

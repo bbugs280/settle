@@ -10,7 +10,7 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-        <form ng-model="request">
+        <form ng-model="selectedRequest">
         <ion-list class="list">
             <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
 
@@ -18,48 +18,57 @@
             <ion-item class="item item-avatar item-icon-right"
                       style="font-size: normal"
                       ng-click="selectGroup()"
-                      ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
-                <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon')==undefined">
-                <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon')!=undefined">
-                <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</p>
-                <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friend_userid').length}} people in group</p>
-                <p ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</p>
+                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true,'item-stable':selectedRequest.get('group')==undefined || selectedRequest.get('group').get('ispersonal')==true}">
+                <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
+                <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
+                <p ng-if="selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
+                <p  ng-if="selectedRequest.get('group')!=undefined && selectedRequest.get('group').get('ispersonal')!=true">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
+                <p ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('ispersonal')==true">Select Group (optional)</p>
 
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
             <label class="item item-input">
-                <input type="text" placeholder="Title" ng-model="request.title" maxlength="40">
+                <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title" maxlength="40">
+                <button class="button button-clear">
+                    <i class="icon ion-search"></i>
+                </button>
             </label>
-            <ion-item class="item item-input-inset">
+            <ion-item class="item item-input-inset" >
                 <button class="button button-clear" type="button" ng-click="openCurrencies('tab.requests-detail')" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedCurrency==undefined">
                   <span ng-if="user.get('default_currency')!=undefined">{{user.get('default_currency').get('code')}}</span>
               </span>
                     <span ng-if="selectedCurrency!=undefined">{{selectedCurrency.get('code')}}</span>
                 </button>
-                <label class=" item-input-wrapper " style="height: 50px">
-
-                    <input type="tel" placeholder="Amount" ng-model="request.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
+                <label class=" item-input-wrapper "  style="height: 50px">
+                    <input type="tel" placeholder="Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
                 </label>
 
             </ion-item>
             <label class="item item-input">
-                <input type="text" placeholder="Note" ng-model="request.note" maxlength="40">
+                <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
             </label>
             <ion-item class="item item-dark item-divider" style="font-size: small">
                 Friends
-                <span class="item-note" style="font-size:x-small;">{{selectedGroup.get('friend_userid').length}} settlers in this request</span>
+                <span class="item-note" style="font-size:x-small;">{{requestdetails.length}} in this request</span>
             </ion-item>
             <ion-item class="item item-avatar" ng-repeat="detail in requestdetails">
-
+                <img src="{{detail.get('user').get('icon').url()}}"
+                     class="avatar"
+                     ng-if="detail.get('user').get('icon')!=undefined">
+                <img src="./img/people.png"
+                     class="avatar"
+                     ng-if="detail.get('user').get('icon')==undefined">
+                    <b>{{detail.get('user').getUsername()}}</b>
+                <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-currency required>
             </ion-item>
-            <ion-item class="item item-avatar" ng-if="requestdetails.length==0">
-                No one in this request
+            <!--<ion-item class="item item-avatar" style="font-size:small;text-align: center;font-weight: bold" ng-if="requestdetails.length==0">-->
+                <!--No one in this request-->
+            <!--</ion-item>-->
+            <ion-item style="text-align: center" ng-click="modalFriendRequestSelect.show()">
+                <p style="color:blue">Add Friend to Request</p>
             </ion-item>
-            <ion-item style="text-align: center" ng-click="addFriendToRequest()">
-                <p style="color:blue">Add </p>
-            </ion-item>
-            <button class="button button-block button-stable">
+            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)">
                 Send Request
             </button>
         </ion-list>

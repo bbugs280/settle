@@ -6,11 +6,11 @@
         </button>
     </ion-header-bar>
 
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="modalFriendSelect.hide()">
-            Cancel
-        </button>
-    </ion-nav-buttons>
+    <!--<ion-nav-buttons side="right">-->
+        <!--<button class="button button-clear" ng-click="modalFriendSelect.hide()">-->
+            <!--Cancel-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
     <!--<div class="bar bar-header item-input-inset">-->
         <!--<label class="item-input-wrapper">-->
             <!--<i class="icon ion-ios7-search placeholder-icon"></i>-->
@@ -21,7 +21,7 @@
         <!--</button>-->
     <!--</div>-->
 
-    <ion-content data-ng-controller="FriendsCtrl">
+    <ion-content data-ng-controller="FriendsCtrl" data-ng-init="loadFriendsInit()">
       <ion-list can-swipe="true">
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
@@ -52,9 +52,9 @@
               <!--<button class="button button-clear" ng-click="getInfo(friend)">-->
                   <!--<i class="icon ion-ios7-information-outline"></i>-->
               <!--</button>-->
-              <ion-option-button class="button-assertive" ng-click="goToSend(friend)">
-                  Pay
-              </ion-option-button>
+              <!--<ion-option-button class="button-assertive" ng-click="goToSend(friend)">-->
+                  <!--Pay-->
+              <!--</ion-option-button>-->
               <!--<ion-option-button class="button-calm" ng-click="getInfo(friend)">-->
                   <!--Details-->
               <!--</ion-option-button>-->

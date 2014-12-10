@@ -314,7 +314,8 @@ angular.module('starter.controllers', [])
             var Request = Parse.Object.extend("request");
 //            var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(Request);
-            query.equalTo('createdby',$rootScope.user);
+            query.include('currency');
+            query.equalTo('created_by',$rootScope.user);
             query.find({
                 success:function(requests){
                     $rootScope.Requests = requests;
@@ -383,14 +384,114 @@ angular.module('starter.controllers', [])
                 $scope.loading = "hidden";
             }
         }
+        $scope.goToRequestDetail = function(request){
+            $rootScope.selectedRequest = request;
+            $state.go('tab.requests-detail');
+        }
 })
-.controller('RequestsDetailCtrl', function($rootScope, $scope, $state){
+.controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal){
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Requests Detail');
+        }
+
+        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalFriendRequestSelect = modal;
+        });
+
         $scope.selectGroup = function(){
             $state.go('tab.send-group');
         }
         $scope.clear = function(){
             $rootScope.selectedGroup = undefined;
         }
+
+        $scope.loadRequestDetails=function(){
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var query = new Parse.Query(RequestDetail);
+            query.include('user');
+            query.equalTo('parent', $rootScope.selectedRequest);
+            query.find({
+                success:function(details){
+                    $scope.requestdetails=details;
+                    for (var i in $scope.requestdetails){
+                        $scope.requestdetails[i].amount = $scope.requestdetails[i].get('amount');
+                    }
+                    $scope.$apply();
+                }
+            });
+        }
+        $scope.addFriendToRequest = function(user){
+            console.log("addFriendToRequest");
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var rd = new RequestDetail();
+            rd.set('parent',$rootScope.selectedRequest);
+            rd.set('user', user);
+            $scope.requestdetails.push(rd);
+            $scope.$apply();
+            $scope.modalFriendRequestSelect.hide();
+
+        }
+        $scope.saveRequest = function(request){
+            console.log("RequestDetail - saveRequest");
+            $rootScope.selectedRequest.set('title', request.title);
+            $rootScope.selectedRequest.set('amount', request.amount);
+            $rootScope.selectedRequest.set('note', request.note);
+            //$rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
+            $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
+            $rootScope.selectedRequest.set('createdby', $rootScope.user);
+            $rootScope.selectedRequest.save(null,{
+                success:function (request){
+                    console.log("Request saved");
+                    $rootScope.selectedRequest = request;
+                    if ($scope.requestdetails){
+                        for (var i in $scope.requestdetails){
+                            $scope.requestdetails[i].set('parent',request);
+                            $scope.requestdetails[i].set('amount',$scope.requestdetails[i].amount);
+                            $scope.requestdetails[i].save();
+                            //TODO send push
+                            $scope.$apply();
+                        }
+                    }
+
+                    $rootScope.$apply();
+
+                }
+            })
+        }
+
+        if (!$rootScope.selectedRequest){
+            var Request = Parse.Object.extend("request");
+            $rootScope.selectedRequest = new Request();
+            $rootScope.selectedRequest.set('currency',$rootScope.user.get('default_currency'));
+            console.log("create selectedRequest");
+        }else{
+            //Refresh Request object for Display
+            $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
+            $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
+            $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
+            if ($rootScope.selectedRequest.get('currency')){
+                $rootScope.selectedRequest.get('currency').fetch({
+                    success:function(r){
+                        $rootScope.$apply();
+                    }
+                });
+            }
+            $rootScope.selectedRequest.get('group').fetch({
+                 success:function(r){
+                     $rootScope.$apply();
+                 }
+             });
+            $scope.loadRequestDetails();
+        }
+        if (!$scope.requestdetails){
+            console.log("$scope.requestdetails empty and it's init");
+            $scope.requestdetails = [];
+        }
+
+
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
 
@@ -1042,6 +1143,7 @@ angular.module('starter.controllers', [])
 
         $scope.selectedGroup=function(group){
             $rootScope.selectedGroup = group;
+            $rootScope.selectedRequest.set('group',group);
 //            $rootScope.selectedFriend = undefined;
             $rootScope.inviteEmail = undefined;
             history.go(-1);
@@ -1535,7 +1637,8 @@ angular.module('starter.controllers', [])
                     $state.go('tab.send-remote');
                     break;
                 case 'tab.requests-detail':
-                    $rootScope.selectedCurrency=curr;
+                    //$rootScope.selectedCurrency=curr;
+                    $rootScope.selectedRequest.set('currency',curr);
                     $state.go('tab.requests-detail');
                     break;
                 case 'signup':
