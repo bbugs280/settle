@@ -68,7 +68,7 @@
             </ion-item>
         </ion-list>
             <ion-list class="list" show-delete="data.showDelete" can-swipe="true">
-            <ion-item class="item" ng-repeat="detail in requestdetails">
+            <ion-item class="item" ng-repeat="detail in requestdetails" ng-class="{'item-stable':detail.get('balance')==0}">
                 <img src="{{detail.get('user').get('icon').url()}}"
                      class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')!=undefined">
@@ -77,27 +77,36 @@
                      ng-if="detail.get('user').get('icon')==undefined">
                 <b>{{detail.get('user').getUsername()}}</b>
                  <span class="item-note" style="font-size: x-small" ng-if="detail.get('balance')!=0">
-                     <span style="color:red;font-weight: bold">OB = </span>
-                     {{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}
+                     <span style="color:red;font-weight: bold">
+                         <i class="icon ion-thumbsdown"></i>
+                         OUTSTANDING
+                     </span>
+                     <!--{{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}-->
                  </span>
                 <span class="item-note" style="font-size: x-small;color:blue;font-weight: bold" ng-if="detail.get('balance')==0">
-                     Done
+                    <i class="icon ion-thumbsup"></i>
+                     PAID
                 </span>
                 <div class=" item-input-inset">
-                    <span style="font-size: small;">{{selectedRequest.get('currency').get('code')}}</span>
-                    <label class="item-input-wrapper item-note">
+                    <span style="font-size: small;" ng-if="detail.get('balance')!=0">{{selectedRequest.get('currency').get('code')}}</span>
+                    <label class="item-input-wrapper item-note" ng-if="detail.get('balance')!=0">
                         <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
                     </label>
+                    <span ng-if="detail.get('balance')==0">
+                        {{detail.get('amount')| currency:selectedRequest.get('currency').get('code')}}
+                    </span>
                 </div>
-                <ion-delete-button class="ion-minus-circled"
-                                   ng-click="removeDetail(detail)">
-                </ion-delete-button>
+                <!--<ion-delete-button class="ion-minus-circled"-->
+                                   <!--ng-click="removeDetail(detail)">-->
+                <!--</ion-delete-button>-->
                 <ion-option-button class="button-assertive"
-                                   ng-click="removeDetail(detail)">
+                                   ng-click="removeDetail(detail)"
+                                   ng-if="detail.get('balance')!=0">
                     Remove
                 </ion-option-button>
                 <ion-option-button class="button-dark"
-                                   ng-click="chaseDetail(detail)">
+                                   ng-click="chaseDetail(detail)"
+                                   ng-if="detail.get('balance')!=0">
                     Chase
                 </ion-option-button>
             </ion-item>
