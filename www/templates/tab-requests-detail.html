@@ -27,12 +27,15 @@
 
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-            <label class="item item-input">
-                <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title" maxlength="40">
-                <button class="button button-clear">
+            <ion-item class="item item-button-right">
+                <label>
+                    <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title" maxlength="40">
+                </label>
+                <button class="button button-clear" ng-click="modalPlaceSelect.show()">
                     <i class="icon ion-search"></i>
                 </button>
-            </label>
+            </ion-item>
+
             <ion-item class="item item-input-inset" >
                 <button class="button button-clear" type="button" ng-click="modalCurrencySelect.show()" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedRequest.get('currency')==undefined">
@@ -46,7 +49,7 @@
 
             </ion-item>
             <label class="item item-input">
-                <textarea placeholder="Note" ng-model="selectedRequest.note"></textarea>
+                <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
             </label>
 
             <ion-item class="item item-button-right" style="font-size: normal;font-weight: bold">
@@ -65,7 +68,7 @@
             </ion-item>
         </ion-list>
             <ion-list class="list" show-delete="data.showDelete" can-swipe="true">
-            <ion-item class="item item-button-right" ng-repeat="detail in requestdetails">
+            <ion-item class="item" ng-repeat="detail in requestdetails">
                 <img src="{{detail.get('user').get('icon').url()}}"
                      class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')!=undefined">

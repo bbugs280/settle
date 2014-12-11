@@ -7,7 +7,7 @@
 
     <ion-content class="has-header">
 
-        <ion-list class="list">
+        <ion-list class="list" style="font-size: small">
             <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
 
             <!--</ion-item>-->
@@ -23,13 +23,34 @@
 
                 <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
             </ion-item>
-            <ion-item>
-                {{selectedIncomingRequest.get('parent').get('title')}}
+            <ion-item class="item">
+                <b>Date Time</b>
+                <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('createdAt').toLocaleString()}}</span>
             </ion-item>
-            <ion-item>
-                {{selectedIncomingRequest.get('parent').get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}
+            <ion-item class="item">
+                <b>Requested by</b>
+                <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('created_by').getUsername()}}</span>
             </ion-item>
+            <ion-item class="item">
+                <b>Title</b>
+                <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('title')}}</span>
+            </ion-item>
+            <!--<ion-item class="item">-->
+                <!--{{selectedIncomingRequest.get('parent').get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}-->
+            <!--</ion-item>-->
+            <ion-item class="item">
+                <b>Note</b>
+                <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('note')}}</span>
+            </ion-item>
+            <ion-item class="item">
+                <b>Owing amount</b>
+                <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 
+            </ion-item>
+            <button class="button button-block button-stable" ng-click="payBack(selectedIncomingRequest)">
+                <i class="icon ion-card"></i>
+                Pay
+            </button>
         </ion-list>
 
 

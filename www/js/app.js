@@ -47,8 +47,11 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           console.log("getting Locale on app load");
           navigator.globalization.getLocaleName(function(localeName) {
               var countryCode = localeName.value.substring(localeName.value.length - 2, localeName.value.length).toUpperCase();
-              console.log("country code = " + countryCode);
+
               $rootScope.countryCode = countryCode;
+              $rootScope.countryName = countryCodeToName(countryCode);
+              console.log("country code = " + countryCode);
+              console.log("country Name = " + $rootScope.countryName);
               $rootScope.$apply();
           },function(error){
               console.log(error.message);

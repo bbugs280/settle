@@ -6,7 +6,7 @@
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="addRequest()">
-            <i class="icon ion-plus-circled"></i>
+            <i class="icon ion-ios7-plus-empty"></i>
         </button>
     </ion-nav-buttons>
   <ion-content data-ng-controller="RequestsCtrl" data-ng-init="loadInit()">
@@ -29,7 +29,9 @@
           </ion-item>
           <ion-item class="item item-icon-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" ng-click="goToIncomingRequestDetail(incomingrequest)">
               <!--{{incomingrequest.get('parent').get('title')}}-->
-              <b>{{incomingrequest.get('parent').get('title')}}</b> <span style="font-size:small">{{incomingrequest.get('parent').get('group').get('group')}}</span>
+              <b>{{incomingrequest.get('parent').get('title')}}</b>
+              <br>
+              <span style="font-size:small">{{incomingrequest.get('parent').get('group').get('group')}}</span>
               <span class="item-note">
                   <b>{{incomingrequest.get('amount')| currency:incomingrequest.get('parent').get('currency').get('code')}}</b>
               </span>
@@ -45,7 +47,10 @@
               Sent Requests
           </ion-item>
           <ion-item class="item item-icon-right"  ng-repeat="request in RequestsFiltered" ng-click="goToRequestDetail(request)">
-              <b>{{request.get('title')}}</b> <span style="font-size:small">{{request.get('group').get('group')}}</span>
+              <b>{{request.get('title')}}</b>
+
+              <br>
+              <span style="font-size:small">{{request.get('group').get('group')}}</span>
               <span class="item-note">
                   <b>{{request.get('amount')| currency:request.get('currency').get('code')}}</b>
               </span>
@@ -54,6 +59,7 @@
 
               <span class="item-note" style="font-size: x-small"> <b>{{request.createdAt.toLocaleString()}} </b></span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+
           </ion-item>
           <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0">
               No Requests Yet

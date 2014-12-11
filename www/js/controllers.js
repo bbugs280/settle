@@ -329,7 +329,9 @@ angular.module('starter.controllers', [])
         $scope.loadIncomingRequests = function(){
             var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(RequestDetail);
+
             query.include('parent');
+            query.include('parent.created_by');
             query.include('parent.group');
             query.include('parent.currency');
             query.equalTo('user', $rootScope.user);
@@ -395,6 +397,7 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest = request;
             $state.go('tab.requests-detail');
         }
+
 })
 .controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal,$filter){
         //Google Anaytics
@@ -415,6 +418,11 @@ angular.module('starter.controllers', [])
             scope:$scope
         }).then(function(modal) {
             $scope.modalFriendRequestSelect = modal;
+        });
+        $ionicModal.fromTemplateUrl('templates/select-place.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPlaceSelect = modal;
         });
 
         $scope.selectACurrency = function(curr){
@@ -544,6 +552,19 @@ angular.module('starter.controllers', [])
             })
         }
 
+        $scope.selectedPlace = function(place){
+            console.log("selectedPlace");
+            $rootScope.selectedRequest.title = place.getElementsByTagName('name')[0].childNodes[0].nodeValue;
+            $rootScope.selectedRequest.set('location_detail',place.getElementsByTagName('formatted_address')[0].childNodes[0].nodeValue);
+            var point = new Parse.GeoPoint({
+                latitude : Number(place.getElementsByTagName('lat')[0].childNodes[0].nodeValue),
+                longitude : Number(place.getElementsByTagName('lng')[0].childNodes[0].nodeValue)
+            })
+            $rootScope.selectedRequest.set('location', point);
+
+            $scope.modalPlaceSelect.hide();
+        }
+
         $scope.init = function(){
             if (!$rootScope.selectedRequest){
                 var Request = Parse.Object.extend("request");
@@ -588,6 +609,9 @@ angular.module('starter.controllers', [])
             analytics.trackView('Incoming Request Detail');
         }
 
+        $scope.payBack = function(irequest){
+
+        }
 
 })
 .controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
@@ -1762,6 +1786,24 @@ angular.module('starter.controllers', [])
 
         $scope.loadCurrencies();
 })
+    .controller('PlaceCtrl', function($rootScope,$scope, $state) {
+        console.log("Place Ctrl");
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Place Search');
+        }
+        $scope.loadPlace = function(){
+            $scope.Places = [];
+        }
+
+        $scope.searchPlace = function(txt){
+            if (txt.length >2){
+                $scope.Places = placeAPI(txt, $rootScope.countryName);
+            }
+
+
+        }
+    })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,$ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
