@@ -48,11 +48,24 @@
             <label class="item item-input">
                 <textarea placeholder="Note" ng-model="selectedRequest.note"></textarea>
             </label>
-            <ion-item class="item item-dark item-divider" style="font-size: small">
-                Friends
-                <span class="item-note" style="font-size:x-small;">{{requestdetails.length}} friends in this request</span>
+
+            <ion-item class="item item-button-right" style="font-size: normal;font-weight: bold">
+                <!--<div class="icon">-->
+                <!--<button class="button button-clear"-->
+                        <!--ng-click="data.showDelete = !data.showDelete">-->
+                        <!--<i class="icon ion-navicon"></i>-->
+                <!--</button>-->
+                <!--</div>-->
+                Details
+                <span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>
+                <button class="button button-clear"
+                        ng-click="modalFriendRequestSelect.show()">
+                    <i class="icon ion-plus-circled"></i>
+                </button>
             </ion-item>
-            <ion-item class="item" ng-repeat="detail in requestdetails">
+        </ion-list>
+            <ion-list class="list" show-delete="data.showDelete" can-swipe="true">
+            <ion-item class="item item-button-right" ng-repeat="detail in requestdetails">
                 <img src="{{detail.get('user').get('icon').url()}}"
                      class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')!=undefined">
@@ -73,6 +86,17 @@
                         <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
                     </label>
                 </div>
+                <ion-delete-button class="ion-minus-circled"
+                                   ng-click="removeDetail(detail)">
+                </ion-delete-button>
+                <ion-option-button class="button-assertive"
+                                   ng-click="removeDetail(detail)">
+                    Remove
+                </ion-option-button>
+                <ion-option-button class="button-dark"
+                                   ng-click="chaseDetail(detail)">
+                    Chase
+                </ion-option-button>
             </ion-item>
             <ion-item style="text-align: center" ng-click="modalFriendRequestSelect.show()">
                 <p style="color:blue">Add Friend to Request</p>

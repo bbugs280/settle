@@ -396,12 +396,15 @@ angular.module('starter.controllers', [])
             $state.go('tab.requests-detail');
         }
 })
-.controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal){
+.controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal,$filter){
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Requests Detail');
         }
 
+        $scope.data = {
+            showDelete: false
+        };
         $ionicModal.fromTemplateUrl('templates/select-currencies.html',{
             scope:$scope
         }).then(function(modal) {
@@ -421,8 +424,10 @@ angular.module('starter.controllers', [])
         }
 
         $scope.selectGroup = function(){
-            $state.go('tab.send-group');
+            //$state.go('tab.send-group');
+            $rootScope.modalGroupSelect.show();
         }
+
         $scope.clear = function(){
             $rootScope.selectedRequest.set('group', undefined);
         }
@@ -477,6 +482,27 @@ angular.module('starter.controllers', [])
             $scope.$apply();
             $scope.modalFriendRequestSelect.hide();
 
+        }
+        $scope.removeDetail = function(detail){
+
+            $scope.requestdetails.splice($scope.requestdetails.indexOf(detail));
+
+            if (detail.id){
+                detail.destroy({
+                    success:function(r){
+                        $scope.$apply();
+                    }
+                });
+            }
+
+        }
+        $scope.chaseDetail = function(detail){
+            var msg = "Reminder: ";
+            msg += " Please pay " + $rootScope.user.getUsername();
+            msg += " "  + $filter('currency') (detail.get('amount'),$rootScope.selectedRequest.get('currency').get('code'));
+            msg += " for " +$rootScope.selectedRequest.get('title');
+            sendPushMessage(msg, "P_"+detail.get('user').id);
+            $rootScope.alert("Reminder sent to "+detail.get('user').getUsername(),msg);
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
@@ -564,7 +590,13 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading) {
+.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
+
+        $ionicModal.fromTemplateUrl('templates/select-group.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $rootScope.modalGroupSelect = modal;
+        });
 
         $rootScope.alert = function(title, message){
             var alertPopup = $ionicPopup.alert({
@@ -604,12 +636,13 @@ angular.module('starter.controllers', [])
 
         $rootScope.selectedGroup = undefined;
 
-        $rootScope.openCurrencies = function(currentState, data){
-            $rootScope.data = data;
-            console.log("openCurrencies");
-            $rootScope.currentState = currentState;
-            $state.go('currencies');
-        }
+        //$rootScope.openCurrencies = function(currentState, data){
+        //    $rootScope.data = data;
+        //    console.log("openCurrencies");
+        //    //$rootScope.currentState = currentState;
+        //    //$state.go('currencies');
+        //
+        //}
 
     })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
@@ -842,7 +875,7 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter,$ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Send');
@@ -852,7 +885,21 @@ angular.module('starter.controllers', [])
                 $rootScope.$apply();
             }
         });
+        $ionicModal.fromTemplateUrl('templates/select-currencies.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalCurrencySelect = modal;
+        });
 
+        $scope.openCurrencies = function(){
+            $scope.modalCurrencySelect.show();
+        }
+
+        $scope.selectACurrency = function(curr){
+            console.log("select currency");
+            $rootScope.selectedCurrency=curr;
+            $scope.modalCurrencySelect.hide();
+        }
 
         $scope.sendamount = {};
         $scope.sendnote = {};
@@ -862,7 +909,8 @@ angular.module('starter.controllers', [])
             console.log("selectgroup");
 //            console.log("SendCtrl - sendform :"+sendform);
 //            $scope.sendform = sendform;
-            $state.go('tab.send-group');
+//            $state.go('tab.send-group');
+            $rootScope.modalGroupSelect.show();
         }
         $scope.clearGroup = function(){
             console.log("Clear Group");
@@ -1217,8 +1265,9 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest.set('group',group);
 //            $rootScope.selectedFriend = undefined;
             $rootScope.inviteEmail = undefined;
-            history.go(-1);
+            //history.go(-1);
 //            $state.go('tab.send');
+            $rootScope.modalGroupSelect.hide();
         }
         $scope.loadGroup();
 })
@@ -1546,18 +1595,18 @@ angular.module('starter.controllers', [])
             })
         };
 })
-.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService) {
+.controller('SetupCtrl', function($rootScope,$scope, $state, $location, $ionicPopup,ParseService,$ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Setup');
         }
         console.log("controller - SetupCtrl start");
-//        $scope.user = ParseService.getUser();
-        $scope.user = $rootScope.user;
+        $rootScope.user = ParseService.getUser();
+        //$scope.user = $rootScope.user;
         $scope.user.username =  $rootScope.user.getUsername();
         $scope.user.email =  $rootScope.user.getEmail();
         $scope.refreshUser = function(){
-            if ($scope.user.get('default_currency')){
+            if (user.get('default_currency').user.get('default_currency')){
                 $scope.user.get('default_currency').fetch({
                     success:function(curr){
                         $scope.$apply();
@@ -1566,6 +1615,22 @@ angular.module('starter.controllers', [])
                 });
             }
 
+        }
+
+        $ionicModal.fromTemplateUrl('templates/select-currencies.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalCurrencySelect = modal;
+        });
+
+        $scope.openCurrencies = function(){
+            $scope.modalCurrencySelect.show();
+        }
+
+        $scope.selectACurrency = function(curr){
+            console.log("select currency");
+            $rootScope.user.set('default_currency',curr);
+            $scope.modalCurrencySelect.hide();
         }
 
         $scope.saveSetup = function(userp){
@@ -1586,11 +1651,11 @@ angular.module('starter.controllers', [])
 
             $rootScope.user.set('username',userp.username);
             $rootScope.user.set('email',userp.email);
-            $rootScope.user.set('default_currency',$rootScope.user.get('default_currency'));
+            //$rootScope.user.set('default_currency',$rootScope.user.get('default_currency'));
             $rootScope.user.save(null,{
                 success: function(user){
                     console.log("Setup saved!");
-//                    $rootScope.user = user;
+                    $rootScope.user = user;
                     $rootScope.hideLoading();
                 },error:function(user, error){
                     $rootScope.hideLoading();
@@ -1695,39 +1760,38 @@ angular.module('starter.controllers', [])
             })
         }
 
-        $scope.selectCurrency = function(curr){
-
-
-            switch($rootScope.currentState) {
-                case 'tab.send':
-                    $rootScope.selectedCurrency=curr;
-                    $state.go('tab.send');
-                    break;
-                case 'tab.send-remote':
-                    $rootScope.selectedCurrency=curr;
-                    $state.go('tab.send-remote');
-                    break;
-                case 'tab.requests-detail':
-                    //$rootScope.selectedCurrency=curr;
-                    $rootScope.selectedRequest.set('currency',curr);
-                    $state.go('tab.requests-detail');
-                    break;
-                case 'signup':
-
-                    $rootScope.signupUser = $rootScope.data;
-                    $rootScope.signupUser.default_currency=curr;
-
-                    $state.go('signup');
-                    break;
-                case 'tab.setupuser':
-                    $rootScope.user.set('default_currency',curr);
-                    $state.go('tab.setupuser');
-                    break;
-                default:
-                    $state.go('tab.setupuser');
-            }
-            $rootScope.currentState = "";
-        }
+        //$scope.selectCurrency = function(curr){
+        //
+        //    switch($rootScope.currentState) {
+        //        case 'tab.send':
+        //            $rootScope.selectedCurrency=curr;
+        //            $state.go('tab.send');
+        //            break;
+        //        case 'tab.send-remote':
+        //            $rootScope.selectedCurrency=curr;
+        //            $state.go('tab.send-remote');
+        //            break;
+        //        case 'tab.requests-detail':
+        //            //$rootScope.selectedCurrency=curr;
+        //            $rootScope.selectedRequest.set('currency',curr);
+        //            $state.go('tab.requests-detail');
+        //            break;
+        //        case 'signup':
+        //
+        //            $rootScope.signupUser = $rootScope.data;
+        //            $rootScope.signupUser.default_currency=curr;
+        //
+        //            $state.go('signup');
+        //            break;
+        //        case 'tab.setupuser':
+        //            $rootScope.user.set('default_currency',curr);
+        //            $state.go('tab.setupuser');
+        //            break;
+        //        default:
+        //            $state.go('tab.setupuser');
+        //    }
+        //    $rootScope.currentState = "";
+        //}
         $scope.loadCurrencies();
 })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,$ionicModal) {

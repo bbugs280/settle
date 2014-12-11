@@ -17,7 +17,7 @@
                 <label class="item item-input">
                     <input type="email" placeholder="Email" ng-model="user.email" ng-model-options="{ getterSetter: true }" >
                 </label>
-                <ion-item class="item item-icon-right" ng-click="openCurrencies('tab.setupuser')" style="font-size: 15px">
+                <ion-item class="item item-icon-right" ng-click="openCurrencies()" style="font-size: 15px">
                     <span ng-if="user.get('default_currency')==undefined">Default Currency</span>
                     <span ng-if="user.get('default_currency')!=undefined">{{user.get('default_currency').get('code')}} - {{user.get('default_currency').get('currencyname')}}</span>
                     <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
