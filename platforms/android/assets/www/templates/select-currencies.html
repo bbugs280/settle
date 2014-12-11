@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-light" style="border-bottom-width:1px; border-bottom-color: grey; border-bottom-style:solid">
+        <div class="title">Select Currency</div>
+        <button class="button button-clear" ng-click="modalCurrencySelect.hide()">
+            Cancel
+        </button>
+    </ion-header-bar>
+    <ion-content data-ng-controller="SelectCurrencyCtrl" data-ng-init="loadCurrencies()">
+        <ion-list>
+            <ion-item ng-repeat="curr in currencies" ng-click="selectACurrency(curr)">
+            {{curr.get('code')}} - {{curr.get('currencyname')}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>

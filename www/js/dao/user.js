@@ -307,7 +307,7 @@ var SUser = Parse.User.extend({
         query.equalTo("ispersonal", true);
 
         console.log("getPersonalListByEmails prepared");
-        console.log("getPersonalListByEmails - email Array = "+emailArray);
+//        console.log("getPersonalListByEmails - email Array = "+emailArray);
         query.find({
             success: function (friendlist) {
                 // The object was retrieved successfully.

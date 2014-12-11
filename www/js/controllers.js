@@ -323,6 +323,8 @@ angular.module('starter.controllers', [])
                     $scope.RequestsFiltered = requests;
                     $scope.loading = "hidden";
                     $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$apply();
+                    $rootScope.$apply();
                 }
             })
         }
@@ -331,10 +333,12 @@ angular.module('starter.controllers', [])
             var query = new Parse.Query(RequestDetail);
 
             query.include('parent');
-            query.include('parent.created_by');
-            query.include('parent.group');
-            query.include('parent.currency');
+            query.include('user');
+            query.include(['parent.created_by']);
+            query.include(['parent.group']);
+            query.include(['parent.currency']);
             query.equalTo('user', $rootScope.user);
+            query.notEqualTo('balance', 0);
             query.find({
                 success:function(requestdetails){
                     $rootScope.badges.request += requestdetails.length;
@@ -342,6 +346,8 @@ angular.module('starter.controllers', [])
                     $scope.IncomingRequestsFiltered = requestdetails;
                     $scope.loading = "hidden";
                     $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$apply();
+                    $rootScope.$apply();
                 }
             })
         }
@@ -540,18 +546,19 @@ angular.module('starter.controllers', [])
                             $scope.requestdetails[i].save();
                             // send push
                             var msg = "Please pay " + $rootScope.user.getUsername();
-                            msg += " " + $scope.requestdetails[i].amount;
+                            msg += " " + $filter('currency')($scope.requestdetails[i].amount,$rootScope.selectedRequest.get('currency').get('code')) ;
                             msg += " for " + $rootScope.selectedRequest.get('title');
                             sendPushMessage(msg, "P_"+$scope.requestdetails[i].get('user').id);
 
                             $scope.$apply();
+                            $rootScope.$apply();
                             $rootScope.hideLoading();
 
                             $state.go('tab.requests');
                         }
                     }
 
-                    $rootScope.$apply();
+
 
                 },error:function(obj, error){
                     console.log('error '+error.message);
@@ -624,23 +631,28 @@ angular.module('starter.controllers', [])
             var group = irequest.get('parent').get('group');
             var currencyId = irequest.get('parent').get('currency').id;
             var amount = Number(irequest.get('amount'));
-            var fromuser = $rootScope.user;
+            var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
             var note = irequest.get('parent').get('note');
             var location = irequest.get('parent').get('location');
-            var user = $rootScope.user;
+            var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
-            ParseService.recordQRCode(group, tranId,currencyId,amount,fromuser,touser,note,location , user,friend,function(r){
-            //save irequest
+
+            function processIncomingRequest(r){
                 if (r.message){
                     $rootScope.alert('Error',r.message);
                     $rootScope.hideLoading();
                 }else{
                     irequest.set('tran',r);
+                    irequest.set('balance', Number(irequest.get('amount')-r.get('amount')));
                     irequest.save(null,{
                         success:function(incomingrequest){
+                            $rootScope.selectedIncomingRequest=incomingrequest;
+                            $rootScope.$apply();
                             $scope.remoteSendConfirmation(r);
                             $rootScope.hideLoading();
+                            $state.go('tab.requests');
+
                         },error:function(obj, error){
                             $rootScope.alert("Error", error.message);
                             $rootScope.hideLoading();
@@ -648,7 +660,26 @@ angular.module('starter.controllers', [])
 
                     });
                 }
-            });
+            }
+
+            if (group){
+                ParseService.recordQRCode(group, tranId,currencyId,amount,fromuser,touser,note,location , suser,friend,function(r){
+                    //save irequest
+                    processIncomingRequest(r);
+                });
+            }else{
+                console.log("no group");
+                var user = new SUser();
+                var userIdArray = [user.id,friend.id];
+                var friendemails = [user.get('email'),friend.get('email')];
+                var friendnames = [user.get('username'),friend.get('username')];
+                user.getPersonalListByEmails(userIdArray,friendemails, friendnames, function(friendlist){
+                    ParseService.recordQRCode(friendlist, tranId,currencyId,amount,fromuser,touser,note,location , suser,friend,function(r){
+                        //save irequest
+                        processIncomingRequest(r);
+                    });
+                });
+            }
 
         }
         $scope.remoteSendConfirmation = function(tran){
@@ -682,7 +713,24 @@ angular.module('starter.controllers', [])
         $rootScope.badges = {
             request : 0
         };
-        //$rootScope.loadRequestInit();
+
+        $scope.loadIncomingRequestsCount = function(){
+            console.log("loadIncomingRequestsCount");
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var query = new Parse.Query(RequestDetail);
+
+            query.equalTo('user', Parse.User.current());
+            query.notEqualTo('balance', 0);
+            query.count({
+                success:function(count){
+                    console.log("loadIncomingRequestsCount = "+count);
+                    $rootScope.badges.request = count;
+                }
+            })
+        }
+
+        $scope.loadIncomingRequestsCount();
+
         $rootScope.alert = function(title, message){
             var alertPopup = $ionicPopup.alert({
                 title: title,

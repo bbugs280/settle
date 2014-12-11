@@ -10,7 +10,7 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-        <form ng-model="selectedRequest">
+        <form name="form" ng-model="selectedRequest">
         <ion-list class="list">
             <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
 
@@ -113,7 +113,7 @@
             <ion-item style="text-align: center" ng-click="modalFriendRequestSelect.show()">
                 <p style="color:blue">Add Friend to Request</p>
             </ion-item>
-            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)">
+            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
                 Send Request
             </button>
         </ion-list>

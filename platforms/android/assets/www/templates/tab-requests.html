@@ -1,0 +1,70 @@
+<ion-view title="Requests" hide-back-button="true">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear" ng-click="goToIntro()">
+            <i class=" ion-android-information"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="addRequest()">
+            <i class="icon ion-ios7-plus-empty"></i>
+        </button>
+    </ion-nav-buttons>
+  <ion-content data-ng-controller="RequestsCtrl" data-ng-init="loadRequestInit()">
+      <ion-list can-swipe="true">
+          <ion-refresher
+                  pulling-icon="icon ion-arrow-down-c"
+                  refreshing-icon="icon ion-loading-c"
+                  on-refresh="loadRequests()">
+          </ion-refresher>
+
+          <ion-item class="item item-divider " >
+              <label class="item item-input" style="border-radius: 5px;height: 30px">
+                  <i class="icon ion-search placeholder-icon"></i>
+                  <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchBoth(searchText)">
+               </label>
+          </ion-item>
+          <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="IncomingRequests.length!=0">
+              <i class="ion-loading-c" style="visibility: {{loading}}"></i>
+              Incoming Requests
+          </ion-item>
+          <ion-item class="item item-icon-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" ng-click="goToIncomingRequestDetail(incomingrequest)">
+              <!--{{incomingrequest.get('parent').get('title')}}-->
+              <b>{{incomingrequest.get('parent').get('title')}}</b>
+              <br>
+              <span style="font-size:small">{{incomingrequest.get('parent').get('group').get('group')}}</span>
+              <span class="item-note">
+                  <b>{{incomingrequest.get('amount')| currency:incomingrequest.get('parent').get('currency').get('code')}}</b>
+              </span>
+              <br>
+              <span style="font-size: x-small;color:gray">{{incomingrequest.get('parent').get('note')}} </span>
+
+              <span class="item-note" style="font-size: x-small"> <b>{{incomingrequest.createdAt.toLocaleString()}} </b></span>
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          </ion-item>
+
+          <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="Requests.length!=0">
+              <i class="ion-loading-c" style="visibility: {{loading}}"></i>
+              Sent Requests
+          </ion-item>
+          <ion-item class="item item-icon-right"  ng-repeat="request in RequestsFiltered" ng-click="goToRequestDetail(request)">
+              <b>{{request.get('title')}}</b>
+
+              <br>
+              <span style="font-size:small">{{request.get('group').get('group')}}</span>
+              <span class="item-note">
+                  <b>{{request.get('amount')| currency:request.get('currency').get('code')}}</b>
+              </span>
+              <br>
+              <span style="font-size: x-small;color:gray">{{request.get('note')}} </span>
+
+              <span class="item-note" style="font-size: x-small"> <b>{{request.createdAt.toLocaleString()}} </b></span>
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+
+          </ion-item>
+          <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0">
+              No Requests Yet
+          </ion-item>
+
+      </ion-list>
+  </ion-content>
+</ion-view>

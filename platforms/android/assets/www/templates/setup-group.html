@@ -1,0 +1,51 @@
+<ion-view title="Groups" hide-nav-bar="false">
+    <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-ios7-plus-empty" ng-click="addGroup()">
+                </button>
+
+    </ion-nav-buttons>
+    <ion-content class="has-header" data-ng-controller="SetupGroupCtrl" data-ng-init="loadGroupSetup">
+        <ion-list can-swipe="true" show-reorder="false">
+            <ion-refresher
+                    pulling-icon="icon ion-arrow-down-c"
+                    refreshing-icon="icon ion-loading-c"
+                    on-refresh="loadGroupSetup()">
+            </ion-refresher>
+            <!--<ion-item class="item item-divider" style="font-size: small">Group Info</ion-item>-->
+
+                        <ion-item ng-repeat="list in friendlistsSetup" class="item item-avatar item-icon-right" ng-click="editGroup(list)">
+                            <!--icon -->
+
+                            <img src="./img/delete1.png"  width="50px" style="border-radius: 10px" ng-if="list.get('hidden')==true">
+
+                            <img src="{{list.get('icon').url()}}"  width="50px" style="border-radius: 10px" ng-if="list.get('hidden')!=true && list.get('icon')!=undefined">
+
+                            <img src="./img/group.png"  width="50px" style="border-radius: 10px" ng-if="list.get('hidden')!=true && list.get('icon')==undefined">
+
+                            <!--<span ng-if="list.get('hidden')==true">-->
+                                <!--<i class="icon ion-ios7-trash-outline"></i>-->
+                            <!--</span>-->
+                            <span style="text-decoration: line-through" ng-if="list.get('hidden')==true"><b>{{list.get('group')}}</b></span>
+                            <span ng-if="list.get('hidden')!=true"><b>{{list.get('group')}}</b></span>
+                            <p>{{list.get('friend_userid').length}} people in group</p>
+                            <!--<ion-option-button class="button-calm" ng-click="editGroup(list)">Edit</ion-option-button>-->
+                            <!--<ion-option-button class="button-stable" ng-click="openCamera(list)">Icon</ion-option-button>-->
+                            <!--<ion-option-button class="button-assertive" ng-click="archGroup(list)">-->
+                                <!--<span ng-if="list.get('hidden')==true">-->
+                                    <!--Unarchive-->
+                                <!--</span>-->
+                                <!--<span ng-if="list.get('hidden')==false||list.get('hidden')==undefined">-->
+                                    <!--Archive-->
+                                <!--</span>-->
+                            <!--</ion-option-button>-->
+                            <!--<ion-reorder-button class="ion-navicon"-->
+                                                <!--on-reorder="reorderGroup(list, $fromIndex, $toIndex)">-->
+                            <!--</ion-reorder-button>-->
+                            <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+                        </ion-item>
+
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
