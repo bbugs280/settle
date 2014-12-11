@@ -1606,10 +1606,10 @@ angular.module('starter.controllers', [])
         $scope.user.username =  $rootScope.user.getUsername();
         $scope.user.email =  $rootScope.user.getEmail();
         $scope.refreshUser = function(){
-            if (user.get('default_currency').user.get('default_currency')){
-                $scope.user.get('default_currency').fetch({
+            if ($rootScope.user.get('default_currency')){
+                $rootScope.user.get('default_currency').fetch({
                     success:function(curr){
-                        $scope.$apply();
+                        $rootScope.$apply();
                         console.log("fetch default currency");
                     }
                 });
@@ -1760,38 +1760,6 @@ angular.module('starter.controllers', [])
             })
         }
 
-        //$scope.selectCurrency = function(curr){
-        //
-        //    switch($rootScope.currentState) {
-        //        case 'tab.send':
-        //            $rootScope.selectedCurrency=curr;
-        //            $state.go('tab.send');
-        //            break;
-        //        case 'tab.send-remote':
-        //            $rootScope.selectedCurrency=curr;
-        //            $state.go('tab.send-remote');
-        //            break;
-        //        case 'tab.requests-detail':
-        //            //$rootScope.selectedCurrency=curr;
-        //            $rootScope.selectedRequest.set('currency',curr);
-        //            $state.go('tab.requests-detail');
-        //            break;
-        //        case 'signup':
-        //
-        //            $rootScope.signupUser = $rootScope.data;
-        //            $rootScope.signupUser.default_currency=curr;
-        //
-        //            $state.go('signup');
-        //            break;
-        //        case 'tab.setupuser':
-        //            $rootScope.user.set('default_currency',curr);
-        //            $state.go('tab.setupuser');
-        //            break;
-        //        default:
-        //            $state.go('tab.setupuser');
-        //    }
-        //    $rootScope.currentState = "";
-        //}
         $scope.loadCurrencies();
 })
 .controller('SetupGroupCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,$ionicLoading,ParseService,$ionicModal) {

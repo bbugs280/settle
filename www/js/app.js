@@ -325,20 +325,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
      })
-      .state('currencies', {
-          url:'/currencies',
-          templateUrl: 'templates/setup-currencies.html',
-          controller: 'SelectCurrencyCtrl',
-//          views:{
-//              'tab-setup':{
-//                  templateUrl: 'templates/setup-currencies.html',
-//                  controller: 'SelectCurrencyCtrl'
-//              }
-//          },
-          data: {
-              authenticate: false
-          }
-      })
+
     .state('tab.setupgroup', {
           url:'/group',
           views:{
