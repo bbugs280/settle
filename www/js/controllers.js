@@ -349,7 +349,7 @@ angular.module('starter.controllers', [])
             $scope.loadIncomingRequests();
         }
         $scope.addRequest = function(){
-            $rootScope.selectedRequest;
+            $rootScope.selectedRequest=undefined;
             $state.go('tab.requests-detail');
         }
 
@@ -603,13 +603,44 @@ angular.module('starter.controllers', [])
         $scope.init();
 
 })
-.controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal){
+.controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService){
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Incoming Request Detail');
         }
 
         $scope.payBack = function(irequest){
+            //save tran
+            $rootScope.showLoading("Processing");
+            var tranId = Common.getID();
+            var group = irequest.get('parent').get('group');
+            var currencyId = irequest.get('parent').get('currency').id;
+            var amount = Number(irequest.get('amount'));
+            var fromuser = $rootScope.user;
+            var touser = irequest.get('parent').get('created_by');
+            var note = irequest.get('parent').get('note');
+            var location = irequest.get('parent').get('location');
+            var user = $rootScope.user;
+            var friend = irequest.get('parent').get('created_by');
+            ParseService.recordQRCode(group, tranId,currencyId,amount,fromuser,touser,note,location , user,friend,function(r){
+            //save irequest
+                if (r.message){
+                    $rootScope.alert('Error',r.message);
+                    $rootScope.hideLoading();
+                }else{
+                    irequest.set('tran',r);
+                    irequest.save(null,{
+                        success:function(incomingrequest){
+                            $rootScope.remoteSendConfirmation(r);
+                            $rootScope.hideLoading();
+                        },error:function(obj, error){
+                            $rootScope.alert("Error", error.message);
+                            $rootScope.hideLoading();
+                        }
+
+                    });
+                }
+            });
 
         }
 
@@ -1115,13 +1146,6 @@ angular.module('starter.controllers', [])
                 throw ("No friend selected");
             }
 
-//            if (sendform.amount){
-//                $rootScope.sendamount = sendform.amount;
-//            }
-//            if (sendform.note){
-//                $rootScope.sendnote = sendform.note;
-//            }
-
             var currencyId="";
             if ($rootScope.selectedCurrency){
                 currencyId = $rootScope.selectedCurrency.id;
@@ -1153,7 +1177,7 @@ angular.module('starter.controllers', [])
                                 $rootScope.hideLoading();
                             }else{
 
-                                $scope.remoteSendConfirmation(r);
+                                $rootScope.remoteSendConfirmation(r);
                                 $rootScope.hideLoading();
                             }
 
@@ -1168,7 +1192,7 @@ angular.module('starter.controllers', [])
 
                         }else{
                             $rootScope.hideLoading();
-                            $scope.remoteSendConfirmation(r);
+                            $rootScope.remoteSendConfirmation(r);
 
                         }
                     });
@@ -1176,7 +1200,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-        $scope.remoteSendConfirmation = function(tran){
+        $rootScope.remoteSendConfirmation = function(tran){
             var currencyCode="";
             if ($rootScope.selectedCurrency){
                 currencyCode = $rootScope.selectedCurrency.get('code');
