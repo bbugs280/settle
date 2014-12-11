@@ -47,10 +47,17 @@
                 <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 
             </ion-item>
-            <button class="button button-block button-stable" ng-click="payBack(selectedIncomingRequest)">
-                <i class="icon ion-card"></i>
-                Pay
-            </button>
+
+            <button class="button button-block button-stable" ng-click="payBack(selectedIncomingRequest)" ng-disabled="selectedIncomingRequest.get('balance')==0">
+
+                <span ng-if="selectedIncomingRequest.get('balance')!=0">
+                    <i class="icon ion-card"></i>
+                    Pay
+                </span>
+                <span style="color:blue" ng-if="selectedIncomingRequest.get('balance')==0">
+                    <i class="icon ion-thumbsup"></i>
+                    Paid
+                </span>
         </ion-list>
 
 
