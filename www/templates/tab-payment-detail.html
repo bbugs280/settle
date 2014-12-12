@@ -40,8 +40,8 @@
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('note')}}</span>
             </ion-item>
             <ion-item class="item">
-                <b>Owing amount</b>
-                <span class="item-note" style="color:red">{{selectedIncomingPayment.get('tran').get('amount')|currency:selectedIncomingPayment.get('parent').get('currency').get('code')}}</span>
+                <b>Paid amount</b>
+                <span class="item-note" style="color:dodgerblue">{{selectedIncomingPayment.get('tran').get('amount')|currency:selectedIncomingPayment.get('parent').get('currency').get('code')}}</span>
 
             </ion-item>
 

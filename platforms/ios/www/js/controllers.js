@@ -324,6 +324,7 @@ angular.module('starter.controllers', [])
             var queryOutgoingPayment = new Parse.Query(RequestDetail);
             //var queryTran = new Parse.Query(Tran);
             queryOutgoingPayment.exists('tran');
+            queryOutgoingPayment.equalTo('user',$rootScope.user);
 
             var mainQuery = Parse.Query.or(queryOutgoingRequestDetail, queryOutgoingPayment);
             mainQuery.include('parent');
@@ -382,9 +383,64 @@ angular.module('starter.controllers', [])
                 }
             })
         }
+        $scope.loadArchive = function(){
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var Request = Parse.Object.extend("request");
+            var Tran = Parse.Object.extend("transaction");
+            //OutGoing Query
+            var queryOutgoingRequestDetail = new Parse.Query(RequestDetail);
+            var queryOutgoingRequest = new Parse.Query(Request);
+            queryOutgoingRequest.equalTo('created_by',$rootScope.user);
+            queryOutgoingRequestDetail.equalTo('balance',0);
+            queryOutgoingRequestDetail.matchesQuery('parent',queryOutgoingRequest);
+
+            var queryOutgoingPayment = new Parse.Query(RequestDetail);
+            queryOutgoingPayment.exists('tran');
+            queryOutgoingPayment.equalTo('user',$rootScope.user);
+
+            var outgoingQuery = Parse.Query.or(queryOutgoingRequestDetail, queryOutgoingPayment);
+
+            //Incoming Query
+            var queryTran = new Parse.Query(Tran);
+            var queryIR = new Parse.Query(RequestDetail);
+            var queryTranR = new Parse.Query(Request);
+            var queryTranIR = new Parse.Query(RequestDetail);
+
+            queryTran.equalTo('read', true);
+            queryTranR.equalTo('created_by', $rootScope.user);
+            queryTranIR.exists('tran');
+            queryTranIR.matchesQuery('parent',queryTranR);
+            queryTranIR.matchesQuery('tran',queryTran);
+
+            queryIR.equalTo('user', $rootScope.user);
+            queryIR.equalTo('balance', 0);
+
+            var incomingQuery = Parse.Query.or(queryIR, queryTranIR);
+            var mainQuery = Parse.Query.or(incomingQuery, outgoingQuery);
+
+            mainQuery.include('parent');
+            mainQuery.include('user');
+            mainQuery.include('tran');
+            mainQuery.include(['parent.created_by']);
+            mainQuery.include(['parent.group']);
+            mainQuery.include(['parent.currency']);
+            mainQuery.descending('updatedAt');
+            mainQuery.limit(10);
+            mainQuery.find({
+                success:function(requests){
+                    $rootScope.ArchiveRequests = requests;
+                    $scope.ArchiveRequestsFiltered = requests;
+                    $scope.loading = "hidden";
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$apply();
+                    $rootScope.$apply();
+                }
+            })
+        }
         $scope.loadBoth = function(){
             $scope.loadRequests();
             $scope.loadIncomingRequests();
+            $scope.loadArchive();
         }
         $scope.addRequest = function(){
             $rootScope.selectedRequest=undefined;
@@ -394,8 +450,10 @@ angular.module('starter.controllers', [])
         $scope.searchRequest = function(txt){
             var result = [];
             for (var i in $rootScope.Requests){
-                if ($rootScope.Requests[i].get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1){
-                    console.log($rootScope.Requests[i].get('title'));
+                if ($rootScope.Requests[i].get('parent').get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1||
+                    $rootScope.Requests[i].get('user').getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1 ||
+                    $rootScope.Requests[i].get('parent').get('created_by').getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1 ){
+
                     result.push($rootScope.Requests[i]);
                 }
             }
@@ -406,9 +464,8 @@ angular.module('starter.controllers', [])
             for (var i in $rootScope.IncomingRequests){
                 if ($rootScope.IncomingRequests[i].get('parent').get('title').toLowerCase().indexOf(txt.toLowerCase())!=-1 ||
                     $rootScope.IncomingRequests[i].get('user').getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1 ||
-                    $rootScope.IncomingRequests[i].get('parent').get('created_by').getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1 ||
-                    $rootScope.IncomingRequests[i].get('parent').get('group').get('group').toLowerCase().indexOf(txt.toLowerCase())!=-1){
-                    console.log($rootScope.IncomingRequests[i].get('parent').get('title'));
+                    $rootScope.IncomingRequests[i].get('parent').get('created_by').getUsername().toLowerCase().indexOf(txt.toLowerCase())!=-1 ){
+
                     result.push($rootScope.IncomingRequests[i]);
                 }
             }
@@ -442,7 +499,7 @@ angular.module('starter.controllers', [])
                     }
                 });
                 $rootScope.selectedIncomingPayment = irequest;
-                $state.go('tab.incomingpayment-detail');
+                $state.go('tab.payment-detail');
             }else{
                 //Request
                 irequest.set('read',true);
@@ -457,9 +514,16 @@ angular.module('starter.controllers', [])
 
 
         }
-        $scope.goToRequestDetail = function(request){
-            $rootScope.selectedRequest = request;
-            $state.go('tab.requests-detail');
+        $scope.goToRequestDetail = function(requestdetail){
+            //If payment
+            if (requestdetail.get('user').id == $rootScope.user.id){
+                $rootScope.selectedIncomingPayment = requestdetail;
+                $state.go('tab.payment-detail');
+            }else{
+                $rootScope.selectedRequest = requestdetail.get('parent');
+                $state.go('tab.requests-detail');
+            }
+
         }
 
 })
@@ -600,20 +664,21 @@ angular.module('starter.controllers', [])
                             }
                             $scope.requestdetails[i].set('amount',$scope.requestdetails[i].amount);
                             $scope.requestdetails[i].save();
-                            // send push
-                            var msg = "Please pay " + $rootScope.user.getUsername();
-                            msg += " " + $filter('currency')($scope.requestdetails[i].amount,$rootScope.selectedRequest.get('currency').get('code')) ;
-                            msg += " for " + $rootScope.selectedRequest.get('title');
-                            sendPushMessage(msg, "P_"+$scope.requestdetails[i].get('user').id);
+                            // send push if outstanding payment
+                            if ($scope.requestdetails[i].get('balance')!=0){
+                                var msg = "Please pay " + $rootScope.user.getUsername();
+                                msg += " " + $filter('currency')($scope.requestdetails[i].amount,$rootScope.selectedRequest.get('currency').get('code')) ;
+                                msg += " for " + $rootScope.selectedRequest.get('title');
+                                sendPushMessage(msg, "P_"+$scope.requestdetails[i].get('user').id);
+                            }
 
-                            $scope.$apply();
-                            $rootScope.$apply();
-                            $rootScope.hideLoading();
-
-                            $state.go('tab.requests');
                         }
-                    }
 
+                    }
+                    $scope.$apply();
+                    $rootScope.$apply();
+                    $rootScope.hideLoading();
+                    $state.go('tab.requests');
 
 
                 },error:function(obj, error){
@@ -674,9 +739,9 @@ angular.module('starter.controllers', [])
         $scope.init();
 
 })
-    .controller('IncomingPaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
+.controller('PaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
 
-    })
+})
 .controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
@@ -774,13 +839,25 @@ angular.module('starter.controllers', [])
         };
 
         $scope.loadIncomingRequestsCount = function(){
-            console.log("loadIncomingRequestsCount");
             var RequestDetail = Parse.Object.extend("request_detail");
-            var query = new Parse.Query(RequestDetail);
+            var Request = Parse.Object.extend("request");
+            var Tran = Parse.Object.extend("transaction");
+            var queryTran = new Parse.Query(Tran);
+            var queryIR = new Parse.Query(RequestDetail);
+            var queryTranR = new Parse.Query(Request);
+            var queryTranIR = new Parse.Query(RequestDetail);
 
-            query.equalTo('user', Parse.User.current());
-            query.notEqualTo('balance', 0);
-            query.count({
+            queryTran.notEqualTo('read', true);
+            queryTranR.equalTo('created_by', $rootScope.user);
+            queryTranIR.exists('tran');
+            queryTranIR.matchesQuery('parent',queryTranR);
+            queryTranIR.matchesQuery('tran',queryTran);
+
+            queryIR.equalTo('user', $rootScope.user);
+            queryIR.notEqualTo('balance', 0);
+
+            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
+            mainQuery.count({
                 success:function(count){
                     console.log("loadIncomingRequestsCount = "+count);
                     $rootScope.badges.request = count;
@@ -939,6 +1016,7 @@ angular.module('starter.controllers', [])
             console.log("Balance Overview Ctrl - editGroup");
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
+
         }
 
         $scope.searchFriend = function(searchtext){
@@ -1456,6 +1534,7 @@ angular.module('starter.controllers', [])
 
             $rootScope.modalGroupSelect.hide();
         }
+
         $scope.loadGroup();
 })
 .controller('SelectUserCtrl', function($rootScope,$scope, $location, ParseService, $ionicPopup, $state) {

@@ -27,6 +27,7 @@
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
               <i class="ion-ios7-filing-outline"></i>
               Incoming ({{IncomingRequestsFiltered.length}})
+
           </ion-item>
           <ion-item class="item item-icon-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" style="font-size: small" ng-click="goToIncomingRequestDetail(incomingrequest)">
               <span ng-if="incomingrequest.get('parent').get('created_by').id == user.id">
@@ -58,18 +59,19 @@
                     Request for
               </span>
               <br>
-              <!--Group-->
-              <span>
-                    {{incomingrequest.get('parent').get('group').get('group')}}
+              <!--Title-->
+              <span style="font-size:small">
+                    <b>{{incomingrequest.get('parent').get('title')}}</b>
               </span>
               <!--Amount-->
               <span class="item-note" style="color:black">
                     <b>{{incomingrequest.get('amount')| currency:incomingrequest.get('parent').get('currency').get('code')}}</b>
               </span>
               <br>
-              <!--Title-->
+
+              <!--Group-->
               <span style="font-size:x-small">
-                    <b>{{incomingrequest.get('parent').get('title')}}</b>
+                    {{incomingrequest.get('parent').get('group').get('group')}}
               </span>
               <!--Date Time-->
               <span class="item-note" style="font-size: x-small">
@@ -81,9 +83,12 @@
 
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="Requests.length!=0">
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
+
               <i class="ion-ios7-paperplane-outline"></i>
               Sent ({{RequestsFiltered.length}})
+
           </ion-item>
+          <!--________________________________outgoing request and payment__________________________________________________________-->
           <!--______________________________________________________________________________________________________________________-->
           <ion-item class="item item-icon-right"  ng-repeat="request in RequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
 
@@ -98,6 +103,7 @@
               <!--OutGoing Request-->
               <!--conidtion-->
               <!--request.get('parent').get('created_by').id == user.id-->
+
               <span style="color:black" ng-if="request.get('parent').get('created_by').id == user.id">
                     <b>{{request.get('user').getUsername()}}</b>
               </span>
@@ -110,31 +116,79 @@
                     Request for
               </span>
               <br>
-              <!--Group-->
-              <span>
-                    {{request.get('parent').get('group').get('group')}}
+              <!--Title-->
+              <span style="font-size:small">
+                    <b>{{request.get('parent').get('title')}}</b>
               </span>
               <!--Amount-->
               <span class="item-note" style="color:black">
                     <b>{{request.get('amount')| currency:request.get('parent').get('currency').get('code')}}</b>
               </span>
               <br>
-              <!--Title-->
+              <!--Group-->
               <span style="font-size:x-small">
-                    <b>{{request.get('parent').get('title')}}</b>
+                    {{request.get('parent').get('group').get('group')}}
               </span>
+
               <!--Date Time-->
               <span class="item-note" style="font-size: x-small">
               <b>{{request.updatedAt.toLocaleString()}} </b>
               </span>
 
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
-
           </ion-item>
+          <!--________________________________Done / Archive__________________________________________________________-->
+          <!--______________________________________________________________________________________________________________________-->
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="ArchiveRequests.length!=0">
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
               <i class="ion-android-archive"></i>
-              Old Archive
+              Done / Old Archive
+          </ion-item>
+          <ion-item class="item item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
+              <!--To User-->
+              <!--Outgoing payment-->
+              <!--condition -->
+              <!--request.get('user').id == user.id-->
+              To
+              <span style="color:black" ng-if="request.get('user').id == user.id">
+                    <b>{{request.get('parent').get('created_by').getUsername()}}</b>
+              </span>
+              <!--OutGoing Request-->
+              <!--conidtion-->
+              <!--request.get('parent').get('created_by').id == user.id-->
+
+              <span style="color:black" ng-if="request.get('parent').get('created_by').id == user.id">
+                    <b>{{request.get('user').getUsername()}}</b>
+              </span>
+
+              <!--Type-->
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('user').id == user.id">
+                    Paid
+              </span>
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('parent').get('created_by').id == user.id">
+                    Request for
+              </span>
+              <br>
+              <!--Title-->
+              <span style="font-size:small">
+                    <b>{{request.get('parent').get('title')}}</b>
+              </span>
+              <!--Amount-->
+              <span class="item-note" style="color:black">
+                    <b>{{request.get('amount')| currency:request.get('parent').get('currency').get('code')}}</b>
+              </span>
+              <br>
+              <!--Group-->
+              <span style="font-size:x-small">
+                    {{request.get('parent').get('group').get('group')}}
+              </span>
+
+              <!--Date Time-->
+              <span class="item-note" style="font-size: x-small">
+              <b>{{request.updatedAt.toLocaleString()}} </b>
+              </span>
+
+              <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0">
               No Requests Yet
@@ -142,7 +196,7 @@
 
       </ion-list>
       <ion-infinite-scroll
-              on-infinite="loadMore()"
+              on-infinite="loadArchive()"
               icon="icon ion-loading-c"
               distance="1%">
       </ion-infinite-scroll>

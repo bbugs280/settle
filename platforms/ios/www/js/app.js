@@ -244,12 +244,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
     })
-      .state('tab.incomingpayment-detail', {
-          url: '/incomingpayment-detail',
+      .state('tab.payment-detail', {
+          url: '/payment-detail',
           views: {
               'tab-requests': {
-                  templateUrl: 'templates/tab-incomingpayment-detail.html',
-                  controller: 'IncomingPaymentDetailCtrl'
+                  templateUrl: 'templates/tab-payment-detail.html',
+                  controller: 'PaymentDetailCtrl'
               }
           },
           data: {
