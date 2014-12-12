@@ -341,7 +341,7 @@ angular.module('starter.controllers', [])
             query.notEqualTo('balance', 0);
             query.find({
                 success:function(requestdetails){
-                    $rootScope.badges.request += requestdetails.length;
+                    $rootScope.badges.request = requestdetails.length;
                     $rootScope.IncomingRequests = requestdetails;
                     $scope.IncomingRequestsFiltered = requestdetails;
                     $scope.loading = "hidden";
@@ -1340,7 +1340,7 @@ angular.module('starter.controllers', [])
 //            document.getElementById('search_text').value = '';
         }
 
-        $scope.addGroup = function (){
+        $rootScope.addGroup = function (){
             $scope.data = {};
             var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="data.group">',
@@ -1384,15 +1384,17 @@ angular.module('starter.controllers', [])
         $scope.editGroup = function(group){
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
+            $rootScope.modalGroupSelect.hide();
         }
 
         $scope.selectedGroup=function(group){
             $rootScope.selectedGroup = group;
-            $rootScope.selectedRequest.set('group',group);
-//            $rootScope.selectedFriend = undefined;
+            if ($rootScope.selectedRequest){
+                $rootScope.selectedRequest.set('group',group);
+            }
+
             $rootScope.inviteEmail = undefined;
-            //history.go(-1);
-//            $state.go('tab.send');
+
             $rootScope.modalGroupSelect.hide();
         }
         $scope.loadGroup();
