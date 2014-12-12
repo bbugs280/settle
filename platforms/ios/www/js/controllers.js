@@ -839,6 +839,7 @@ angular.module('starter.controllers', [])
         };
 
         $scope.loadIncomingRequestsCount = function(){
+            
             var RequestDetail = Parse.Object.extend("request_detail");
             var Request = Parse.Object.extend("request");
             var Tran = Parse.Object.extend("transaction");
@@ -848,12 +849,12 @@ angular.module('starter.controllers', [])
             var queryTranIR = new Parse.Query(RequestDetail);
 
             queryTran.notEqualTo('read', true);
-            queryTranR.equalTo('created_by', $rootScope.user);
+            queryTranR.equalTo('created_by', Parse.User.current());
             queryTranIR.exists('tran');
             queryTranIR.matchesQuery('parent',queryTranR);
             queryTranIR.matchesQuery('tran',queryTran);
 
-            queryIR.equalTo('user', $rootScope.user);
+            queryIR.equalTo('user', Parse.User.current());
             queryIR.notEqualTo('balance', 0);
 
             var mainQuery = Parse.Query.or(queryIR, queryTranIR);
