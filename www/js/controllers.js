@@ -330,16 +330,27 @@ angular.module('starter.controllers', [])
         }
         $scope.loadIncomingRequests = function(){
             var RequestDetail = Parse.Object.extend("request_detail");
-            var query = new Parse.Query(RequestDetail);
+            var Request = Parse.Object.extend("request");
+            var queryIR = new Parse.Query(RequestDetail);
+            var queryTranR = new Parse.Query(Request);
+            var queryTranIR = new Parse.Query(RequestDetail);
 
-            query.include('parent');
-            query.include('user');
-            query.include(['parent.created_by']);
-            query.include(['parent.group']);
-            query.include(['parent.currency']);
-            query.equalTo('user', $rootScope.user);
-            query.notEqualTo('balance', 0);
-            query.find({
+            queryTranR.equalTo('created_by', $rootScope.user);
+            queryTranIR.exists('tran');
+            queryTranIR.matchesQuery('parent',queryTranR);
+
+            queryIR.equalTo('user', $rootScope.user);
+            queryIR.notEqualTo('balance', 0);
+
+            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
+            mainQuery.include('parent');
+            mainQuery.include('user');
+            mainQuery.include('tran');
+            mainQuery.include(['parent.created_by']);
+            mainQuery.include(['parent.group']);
+            mainQuery.include(['parent.currency']);
+            mainQuery.descending('updatedAt');
+            mainQuery.find({
                 success:function(requestdetails){
                     $rootScope.badges.request = requestdetails.length;
                     $rootScope.IncomingRequests = requestdetails;
@@ -398,8 +409,28 @@ angular.module('starter.controllers', [])
             }
         }
         $scope.goToIncomingRequestDetail = function(irequest){
-            $rootScope.selectedIncomingRequest = irequest;
-            $state.go('tab.incomingrequest-detail');
+            //Payment
+            if (irequest.get('parent').get('created_by').id == $rootScope.user.id){
+                var tran = irequest.get('tran');
+                tran.set('read',true);
+                tran.save(null, {
+                    success:function(t){
+                        $rootScope.selectedIncomingPayment = irequest;
+                        $state.go('tab.incomingpayment-detail');
+                    }
+                })
+            }else{
+                //Request
+                irequest.set('read',true);
+                irequest.save(null,{
+                    success:function(i){
+                        $rootScope.selectedIncomingRequest = i;
+                        $state.go('tab.incomingrequest-detail');
+                    }
+                });
+            }
+
+
         }
         $scope.goToRequestDetail = function(request){
             $rootScope.selectedRequest = request;
@@ -618,6 +649,9 @@ angular.module('starter.controllers', [])
         $scope.init();
 
 })
+    .controller('IncomingPaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
+
+    })
 .controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
         //Google Anaytics
         if (typeof analytics !== 'undefined') {

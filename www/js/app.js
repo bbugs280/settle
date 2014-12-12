@@ -244,6 +244,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
     })
+      .state('tab.incomingpayment-detail', {
+          url: '/incomingpayment-detail',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-incomingpayment-detail.html',
+                  controller: 'IncomingPaymentDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.send', {
       url: '/send',
       views: {

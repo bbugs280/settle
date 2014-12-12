@@ -1,0 +1,62 @@
+<ion-view title="Payment" hide-back-button="true">
+    <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
+
+                </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header">
+
+        <ion-list class="list" style="font-size: small">
+            <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
+
+            <!--</ion-item>-->
+            <ion-item class="item item-avatar item-icon-right"
+                      style="font-size: normal"
+                      ng-if="selectedIncomingRequest.get('parent').get('group')!=undefined"
+                      ng-class="{'item-calm':selectedIncomingRequest.get('parent').get('group')!=undefined,'item-stable':selectedIncomingRequest.get('parent').get('group')==undefined}">
+                <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedIncomingRequest.get('parent').get('group')==undefined || selectedIncomingRequest.get('parent').get('group').get('icon')==undefined">
+                <img src="{{selectedIncomingRequest.get('parent').get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedIncomingRequest.get('parent').get('group')!=undefined  && selectedIncomingRequest.get('parent').get('group').get('icon')!=undefined">
+                <p ng-if="selectedIncomingRequest.get('parent').get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedIncomingRequest.get('parent').get('group').get('group')}}</p>
+                <p  ng-if="selectedIncomingRequest.get('parent').get('group')!=undefined">{{selectedIncomingRequest.get('parent').get('group').get('friend_userid').length}} people in group</p>
+                <!--<p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>-->
+
+                <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+            </ion-item>
+            <ion-item class="item">
+                <b>Date Time</b>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').createdAt.toLocaleString()}}</span>
+            </ion-item>
+            <ion-item class="item">
+                <b>Paid by</b>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('user').getUsername()}}</span>
+            </ion-item>
+            <ion-item class="item">
+                <b>Title</b>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('title')}}</span>
+            </ion-item>
+            <ion-item class="item">
+                <b>Note</b>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('note')}}</span>
+            </ion-item>
+            <ion-item class="item">
+                <b>Owing amount</b>
+                <span class="item-note" style="color:red">{{selectedIncomingPayment.get('tran').get('amount')|currency:selectedIncomingPayment.get('parent').get('currency').get('code')}}</span>
+
+            </ion-item>
+
+            <!--<button class="button button-block button-stable" ng-click="payBack(selectedIncomingRequest)" ng-disabled="selectedIncomingRequest.get('balance')==0">-->
+
+                <!--<span ng-if="selectedIncomingRequest.get('balance')!=0">-->
+                    <!--<i class="icon ion-card"></i>-->
+                    <!--Pay-->
+                <!--</span>-->
+                <!--<span style="color:blue" ng-if="selectedIncomingRequest.get('balance')==0">-->
+                    <!--<i class="icon ion-thumbsup"></i>-->
+                    <!--Paid-->
+                <!--</span>-->
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
