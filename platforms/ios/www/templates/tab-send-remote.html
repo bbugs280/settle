@@ -1,0 +1,94 @@
+
+<ion-view title="Pay on Cloud"  hide-back-button="true">
+    <!--on-swipe-right="goToQRCode()"-->
+    <ion-nav-buttons side="right">
+        <span ng-if="selectedGroup!=undefined || selectedFriend !=undefined">
+            <button class="button button-clear" ng-click="clearGroup()">
+                Clear
+            </button>
+        </span>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <span>
+            <button class="button button-clear" ng-click="goToQRCode()">
+                <i class="icon ion-qr-scanner"></i>
+            </button>
+        </span>
+    </ion-nav-buttons>
+  <ion-content class="has-header">
+      <ion-item class="item item-avatar item-icon-right"
+                style="font-size: normal"
+                ng-click="selectGroup()"
+                ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
+          <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon')==undefined">
+          <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon')!=undefined">
+          <p ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true" style="font-style: oblique;font-weight: bolder"> {{selectedGroup.get('group')}}</p>
+          <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friend_userid').length}} people in group</p>
+          <p ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</p>
+
+          <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+      </ion-item>
+      <ion-item class="item item-avatar item-icon-right"
+                style="font-size: normal"
+                ng-click="selectUser()"
+                ng-class="{'item-energized':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
+                ng-if="inviteEmail==undefined">
+          <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon')==undefined">
+          <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon')!=undefined">
+          <p ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}} <span class="item-note" style="font-size: small"><b>{{selectedFriend.get('phone_number')}}</b></span><br>
+          <span style="color: white;font-size: x-small">{{selectedFriend.get('email')}}</span></p>
+          <p ng-if="selectedFriend==undefined">Select Friend</p>
+
+          <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+      </ion-item>
+      <form ng-model="sendform" ng-submit="processSend(sendform)">
+      <ion-item class="item item-input-inset" ng-if="inviteEmail!=undefined">
+          <label class="item-input-wrapper" >
+              <input type="email" placeholder="Email" name="input" ng-model="sendform.inviteEmail" required value="{{inviteEmail}}">
+              <!--ng-class="{'input-required':sendform.input.$error.required, 'input-invalid':sendform.input.$error.email}"-->
+          </label>
+          <button class="button button-small" style="border-radius: 5px" ng-click="cancelInvite()">
+              Cancel
+          </button>
+      </ion-item>
+
+      <ion-item class="item item-input-inset">
+          <button class="button button-clear" type="button" ng-click="openCurrencies('tab.send-remote')" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
+              <span ng-if="selectedCurrency==undefined">
+                  <span ng-if="user.get('default_currency')!=undefined">{{user.get('default_currency').get('code')}}</span>
+              </span>
+              <span ng-if="selectedCurrency!=undefined">{{selectedCurrency.get('code')}}</span>
+          </button>
+          <label class=" item-input-wrapper " style="height: 50px">
+
+              <input type="tel" placeholder="Amount" ng-model="sendform.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
+          </label>
+          <button class="button button-stable" type="submit" style="font-size: large;border-radius: 10px">
+              <!--<i class="icon ion-card"></i>-->
+              Pay
+          </button>
+      </ion-item>
+      <label class="item item-input">
+          <input type="text" placeholder="Note" ng-model="sendform.note" maxlength="40">
+      </label>
+      </form>
+
+
+      <!--<button class="button button-block button-stable" ng-click="goToQRCode(sendform)">-->
+          <!--Pay by QRCode-->
+      <!--</button>-->
+      <ion-item class="item item-icon-left item-icon-right" style="text-align: center" ng-click="goToQRCode(sendform)">
+          <!--<i class="icon ion-ios7-arrow-back" style="color: gray; font-size: larger"></i>-->
+          <i class="icon ion-qr-scanner"></i>
+          Pay by QRCode
+
+      </ion-item>
+      <!--<label class="item item-input">-->
+          <!--<input type="text" placeholder="Text to Push" ng-model="sendtext"  ng-model-options="{ getterSetter: true }" >-->
+      <!--</label>-->
+      <!--<button class="button button-block button-stable" ng-click="sendPushMessage(sendtext)">-->
+          <!--Send Push-->
+      <!--</button>-->
+  </ion-content>
+</ion-view>
+

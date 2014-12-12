@@ -1,0 +1,35 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-light" style="border-bottom-width:1px; border-bottom-color: grey; border-bottom-style:solid">
+        <div class="title">Select Place</div>
+        <button class="button button-clear" ng-click="modalPlaceSelect.hide()">
+            Cancel
+        </button>
+    </ion-header-bar>
+    <ion-content data-ng-controller="PlaceCtrl">
+
+        <ion-list>
+            <!--<ion-refresher-->
+                    <!--pulling-icon="icon ion-arrow-down-c"-->
+                    <!--refreshing-icon="icon ion-loading-c"-->
+                    <!--on-refresh="loadGroupSetup()">-->
+            <!--</ion-refresher>-->
+            <ion-item class="item item-divider " >
+                <label class="item item-input" style="border-radius: 5px;height: 30px">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchPlace(searchText)">
+                </label>
+            </ion-item>
+            <ion-item ng-repeat="place in Places" class="item item-icon-right " ng-click="selectedPlace(place)" style="font-size:small">
+                <!--<img src="place.getElementsByTagName('icon')[0].childNodes[0].nodeValue">-->
+                <b> {{place.getElementsByTagName('name')[0].childNodes[0].nodeValue}} </b> - {{place.getElementsByTagName('type')[0].childNodes[0].nodeValue}}
+                <br>
+                <span style="font-size: x-small">{{place.getElementsByTagName('formatted_address')[0].childNodes[0].nodeValue}}</span>
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+            </ion-item>
+
+            <ion-item class="item">
+                <img src="./img/google.png">
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>
