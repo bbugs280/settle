@@ -1,10 +1,16 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header bar-light" style="border-bottom-width:1px; border-bottom-color: grey; border-bottom-style:solid">
-        <div class="title">Select Group</div>
         <button class="button button-clear" ng-click="modalGroupSelect.hide()">
             Cancel
         </button>
+        <div class="title">Select Group</div>
+
+        <button class="button button-icon button-clear ion-ios7-plus-empty" ng-click="addGroup()">
+        </button>
+
+
     </ion-header-bar>
+
     <ion-content data-ng-controller="SendGroupCtrl">
 
         <ion-list can-swipe="true" show-reorder="false">
@@ -23,7 +29,6 @@
                             <span ng-if="selectedGroup.id == list.id ">
                                 <i class="icon ion-ios7-checkmark"></i>
                             </span>
-
                         </ion-item>
 
         </ion-list>
