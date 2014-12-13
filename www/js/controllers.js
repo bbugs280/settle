@@ -392,6 +392,8 @@ angular.module('starter.controllers', [])
             mainQuery.include('parent');
             mainQuery.include('user');
             mainQuery.include('tran');
+            mainQuery.include(['tran.touser']);
+            mainQuery.include(['tran.fromuser']);
             mainQuery.include(['parent.created_by']);
             mainQuery.include(['parent.group']);
             mainQuery.include(['parent.currency']);
@@ -502,7 +504,7 @@ angular.module('starter.controllers', [])
                     console.log("$scope.archiveLastDate "+$scope.archiveLastDate);
                     for (var i in requests){
 
-                        if (requests[i].get('parent').get('created_by').id == $rootScope.user.id){
+                        if (requests[i].get('user').id == $rootScope.user.id){
                             // isPayment
                             requests[i].isPayment = true;
 
@@ -510,7 +512,7 @@ angular.module('starter.controllers', [])
                                 //isOutgoing
                                 requests[i].isOutgoing = true;
                                 requests[i].user = requests[i].get('tran').get('touser').getUsername();
-                            }else{
+                            }else if(requests[i].get('tran').get('touser').id ==$rootScope.user.id){
                                 requests[i].isIncoming = true;
                                 requests[i].user = requests[i].get('tran').get('fromuser').getUsername();
                             }
@@ -521,7 +523,7 @@ angular.module('starter.controllers', [])
                             requests[i].updateAt = requests[i].updatedAt.toLocaleString();
 
 
-                        }else{
+                        }else if (requests[i].get('parent').get('created_by').id ==$rootScope.user.id){
                             // isRequest
                             requests[i].isRequest = true;
 
@@ -529,7 +531,7 @@ angular.module('starter.controllers', [])
                                 //isOutgoing
                                 requests[i].isOutgoing = true;
                                 requests[i].user = requests[i].get('user').getUsername();
-                            }else{
+                            }else if(requests[i].get('user').id  == $rootScope.user.id){
                                 requests[i].isIncoming = true;
                                 requests[i].user = requests[i].get('parent').get('created_by').getUsername();
                             }
@@ -943,6 +945,7 @@ angular.module('starter.controllers', [])
             }
 
             if (group){
+                console.log("payback - has group "+ group.get('group'));
                 ParseService.recordQRCode(group, tranId,currencyId,amount,fromuser,touser,note,location , suser,friend,function(r){
                     //save irequest
                     processIncomingRequest(r);

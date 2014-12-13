@@ -83,5 +83,11 @@
 
             </ion-item>
         </ion-list>
+        <ion-infinite-scroll
+                on-infinite="loadTrans()"
+                ng-if="tranStillHaveRecord"
+                icon="icon ion-loading-c"
+                distance="1%">
+        </ion-infinite-scroll>
     </ion-content>
 </ion-view>
