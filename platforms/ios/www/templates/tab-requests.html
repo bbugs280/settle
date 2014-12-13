@@ -14,7 +14,7 @@
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
                   refreshing-icon="icon ion-loading-c"
-                  on-refresh="loadBoth()">
+                  on-refresh="loadRefresh()">
           </ion-refresher>
 
           <ion-item class="item item-divider " >
@@ -142,36 +142,35 @@
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="ArchiveRequests.length!=0">
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
               <i class="ion-android-archive"></i>
-              Done / Old Archive
+              Done / Old Archive ({{ArchiveRequestsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
+          <ion-item class="item item-dark item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small;" ng-click="goToRequestDetail(request)">
               <!--To User-->
               <!--Outgoing payment-->
               <!--condition -->
               <!--request.get('user').id == user.id-->
-              To
-              <span style="color:black" ng-if="request.get('user').id == user.id">
-                    <b>{{request.get('parent').get('created_by').getUsername()}}</b>
+              <span ng-if="request.isOutgoing">
+                  To
               </span>
-              <!--OutGoing Request-->
-              <!--conidtion-->
-              <!--request.get('parent').get('created_by').id == user.id-->
-
-              <span style="color:black" ng-if="request.get('parent').get('created_by').id == user.id">
-                    <b>{{request.get('user').getUsername()}}</b>
+              <span ng-if="request.isIncoming">
+                  From
+              </span>
+                  <!--username-->
+              <span style="color:black">
+                    <b>{{request.user}}</b>
               </span>
 
               <!--Type-->
-              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('user').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.isPayment">
                     Paid
               </span>
-              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('parent').get('created_by').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.isRequest">
                     Request for
               </span>
               <br>
               <!--Title-->
               <span style="font-size:small">
-                    <b>{{request.get('parent').get('title')}}</b>
+                    <b>{{request.title}}</b>
               </span>
               <!--Amount-->
               <span class="item-note" style="color:black">
@@ -197,6 +196,7 @@
       </ion-list>
       <ion-infinite-scroll
               on-infinite="loadArchive()"
+              ng-if="archiveStillHaveRecord"
               icon="icon ion-loading-c"
               distance="1%">
       </ion-infinite-scroll>

@@ -383,7 +383,15 @@ angular.module('starter.controllers', [])
                 }
             })
         }
+
+        $scope.archiveRecordCount = 5;
+        $scope.archiveStillHaveRecord = true;
+        $scope.archiveLastDate = new Date();
         $scope.loadArchive = function(){
+            //$scope.archiveRecordCount +=incrementNo;
+
+            console.log("loadArchive start with = "+$scope.archiveLastDate);
+            console.log("loadArchive start with archiveRecordCount = "+$scope.archiveRecordCount);
             var RequestDetail = Parse.Object.extend("request_detail");
             var Request = Parse.Object.extend("request");
             var Tran = Parse.Object.extend("transaction");
@@ -421,17 +429,77 @@ angular.module('starter.controllers', [])
             mainQuery.include('parent');
             mainQuery.include('user');
             mainQuery.include('tran');
+            mainQuery.include(['tran.touser']);
+            mainQuery.include(['tran.fromuser']);
             mainQuery.include(['parent.created_by']);
             mainQuery.include(['parent.group']);
             mainQuery.include(['parent.currency']);
             mainQuery.descending('updatedAt');
-            mainQuery.limit(10);
+            mainQuery.lessThan('updatedAt', $scope.archiveLastDate);
+
+            mainQuery.limit($scope.archiveRecordCount);
             mainQuery.find({
                 success:function(requests){
+                    console.log("requests.length " +requests.length);
+                    if (requests.length==0){
+                        $scope.archiveStillHaveRecord = false;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                        throw ("no recorder");
+                    }
+                    //set smallest date
+                    $scope.archiveLastDate = requests[requests.length-1].updatedAt;
+                    console.log("$scope.archiveLastDate "+$scope.archiveLastDate);
+                    for (var i in requests){
+
+                        if (requests[i].get('parent').get('created_by').id == $rootScope.user.id){
+                            // isPayment
+                            requests[i].isPayment = true;
+
+                            if (requests[i].get('tran').get('fromuser').id ==$rootScope.user.id){
+                                //isOutgoing
+                                requests[i].isOutgoing = true;
+                                requests[i].user = requests[i].get('tran').get('touser').getUsername();
+                            }else{
+                                requests[i].isIncoming = true;
+                                requests[i].user = requests[i].get('tran').get('fromuser').getUsername();
+                            }
+                            requests[i].title = requests[i].get('parent').get('title');
+                            requests[i].amount = requests[i].get('tran').get('amount');
+                            requests[i].currencyCode = requests[i].get('tran').get('currency').get('code');
+                            requests[i].groupName = requests[i].get('tran').get('group').get('group');
+                            requests[i].updateAt = requests[i].updatedAt.toLocaleString();
+
+
+                        }else{
+                            // isRequest
+                            requests[i].isRequest = true;
+
+                            if (requests[i].get('parent').get('created_by').id == $rootScope.user.id){
+                                //isOutgoing
+                                requests[i].isOutgoing = true;
+                                requests[i].user = requests[i].get('user').getUsername();
+                            }else{
+                                requests[i].isIncoming = true;
+                                requests[i].user = requests[i].get('parent').get('created_by').getUsername();
+                            }
+                            requests[i].title = requests[i].get('parent').get('title');
+                            requests[i].amount = requests[i].get('amount');
+                            requests[i].currencyCode = requests[i].get('parent').get('currency').get('code');
+                            if (requests[i].get('parent').get('group')){
+                                requests[i].groupName = requests[i].get('parent').get('group').get('group');
+                            }else{
+                                requests[i].groupName = "";
+                            }
+
+                            requests[i].updateAt = requests[i].updatedAt.toLocaleString();
+                        }
+                        $rootScope.ArchiveRequests.push(requests[i]);
+                    }
                     $rootScope.ArchiveRequests = requests;
-                    $scope.ArchiveRequestsFiltered = requests;
+                    $scope.ArchiveRequestsFiltered = $rootScope.ArchiveRequests;
                     $scope.loading = "hidden";
-                    $scope.$broadcast('scroll.refreshComplete');
+
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
                     $scope.$apply();
                     $rootScope.$apply();
                 }
@@ -440,7 +508,12 @@ angular.module('starter.controllers', [])
         $scope.loadBoth = function(){
             $scope.loadRequests();
             $scope.loadIncomingRequests();
-            $scope.loadArchive();
+            //$scope.loadArchive();
+        }
+        $scope.loadRefresh = function(){
+            $scope.loadRequests();
+            $scope.loadIncomingRequests();
+
         }
         $scope.addRequest = function(){
             $rootScope.selectedRequest=undefined;
@@ -477,6 +550,7 @@ angular.module('starter.controllers', [])
             $scope.searchIncomingRequest(txt);
         }
         $rootScope.loadRequestInit = function(){
+            $rootScope.ArchiveRequests=[];
             if (!$rootScope.Requests) {
                 console.log("loadInit - load from parse");
                 $rootScope.badges.request=0;
@@ -839,7 +913,7 @@ angular.module('starter.controllers', [])
         };
 
         $scope.loadIncomingRequestsCount = function(){
-            
+
             var RequestDetail = Parse.Object.extend("request_detail");
             var Request = Parse.Object.extend("request");
             var Tran = Parse.Object.extend("transaction");
