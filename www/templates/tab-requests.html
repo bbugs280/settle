@@ -41,37 +41,31 @@
               <!--condition -->
               <!--incomingrequest.get('parent').get('created_by').id == user.id-->
               From
-              <span style="color:black" ng-if="incomingrequest.get('parent').get('created_by').id == user.id">
-                    <b>{{incomingrequest.get('user').getUsername()}}</b>
-              </span>
-              <!--Incoming Request-->
-              <!--conidtion-->
-              <!--incomingrequest.get('user').id == user.id-->
-              <span style="color:black" ng-if="incomingrequest.get('user').id == user.id">
-                    <b>{{incomingrequest.get('parent').get('created_by').getUsername()}}</b>
+              <span style="color:black">
+                    <b>{{incomingrequest.user}}</b>
               </span>
 
               <!--Type-->
-              <span class="item-note" style="font-size:small;color:black" ng-if="incomingrequest.get('parent').get('created_by').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="incomingrequest.isPayment">
                     Paid
               </span>
-              <span class="item-note" style="font-size:small;color:black" ng-if="incomingrequest.get('user').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="incomingrequest.isRequest">
                     Request for
               </span>
               <br>
               <!--Title-->
               <span style="font-size:small">
-                    <b>{{incomingrequest.get('parent').get('title')}}</b>
+                    <b>{{incomingrequest.title}}</b>
               </span>
               <!--Amount-->
               <span class="item-note" style="color:black">
-                    <b>{{incomingrequest.get('amount')| currency:incomingrequest.get('parent').get('currency').get('code')}}</b>
+                    <b>{{incomingrequest.amount| currency:incomingrequest.currencyCode}}</b>
               </span>
               <br>
 
               <!--Group-->
               <span style="font-size:x-small">
-                    {{incomingrequest.get('parent').get('group').get('group')}}
+                    {{incomingrequest.groupName}}
               </span>
               <!--Date Time-->
               <span class="item-note" style="font-size: x-small">
@@ -90,44 +84,37 @@
           </ion-item>
           <!--________________________________outgoing request and payment__________________________________________________________-->
           <!--______________________________________________________________________________________________________________________-->
-          <ion-item class="item item-icon-right"  ng-repeat="request in RequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
+          <ion-item class="item item-light item-icon-right"  ng-repeat="request in RequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
 
               <!--To User-->
               <!--Outgoing payment-->
               <!--condition -->
               <!--request.get('user').id == user.id-->
               To
-              <span style="color:black" ng-if="request.get('user').id == user.id">
-                    <b>{{request.get('parent').get('created_by').getUsername()}}</b>
-              </span>
-              <!--OutGoing Request-->
-              <!--conidtion-->
-              <!--request.get('parent').get('created_by').id == user.id-->
-
-              <span style="color:black" ng-if="request.get('parent').get('created_by').id == user.id">
-                    <b>{{request.get('user').getUsername()}}</b>
+              <span style="color:black">
+                    <b>{{request.user}}</b>
               </span>
 
               <!--Type-->
-              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('user').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.isPayment">
                     Paid
               </span>
-              <span class="item-note" style="font-size:small;color:black" ng-if="request.get('parent').get('created_by').id == user.id">
+              <span class="item-note" style="font-size:small;color:black" ng-if="request.isRequest">
                     Request for
               </span>
               <br>
               <!--Title-->
               <span style="font-size:small">
-                    <b>{{request.get('parent').get('title')}}</b>
+                    <b>{{request.title}}</b>
               </span>
               <!--Amount-->
               <span class="item-note" style="color:black">
-                    <b>{{request.get('amount')| currency:request.get('parent').get('currency').get('code')}}</b>
+                    <b>{{request.amount| currency:request.currencyCode}}</b>
               </span>
               <br>
               <!--Group-->
               <span style="font-size:x-small">
-                    {{request.get('parent').get('group').get('group')}}
+                    {{request.groupName}}
               </span>
 
               <!--Date Time-->
@@ -144,7 +131,7 @@
               <i class="ion-android-archive"></i>
               Done / Old Archive ({{ArchiveRequestsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-dark item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small;" ng-click="goToRequestDetail(request)">
+          <ion-item class="item item-dark item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small;" ng-click="goToArchDetail(request)">
               <!--To User-->
               <!--Outgoing payment-->
               <!--condition -->
@@ -189,7 +176,7 @@
 
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
-          <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0">
+          <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0 && ArchiveRequests.length == 0">
               No Requests Yet
           </ion-item>
 

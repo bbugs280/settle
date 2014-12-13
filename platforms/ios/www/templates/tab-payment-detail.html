@@ -28,8 +28,12 @@
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').createdAt.toLocaleString()}}</span>
             </ion-item>
             <ion-item class="item">
+                <b>Paid To</b>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').get('touser').getUsername()}}</span>
+            </ion-item>
+            <ion-item class="item">
                 <b>Paid by</b>
-                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('user').getUsername()}}</span>
+                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').get('fromuser').getUsername()}}</span>
             </ion-item>
             <ion-item class="item">
                 <b>Title</b>
