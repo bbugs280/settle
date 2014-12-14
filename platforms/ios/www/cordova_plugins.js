@@ -203,6 +203,13 @@ module.exports = [
             "navigator.notification",
             "navigator"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "clobbers": [
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -221,7 +228,8 @@ module.exports.metadata =
     "org.apache.cordova.core.parseplugin": "0.1.0",
     "org.apache.cordova.device": "0.2.12",
     "org.apache.cordova.globalization": "0.3.2",
-    "org.apache.cordova.vibration": "0.3.11"
+    "org.apache.cordova.vibration": "0.3.11",
+    "org.apache.cordova.inappbrowser": "0.5.4"
 }
 // BOTTOM OF METADATA
 });

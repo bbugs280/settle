@@ -189,21 +189,15 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-
+        $scope.goToWhatsapp = function(user){
+            whatsappSendMessage(user.get('phone_number'), "");
+        }
         $scope.goToAction = function(user){
 
             console.log("goToSend");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
-            //if ($rootScope.addFriendToGroup){
-            //
-            //
-            //}else{
-            //    //Got to Default Send page if no action is selected e.g. $rootScope.addFriendToGroup
-            //
-            //}
-
         }
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
@@ -251,7 +245,9 @@ angular.module('starter.controllers', [])
         $scope.hideInviteOptions = function() {
             $scope.modalOptions.hide();
         }
-
+        $scope.inviteByWhatsapp = function(){
+            openWhatsappWithMsg(inviteMessage);
+        }
         $scope.inviteFromContacts = function(){
             navigator.contacts.pickContact(function(contact){
 //                console.log('The following contact has been selected:' + JSON.stringify(contact));
@@ -699,7 +695,11 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalCurrencySelect = modal;
         });
-
+        $ionicModal.fromTemplateUrl('templates/tab-friends-request-detail-photo.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPhotoNote = modal;
+        });
         $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
             scope:$scope
         }).then(function(modal) {
@@ -711,6 +711,9 @@ angular.module('starter.controllers', [])
             $scope.modalPlaceSelect = modal;
         });
 
+        $scope.openMap = function(name, address){
+            openGoogleMap(name, address);
+        }
         $scope.selectACurrency = function(curr){
             console.log("select currency");
             $rootScope.selectedRequest.set('currency', curr);
@@ -895,6 +898,46 @@ angular.module('starter.controllers', [])
         }
 
         $scope.init();
+
+
+        $scope.openCamera = function(){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+            $rootScope.showLoading('Loading...')
+
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(FILE_URI) {
+            resizeImageForPhotoNote(FILE_URI, function(data){
+                console.log("success got pic");
+
+                var file = new Parse.File("photo.jpg", {base64:data});
+//            var file = new Parse.File("icon.jpg", img);
+                $rootScope.selectedRequest.set('photo',file);
+                $rootScope.hideLoading();
+                //$rootScope.selectedRequest.save(null,{
+                //        success:function(user){
+                //            console.log("setup ctrl - user updated with new icon");
+                //            $rootScope.$apply();
+                //            $state.go('tab.setupuser');
+                //            $rootScope.hideLoading();
+                //        },error:function(obj,error){
+                //            $rootScope.hideLoading();
+                //            throw (error.message);
+                //        }
+                //    }
+                //);
+            });
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
+            $rootScope.hideLoading();
+        }
 
 })
 .controller('PaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){

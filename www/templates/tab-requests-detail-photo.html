@@ -1,0 +1,11 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-light" style="border-bottom-width:1px; border-bottom-color: grey; border-bottom-style:solid">
+        <div class="title">Photo Note</div>
+        <button class="button button-clear" ng-click="modalPhotoNote.hide()">
+            <i class="icon ion-ios7-close-empty"></i>
+        </button>
+    </ion-header-bar>
+    <ion-content >
+        <img src="{{selectedRequest.get('photo').url()}}">
+    </ion-content>
+</ion-modal-view>

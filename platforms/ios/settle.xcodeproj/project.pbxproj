@@ -80,6 +80,7 @@
 		FF3C63F219274B8491658635 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BED4D15C1A7B4EDD80955C11 /* CDVDevice.m */; };
 		0999B3027D804675A570BFFD /* CDVGlobalization.m in Sources */ = {isa = PBXBuildFile; fileRef = D4063B965D9B4FBAA4961E8B /* CDVGlobalization.m */; };
 		E228E79AA4CD46D39934AE50 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A63FA31B2D747139ECB3B77 /* CDVVibration.m */; };
+		0CD615619AA5415FA0216270 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B126E7A733E48FEAFB5646F /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +212,8 @@
 		CE091FFC8EBF414F946FE369 /* CDVGlobalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVGlobalization.h"; path = "org.apache.cordova.globalization/CDVGlobalization.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		8A63FA31B2D747139ECB3B77 /* CDVVibration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVVibration.m"; path = "org.apache.cordova.vibration/CDVVibration.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		CC26E3583F4348D2B6812EE9 /* CDVVibration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVVibration.h"; path = "org.apache.cordova.vibration/CDVVibration.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		6B126E7A733E48FEAFB5646F /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		5830F555338F4D3294BC2B3E /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,6 +421,8 @@
 				CE091FFC8EBF414F946FE369 /* CDVGlobalization.h */,
 				8A63FA31B2D747139ECB3B77 /* CDVVibration.m */,
 				CC26E3583F4348D2B6812EE9 /* CDVVibration.h */,
+				6B126E7A733E48FEAFB5646F /* CDVInAppBrowser.m */,
+				5830F555338F4D3294BC2B3E /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = "Settle/Plugins";
@@ -634,6 +639,7 @@
 				FF3C63F219274B8491658635 /* CDVDevice.m in Sources */,
 				0999B3027D804675A570BFFD /* CDVGlobalization.m in Sources */,
 				E228E79AA4CD46D39934AE50 /* CDVVibration.m in Sources */,
+				0CD615619AA5415FA0216270 /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,3 +16,12 @@ function placeAPI(text, country){
     console.log("Place API results count =  "+ result.length);
     return result;
 }
+
+function openGoogleMap(name, address){
+
+    var url = "https://maps.google.com/maps/?q=";
+    var params = name +", "+address;
+    params = params.replace(" ","+");
+
+    window.open(url+params, '_system', 'location=no');
+}

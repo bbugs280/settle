@@ -65,4 +65,7 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="WebSecurity" value="disable" />
     <preference name="target-device" value="handset" />
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
 </widget>

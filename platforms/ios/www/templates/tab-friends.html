@@ -26,6 +26,9 @@
                   <input id="search_text" type="text" placeholder="Search" class="" style="height: 20px;"  ng-model="searchText" ng-change="searchFriendGroup(searchText)">
                </label>
           </ion-item>
+          <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="Groups.length!=0">
+              Groups ({{GroupsFiltered.length}})
+          </ion-item>
           <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="group in GroupsFiltered" ng-click="goToGroupDetail(group)">
               <img src="{{group.get('icon').url()}}"
                    class="avatar"
@@ -35,11 +38,14 @@
                    ng-if="group.get('icon')==undefined">
               <p>
                   <b>{{group.get('group')}}</b>  <br>
-                  <span style="font-size: x-small">{{group.get('friend_userid').length}} in Group</span>
+                  <span style="font-size: x-small">{{group.get('friend_userid').length}} Settlers in Group</span>
               </p>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered" ng-click="goToAction(friend)" ng-if="friend.id!=user.id">
+          <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="FriendsFiltered.length!=0">
+              Friends ({{FriendsFiltered.length}})
+          </ion-item>
+          <ion-item class="item item-avatar item-icon-right item-button-right"  ng-repeat="friend in FriendsFiltered"  ng-if="friend.id!=user.id" ng-click="goToAction(friend)">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">
@@ -52,19 +58,14 @@
                     <span style="font-size:x-small"><b>{{friend.get('phone_number')}}</b></span>
                 </p>
 
-              <!--<button class="button button-clear" ng-click="getInfo(friend)">-->
-                  <!--<i class="icon ion-ios7-information-outline"></i>-->
-              <!--</button>-->
-              <!--<ion-option-button class="button-assertive" ng-click="goToSend(friend)">-->
-                  <!--Pay-->
-              <!--</ion-option-button>-->
-              <!--<ion-option-button class="button-calm" ng-click="getInfo(friend)">-->
-                  <!--Details-->
-              <!--</ion-option-button>-->
-              <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
               <button class="button button-clear"  ng-click="goToAction(friend)">
                   <i class="icon ion-card"></i>
               </button>
+              <!--<br>-->
+              <!--<button class="button button-clear"  ng-click="goToWhatsapp(friend)">-->
+                  <!--<i class="icon ion-social-whatsapp-outline"></i>-->
+              <!--</button>-->
+
           </ion-item>
           <ion-item ng-if="Friends.length==0">
               <p style="font-size: x-small;text-align: center">

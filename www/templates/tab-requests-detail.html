@@ -27,7 +27,7 @@
 
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-            <ion-item class="item item-button-right">
+            <ion-item class="item item-input item-button-right">
                 <label>
                     <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title" maxlength="40">
                 </label>
@@ -39,7 +39,9 @@
                 <span style="font-size: small">
                     {{selectedRequest.get('location_detail')}}
                 </span>
-                <button class="button button-clear">
+                <br>
+                <span style="font-size:x-small">on {{selectedRequest.createdAt.toLocaleString()}}</span>
+                <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
             </ion-item>
@@ -57,14 +59,20 @@
 
                     <input type="tel" disabled placeholder="Total Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
                 </label>
-
             </ion-item>
-            <label class="item item-input">
-                <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
-            </label>
-
-            <ion-item class="item item-button-right" style="font-size: normal;font-weight: bold">
-
+            <ion-item class="item item-input item-button-right">
+                <label>
+                    <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
+                </label>
+                <button class="button button-clear" ng-click="openCamera()">
+                    <i class="icon ion-camera"></i>
+                </button>
+            </ion-item>
+            <ion-item class="item item-icon-right" ng-if="selectedRequest.get('photo')!=undefined" ng-click="modalPhotoNote.show()">
+                Photo Note
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+            </ion-item>
+            <ion-item class="item item-dark item-button-right" style="font-size: normal;font-weight: bold">
                 Details
                 <span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>
                 <button class="button button-clear"
@@ -116,8 +124,8 @@
                     Chase
                 </ion-option-button>
             </ion-item>
-            <ion-item style="text-align: center" ng-click="modalFriendRequestSelect.show()">
-                <p style="color:blue">Add Friend to Request</p>
+            <ion-item class="item" style="text-align: center" ng-click="modalFriendRequestSelect.show()">
+                <p style="color:blue;text-align:center">Add Friend to Request</p>
             </ion-item>
             <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
                 Send Request

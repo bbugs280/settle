@@ -175,6 +175,13 @@ module.exports = [
         "clobbers": [
             "analytics"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "clobbers": [
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -193,7 +200,8 @@ module.exports.metadata =
     "org.apache.cordova.globalization": "0.3.2",
     "org.apache.cordova.contacts": "0.2.14",
     "com.jsmobile.plugins.sms": "0.0.1",
-    "com.danielcwilson.plugins.googleanalytics": "0.6.0"
+    "com.danielcwilson.plugins.googleanalytics": "0.6.0",
+    "org.apache.cordova.inappbrowser": "0.5.4"
 }
 // BOTTOM OF METADATA
 });
