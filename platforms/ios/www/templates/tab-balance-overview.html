@@ -47,7 +47,7 @@
 
           </ion-item>
 
-          <ion-item  class="item item-avatar item-icon-right"  ng-repeat="balance in balancelistFiltered" ng-click="openBalance(balance)" ng-if="balance.get('group').get('hidden')!==true">
+          <ion-item  class="item item-avatar item-icon-right" style="font-size: small" ng-repeat="balance in balancelistFiltered" ng-click="openBalance(balance)" ng-if="balance.get('group').get('hidden')!==true">
               <!--personal icon-->
               <img src="{{balance.get('frienduser').get('icon').url()}}"
                    class="avatar"

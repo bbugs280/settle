@@ -31,23 +31,67 @@ function resizeImage(src, callback){
             output_width = image.width;
         }
 
-//        if(image.width > MAX_WIDTH) {
-//            image.height *= MAX_WIDTH / image.width;
-//            image.width = MAX_WIDTH;
-//        }
-//        canvas.width = image.width;
-//        canvas.height = image.height;
 
         canvas.width = MAX_WIDTH;
         canvas.height = MAX_HEIGHT;
-console.log("x ", x);
-console.log("y ", y);
-console.log("width ", image.width);
-console.log("height ", image.height);
-//        ctx.drawImage(image, x, y, image.width, image.height);
+
         ctx.drawImage(image, x, y, output_width, output_height, 0, 0, MAX_WIDTH, MAX_HEIGHT);
-        //ctx.rotate(90 * TO_RADIANS);
-        //ctx.drawImage(image, 0,0);
+
+
+        callback(canvas.toDataURL());
+    }
+
+    image.src = src;
+
+}
+
+
+
+function resizeImageForPhotoNote(src, callback){
+    var MAX_HEIGHT_NOTE = 500;
+    var x = 0;
+    var y = 0;
+
+    var image = new Image();
+
+    image.onload = function(){
+        //    var canvas = document.getElementById("myCanvas");
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+        if (image.height > MAX_HEIGHT_NOTE){
+            var ratio = MAX_HEIGHT_NOTE / image.height;
+            console.log("resize ratio "+ratio);
+            image.width = image.width * ratio;
+            image.height = MAX_HEIGHT_NOTE;
+        }
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        console.log("image size w = "+canvas.width);
+        console.log("image size h = "+canvas.height);
+        ctx.drawImage(image, x, y, canvas.width, canvas.height);
+
+
+        //Rotate
+//        ctx.clearRect(0,0,canvas.width,canvas.height);
+//
+//        // save the unrotated context of the canvas so we can restore it later
+//        // the alternative is to untranslate & unrotate after drawing
+//        ctx.save();
+//
+//        // move to the center of the canvas
+//        ctx.translate(canvas.width/2,canvas.height/2);
+//
+//        // rotate the canvas to the specified degrees
+//        ctx.rotate(90*Math.PI/180);
+//
+//        // draw the image
+//        // since the context is rotated, the image will be rotated also
+//        ctx.drawImage(image,-image.width/2,-image.width/2);
 
         callback(canvas.toDataURL());
     }

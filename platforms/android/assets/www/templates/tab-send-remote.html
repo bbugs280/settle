@@ -17,6 +17,7 @@
     </ion-nav-buttons>
   <ion-content class="has-header">
       <ion-item class="item item-avatar item-icon-right"
+                ng-if="selectedGroup!=undefined"
                 style="font-size: normal"
                 ng-click="selectGroup()"
                 ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
@@ -35,8 +36,10 @@
                 ng-if="inviteEmail==undefined">
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon')==undefined">
           <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon')!=undefined">
-          <p ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}} <span class="item-note" style="font-size: small"><b>{{selectedFriend.get('phone_number')}}</b></span><br>
-          <span style="color: white;font-size: x-small">{{selectedFriend.get('email')}}</span></p>
+          <p ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}} <span class="item-note" style="color: white;font-size: x-small">{{selectedFriend.get('email')}}</span>
+              <br><span style="font-size: x-small"><b>{{selectedFriend.get('phone_number')}}</b></span>
+
+          </p>
           <p ng-if="selectedFriend==undefined">Select Friend</p>
 
           <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>

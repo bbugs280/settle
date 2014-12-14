@@ -38,6 +38,7 @@ angular.module('starter.controllers', [])
             console.log("country Code = "+$rootScope.countryCode);
             //Construct phone array
             var phoneArray=[];
+
             for (var i=0;i<contacts.length;i++){
                 if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
                     for (var j=0;j<contacts[i].phoneNumbers.length;j++){
@@ -47,7 +48,6 @@ angular.module('starter.controllers', [])
 
                             if (isValidNumber(phone_no,$rootScope.countryCode)){
                                 phone_no=formatE164($rootScope.countryCode,phone_no);
-                                //console.log("valid = " +phone_no);
                                 phoneArray.push(phone_no);
                             }
                     }
@@ -56,7 +56,6 @@ angular.module('starter.controllers', [])
 
             $scope.loadFromParse(phoneArray);
         }
-
 
         function onError(contactError) {
             console.log('load Contact from phone error! ');
@@ -76,6 +75,28 @@ angular.module('starter.controllers', [])
             }
         }
 
+        $scope.whatsapp = function(phone){
+            var formattedPhone = formatLocal($rootScope.countryCode,phone);
+            formattedPhone = formattedPhone.replace(' ','');
+            console.log("whatsapp "+formattedPhone);
+            if (window.navigator && window.navigator.contacts){
+                var options      = new ContactFindOptions();
+                options.filter   = formattedPhone;
+                options.multiple = false;
+                options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
+
+                var fields       = [navigator.contacts.fieldType.phoneNumbers];
+                navigator.contacts.find(fields, function(contacts){
+                    console.log("contacts "+contacts.length);
+                    if (contacts.length!=0){
+                        whatsappSendMessage(contacts[0].id,"");
+
+                    }
+                }, function(error){
+                    console.log(error.message);
+                }, options);
+            }
+        }
         $scope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll($rootScope.user.id, false, function(groups){
@@ -95,6 +116,7 @@ angular.module('starter.controllers', [])
             query.find({
                 success:function(users){
                     console.log("found user = "+users.length);
+
                     $rootScope.Friends=users;
                     $scope.FriendsFiltered=users;
                     $scope.$apply();
@@ -695,7 +717,7 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalCurrencySelect = modal;
         });
-        $ionicModal.fromTemplateUrl('templates/tab-friends-request-detail-photo.html',{
+        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
             scope:$scope
         }).then(function(modal) {
             $scope.modalPhotoNote = modal;
@@ -730,6 +752,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.loadRequestDetails=function(){
+
             var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(RequestDetail);
             query.include('user');
@@ -737,6 +760,7 @@ angular.module('starter.controllers', [])
             query.equalTo('parent', $rootScope.selectedRequest);
             query.find({
                 success:function(details){
+
                     console.log("loadRequestDetails count = "+details.length);
                     $scope.requestdetails=details;
                     for (var i in $scope.requestdetails){
@@ -749,7 +773,9 @@ angular.module('starter.controllers', [])
                         }
                         $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
                     }
+
                     $scope.$apply();
+                    $rootScope.hideLoading();
                 }
             });
         }
@@ -794,7 +820,35 @@ angular.module('starter.controllers', [])
             }
 
         }
-        $scope.chaseDetail = function(detail){
+        $scope.openPhotoNote = function(imageSrc){
+            var fileTransfer = new FileTransfer();
+            var uri = encodeURI(imageSrc);
+            var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
+            var fileURL = "cdvfile://localhost/persistent/photo.jpg";
+            fileTransfer.download(
+                uri,
+                fileURL,
+                function(entry) {
+                    console.log("download complete: " + entry.toURL());
+                    FullScreenImage.showImageURL("Documents/photo.jpg");
+                },
+                function(error) {
+                    console.log("download error source " + error.source);
+                    console.log("download error target " + error.target);
+                    console.log("upload error code" + error.code);
+                }
+//                ,
+//                false,
+//                {
+//                    headers: {
+//                        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+//                    }
+//                }
+            );
+
+        }
+
+        $rootScope.chaseDetail = function(detail){
             var msg = "Reminder: ";
             msg += " Please pay " + $rootScope.user.getUsername();
             msg += " "  + $filter('currency') (detail.get('amount'),$rootScope.selectedRequest.get('currency').get('code'));
@@ -874,6 +928,7 @@ angular.module('starter.controllers', [])
                 console.log("create selectedRequest");
             }else{
                 //Refresh Request object for Display
+                $rootScope.showLoading("Loading...");
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
@@ -893,6 +948,7 @@ angular.module('starter.controllers', [])
                 }
 
                 $scope.loadRequestDetails();
+                $rootScope.hideLoading();
             }
 
         }
@@ -907,30 +963,28 @@ angular.module('starter.controllers', [])
                 sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
-            $rootScope.showLoading('Loading...')
+//            $rootScope.showLoading('Loading...')
 
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(FILE_URI) {
             resizeImageForPhotoNote(FILE_URI, function(data){
                 console.log("success got pic");
-
                 var file = new Parse.File("photo.jpg", {base64:data});
-//            var file = new Parse.File("icon.jpg", img);
+
                 $rootScope.selectedRequest.set('photo',file);
-                $rootScope.hideLoading();
-                //$rootScope.selectedRequest.save(null,{
-                //        success:function(user){
-                //            console.log("setup ctrl - user updated with new icon");
-                //            $rootScope.$apply();
-                //            $state.go('tab.setupuser');
-                //            $rootScope.hideLoading();
-                //        },error:function(obj,error){
-                //            $rootScope.hideLoading();
-                //            throw (error.message);
-                //        }
-                //    }
-                //);
+//                $rootScope.hideLoading();
+                $rootScope.selectedRequest.save(null,{
+                        success:function(request){
+                            console.log("Photo Note saved");
+                            $rootScope.$apply();
+//                            $rootScope.hideLoading();
+                        },error:function(obj,error){
+//                            $rootScope.hideLoading();
+                            throw (error.message);
+                        }
+                    }
+                );
             });
 
         };
@@ -2300,7 +2354,7 @@ angular.module('starter.controllers', [])
 
         $scope.openCamera = function(group){
             var options =   {
-                quality: 30,
+                quality: 100,
                 destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG

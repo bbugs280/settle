@@ -38,6 +38,7 @@ angular.module('starter.controllers', [])
             console.log("country Code = "+$rootScope.countryCode);
             //Construct phone array
             var phoneArray=[];
+
             for (var i=0;i<contacts.length;i++){
                 if(contacts[i].phoneNumbers && contacts[i].phoneNumbers.length){
                     for (var j=0;j<contacts[i].phoneNumbers.length;j++){
@@ -47,7 +48,6 @@ angular.module('starter.controllers', [])
 
                             if (isValidNumber(phone_no,$rootScope.countryCode)){
                                 phone_no=formatE164($rootScope.countryCode,phone_no);
-                                //console.log("valid = " +phone_no);
                                 phoneArray.push(phone_no);
                             }
                     }
@@ -56,7 +56,6 @@ angular.module('starter.controllers', [])
 
             $scope.loadFromParse(phoneArray);
         }
-
 
         function onError(contactError) {
             console.log('load Contact from phone error! ');
@@ -76,6 +75,28 @@ angular.module('starter.controllers', [])
             }
         }
 
+        $scope.whatsapp = function(phone){
+            var formattedPhone = formatLocal($rootScope.countryCode,phone);
+            formattedPhone = formattedPhone.replace(' ','');
+            console.log("whatsapp "+formattedPhone);
+            if (window.navigator && window.navigator.contacts){
+                var options      = new ContactFindOptions();
+                options.filter   = formattedPhone;
+                options.multiple = false;
+                options.desiredFields = [navigator.contacts.fieldType.phoneNumbers];
+
+                var fields       = [navigator.contacts.fieldType.phoneNumbers];
+                navigator.contacts.find(fields, function(contacts){
+                    console.log("contacts "+contacts.length);
+                    if (contacts.length!=0){
+                        whatsappSendMessage(contacts[0].id,"");
+
+                    }
+                }, function(error){
+                    console.log(error.message);
+                }, options);
+            }
+        }
         $scope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll($rootScope.user.id, false, function(groups){
@@ -95,6 +116,7 @@ angular.module('starter.controllers', [])
             query.find({
                 success:function(users){
                     console.log("found user = "+users.length);
+
                     $rootScope.Friends=users;
                     $scope.FriendsFiltered=users;
                     $scope.$apply();
@@ -189,21 +211,15 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-
+        $scope.goToWhatsapp = function(user){
+            whatsappSendMessage(user.get('phone_number'), "");
+        }
         $scope.goToAction = function(user){
 
             console.log("goToSend");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
-            //if ($rootScope.addFriendToGroup){
-            //
-            //
-            //}else{
-            //    //Got to Default Send page if no action is selected e.g. $rootScope.addFriendToGroup
-            //
-            //}
-
         }
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
@@ -251,7 +267,9 @@ angular.module('starter.controllers', [])
         $scope.hideInviteOptions = function() {
             $scope.modalOptions.hide();
         }
-
+        $scope.inviteByWhatsapp = function(){
+            openWhatsappWithMsg(inviteMessage);
+        }
         $scope.inviteFromContacts = function(){
             navigator.contacts.pickContact(function(contact){
 //                console.log('The following contact has been selected:' + JSON.stringify(contact));
@@ -699,7 +717,11 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalCurrencySelect = modal;
         });
-
+        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPhotoNote = modal;
+        });
         $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
             scope:$scope
         }).then(function(modal) {
@@ -711,6 +733,9 @@ angular.module('starter.controllers', [])
             $scope.modalPlaceSelect = modal;
         });
 
+        $scope.openMap = function(name, address){
+            openGoogleMap(name, address);
+        }
         $scope.selectACurrency = function(curr){
             console.log("select currency");
             $rootScope.selectedRequest.set('currency', curr);
@@ -727,6 +752,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.loadRequestDetails=function(){
+
             var RequestDetail = Parse.Object.extend("request_detail");
             var query = new Parse.Query(RequestDetail);
             query.include('user');
@@ -734,6 +760,7 @@ angular.module('starter.controllers', [])
             query.equalTo('parent', $rootScope.selectedRequest);
             query.find({
                 success:function(details){
+
                     console.log("loadRequestDetails count = "+details.length);
                     $scope.requestdetails=details;
                     for (var i in $scope.requestdetails){
@@ -746,7 +773,9 @@ angular.module('starter.controllers', [])
                         }
                         $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
                     }
+
                     $scope.$apply();
+                    $rootScope.hideLoading();
                 }
             });
         }
@@ -791,7 +820,35 @@ angular.module('starter.controllers', [])
             }
 
         }
-        $scope.chaseDetail = function(detail){
+        $scope.openPhotoNote = function(imageSrc){
+            var fileTransfer = new FileTransfer();
+            var uri = encodeURI(imageSrc);
+            var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
+            var fileURL = "cdvfile://localhost/persistent/photo.jpg";
+            fileTransfer.download(
+                uri,
+                fileURL,
+                function(entry) {
+                    console.log("download complete: " + entry.toURL());
+                    FullScreenImage.showImageURL("Documents/photo.jpg");
+                },
+                function(error) {
+                    console.log("download error source " + error.source);
+                    console.log("download error target " + error.target);
+                    console.log("upload error code" + error.code);
+                }
+//                ,
+//                false,
+//                {
+//                    headers: {
+//                        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+//                    }
+//                }
+            );
+
+        }
+
+        $rootScope.chaseDetail = function(detail){
             var msg = "Reminder: ";
             msg += " Please pay " + $rootScope.user.getUsername();
             msg += " "  + $filter('currency') (detail.get('amount'),$rootScope.selectedRequest.get('currency').get('code'));
@@ -871,6 +928,7 @@ angular.module('starter.controllers', [])
                 console.log("create selectedRequest");
             }else{
                 //Refresh Request object for Display
+                $rootScope.showLoading("Loading...");
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
@@ -890,11 +948,50 @@ angular.module('starter.controllers', [])
                 }
 
                 $scope.loadRequestDetails();
+                $rootScope.hideLoading();
             }
 
         }
 
         $scope.init();
+
+
+        $scope.openCamera = function(){
+            var options =   {
+                quality: 30,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: 0     // 0=JPG 1=PNG
+            }
+//            $rootScope.showLoading('Loading...')
+
+            navigator.camera.getPicture(onSuccess,onFail,options);
+        }
+        var onSuccess = function(FILE_URI) {
+            resizeImageForPhotoNote(FILE_URI, function(data){
+                console.log("success got pic");
+                var file = new Parse.File("photo.jpg", {base64:data});
+
+                $rootScope.selectedRequest.set('photo',file);
+//                $rootScope.hideLoading();
+                $rootScope.selectedRequest.save(null,{
+                        success:function(request){
+                            console.log("Photo Note saved");
+                            $rootScope.$apply();
+//                            $rootScope.hideLoading();
+                        },error:function(obj,error){
+//                            $rootScope.hideLoading();
+                            throw (error.message);
+                        }
+                    }
+                );
+            });
+
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
+            $rootScope.hideLoading();
+        }
 
 })
 .controller('PaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
@@ -915,7 +1012,7 @@ angular.module('starter.controllers', [])
             var amount = Number(irequest.get('amount'));
             var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
-            var note = irequest.get('parent').get('note');
+            var note = irequest.get('parent').get('title');
             var location = irequest.get('parent').get('location');
             var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
@@ -1218,26 +1315,61 @@ angular.module('starter.controllers', [])
 
         //Load User Balance
         var user = new SUser();
-        $scope.loadTrans = function(){
+        $scope.initTran = function(){
             $scope.loading = 'visible';
+            $scope.transactions=[];
             user.getBalanceByGroupAndUser($rootScope.selectedGroup,$rootScope.user, function(balance){
+
                 $scope.balance = balance;
                 console.log("controller balance - Balance = "+$scope.balance.get('balance'));
                 $scope.$apply();
             })
 
+            $scope.loadTran();
+        }
+
+        $scope.tranStillHaveRecord = true;
+        $scope.tranSkipNo = 0;
+        $scope.tranPageSize = 5;
+        $scope.loadTran = function(){
             //Load recent transactions
+            $scope.tranSkipNo = 0;
+            $scope.tranStillHaveRecord = true;
             var tran = new Transaction();
-            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user, function(transactions){
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,0, function(transactions){
+                $scope.tranSkipNo += transactions.length;
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
+                $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.$apply();
 
             })
         }
 
-        $scope.loadTrans();
+        $scope.loadMoreTran = function(){
+            //Load more recent transactions
+            console.log("load more tran");
+            var tran = new Transaction();
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,$scope.tranSkipNo, function(transactions){
+                $scope.tranSkipNo += transactions.length;
+                if (transactions.length==0){
+                    $scope.tranStillHaveRecord = false;
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    throw ("no recorder");
+                }else{
+                    for (var i in transactions){
+                        $scope.transactions.push(transactions[i]);
+                    }
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+                $scope.loading = 'hidden';
+                $scope.$apply();
+
+            })
+        }
+
+        $scope.initTran();
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;
@@ -2222,7 +2354,7 @@ angular.module('starter.controllers', [])
 
         $scope.openCamera = function(group){
             var options =   {
-                quality: 30,
+                quality: 100,
                 destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: 0,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG

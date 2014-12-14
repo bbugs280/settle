@@ -63,6 +63,14 @@
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -150,7 +158,7 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 1
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.READ_CONTACTS\" />",
@@ -656,6 +664,16 @@
                         }
                     ]
                 }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"FullScreenImage\"><param name=\"android-package\" value=\"es.keensoft.fullscreenimage.FullScreenImage\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
             }
         }
     },
@@ -704,7 +722,17 @@
         },
         "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "es.keensoft.fullscreenimage": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        },
+        "org.apache.cordova.file-transfer": {
+            "PACKAGE_NAME": "com.bumble.Settle"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.bumble.Settle"
+        }
+    }
 }

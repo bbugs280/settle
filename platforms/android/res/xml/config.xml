@@ -41,6 +41,19 @@
     <feature name="UniversalAnalytics">
         <param name="android-package" value="com.danielcwilson.plugins.analytics.UniversalAnalyticsPlugin" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="FullScreenImage">
+        <param name="android-package" value="es.keensoft.fullscreenimage.FullScreenImage" />
+    </feature>
     <icon density="ldpi" src="res/android/drawable-ldpi/icon.png" />
     <icon density="mdpi" src="res/android/drawable-mdpi/icon.png" />
     <icon density="hdpi" src="res/android/drawable-hdpi/icon.png" />
@@ -65,7 +78,4 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="WebSecurity" value="disable" />
     <preference name="target-device" value="handset" />
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
 </widget>
