@@ -47,8 +47,9 @@
                    class="avatar"
                    ng-if="friend.get('icon')==undefined">
                 <p>
-                    <b>{{friend.get('username')}}</b> <span class="item-note" style="font-size: small"><b>{{friend.get('phone_number')}}</b></span> <br>
-                    <span style="font-size: x-small">{{friend.get('email')}} </span>
+                    <b>{{friend.get('username')}}</b> <span class="item-note" style="font-size: small"></span> <span style="font-size: x-small">{{friend.get('email')}} </span><br>
+
+                    <span style="font-size:x-small"><b>{{friend.get('phone_number')}}</b></span>
                 </p>
 
               <!--<button class="button button-clear" ng-click="getInfo(friend)">-->
@@ -64,6 +65,12 @@
               <button class="button button-clear"  ng-click="goToAction(friend)">
                   <i class="icon ion-card"></i>
               </button>
+          </ion-item>
+          <ion-item ng-if="Friends.length==0">
+              <p style="font-size: x-small;text-align: center">
+                  If you don't see any friends here, check your permission for Contacts list. Go to Settings.
+              </p>
+
           </ion-item>
           <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>

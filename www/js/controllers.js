@@ -1218,26 +1218,61 @@ angular.module('starter.controllers', [])
 
         //Load User Balance
         var user = new SUser();
-        $scope.loadTrans = function(){
+        $scope.initTran = function(){
             $scope.loading = 'visible';
+            $scope.transactions=[];
             user.getBalanceByGroupAndUser($rootScope.selectedGroup,$rootScope.user, function(balance){
+
                 $scope.balance = balance;
                 console.log("controller balance - Balance = "+$scope.balance.get('balance'));
                 $scope.$apply();
             })
 
+            $scope.loadTran();
+        }
+
+        $scope.tranStillHaveRecord = true;
+        $scope.tranSkipNo = 0;
+        $scope.tranPageSize = 5;
+        $scope.loadTran = function(){
             //Load recent transactions
+            $scope.tranSkipNo = 0;
+            $scope.tranStillHaveRecord = true;
             var tran = new Transaction();
-            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user, function(transactions){
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,0, function(transactions){
+                $scope.tranSkipNo += transactions.length;
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
+                $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.$apply();
 
             })
         }
 
-        $scope.loadTrans();
+        $scope.loadMoreTran = function(){
+            //Load more recent transactions
+            console.log("load more tran");
+            var tran = new Transaction();
+            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,$scope.tranSkipNo, function(transactions){
+                $scope.tranSkipNo += transactions.length;
+                if (transactions.length==0){
+                    $scope.tranStillHaveRecord = false;
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    throw ("no recorder");
+                }else{
+                    for (var i in transactions){
+                        $scope.transactions.push(transactions[i]);
+                    }
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+                $scope.loading = 'hidden';
+                $scope.$apply();
+
+            })
+        }
+
+        $scope.initTran();
 
         $scope.goToSend = function(){
             $rootScope.selectedGroup = undefined;

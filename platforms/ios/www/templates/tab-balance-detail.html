@@ -22,7 +22,7 @@
             <ion-refresher
                     pulling-icon="ion-arrow-down-c"
                     refreshing-icon="ion-loading-c"
-                    on-refresh="loadTrans()">
+                    on-refresh="loadTran()">
             </ion-refresher>
             <ion-item class="item item-divider item-dark" style="font-size: small;">
                 Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
@@ -41,7 +41,7 @@
 
             </ion-item>
             <ion-item class="item item-divider item-icon-right" style="font-size:small;font-weight: normal">
-                10 recent transactions
+                Recent transactions ({{transactions.length}})
                 <i id="tran_loading" style="visibility:{{loading}}" class=" ion-loading-c"></i>
             </ion-item>
             <!--<div  style="width:100%;height:50px;text-align: center;"></div>-->
@@ -84,7 +84,7 @@
             </ion-item>
         </ion-list>
         <ion-infinite-scroll
-                on-infinite="loadTrans()"
+                on-infinite="loadMoreTran()"
                 ng-if="tranStillHaveRecord"
                 icon="icon ion-loading-c"
                 distance="1%">
