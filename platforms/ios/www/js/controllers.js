@@ -915,7 +915,7 @@ angular.module('starter.controllers', [])
             var amount = Number(irequest.get('amount'));
             var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
-            var note = irequest.get('parent').get('note');
+            var note = irequest.get('parent').get('title');
             var location = irequest.get('parent').get('location');
             var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
@@ -1258,6 +1258,7 @@ angular.module('starter.controllers', [])
                 $scope.tranSkipNo += transactions.length;
                 if (transactions.length==0){
                     $scope.tranStillHaveRecord = false;
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
                     throw ("no recorder");
                 }else{
                     for (var i in transactions){

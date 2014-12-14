@@ -35,7 +35,17 @@
                     <i class="icon ion-search"></i>
                 </button>
             </ion-item>
-
+            <ion-item class="item item-button-right" ng-if="selectedRequest.get('location_detail')!=undefined">
+                <span style="font-size: small">
+                    {{selectedRequest.get('location_detail')}}
+                </span>
+                <button class="button button-clear">
+                    <i class="icon ion-map"></i>
+                </button>
+            </ion-item>
+            <!--<ion-item >-->
+                <!--{{selectedRequest.location_detail}}-->
+            <!--</ion-item>-->
             <ion-item class="item item-input-inset" >
                 <button class="button button-clear" type="button" ng-click="modalCurrencySelect.show()" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedRequest.get('currency')==undefined">
@@ -43,8 +53,9 @@
               </span>
                     <span ng-if="selectedRequest.get('currency')!=undefined">{{selectedRequest.get('currency').get('code')}}</span>
                 </button>
-                <label class=" item-input-wrapper "  style="height: 50px">
-                    <input type="tel" placeholder="Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
+                <label class="item-input-wrapper" style="height: 50px">
+
+                    <input type="tel" disabled placeholder="Total Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
                 </label>
 
             </ion-item>
@@ -53,12 +64,7 @@
             </label>
 
             <ion-item class="item item-button-right" style="font-size: normal;font-weight: bold">
-                <!--<div class="icon">-->
-                <!--<button class="button button-clear"-->
-                        <!--ng-click="data.showDelete = !data.showDelete">-->
-                        <!--<i class="icon ion-navicon"></i>-->
-                <!--</button>-->
-                <!--</div>-->
+
                 Details
                 <span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>
                 <button class="button button-clear"
@@ -76,15 +82,15 @@
                      class="avatar" width="40px"
                      ng-if="detail.get('user').get('icon')==undefined">
                 <b>{{detail.get('user').getUsername()}}</b>
-                 <span class="item-note" style="font-size: x-small" ng-if="detail.get('balance')!=0">
+                 <span class="item-note" style="font-size: small" ng-if="detail.get('balance')!=0">
                      <span style="color:red;font-weight: bold">
-                         <i class="icon ion-thumbsdown"></i>
+                         <!--<i class="icon ion-thumbsdown"></i>-->
                          OUTSTANDING
                      </span>
                      <!--{{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}-->
                  </span>
-                <span class="item-note" style="font-size: x-small;color:blue;font-weight: bold" ng-if="detail.get('balance')==0">
-                    <i class="icon ion-thumbsup"></i>
+                <span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="detail.get('balance')==0">
+                    <!--<i class="icon ion-thumbsup"></i>-->
                      PAID
                 </span>
                 <div class=" item-input-inset">
