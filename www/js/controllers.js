@@ -216,12 +216,23 @@ angular.module('starter.controllers', [])
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }
-        $scope.goToAction = function(user){
-
+        $scope.goToAction = function(user, toState){
             console.log("goToSend");
-            $rootScope.selectedFriend = user;
-            $rootScope.inviteEmail = undefined;
-            $state.go('tab.send-remote');
+            switch(toState) {
+                case 'tab.send-remote':
+                    $rootScope.selectedFriend = user;
+                    $rootScope.inviteEmail = undefined;
+                    $state.go(toState);
+                    break;
+                case 'tab.request-detail':
+                    $rootScope.selectedFriend = user;
+                    $rootScope.inviteEmail = undefined;
+                    $state.go(toState);
+                    break;
+
+            }
+
+
         }
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
@@ -798,7 +809,7 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest.amount = amount;
         }
 
-        $scope.addFriendToRequest = function(user){
+        $rootScope.addFriendToRequest = function(user){
             console.log("addFriendToRequest");
             var RequestDetail = Parse.Object.extend("request_detail");
             var rd = new RequestDetail();
