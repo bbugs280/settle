@@ -35,10 +35,14 @@
                 <b>Paid by</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').get('fromuser').getUsername()}}</span>
             </ion-item>
-            <ion-item class="item">
+            <ion-item class="item item-button-right">
                 <b>Title</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('title')}}</span>
+                <button class="button button-clear" ng-click="openMap(selectedIncomingPayment.get('parent').get('title'), selectedIncomingPayment.get('parent').get('location_detail'))" ng-if="selectedIncomingPayment.get('parent').get('location_detail'))!=undefined">
+                    <i class="icon ion-map"></i>
+                </button>
             </ion-item>
+
             <ion-item class="item">
                 <b>Note</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('note')}}</span>

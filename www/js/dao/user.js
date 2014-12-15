@@ -305,14 +305,14 @@ var SUser = Parse.User.extend({
 
         query.containsAll("friend_userid", userIdArray);
         query.equalTo("ispersonal", true);
-
+        query.ascending('createdAt');
         console.log("getPersonalListByEmails prepared");
-//        console.log("getPersonalListByEmails - email Array = "+emailArray);
-        query.find({
+
+        query.first({
             success: function (friendlist) {
                 // The object was retrieved successfully.
-                console.log("getPersonalListByEmails - success count " + friendlist.length);
-                if (friendlist.length == 0){
+                //console.log("getPersonalListByEmails - success count " + friendlist.length);
+                if (!friendlist){
                     var fl = new Friendlist();
                     fl.set('friends', emailArray);
                     fl.set('friend_userid', userIdArray);
@@ -328,7 +328,7 @@ var SUser = Parse.User.extend({
                        }
                     });
                 }else{
-                    callback(friendlist[0]);
+                    callback(friendlist);
                 }
 
             },

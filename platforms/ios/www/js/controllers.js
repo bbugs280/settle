@@ -91,6 +91,8 @@ angular.module('starter.controllers', [])
                     if (contacts.length!=0){
                         whatsappSendMessage(contacts[0].id,"");
 
+                    }else{
+                        $rootScope.alert("Opps!", "Sorry! Can't find Whatsapp contact with this phone no.");
                     }
                 }, function(error){
                     console.log(error.message);
@@ -717,11 +719,7 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalCurrencySelect = modal;
         });
-        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $scope.modalPhotoNote = modal;
-        });
+
         $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
             scope:$scope
         }).then(function(modal) {
@@ -733,9 +731,7 @@ angular.module('starter.controllers', [])
             $scope.modalPlaceSelect = modal;
         });
 
-        $scope.openMap = function(name, address){
-            openGoogleMap(name, address);
-        }
+
         $scope.selectACurrency = function(curr){
             console.log("select currency");
             $rootScope.selectedRequest.set('currency', curr);
@@ -820,33 +816,27 @@ angular.module('starter.controllers', [])
             }
 
         }
-        $scope.openPhotoNote = function(imageSrc){
-            var fileTransfer = new FileTransfer();
-            var uri = encodeURI(imageSrc);
-            var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
-            var fileURL = "cdvfile://localhost/persistent/photo.jpg";
-            fileTransfer.download(
-                uri,
-                fileURL,
-                function(entry) {
-                    console.log("download complete: " + entry.toURL());
-                    FullScreenImage.showImageURL("Documents/photo.jpg");
-                },
-                function(error) {
-                    console.log("download error source " + error.source);
-                    console.log("download error target " + error.target);
-                    console.log("upload error code" + error.code);
-                }
-//                ,
-//                false,
-//                {
-//                    headers: {
-//                        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-//                    }
-//                }
-            );
-
-        }
+        //$scope.openPhotoNote = function(imageSrc){
+        //    var fileTransfer = new FileTransfer();
+        //    var uri = encodeURI(imageSrc);
+        //    var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
+        //    var fileURL = "cdvfile://localhost/persistent/photo.jpg";
+        //    fileTransfer.download(
+        //        uri,
+        //        fileURL,
+        //        function(entry) {
+        //            console.log("download complete: " + entry.toURL());
+        //            FullScreenImage.showImageURL("Documents/photo.jpg");
+        //        },
+        //        function(error) {
+        //            console.log("download error source " + error.source);
+        //            console.log("download error target " + error.target);
+        //            console.log("upload error code" + error.code);
+        //        }
+        //
+        //    );
+        //
+        //}
 
         $rootScope.chaseDetail = function(detail){
             var msg = "Reminder: ";
@@ -963,11 +953,12 @@ angular.module('starter.controllers', [])
                 sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
-//            $rootScope.showLoading('Loading...')
+
 
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(FILE_URI) {
+                        $rootScope.showLoading('Loading...')
             resizeImageForPhotoNote(FILE_URI, function(data){
                 console.log("success got pic");
                 var file = new Parse.File("photo.jpg", {base64:data});
@@ -978,9 +969,9 @@ angular.module('starter.controllers', [])
                         success:function(request){
                             console.log("Photo Note saved");
                             $rootScope.$apply();
-//                            $rootScope.hideLoading();
+                            $rootScope.hideLoading();
                         },error:function(obj,error){
-//                            $rootScope.hideLoading();
+                            $rootScope.hideLoading();
                             throw (error.message);
                         }
                     }
@@ -1013,6 +1004,7 @@ angular.module('starter.controllers', [])
             var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
             var note = irequest.get('parent').get('title');
+            console.log("payback note "+note);
             var location = irequest.get('parent').get('location');
             var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
@@ -1124,6 +1116,19 @@ angular.module('starter.controllers', [])
 
         $scope.loadIncomingRequestsCount();
 
+
+        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPhotoNote = modal;
+
+        });
+        $rootScope.openPhotoNote = function(photoURL){
+            console.log("openPhotoNote " + photoURL);
+            $scope.photoURL = photoURL;
+            $scope.modalPhotoNote.show();
+        }
+
         $rootScope.alert = function(title, message){
             var alertPopup = $ionicPopup.alert({
                 title: title,
@@ -1142,6 +1147,9 @@ angular.module('starter.controllers', [])
             $ionicLoading.show({
                 template: message
             });
+        }
+        $rootScope.openMap = function(name, address){
+            openGoogleMap(name, address);
         }
 
 
@@ -1328,15 +1336,18 @@ angular.module('starter.controllers', [])
             $scope.loadTran();
         }
 
-        $scope.tranStillHaveRecord = true;
+        $scope.tranStillHaveRecord = false;
         $scope.tranSkipNo = 0;
         $scope.tranPageSize = 5;
         $scope.loadTran = function(){
             //Load recent transactions
-            $scope.tranSkipNo = 0;
-            $scope.tranStillHaveRecord = true;
+            //$scope.tranSkipNo = 0;
+            //$scope.tranStillHaveRecord = true;
             var tran = new Transaction();
             tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,0, function(transactions){
+                if (transactions.length!=0){
+                    $scope.tranStillHaveRecord = true;
+                }
                 $scope.tranSkipNo += transactions.length;
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
