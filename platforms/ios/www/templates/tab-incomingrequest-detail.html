@@ -45,7 +45,7 @@
                 <b>Note</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('note')}}</span>
             </ion-item>
-            <ion-item class="item item-icon-right" style="font-size: small" ng-if="selectedIncomingRequest.get('photo')!=undefined" ng-click="modalPhotoNote.show()">
+            <ion-item class="item item-icon-right" style="font-size: small" ng-if="selectedIncomingRequest.get('photo')!=undefined" ng-click="openPhotoNote(selectedIncomingRequest.get('photo').url())">
                 Photo Note
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>

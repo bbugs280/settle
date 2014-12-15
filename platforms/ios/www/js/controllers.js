@@ -731,6 +731,12 @@ angular.module('starter.controllers', [])
             $scope.modalPlaceSelect = modal;
         });
 
+        $scope.openPlaceSearch = function(searchText){
+            console.log("openPlaceSearch "+ searchText);
+            //$rootScope.placeSearhInitText = searchText;
+            $rootScope.loadPlace(searchText);
+            $scope.modalPlaceSelect.show();
+        }
 
         $scope.selectACurrency = function(curr){
             console.log("select currency");
@@ -1348,13 +1354,12 @@ angular.module('starter.controllers', [])
                 if (transactions.length!=0){
                     $scope.tranStillHaveRecord = true;
                 }
-                $scope.tranSkipNo += transactions.length;
+                $scope.tranSkipNo = transactions.length;
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.$apply();
-
             })
         }
 
@@ -2337,8 +2342,12 @@ angular.module('starter.controllers', [])
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Place Search');
         }
-        $scope.loadPlace = function(){
-            $scope.Places = [];
+        $rootScope.loadPlace = function(searchTxt){
+            console.log("loadPlace "+searchTxt);
+            if (searchTxt){
+                $scope.Places = placeAPI(searchTxt, $rootScope.countryName);
+            }
+
         }
 
         $scope.searchPlace = function(txt){
