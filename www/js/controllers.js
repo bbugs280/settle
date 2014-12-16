@@ -23,12 +23,13 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+.controller('FriendsCtrl', function($rootScope, $stateParams, $scope, $state, $ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Friends');
         }
-
+        console.log("FriendsCtrl" + $stateParams);
+        $scope.fromState = $stateParams;
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
         $scope.loading = 'visible';
@@ -188,11 +189,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
-        $scope.goToGroupDetail = function(group){
+        $scope.goToGroupDetail = function(group, fromState){
             console.log("goToGroupDetail");
             $rootScope.selectedGroup = group;
 
-            $state.go('tab.friends-group');
+            $state.go('tab.friends-group', fromState);
         }
         $scope.loadGroupFriends = function(){
             var User = Parse.Object.extend("User");
@@ -1507,11 +1508,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedFriend = undefined;
 
         }
-        $scope.selectUser = function(sendform){
+        $scope.selectUser = function(sendform, fromState){
             console.log("SendCtrl - sendform :"+sendform);
             $scope.sendform = sendform;
 //            $state.go('tab.send-selectuser');
-            $state.go('tab.friends');
+            $state.go('tab.friends',fromState);
         }
 
         var qrcode;

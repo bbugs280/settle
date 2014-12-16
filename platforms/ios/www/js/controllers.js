@@ -23,12 +23,13 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+.controller('FriendsCtrl', function($rootScope, $stateParams, $scope, $state, $ionicModal) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Friends');
         }
-
+        console.log("FriendsCtrl" + $stateParams);
+        $scope.fromState = $stateParams;
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
         $scope.loading = 'visible';
@@ -188,11 +189,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
-        $scope.goToGroupDetail = function(group){
+        $scope.goToGroupDetail = function(group, fromState){
             console.log("goToGroupDetail");
             $rootScope.selectedGroup = group;
 
-            $state.go('tab.friends-group');
+            $state.go('tab.friends-group', fromState);
         }
         $scope.loadGroupFriends = function(){
             var User = Parse.Object.extend("User");
@@ -216,12 +217,23 @@ angular.module('starter.controllers', [])
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }
-        $scope.goToAction = function(user){
-
+        $scope.goToAction = function(user, toState){
             console.log("goToSend");
-            $rootScope.selectedFriend = user;
-            $rootScope.inviteEmail = undefined;
-            $state.go('tab.send-remote');
+            switch(toState) {
+                case 'tab.send-remote':
+                    $rootScope.selectedFriend = user;
+                    $rootScope.inviteEmail = undefined;
+                    $state.go(toState);
+                    break;
+                case 'tab.request-detail':
+                    $rootScope.selectedFriend = user;
+                    $rootScope.inviteEmail = undefined;
+                    $state.go(toState);
+                    break;
+
+            }
+
+
         }
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
@@ -798,7 +810,7 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest.amount = amount;
         }
 
-        $scope.addFriendToRequest = function(user){
+        $rootScope.addFriendToRequest = function(user){
             console.log("addFriendToRequest");
             var RequestDetail = Parse.Object.extend("request_detail");
             var rd = new RequestDetail();
@@ -1496,11 +1508,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedFriend = undefined;
 
         }
-        $scope.selectUser = function(sendform){
+        $scope.selectUser = function(sendform, fromState){
             console.log("SendCtrl - sendform :"+sendform);
             $scope.sendform = sendform;
 //            $state.go('tab.send-selectuser');
-            $state.go('tab.friends');
+            $state.go('tab.friends',fromState);
         }
 
         var qrcode;

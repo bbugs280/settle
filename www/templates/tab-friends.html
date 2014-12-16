@@ -29,7 +29,7 @@
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="Groups.length!=0">
               Groups ({{GroupsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small"  ng-repeat="group in GroupsFiltered" ng-click="goToGroupDetail(group)">
+          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small"  ng-repeat="group in GroupsFiltered" ng-click="goToGroupDetail(group,fromState)">
               <img src="{{group.get('icon').url()}}"
                    class="avatar"
                    ng-if="group.get('icon')!=undefined">

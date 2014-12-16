@@ -1,7 +1,6 @@
 <ion-view title="Request" hide-back-button="true">
     <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
-
                 </button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
@@ -12,21 +11,6 @@
     <ion-content class="has-header">
         <form name="form" ng-model="selectedRequest">
         <ion-list class="list">
-            <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
-
-            <!--</ion-item>-->
-            <ion-item class="item item-avatar item-icon-right"
-                      style="font-size: normal"
-                      ng-click="selectGroup()"
-                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined}">
-                <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
-                <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
-                <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
-                <p  ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
-                <p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>
-
-                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
-            </ion-item>
             <ion-item class="item item-input item-button-right">
                 <label>
                     <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title">
@@ -35,6 +19,51 @@
                     <i class="icon ion-search"></i>
                 </button>
             </ion-item>
+            <ion-item class="item item-avatar item-icon-right"
+                      style="font-size: medium"
+                      ng-click="selectGroup()"
+                      ng-if="selectedRequest.get('group')!=undefined"
+                      ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined}">
+                <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
+                <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
+                <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
+                <p  ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
+                <p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>
+                <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+            </ion-item>
+            <ion-item ng-repeat="detail in requestdetails"
+                      class="item item-avatar item-stable item-icon-right"
+                      style="font-size: small"
+                      ng-click="selectUser()"
+                      >
+                <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="detail.get('user').get('icon')==undefined">
+                <img src="{{detail.get('user').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="detail.get('user').get('icon')!=undefined">
+                    <span style="font-size: small;font-weight: bold">{{detail.get('user').getUsername()}}</span>
+                    <br>
+                    <span>{{detail.get('amount')| currency:selectedRequest.get('currency').get('code')}}</span>
+                    <span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="detail.get('balance')==0">
+                     PAID
+                </span>
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+                <ion-option-button class="button-assertive"
+                                   ng-click="removeDetail(detail)"
+                                   ng-if="detail.get('balance')!=0">
+                    Remove
+                </ion-option-button>
+                <ion-option-button class="button-dark"
+                                   ng-click="chaseDetail(detail)"
+                                   ng-if="detail.get('balance')!=0">
+                    Chase
+                </ion-option-button>
+            </ion-item>
+
+            <ion-item class="item item-icon-right"
+                      style="font-size: small;text-align: center" ng-click="selectUser()">
+                <span style="color:blue;font-size: small;text-align: center">Add Friend</span>
+
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+            </ion-item>
+
             <ion-item class="item item-button-right" ng-if="selectedRequest.get('location_detail')!=undefined">
                 <span style="font-size: small">
                     {{selectedRequest.get('location_detail')}}
