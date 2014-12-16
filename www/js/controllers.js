@@ -28,8 +28,9 @@ angular.module('starter.controllers', [])
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Friends');
         }
-        console.log("FriendsCtrl" + $stateParams);
-        $scope.fromState = $stateParams;
+        console.log("FriendsCtrl" + $stateParams.fromState);
+//        console.log("FriendsCtrl" + $state.params.fromState);
+
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
         $scope.loading = 'visible';
@@ -182,6 +183,7 @@ angular.module('starter.controllers', [])
             $scope.searchGroup(txt);
         }
 
+
         $scope.goToFriends = function(){
             $state.go('tab.friends');
         }
@@ -189,12 +191,18 @@ angular.module('starter.controllers', [])
             $rootScope.selectedGroup = group;
             $state.go('tab.setupgroup-edit');
         }
-        $scope.goToGroupDetail = function(group, fromState){
+        $scope.goToGroupDetail = function(group){
             console.log("goToGroupDetail");
             $rootScope.selectedGroup = group;
-
-            $state.go('tab.friends-group', fromState);
+            $state.go('tab.friends-group');
         }
+
+        $scope.goToRequestGroupDetail = function(group){
+            console.log("goToGroupDetail");
+            $rootScope.selectedRequest.set('group', group);
+            $state.go('tab.friends-request-group');
+        }
+
         $scope.loadGroupFriends = function(){
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
@@ -217,22 +225,11 @@ angular.module('starter.controllers', [])
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }
-        $scope.goToAction = function(user, toState){
-            console.log("goToSend");
-            switch(toState) {
-                case 'tab.send-remote':
-                    $rootScope.selectedFriend = user;
-                    $rootScope.inviteEmail = undefined;
-                    $state.go(toState);
-                    break;
-                case 'tab.request-detail':
-                    $rootScope.selectedFriend = user;
-                    $rootScope.inviteEmail = undefined;
-                    $state.go(toState);
-                    break;
-
-            }
-
+        $scope.goToPay = function(user){
+            console.log("goToPay");
+            $rootScope.selectedFriend = user;
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
 
         }
         $scope.addFriendToGroup = function(user){
@@ -732,11 +729,11 @@ angular.module('starter.controllers', [])
             $scope.modalCurrencySelect = modal;
         });
 
-        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $scope.modalFriendRequestSelect = modal;
-        });
+//        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
+//            scope:$scope
+//        }).then(function(modal) {
+//            $scope.modalFriendRequestSelect = modal;
+//        });
         $ionicModal.fromTemplateUrl('templates/select-place.html',{
             scope:$scope
         }).then(function(modal) {
@@ -856,6 +853,11 @@ angular.module('starter.controllers', [])
         //
         //}
 
+        $scope.selectRequestUser = function(){
+            console.log("selectRequestUser ");
+            $state.go('tab.friends-request');
+        }
+
         $rootScope.chaseDetail = function(detail){
             var msg = "Reminder: ";
             msg += " Please pay " + $rootScope.user.getUsername();
@@ -936,7 +938,7 @@ angular.module('starter.controllers', [])
                 console.log("create selectedRequest");
             }else{
                 //Refresh Request object for Display
-                $rootScope.showLoading("Loading...");
+//                $rootScope.showLoading("Loading...");
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
@@ -956,7 +958,7 @@ angular.module('starter.controllers', [])
                 }
 
                 $scope.loadRequestDetails();
-                $rootScope.hideLoading();
+//                $rootScope.hideLoading();
             }
 
         }
@@ -1001,9 +1003,6 @@ angular.module('starter.controllers', [])
             console.log("On fail " + e);
             $rootScope.hideLoading();
         }
-
-})
-.controller('PaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
 
 })
 .controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
@@ -1092,111 +1091,6 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
-
-        $ionicModal.fromTemplateUrl('templates/select-group.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $rootScope.modalGroupSelect = modal;
-        });
-
-        $rootScope.badges = {
-            request : 0
-        };
-
-        $scope.loadIncomingRequestsCount = function(){
-
-            var RequestDetail = Parse.Object.extend("request_detail");
-            var Request = Parse.Object.extend("request");
-            var Tran = Parse.Object.extend("transaction");
-            var queryTran = new Parse.Query(Tran);
-            var queryIR = new Parse.Query(RequestDetail);
-            var queryTranR = new Parse.Query(Request);
-            var queryTranIR = new Parse.Query(RequestDetail);
-
-            queryTran.notEqualTo('read', true);
-            queryTranR.equalTo('created_by', Parse.User.current());
-            queryTranIR.exists('tran');
-            queryTranIR.matchesQuery('parent',queryTranR);
-            queryTranIR.matchesQuery('tran',queryTran);
-
-            queryIR.equalTo('user', Parse.User.current());
-            queryIR.notEqualTo('balance', 0);
-
-            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
-            mainQuery.count({
-                success:function(count){
-                    console.log("loadIncomingRequestsCount = "+count);
-                    $rootScope.badges.request = count;
-                }
-            })
-        }
-
-        $scope.loadIncomingRequestsCount();
-
-
-        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $scope.modalPhotoNote = modal;
-
-        });
-        $rootScope.openPhotoNote = function(photoURL){
-            console.log("openPhotoNote " + photoURL);
-            $scope.photoURL = photoURL;
-            $scope.modalPhotoNote.show();
-        }
-
-        $rootScope.alert = function(title, message){
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: message
-            });
-            alertPopup.then(function(res) {
-            });
-        }
-        $rootScope.back = function(){
-            history.go(-1);
-        }
-        $rootScope.goToIntro = function(){
-            $state.go('intro');
-        }
-        $rootScope.showLoading = function(message){
-            $ionicLoading.show({
-                template: message
-            });
-        }
-        $rootScope.openMap = function(name, address){
-            openGoogleMap(name, address);
-        }
-
-
-        $rootScope.goToUserSetup = function(){
-            $state.go('tab.setupuser');
-        }
-        $rootScope.hideLoading = function(){
-            $ionicLoading.hide();
-        }
-
-        $rootScope.goToBalanceOverview = function(){
-            $state.go('tab.balance-overview');
-        }
-
-        $rootScope.goToBalanceGroup = function(){
-            $state.go('tab.balance-group');
-        }
-
-        $rootScope.selectedGroup = undefined;
-
-        //$rootScope.openCurrencies = function(currentState, data){
-        //    $rootScope.data = data;
-        //    console.log("openCurrencies");
-        //    //$rootScope.currentState = currentState;
-        //    //$state.go('currencies');
-        //
-        //}
-
-    })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
         console.log("controller - BalanceOverviewCtrl start");
         //Google Anaytics
@@ -1465,7 +1359,7 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter,$ionicModal) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter,$ionicModal, $stateParams) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Send');
@@ -1508,12 +1402,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedFriend = undefined;
 
         }
-        $scope.selectUser = function(sendform, fromState){
-            console.log("SendCtrl - sendform :"+sendform);
-            $scope.sendform = sendform;
-//            $state.go('tab.send-selectuser');
-            $state.go('tab.friends',fromState);
+        $scope.selectUser = function(){
+            console.log("selectUser ");
+            $state.go('tab.friends');
         }
+
 
         var qrcode;
         $scope.initQRcode = function(){
@@ -2348,7 +2241,7 @@ angular.module('starter.controllers', [])
 
         $scope.loadCurrencies();
 })
-    .controller('PlaceCtrl', function($rootScope,$scope, $state) {
+.controller('PlaceCtrl', function($rootScope,$scope, $state) {
         console.log("Place Ctrl");
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
@@ -2728,4 +2621,108 @@ angular.module('starter.controllers', [])
 
         };
     }
-);
+)
+.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
+
+        $ionicModal.fromTemplateUrl('templates/select-group.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $rootScope.modalGroupSelect = modal;
+        });
+
+        $rootScope.badges = {
+            request : 0
+        };
+
+        $scope.loadIncomingRequestsCount = function(){
+
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var Request = Parse.Object.extend("request");
+            var Tran = Parse.Object.extend("transaction");
+            var queryTran = new Parse.Query(Tran);
+            var queryIR = new Parse.Query(RequestDetail);
+            var queryTranR = new Parse.Query(Request);
+            var queryTranIR = new Parse.Query(RequestDetail);
+
+            queryTran.notEqualTo('read', true);
+            queryTranR.equalTo('created_by', Parse.User.current());
+            queryTranIR.exists('tran');
+            queryTranIR.matchesQuery('parent',queryTranR);
+            queryTranIR.matchesQuery('tran',queryTran);
+
+            queryIR.equalTo('user', Parse.User.current());
+            queryIR.notEqualTo('balance', 0);
+
+            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
+            mainQuery.count({
+                success:function(count){
+                    console.log("loadIncomingRequestsCount = "+count);
+                    $rootScope.badges.request = count;
+                }
+            })
+        }
+
+        $scope.loadIncomingRequestsCount();
+
+        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPhotoNote = modal;
+
+        });
+        $rootScope.openPhotoNote = function(photoURL){
+            console.log("openPhotoNote " + photoURL);
+            $scope.photoURL = photoURL;
+            $scope.modalPhotoNote.show();
+        }
+
+        $rootScope.alert = function(title, message){
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: message
+            });
+            alertPopup.then(function(res) {
+            });
+        }
+        $rootScope.back = function(){
+            history.go(-1);
+        }
+        $rootScope.goToIntro = function(){
+            $state.go('intro');
+        }
+        $rootScope.showLoading = function(message){
+            $ionicLoading.show({
+                template: message
+            });
+        }
+        $rootScope.openMap = function(name, address){
+            openGoogleMap(name, address);
+        }
+
+
+        $rootScope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
+        }
+        $rootScope.hideLoading = function(){
+            $ionicLoading.hide();
+        }
+
+        $rootScope.goToBalanceOverview = function(){
+            $state.go('tab.balance-overview');
+        }
+
+        $rootScope.goToBalanceGroup = function(){
+            $state.go('tab.balance-group');
+        }
+
+        $rootScope.selectedGroup = undefined;
+
+        //$rootScope.openCurrencies = function(currentState, data){
+        //    $rootScope.data = data;
+        //    console.log("openCurrencies");
+        //    //$rootScope.currentState = currentState;
+        //    //$state.go('currencies');
+        //
+        //}
+//        setTimeout($rootScope.loadFriendsInit(),5000);
+    });

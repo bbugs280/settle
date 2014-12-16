@@ -31,7 +31,7 @@
       </ion-item>
       <ion-item class="item item-avatar item-icon-right"
                 style="font-size: normal"
-                ng-click="selectUser('tab.send-remote')"
+                ng-click="selectUser()"
                 ng-class="{'item-energized':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
                 ng-if="inviteEmail==undefined">
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon')==undefined">

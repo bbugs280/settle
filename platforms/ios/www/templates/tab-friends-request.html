@@ -29,7 +29,7 @@
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="Groups.length!=0">
               Groups ({{GroupsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small"  ng-repeat="group in GroupsFiltered" ng-click="goToGroupDetail(group)">
+          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small"  ng-repeat="group in GroupsFiltered" ng-click="goToRequestGroupDetail(group)">
               <img src="{{group.get('icon').url()}}"
                    class="avatar"
                    ng-if="group.get('icon')!=undefined">
@@ -58,7 +58,7 @@
                     <span style="font-size:x-small"><b>{{friend.get('phone_number')}}</b></span>
                 </p>
 
-              <button class="button button-clear" style="color:black" ng-click="goToPay(friend)">
+              <button class="button button-clear" style="color:black" ng-click="goToAction(friend,'tab.send-remote')">
                   <i class="icon ion-card"></i>
               </button>
               <!--<br>-->

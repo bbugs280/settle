@@ -134,10 +134,11 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       templateUrl: "templates/tabs.html"
       })
       .state('tab.friends', {
-          url:'/friends',
+          url:'/friends/:fromState',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends.html',
+//                  params: ['fromState'],
                   controller: 'FriendsCtrl'
               }
           },
@@ -146,7 +147,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           }
       })
       .state('tab.friends-group', {
-          url:'/friends-group',
+          url:'/friends-group/:fromState',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends-group.html',
@@ -157,8 +158,33 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
       })
+      .state('tab.friends-request', {
+          url:'/friends-request',
+          views:{
+              'tab-friends':{
+                  templateUrl: 'templates/tab-friends-request.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
+      .state('tab.friends-request-group', {
+          url:'/friends-request-group',
+          views:{
+              'tab-friends':{
+                  templateUrl: 'templates/tab-friends-request-group.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
+
       .state('tab.friends-select', {
-          url:'/friends-select',
+          url:'/friends-select/:fromState',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends-select.html',
