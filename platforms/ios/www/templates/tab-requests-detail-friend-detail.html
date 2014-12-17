@@ -5,7 +5,16 @@
     <!--</ion-nav-buttons>-->
     <ion-content class="has-header">
         <form name="form" ng-model="selectedRequestDetail">
-            <ion-list class="list" >
+            <ion-list>
+                <ion-item class="item item-avatar item-icon-right"
+                          style="font-size: medium"
+                          ng-if="selectedRequest.get('group')!=undefined"
+                          ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined}">
+                    <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
+                    <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
+                    <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
+                    <p  ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
+                </ion-item>
             <ion-item class="item">
                 <img src="{{selectedRequestDetail.get('user').get('icon').url()}}"
                      class="avatar" width="40px"
@@ -14,36 +23,34 @@
                      class="avatar" width="40px"
                      ng-if="selectedRequestDetail.get('user').get('icon')==undefined">
                 <b>{{selectedRequestDetail.get('user').getUsername()}}</b>
-                 <span class="item-note" style="font-size: small" ng-if="selectedRequestDetail.get('balance')!=0">
+                <br>
+                 <span style="font-size: small" ng-if="selectedRequestDetail.get('balance')!=0">
                      <span style="color:red;font-weight: bold">
-                         <!--<i class="icon ion-thumbsdown"></i>-->
                          OUTSTANDING
                      </span>
-                     
+
                  </span>
-                <span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="selectedRequestDetail.get('balance')==0">
-                    <!--<i class="icon ion-thumbsup"></i>-->
+                <span style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="selectedRequestDetail.get('balance')==0">
                      PAID
                 </span>
-                <div class=" item-input-inset">
-                    <span style="font-size: small;" ng-if="selectedRequestDetail.get('balance')!=0">{{selectedRequestDetail.get('currency').get('code')}}</span>
-                    <label class="item-input-wrapper item-note" ng-if="selectedRequestDetail.get('balance')!=0">
-                        <input type="tel" placeholder="Amount" ng-model="selectedRequestDetail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
-                    </label>
-                    <span ng-if="selectedRequestDetail.get('balance')==0">
-                        {{selectedRequestDetail.get('amount')| currency:selectedRequest.get('currency').get('code')}}
-                    </span>
-                </div>
-
             </ion-item>
+                <ion-item class="item item-input-inset" ng-if="selectedRequestDetail.get('balance')!=0">
+                    <span style="font-size: large"><b>{{selectedRequestDetail.get('parent').get('currency').get('code')}}</b></span>
+                    <label class="item-input-wrapper" style="height: 50px">
+                        <input type="tel" placeholder="Amount" ng-model="selectedRequestDetail.amount"  style="font-size:large" ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
+                    </label>
+                </ion-item >
+                <ion-item class="item " ng-if="selectedRequestDetail.get('balance')==0">
+                    {{selectedRequestDetail.get('amount')| currency:selectedRequestDetail.get('parent').get('currency').get('code')}}
+                </ion-item>
 
-            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
-                Save
+            <button class="button button-block button-stable" style="font-size: small" ng-click="saveRequestDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
+                    Save
             </button>
-                <button class="button button-block button-stable" ng-click="chaseDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
-                    Chase
+                <button class="button button-block button-stable" style="font-size: small" ng-click="chaseDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
+                    Send Chaser
                 </button>
-                <button class="button button-block button-stable" ng-click="Request(selectedRequest)" ng-disabled="selectedRequestDetail.get('balance')==0">
+                <button class="button button-block button-stable" style="font-size: small" ng-click="removeRequestDetail(selectedRequestDetail)" ng-disabled="!selectedRequestDetail.id">
                     Remove
                 </button>
         </ion-list>

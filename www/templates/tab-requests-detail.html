@@ -3,19 +3,19 @@
                 <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="goToRequest()">
                 </button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="clear()">
-            Clear
-        </button>
-    </ion-nav-buttons>
-    <ion-content class="has-header">
+    <!--<ion-nav-buttons side="right">-->
+        <!--<button class="button button-clear" ng-click="clear()">-->
+            <!--Clear-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content class="has-header" data-ng-init="init()" data-ng-controller="RequestsDetailCtrl" >
         <form name="form" ng-model="selectedRequest">
         <ion-list class="list">
             <ion-item class="item item-input item-button-right">
                 <label>
-                    <input type="text" placeholder="Title / Place" ng-model="selectedRequest.title">
+                    <input type="text" style="width:90%" placeholder="Title / Place" ng-model="selectedRequest.title">
                 </label>
-                <button class="button button-clear" ng-click="openPlaceSearch(selectedRequest.title)">
+                <button class="button button-clear" style="width:20px"  ng-click="openPlaceSearch(selectedRequest.title)">
                     <i class="icon ion-search"></i>
                 </button>
             </ion-item>
@@ -29,16 +29,17 @@
                     <i class="icon ion-map"></i>
                 </button>
             </ion-item>
-            <ion-item class="item item-avatar item-icon-right"
+            <ion-item class="item item-avatar item-button-right"
                       style="font-size: medium"
                       ng-if="selectedRequest.get('group')!=undefined"
                       ng-class="{'item-calm':selectedRequest.get('group')!=undefined,'item-stable':selectedRequest.get('group')==undefined}">
                 <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')==undefined || selectedRequest.get('group').get('icon')==undefined">
                 <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
                 <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
-                <p  ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
-                <p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>
-                <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
+                <p ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
+                <button class="button button-clear" ng-click="clear()">
+                    <i class="icon ion-ios7-trash" style="color: #000000"></i>
+                </button>
             </ion-item>
             <ion-item ng-repeat="detail in requestdetails"
                       class="item item-avatar item-stable item-icon-right"
@@ -72,8 +73,6 @@
 
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-
-
             <ion-item class="item item-input-inset" >
                 <button class="button button-clear" type="button" ng-click="modalCurrencySelect.show()" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
               <span ng-if="selectedRequest.get('currency')==undefined">
@@ -153,7 +152,7 @@
                 <!--<p style="color:blue;text-align:center">Add Friend to Request</p>-->
             <!--</ion-item>-->
             <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
-                Send Request
+                Save & Send
             </button>
         </ion-list>
         </form>

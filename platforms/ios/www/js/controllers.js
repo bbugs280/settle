@@ -109,6 +109,7 @@ angular.module('starter.controllers', [])
             user.getFriendListAll($rootScope.user.id, false, function(groups){
                 $rootScope.Groups = groups;
                 $scope.GroupsFiltered = groups;
+                $scope.loadFriends();
             });
 
         }
@@ -137,7 +138,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.loadFriendsGroups = function(){
-            $scope.loadFriends();
+//            $scope.loadFriends();
             $scope.loadGroup();
         }
         $rootScope.loadFriendsInit = function(){
@@ -196,7 +197,7 @@ angular.module('starter.controllers', [])
             $state.go('tab.friends-group');
         }
 
-        $scope.goToRequestGroupDetail = function(group){
+        $rootScope.goToRequestGroupDetail = function(group){
             console.log("goToGroupDetail");
             $rootScope.selectedGroup = group;
             $rootScope.selectedRequest.set('group', group);
@@ -783,10 +784,8 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequestDetail = new RequestDetail();
             $rootScope.selectedRequestDetail.set('parent',$rootScope.selectedRequest);
             $rootScope.selectedRequestDetail.set('user',user);
-
-
-            $scope.requestdetails.push($rootScope.selectedRequestDetail);
-            $scope.$apply();
+//            $scope.requestdetails.push($rootScope.selectedRequestDetail);
+//            $scope.$apply();
             $state.go('tab.requests-detail-friend-detail');
 
 
@@ -833,6 +832,7 @@ angular.module('starter.controllers', [])
                 $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
                 $scope.$apply();
             }
+            console.log("calcTotalAmount "+amount);
             $rootScope.selectedRequest.amount = amount;
         }
 
@@ -847,18 +847,24 @@ angular.module('starter.controllers', [])
             $scope.modalFriendRequestSelect.hide();
 
         }
-        $scope.removeDetail = function(detail){
+        $scope.removeRequestDetail = function(detail){
+            console.log("removeRequestDetail");
+            console.log("removeRequestDetail detail" + detail.get('user').getUsername());
+            console.log("removeRequestDetail requestdetails = "+$scope.requestdetails.length);
 
             $scope.requestdetails.splice($scope.requestdetails.indexOf(detail),1);
-
+            console.log("removeRequestDetail splice");
             if (detail.id){
                 detail.destroy({
                     success:function(r){
+                        console.log("removeRequestDetail destroyed");
                         $scope.$apply();
+                        $state.go('tab.requests-detail');
                     }
                 });
+            }else{
+                $state.go('tab.requests-detail');
             }
-
         }
         //$scope.openPhotoNote = function(imageSrc){
         //    var fileTransfer = new FileTransfer();
@@ -884,7 +890,13 @@ angular.module('starter.controllers', [])
 
         $scope.selectRequestUser = function(){
             console.log("selectRequestUser ");
-            $state.go('tab.friends-request');
+            if ($rootScope.selectedRequest.get('group')){
+                $rootScope.goToRequestGroupDetail($rootScope.selectedRequest.get('group'));
+//                $state.go('tab.friends-request-group');
+            }else{
+                $state.go('tab.friends-request');
+            }
+
         }
 
         $rootScope.chaseDetail = function(detail){
@@ -894,6 +906,30 @@ angular.module('starter.controllers', [])
             msg += " for " +$rootScope.selectedRequest.get('title');
             sendPushMessage(msg, "P_"+detail.get('user').id);
             $rootScope.alert("Reminder sent to "+detail.get('user').getUsername(),msg);
+        }
+        $scope.saveRequestDetail = function(detail){
+            console.log("saveRequestDetail");
+
+            $rootScope.selectedRequest.set('created_by', $rootScope.user);
+            $rootScope.selectedRequest.save(null,{
+                success:function(r){
+                    console.log("saveRequestDetail saved Request");
+                    detail.set('amount',detail.amount);
+                    detail.save(null, {
+                        success:function(d){
+                            console.log("saveRequestDetail saved detail");
+                            if (!$scope.requestdetails){
+                                $scope.requestdetails=[];
+                            }
+                            $scope.requestdetails.push(detail);
+                            $scope.calcTotalAmount();
+                            $state.go('tab.requests-detail');
+                        }
+                    })
+                },error:function(obj,error){
+                    console.log(error.message);
+                }
+            })
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
@@ -992,7 +1028,7 @@ angular.module('starter.controllers', [])
 
         }
 
-        $scope.init();
+//        $scope.init();
 
 
         $scope.openCamera = function(){
@@ -2754,6 +2790,12 @@ angular.module('starter.controllers', [])
 
         $rootScope.goToRequest = function(){
             $state.go('tab.requests');
+        }
+        $rootScope.goToFriendRequest = function(){
+            $state.go('tab.friends-request');
+        }
+        $rootScope.goToRequestDetail = function(){
+            $state.go('tab.requests-detail');
         }
         $rootScope.selectedGroup = undefined;
 
