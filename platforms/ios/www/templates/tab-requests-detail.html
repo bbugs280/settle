@@ -43,7 +43,7 @@
             <ion-item ng-repeat="detail in requestdetails"
                       class="item item-avatar item-stable item-icon-right"
                       style="font-size: small"
-                      ng-click="editUser()"
+                      ng-click="goToFriendDetail(detail)"
                       >
                 <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="detail.get('user').get('icon')==undefined">
                 <img src="{{detail.get('user').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="detail.get('user').get('icon')!=undefined">
@@ -97,14 +97,14 @@
                 Photo Note
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-            <ion-item class="item item-dark item-button-right" style="font-size: normal;font-weight: bold">
-                Details
-                <span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>
-                <button class="button button-clear"
-                        ng-click="modalFriendRequestSelect.show()">
-                    <i class="icon ion-plus-circled"></i>
-                </button>
-            </ion-item>
+            <!--<ion-item class="item item-dark item-button-right" style="font-size: normal;font-weight: bold">-->
+                <!--Details-->
+                <!--<span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>-->
+                <!--<button class="button button-clear"-->
+                        <!--ng-click="modalFriendRequestSelect.show()">-->
+                    <!--<i class="icon ion-plus-circled"></i>-->
+                <!--</button>-->
+            <!--</ion-item>-->
         </ion-list>
             <!--<ion-list class="list" show-delete="data.showDelete" can-swipe="true">-->
             <!--<ion-item class="item" ng-repeat="detail in requestdetails" ng-class="{'item-stable':detail.get('balance')==0}">-->

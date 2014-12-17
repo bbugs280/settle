@@ -28,7 +28,7 @@
                <!--</label>-->
           <!--</ion-item>-->
 
-          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small" ng-repeat="friend in GroupFriends"  ng-if="friend.id!=user.id">
+          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small" ng-repeat="friend in GroupFriends"  ng-if="friend.id!=user.id" ng-click="addFriendDetail(friend)">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">
@@ -42,7 +42,7 @@
                 </p>
 
               <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
-              <button class="button button-clear"  style="color:black"  ng-click="goToPay(friend)">
+              <button class="button button-clear"  style="color:black"  ng-click="addFriendDetail(friend)">
                   <i class="icon ion-card"></i>
               </button>
               <ion-option-button class="button button-stable"

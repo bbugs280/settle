@@ -28,7 +28,7 @@
                <!--</label>-->
           <!--</ion-item>-->
 
-          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small" ng-repeat="friend in GroupFriends"  ng-if="friend.id!=user.id">
+          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small" ng-repeat="friend in GroupFriends"  ng-click="goToFriendDetail(friend)" ng-if="friend.id!=user.id">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">
@@ -42,14 +42,10 @@
                 </p>
 
               <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
-              <button class="button button-clear"  style="color:black"  ng-click="goToPay(friend)">
+              <button class="button button-clear"  style="color:black"  ng-click="goToFriendDetail(friend)">
                   <i class="icon ion-card"></i>
               </button>
-              <ion-option-button class="button button-stable"
-                                 ng-click="whatsapp(friend.get('phone_number'))"
-                      >
-                  <img src="./img/whatsapp-outline.png" style="width: 40px">
-              </ion-option-button>
+
           </ion-item>
           <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
               <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>

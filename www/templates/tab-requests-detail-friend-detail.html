@@ -1,0 +1,55 @@
+<ion-view title="Request" hide-back-button="true">
+    <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
+                </button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <form name="form" ng-model="selectedRequestDetail">
+            <ion-list class="list" can-swipe="true">
+            <ion-item class="item">
+                <img src="{{selectedRequestDetail.get('user').get('icon').url()}}"
+                     class="avatar" width="40px"
+                     ng-if="selectedRequestDetail.get('user').get('icon')!=undefined">
+                <img src="./img/people.png"
+                     class="avatar" width="40px"
+                     ng-if="selectedRequestDetail.get('user').get('icon')==undefined">
+                <b>{{selectedRequestDetail.get('user').getUsername()}}</b>
+                 <span class="item-note" style="font-size: small" ng-if="selectedRequestDetail.get('balance')!=0">
+                     <span style="color:red;font-weight: bold">
+                         <!--<i class="icon ion-thumbsdown"></i>-->
+                         OUTSTANDING
+                     </span>
+                     <!--{{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}-->
+                 </span>
+                <span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="selectedRequestDetail.get('balance')==0">
+                    <!--<i class="icon ion-thumbsup"></i>-->
+                     PAID
+                </span>
+                <div class=" item-input-inset">
+                    <span style="font-size: small;" ng-if="selectedRequestDetail.get('balance')!=0">{{selectedRequestDetail.get('currency').get('code')}}</span>
+                    <label class="item-input-wrapper item-note" ng-if="detail.get('balance')!=0">
+                        <input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
+                    </label>
+                    <span ng-if="selectedRequestDetail.get('balance')==0">
+                        {{selectedRequestDetail.get('amount')| currency:selectedRequest.get('currency').get('code')}}
+                    </span>
+                </div>
+
+            </ion-item>
+            <ion-item class="item" style="text-align: center" ng-click="modalFriendRequestSelect.show()">
+                <p style="color:blue;text-align:center">Add Friend to Request</p>
+            </ion-item>
+            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
+                Save
+            </button>
+                <button class="button button-block button-stable" ng-click="chaseDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
+                    Chase
+                </button>
+                <button class="button button-block button-stable" ng-click="Request(selectedRequest)">
+                    Remove
+                </button>
+        </ion-list>
+        </form>
+
+    </ion-content>
+</ion-view>

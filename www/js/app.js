@@ -258,6 +258,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
     })
+      .state('tab.requests-detail-friend-detail', {
+          url: '/requests-detail-friend-detail',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-requests-detail-friend-detail.html',
+                  controller: 'RequestsDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.incomingrequest-detail', {
           url: '/incomingrequest-detail',
           views: {

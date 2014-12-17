@@ -761,7 +761,16 @@ angular.module('starter.controllers', [])
         $scope.clear = function(){
             $rootScope.selectedRequest.set('group', undefined);
         }
-
+        $scope.goToFriendDetail = function(user){
+            $state.go('tab.requests-detail-friend-detail');
+        }
+        $scope.addFriendDetail = function(user){
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var detail = new RequestDetail();
+            detail.set('user',user);
+            $rootScope.selectedRequestDetail = detail;
+            $state.go('tab.requests-detail-friend-detail');
+        }
         $scope.loadRequestDetails=function(){
 
             var RequestDetail = Parse.Object.extend("request_detail");
@@ -938,7 +947,7 @@ angular.module('starter.controllers', [])
                 console.log("create selectedRequest");
             }else{
                 //Refresh Request object for Display
-                $rootScope.showLoading("Loading...");
+//                $rootScope.showLoading("Loading...");
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
@@ -958,7 +967,7 @@ angular.module('starter.controllers', [])
                 }
 
                 $scope.loadRequestDetails();
-                $rootScope.hideLoading();
+//                $rootScope.hideLoading();
             }
 
         }
