@@ -134,11 +134,10 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       templateUrl: "templates/tabs.html"
       })
       .state('tab.friends', {
-          url:'/friends/:fromState',
+          url:'/friends',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends.html',
-//                  params: ['fromState'],
                   controller: 'FriendsCtrl'
               }
           },
@@ -147,7 +146,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           }
       })
       .state('tab.friends-group', {
-          url:'/friends-group/:fromState',
+          url:'/friends-group',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends-group.html',

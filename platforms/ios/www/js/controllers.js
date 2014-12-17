@@ -10,7 +10,8 @@ angular.module('starter.controllers', [])
         $scope.startApp = function() {
             // Set a flag that we finished the tutorial
             window.localStorage['didTutorial'] = true;
-            $state.go('tab.balance-overview');
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         };
 
         $scope.next = function() {
@@ -23,13 +24,15 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $stateParams, $scope, $state, $ionicModal) {
+.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal,ParseService) {
+        console.log("FriendsCtrl");
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Friends');
         }
-        console.log("FriendsCtrl" + $stateParams.fromState);
-//        console.log("FriendsCtrl" + $state.params.fromState);
+        $rootScope.user = ParseService.getUser();
+        $rootScope.intro = false;
+
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
@@ -150,10 +153,6 @@ angular.module('starter.controllers', [])
             }
         }
 
-//        $scope.searchCancel = function(){
-//            $scope.searchText = "";
-//        }
-
         $scope.searchFriend = function(txt){
             console.log("searchFriend "+txt);
             var result = [];
@@ -199,11 +198,13 @@ angular.module('starter.controllers', [])
 
         $scope.goToRequestGroupDetail = function(group){
             console.log("goToGroupDetail");
+            $rootScope.selectedGroup = group;
             $rootScope.selectedRequest.set('group', group);
             $state.go('tab.friends-request-group');
         }
 
         $scope.loadGroupFriends = function(){
+            console.log("loadGroupFriends selectedGroup " + $rootScope.selectedGroup.get('group'));
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
             query.containedIn('objectId', $rootScope.selectedGroup.get('friend_userid'));
@@ -227,6 +228,14 @@ angular.module('starter.controllers', [])
         }
         $scope.goToPay = function(user){
             console.log("goToPay");
+            $rootScope.selectedFriend = user;
+            $rootScope.selectedGroup = undefined;
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
+
+        }
+        $scope.goToPayGroup = function(user){
+            console.log("goToPayGroup");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
@@ -332,12 +341,13 @@ angular.module('starter.controllers', [])
 
         //$rootScope.loadFriendsInit();
 })
-.controller('RequestsCtrl', function($rootScope, $scope, $state) {
+.controller('RequestsCtrl', function($rootScope, $scope, $state,ParseService) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Requests');
         }
-
+        $rootScope.user = ParseService.getUser();
+        $rootScope.intro = false;
         $scope.loading = "visible";
         $scope.loadRequests = function(){
             var RequestDetail = Parse.Object.extend("request_detail");
@@ -761,15 +771,25 @@ angular.module('starter.controllers', [])
         $scope.clear = function(){
             $rootScope.selectedRequest.set('group', undefined);
         }
-        $scope.goToFriendDetail = function(user){
+        $scope.goToRequestFriendDetail = function(requestdetail){
+            $rootScope.selectedRequestDetail = requestdetail;
             $state.go('tab.requests-detail-friend-detail');
         }
-        $scope.addFriendDetail = function(user){
+
+        $rootScope.addFriendToRequestDetail = function(user){
+            console.log("addFriendToRequestDetail");
             var RequestDetail = Parse.Object.extend("request_detail");
-            var detail = new RequestDetail();
-            detail.set('user',user);
-            $rootScope.selectedRequestDetail = detail;
+
+            $rootScope.selectedRequestDetail = new RequestDetail();
+            $rootScope.selectedRequestDetail.set('parent',$rootScope.selectedRequest);
+            $rootScope.selectedRequestDetail.set('user',user);
+
+
+            $scope.requestdetails.push($rootScope.selectedRequestDetail);
+            $scope.$apply();
             $state.go('tab.requests-detail-friend-detail');
+
+
         }
         $scope.loadRequestDetails=function(){
 
@@ -2079,7 +2099,8 @@ angular.module('starter.controllers', [])
                 $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
                 $rootScope.user = user;
-                $state.go('tab.balance-overview');
+                $state.go('tab.friends');
+                //$state.go('tab.balance-overview');
             })
         };
 })
@@ -2492,14 +2513,16 @@ angular.module('starter.controllers', [])
                     subscribeAllGroups(user.id);
                 }
 
-                $state.go('tab.balance-overview');
+                $state.go('tab.friends');
+                //$state.go('tab.balance-overview');
 //                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
 
         if (ParseService.getUser()){
-            $state.go('tab.balance-overview');
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         }
 
 
@@ -2521,7 +2544,9 @@ angular.module('starter.controllers', [])
         }
         //Check if user already logIn
         if (ParseService.getUser()){
-            $state.go('tab.balance-overview');
+            console.log("go to Initial page");
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         }else{
             if (!window.navigator) {
                 $state.go('login');
@@ -2574,7 +2599,8 @@ angular.module('starter.controllers', [])
         $scope.sendVerifyCode = function (form){
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
-            query.equalTo("phone_number",$scope.phone_number);
+            query.equalTo("phone_number",form.phone_number);
+            //query.equalTo("phone_number",$scope.phone_number);
             query.first({
                 success:function(user){
                     user.set('password',form.verifycode);
@@ -2587,7 +2613,8 @@ angular.module('starter.controllers', [])
                             if (r.getUsername()== r.get('phone_number')){
                                 $ionicSlideBoxDelegate.next();
                             }else{
-                                $state.go('tab.balance-overview');
+                                $state.go('tab.friends');
+                                //$state.go('tab.balance-overview');
                             }
                         },error:function(obj, error){
                             console.log("login failed: invalid verification code");
@@ -2606,7 +2633,8 @@ angular.module('starter.controllers', [])
             $rootScope.user.set('email',form.email);
             $rootScope.user.save(null,{
                 success:function(r){
-                    $state.go('tab.balance-overview');
+                    $state.go('tab.friends');
+                    //$state.go('tab.balance-overview');
                 },error:function(obj, error){
                     console.log("updateUser failed error = "+error.message);
                     $rootScope.alert("Problem", error.message);
@@ -2724,6 +2752,9 @@ angular.module('starter.controllers', [])
             $state.go('tab.balance-group');
         }
 
+        $rootScope.goToRequest = function(){
+            $state.go('tab.requests');
+        }
         $rootScope.selectedGroup = undefined;
 
         //$rootScope.openCurrencies = function(currentState, data){
