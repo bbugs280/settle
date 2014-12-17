@@ -801,19 +801,19 @@ angular.module('starter.controllers', [])
                 success:function(details){
 
                     console.log("loadRequestDetails count = "+details.length);
-                    $scope.requestdetails=details;
+                    $rootScope.requestdetails=details;
                     for (var i in $scope.requestdetails){
-                        $scope.requestdetails[i].amount = $scope.requestdetails[i].get('amount');
+                        $rootScope.requestdetails[i].amount = $rootScope.requestdetails[i].get('amount');
                         var paidAmount = 0;
                         var ownAmount = 0;
-                        ownAmount = $scope.requestdetails[i].get('amount');
-                        if ($scope.requestdetails[i].get('tran')){
-                            paidAmount = $scope.requestdetails[i].get('tran').get('amount');
+                        ownAmount = $rootScope.requestdetails[i].get('amount');
+                        if ($rootScope.requestdetails[i].get('tran')){
+                            paidAmount = $rootScope.requestdetails[i].get('tran').get('amount');
                         }
-                        $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
+                        $rootScope.requestdetails[i].set('balance', ownAmount-paidAmount);
                     }
 
-                    $scope.$apply();
+                    $rootScope.$apply();
                     $rootScope.hideLoading();
                 }
             });
@@ -842,23 +842,23 @@ angular.module('starter.controllers', [])
             var rd = new RequestDetail();
             rd.set('parent',$rootScope.selectedRequest);
             rd.set('user', user);
-            $scope.requestdetails.push(rd);
-            $scope.$apply();
+            $rootScope.requestdetails.push(rd);
+            $rootScope.$apply();
             $scope.modalFriendRequestSelect.hide();
 
         }
         $scope.removeRequestDetail = function(detail){
             console.log("removeRequestDetail");
             console.log("removeRequestDetail detail" + detail.get('user').getUsername());
-            console.log("removeRequestDetail requestdetails = "+$scope.requestdetails.length);
+            console.log("removeRequestDetail requestdetails = "+$rootScope.requestdetails.length);
 
-            $scope.requestdetails.splice($scope.requestdetails.indexOf(detail),1);
+            $rootScope.requestdetails.splice($rootScope.requestdetails.indexOf(detail),1);
             console.log("removeRequestDetail splice");
             if (detail.id){
                 detail.destroy({
                     success:function(r){
                         console.log("removeRequestDetail destroyed");
-                        $scope.$apply();
+                        $rootScope.$apply();
                         $state.go('tab.requests-detail');
                     }
                 });
