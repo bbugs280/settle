@@ -28,6 +28,11 @@
                 <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))" ng-if="selectedRequest.get('location_detail')!=undefined">
                     <i class="icon ion-map"></i>
                 </button>
+                <ion-option-button class="button-assertive"
+                                   ng-click="clearLocationDetail()"
+                        >
+                    Clear
+                </ion-option-button>
             </ion-item>
             <ion-item class="item item-avatar item-button-right"
                       style="font-size: medium"
@@ -37,9 +42,14 @@
                 <img src="{{selectedRequest.get('group').get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedRequest.get('group')!=undefined  && selectedRequest.get('group').get('icon')!=undefined">
                 <p ng-if="selectedRequest.get('group')!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedRequest.get('group').get('group')}}</p>
                 <p ng-if="selectedRequest.get('group')!=undefined">{{selectedRequest.get('group').get('friend_userid').length}} people in group</p>
-                <button class="button button-clear" ng-click="clear()">
-                    <i class="icon ion-ios7-trash" style="color: #000000"></i>
-                </button>
+                <!--<button class="button button-clear" ng-click="clear()">-->
+                    <!--<i class="icon ion-ios7-trash" style="color: #000000"></i>-->
+                <!--</button>-->
+                <ion-option-button class="button-assertive"
+                                   ng-click="clear()"
+                                   >
+                    Clear
+                </ion-option-button>
             </ion-item>
             <ion-item ng-repeat="detail in requestdetails"
                       class="item item-avatar item-stable item-icon-right"
@@ -51,6 +61,9 @@
                     <span style="font-size: small;font-weight: bold">{{detail.get('user').getUsername()}}</span>
                     <br>
                     <span>{{detail.get('amount')| currency:selectedRequest.get('currency').get('code')}}</span>
+                <span class="item-note" style="color:red;font-weight: bold;font-size: small" ng-if="detail.get('balance')!=0">
+                     OUTSTANDING
+                 </span>
                     <span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="detail.get('balance')==0">
                      PAID
                 </span>
@@ -96,64 +109,12 @@
                 Photo Note
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-            <!--<ion-item class="item item-dark item-button-right" style="font-size: normal;font-weight: bold">-->
-                <!--Details-->
-                <!--<span class="item-note" style="font-size:small;">{{requestdetails.length}} settlers in this request</span>-->
-                <!--<button class="button button-clear"-->
-                        <!--ng-click="modalFriendRequestSelect.show()">-->
-                    <!--<i class="icon ion-plus-circled"></i>-->
-                <!--</button>-->
-            <!--</ion-item>-->
+
         </ion-list>
-            <!--<ion-list class="list" show-delete="data.showDelete" can-swipe="true">-->
-            <!--<ion-item class="item" ng-repeat="detail in requestdetails" ng-class="{'item-stable':detail.get('balance')==0}">-->
-                <!--<img src="{{detail.get('user').get('icon').url()}}"-->
-                     <!--class="avatar" width="40px"-->
-                     <!--ng-if="detail.get('user').get('icon')!=undefined">-->
-                <!--<img src="./img/people.png"-->
-                     <!--class="avatar" width="40px"-->
-                     <!--ng-if="detail.get('user').get('icon')==undefined">-->
-                <!--<b>{{detail.get('user').getUsername()}}</b>-->
-                 <!--<span class="item-note" style="font-size: small" ng-if="detail.get('balance')!=0">-->
-                     <!--<span style="color:red;font-weight: bold">-->
-                         <!--&lt;!&ndash;<i class="icon ion-thumbsdown"></i>&ndash;&gt;-->
-                         <!--OUTSTANDING-->
-                     <!--</span>-->
-                     <!--&lt;!&ndash;{{detail.get('balance') | currency:selectedRequest.get('currency').get('code')}}&ndash;&gt;-->
-                 <!--</span>-->
-                <!--<span class="item-note" style="font-size: small;color:dodgerblue;font-weight: bold" ng-if="detail.get('balance')==0">-->
-                    <!--&lt;!&ndash;<i class="icon ion-thumbsup"></i>&ndash;&gt;-->
-                     <!--PAID-->
-                <!--</span>-->
-                <!--<div class=" item-input-inset">-->
-                    <!--<span style="font-size: small;" ng-if="detail.get('balance')!=0">{{selectedRequest.get('currency').get('code')}}</span>-->
-                    <!--<label class="item-input-wrapper item-note" ng-if="detail.get('balance')!=0">-->
-                        <!--<input type="tel" placeholder="Amount" ng-model="detail.amount"  ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>-->
-                    <!--</label>-->
-                    <!--<span ng-if="detail.get('balance')==0">-->
-                        <!--{{detail.get('amount')| currency:selectedRequest.get('currency').get('code')}}-->
-                    <!--</span>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;<ion-delete-button class="ion-minus-circled"&ndash;&gt;-->
-                                   <!--&lt;!&ndash;ng-click="removeDetail(detail)">&ndash;&gt;-->
-                <!--&lt;!&ndash;</ion-delete-button>&ndash;&gt;-->
-                <!--<ion-option-button class="button-assertive"-->
-                                   <!--ng-click="removeDetail(detail)"-->
-                                   <!--ng-if="detail.get('balance')!=0">-->
-                    <!--Remove-->
-                <!--</ion-option-button>-->
-                <!--<ion-option-button class="button-dark"-->
-                                   <!--ng-click="chaseDetail(detail)"-->
-                                   <!--ng-if="detail.get('balance')!=0">-->
-                    <!--Chase-->
-                <!--</ion-option-button>-->
-            <!--</ion-item>-->
-            <!--<ion-item class="item" style="text-align: center" ng-click="modalFriendRequestSelect.show()">-->
-                <!--<p style="color:blue;text-align:center">Add Friend to Request</p>-->
-            <!--</ion-item>-->
-            <button class="button button-block button-stable" ng-click="saveRequest(selectedRequest)" ng-disabled="!form.$valid">
+
+            <ion-item class="item item-stable" style="font-size: small;text-align: center;"  ng-click="saveRequest(selectedRequest)" ng-if="form.$valid">
                 Save & Send
-            </button>
+            </ion-item>
         </ion-list>
         </form>
 

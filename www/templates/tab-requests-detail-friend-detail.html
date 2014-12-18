@@ -35,24 +35,27 @@
                 </span>
             </ion-item>
                 <ion-item class="item item-input-inset" ng-if="selectedRequestDetail.get('balance')!=0">
-                    <span style="font-size: large"><b>{{selectedRequestDetail.get('parent').get('currency').get('code')}}</b></span>
+                    <span style="font-size: large" style="color:dimgray;font-weight: bold;border-top:solid;border-bottom:solid;border-width:1px;">
+                        <b>{{selectedRequest.get('currency').get('code')}}</b>
+                    </span>
                     <label class="item-input-wrapper" style="height: 50px">
-                        <input type="tel" placeholder="Amount" ng-model="selectedRequestDetail.amount"  style="font-size:large" ng-model-options="{ getterSetter: true }" ng-change="calcTotalAmount()" ng-currency required>
+                        <input type="tel" placeholder="Amount" ng-model="selectedRequestDetail.amount"  style="font-size:large" ng-model-options="{ getterSetter: true }"  ng-currency required>
                     </label>
                 </ion-item >
                 <ion-item class="item " ng-if="selectedRequestDetail.get('balance')==0">
-                    {{selectedRequestDetail.get('amount')| currency:selectedRequestDetail.get('parent').get('currency').get('code')}}
+                    {{selectedRequestDetail.get('amount')| currency:selectedRequest.get('currency').get('code')}}
                 </ion-item>
 
-            <button class="button button-block button-stable" style="font-size: small" ng-click="saveRequestDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
+            <ion-item class="item item-stable" style="font-size: small;text-align: center;" ng-click="saveRequestDetail(selectedRequestDetail)" ng-if="form.$valid && selectedRequestDetail.get('balance')!=0">
                     Save
-            </button>
-                <button class="button button-block button-stable" style="font-size: small" ng-click="chaseDetail(selectedRequestDetail)" ng-disabled="!form.$valid">
+            </ion-item>
+
+                <ion-item class="item item-dark"  style="font-size: small;text-align: center;" ng-click="chaseDetail(selectedRequestDetail)" ng-if="form.$valid && selectedRequestDetail.id!=undefined && selectedRequestDetail.get('balance')!=0">
                     Send Chaser
-                </button>
-                <button class="button button-block button-stable" style="font-size: small" ng-click="removeRequestDetail(selectedRequestDetail)" ng-disabled="!selectedRequestDetail.id">
+                </ion-item>
+                <ion-item class="item item-assertive"  style="font-size: small;text-align: center;" ng-click="removeRequestDetail(selectedRequestDetail)" ng-if="selectedRequestDetail.id!=undefined && selectedRequestDetail.get('balance')!=0">
                     Remove
-                </button>
+                </ion-item>
         </ion-list>
         </form>
 

@@ -818,19 +818,24 @@ angular.module('starter.controllers', [])
                 }
             });
         }
+        $scope.clearLocationDetail = function(){
+            $rootScope.selectedRequest.set('location_detail',undefined);
+        }
 
         $scope.calcTotalAmount = function(){
+            console.log("calcTotalAmount "+$rootScope.requestdetails.length);
             var amount = 0;
-            for (var i in $scope.requestdetails){
-                amount += $scope.requestdetails[i].amount;
+            for (var i in $rootScope.requestdetails){
+                console.log("calcTotalAmount "+$rootScope.requestdetails[i].get('user').getUsername());
+                amount += $rootScope.requestdetails[i].amount;
                 var paidAmount = 0;
                 var ownAmount = 0;
-                ownAmount = $scope.requestdetails[i].amount;
-                if ($scope.requestdetails[i].get('tran')){
-                    paidAmount = $scope.requestdetails[i].get('tran').get('amount');
+                ownAmount = $rootScope.requestdetails[i].amount;
+                if ($rootScope.requestdetails[i].get('tran')){
+                    paidAmount = $rootScope.requestdetails[i].get('tran').get('amount');
                 }
-                $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
-                $scope.$apply();
+                $rootScope.requestdetails[i].set('balance', ownAmount-paidAmount);
+                $rootScope.$apply();
             }
             console.log("calcTotalAmount "+amount);
             $rootScope.selectedRequest.amount = amount;
@@ -922,7 +927,10 @@ angular.module('starter.controllers', [])
                                 $scope.requestdetails=[];
                             }
                             $scope.requestdetails.push(detail);
-                            $scope.calcTotalAmount();
+                            console.log("saveRequestDetail before cal");
+                            //TODO check why 
+//                            $scope.calcTotalAmount();
+                            console.log("saveRequestDetail after cal");
                             $state.go('tab.requests-detail');
                         }
                     })
