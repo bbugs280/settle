@@ -19,11 +19,11 @@
     <ion-nav-view name="tab-requests"></ion-nav-view>
   </ion-tab>
   <!-- Send Tab -->
-  <ion-tab title="Pay" icon="icon ion-card" href="#/tab/send-remote">
+  <ion-tab title="Pay" icon="icon ion-card" href="#/tab/send-remote" ng-if="user.get('advance_mode')">
     <ion-nav-view name="tab-send"></ion-nav-view>
   </ion-tab>
   <!-- Receive Tab -->
-  <ion-tab title="Receive"  icon="icon ion-qr-scanner" href="#/tab/receive">
+  <ion-tab title="Receive"  icon="icon ion-qr-scanner" href="#/tab/receive" ng-if="user.get('advance_mode')">
     <ion-nav-view name="tab-receive"></ion-nav-view>
   </ion-tab>
     <!-- Setup Tab -->

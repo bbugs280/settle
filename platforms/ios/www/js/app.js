@@ -285,8 +285,9 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           url: '/payment-detail',
           views: {
               'tab-requests': {
-                  templateUrl: 'templates/tab-payment-detail.html',
-                  controller: 'PaymentDetailCtrl'
+                  templateUrl: 'templates/tab-payment-detail.html'
+//                  ,
+//                  controller: 'PaymentDetailCtrl'
               }
           },
           data: {

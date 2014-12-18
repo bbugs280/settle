@@ -9,21 +9,21 @@
   <ion-tab title="Friends" icon="icon ion-android-contacts" ui-sref="tab.friends">
     <ion-nav-view name="tab-friends"></ion-nav-view>
   </ion-tab>
+  <!-- Request Tab -->
+  <ion-tab title="Request" icon="icon ion-folder" ui-sref="tab.requests" badge="badges.request" badge-style="badge-assertive">
+    <ion-nav-view name="tab-requests"></ion-nav-view>
+  </ion-tab>
   <!-- Balance Tab -->
   <ion-tab title="Balance" icon="icon ion-social-usd-outline" ui-sref="tab.balance-overview">
     <ion-nav-view name="tab-balance"></ion-nav-view>
     <!--<ion-nav-view name="tab-balance-detail"></ion-nav-view>-->
   </ion-tab>
-  <!-- Request Tab -->
-  <ion-tab title="Request" icon="icon ion-folder" ui-sref="tab.requests" badge="badges.request" badge-style="badge-assertive">
-    <ion-nav-view name="tab-requests"></ion-nav-view>
-  </ion-tab>
   <!-- Send Tab -->
-  <ion-tab title="Pay" icon="icon ion-card" href="#/tab/send-remote">
+  <ion-tab title="Pay" icon="icon ion-card" href="#/tab/send-remote" ng-if="user.get('advance_mode')">
     <ion-nav-view name="tab-send"></ion-nav-view>
   </ion-tab>
   <!-- Receive Tab -->
-  <ion-tab title="Receive"  icon="icon ion-qr-scanner" href="#/tab/receive">
+  <ion-tab title="Receive"  icon="icon ion-qr-scanner" href="#/tab/receive" ng-if="user.get('advance_mode')">
     <ion-nav-view name="tab-receive"></ion-nav-view>
   </ion-tab>
     <!-- Setup Tab -->

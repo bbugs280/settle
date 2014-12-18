@@ -10,12 +10,10 @@
     <!--</ion-nav-buttons>-->
     <ion-content class="has-header" data-ng-init="init()" data-ng-controller="RequestsDetailCtrl" >
         <form name="form" ng-model="selectedRequest">
-        <ion-list class="list">
+        <ion-list class="list" can-swipe="true">
             <ion-item class="item item-input item-button-right">
-                <label>
-                    <input type="text" style="width:90%" placeholder="Title / Place" ng-model="selectedRequest.title">
-                </label>
-                <button class="button button-clear" style="width:20px"  ng-click="openPlaceSearch(selectedRequest.title)">
+                <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title">
+                <button class="button button-clear" ng-click="openPlaceSearch(selectedRequest.title)">
                     <i class="icon ion-search"></i>
                 </button>
             </ion-item>
@@ -25,12 +23,11 @@
                 </span>
                 <br>
                 <span style="font-size:x-small">on {{selectedRequest.createdAt.toLocaleString()}}</span>
-                <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))" ng-if="selectedRequest.get('location_detail')!=undefined">
+                <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
-                <ion-option-button class="button-assertive"
-                                   ng-click="clearLocationDetail()"
-                        >
+                <ion-option-button class="button button-assertive"
+                                   ng-click="clearLocationDetail()">
                     Clear
                 </ion-option-button>
             </ion-item>
@@ -93,14 +90,15 @@
               </span>
                     <span ng-if="selectedRequest.get('currency')!=undefined">{{selectedRequest.get('currency').get('code')}}</span>
                 </button>
+                <!--<span style="font-size: large">{{selectedRequest.get('amount')| number:2}}</span>-->
                 <label class="item-input-wrapper" style="height: 50px">
                     <input type="tel" disabled placeholder="Total Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
                 </label>
             </ion-item>
             <ion-item class="item item-input item-button-right">
-                <label>
+
                     <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">
-                </label>
+
                 <button class="button button-clear" ng-click="openCamera()">
                     <i class="icon ion-camera"></i>
                 </button>
