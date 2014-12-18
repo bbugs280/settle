@@ -1134,12 +1134,15 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-balance-overview.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-group.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-request-group.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-request-select.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-request.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends-select.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-friends.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-incomingrequest-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-payment-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail-friend-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail-photo.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests.html \

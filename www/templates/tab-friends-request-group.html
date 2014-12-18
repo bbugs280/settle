@@ -54,12 +54,15 @@
                   <img src="./img/whatsapp-outline.png" style="width: 40px">
               </ion-option-button>
           </ion-item>
-          <ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">
-              <i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>
-              <!--<span style="font-weight: bold">Friend not in here?</span>-->
-              <p style="color:blue">Invite Friend to Settle</p>
-
+          <ion-item style="text-align: center" ng-click="goToGroupEdit(selectedGroup)">
+              <p style="color:blue">Edit Group</p>
           </ion-item>
+          <!--<ion-item class="item" style="text-align: center" ng-click="showInviteOptions()">-->
+              <!--<i id="tran_loading" class=" ion-loading-c" style="visibility:{{loading}}"></i>-->
+              <!--&lt;!&ndash;<span style="font-weight: bold">Friend not in here?</span>&ndash;&gt;-->
+              <!--<p style="color:blue">Invite Friend to Settle</p>-->
+
+          <!--</ion-item>-->
       </ion-list>
   </ion-content>
 </ion-view>

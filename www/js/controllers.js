@@ -2456,7 +2456,8 @@ angular.module('starter.controllers', [])
             $rootScope.modalFriendSelect = modal;
         });
 
-        $scope.addFriendToGroup = function(){
+        $rootScope.openFriendToGroup = function(){
+            console.log("openFriendToGroup");
             $rootScope.modalFriendSelect.show();
 
         }

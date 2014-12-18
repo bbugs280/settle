@@ -157,8 +157,33 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
       })
+      .state('tab.friends-request', {
+          url:'/friends-request',
+          views:{
+              'tab-requests':{
+                  templateUrl: 'templates/tab-friends-request.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
+      .state('tab.friends-request-group', {
+          url:'/friends-request-group',
+          views:{
+              'tab-requests':{
+                  templateUrl: 'templates/tab-friends-request-group.html',
+                  controller: 'FriendsCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
+
       .state('tab.friends-select', {
-          url:'/friends-select',
+          url:'/friends-select/:fromState',
           views:{
               'tab-friends':{
                   templateUrl: 'templates/tab-friends-select.html',
@@ -232,6 +257,18 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
     })
+      .state('tab.requests-detail-friend-detail', {
+          url: '/requests-detail-friend-detail',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-requests-detail-friend-detail.html',
+                  controller: 'RequestsDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.incomingrequest-detail', {
           url: '/incomingrequest-detail',
           views: {
@@ -248,8 +285,9 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
           url: '/payment-detail',
           views: {
               'tab-requests': {
-                  templateUrl: 'templates/tab-payment-detail.html',
-                  controller: 'PaymentDetailCtrl'
+                  templateUrl: 'templates/tab-payment-detail.html'
+//                  ,
+//                  controller: 'PaymentDetailCtrl'
               }
           },
           data: {
@@ -271,7 +309,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       .state('tab.send-remote', {
           url: '/send-remote',
           views: {
-              'tab-send': {
+              'tab-friends': {
                   templateUrl: 'templates/tab-send-remote.html',
                   controller: 'SendCtrl'
               }

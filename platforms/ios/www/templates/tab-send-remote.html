@@ -1,5 +1,5 @@
 
-<ion-view title="Pay on Cloud"  hide-back-button="true">
+<ion-view title="Pay"  hide-back-button="true">
     <!--on-swipe-right="goToQRCode()"-->
     <ion-nav-buttons side="right">
         <span ng-if="selectedGroup!=undefined || selectedFriend !=undefined">
@@ -18,8 +18,7 @@
   <ion-content class="has-header">
       <ion-item class="item item-avatar item-icon-right"
                 ng-if="selectedGroup!=undefined"
-                style="font-size: normal"
-                ng-click="selectGroup()"
+                style="font-size: small"
                 ng-class="{'item-calm':selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true,'item-stable':selectedGroup==undefined || selectedGroup.get('ispersonal')==true}">
           <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedGroup==undefined || selectedGroup.get('icon')==undefined">
           <img src="{{selectedGroup.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedGroup!=undefined  && selectedGroup.get('icon')!=undefined">
@@ -27,18 +26,17 @@
           <p  ng-if="selectedGroup!=undefined && selectedGroup.get('ispersonal')!=true">{{selectedGroup.get('friend_userid').length}} people in group</p>
           <p ng-if="selectedGroup==undefined || selectedGroup.get('ispersonal')==true">Select Group (optional)</p>
 
-          <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
+          <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
       </ion-item>
       <ion-item class="item item-avatar item-icon-right"
-                style="font-size: normal"
+                style="font-size: small"
                 ng-click="selectUser()"
                 ng-class="{'item-energized':selectedFriend!=undefined,'item-stable ':selectedFriend==undefined}"
-                ng-if="inviteEmail==undefined">
+                >
           <img src="./img/people.png" width="30px" style="border-radius: 10px" ng-if="selectedFriend==undefined || selectedFriend.get('icon')==undefined">
           <img src="{{selectedFriend.get('icon').url()}}" width="30px" style="border-radius: 10px" ng-if="selectedFriend!=undefined && selectedFriend.get('icon')!=undefined">
           <p ng-if="selectedFriend!=undefined" style="font-style: oblique;font-weight: bolder"> {{selectedFriend.get('username')}} <span class="item-note" style="color: white;font-size: x-small">{{selectedFriend.get('email')}}</span>
               <br><span style="font-size: x-small"><b>{{selectedFriend.get('phone_number')}}</b></span>
-
           </p>
           <p ng-if="selectedFriend==undefined">Select Friend</p>
 

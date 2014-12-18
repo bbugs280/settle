@@ -10,7 +10,8 @@ angular.module('starter.controllers', [])
         $scope.startApp = function() {
             // Set a flag that we finished the tutorial
             window.localStorage['didTutorial'] = true;
-            $state.go('tab.balance-overview');
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         };
 
         $scope.next = function() {
@@ -23,11 +24,15 @@ angular.module('starter.controllers', [])
             $scope.slideIndex = index;
         };
 })
-.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+.controller('FriendsCtrl', function($rootScope, $scope, $state, $ionicModal,ParseService) {
+        console.log("FriendsCtrl");
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Friends');
         }
+        $rootScope.user = ParseService.getUser();
+        $rootScope.intro = false;
+
 
         $scope.loadFriends = function(){
         console.log("loadFriends is called");
@@ -91,6 +96,8 @@ angular.module('starter.controllers', [])
                     if (contacts.length!=0){
                         whatsappSendMessage(contacts[0].id,"");
 
+                    }else{
+                        $rootScope.alert("Opps!", "Sorry! Can't find Whatsapp contact with this phone no.");
                     }
                 }, function(error){
                     console.log(error.message);
@@ -102,6 +109,7 @@ angular.module('starter.controllers', [])
             user.getFriendListAll($rootScope.user.id, false, function(groups){
                 $rootScope.Groups = groups;
                 $scope.GroupsFiltered = groups;
+                $scope.loadFriends();
             });
 
         }
@@ -130,7 +138,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.loadFriendsGroups = function(){
-            $scope.loadFriends();
+//            $scope.loadFriends();
             $scope.loadGroup();
         }
         $rootScope.loadFriendsInit = function(){
@@ -145,10 +153,6 @@ angular.module('starter.controllers', [])
                 $scope.loading = "hidden";
             }
         }
-
-//        $scope.searchCancel = function(){
-//            $scope.searchText = "";
-//        }
 
         $scope.searchFriend = function(txt){
             console.log("searchFriend "+txt);
@@ -179,6 +183,7 @@ angular.module('starter.controllers', [])
             $scope.searchGroup(txt);
         }
 
+
         $scope.goToFriends = function(){
             $state.go('tab.friends');
         }
@@ -189,10 +194,18 @@ angular.module('starter.controllers', [])
         $scope.goToGroupDetail = function(group){
             console.log("goToGroupDetail");
             $rootScope.selectedGroup = group;
-
             $state.go('tab.friends-group');
         }
+
+        $rootScope.goToRequestGroupDetail = function(group){
+            console.log("goToGroupDetail");
+            $rootScope.selectedGroup = group;
+            $rootScope.selectedRequest.set('group', group);
+            $state.go('tab.friends-request-group');
+        }
+
         $scope.loadGroupFriends = function(){
+            console.log("loadGroupFriends selectedGroup " + $rootScope.selectedGroup.get('group'));
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
             query.containedIn('objectId', $rootScope.selectedGroup.get('friend_userid'));
@@ -214,12 +227,20 @@ angular.module('starter.controllers', [])
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }
-        $scope.goToAction = function(user){
+        $scope.goToPay = function(user){
+            console.log("goToPay");
+            $rootScope.selectedFriend = user;
+            $rootScope.selectedGroup = undefined;
+            $rootScope.inviteEmail = undefined;
+            $state.go('tab.send-remote');
 
-            console.log("goToSend");
+        }
+        $scope.goToPayGroup = function(user){
+            console.log("goToPayGroup");
             $rootScope.selectedFriend = user;
             $rootScope.inviteEmail = undefined;
             $state.go('tab.send-remote');
+
         }
         $scope.addFriendToGroup = function(user){
             console.log("addFriendTogroup");
@@ -321,14 +342,16 @@ angular.module('starter.controllers', [])
 
         //$rootScope.loadFriendsInit();
 })
-.controller('RequestsCtrl', function($rootScope, $scope, $state) {
+.controller('RequestsCtrl', function($rootScope, $scope, $state,ParseService) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Requests');
         }
-
+        $rootScope.user = ParseService.getUser();
+        $rootScope.intro = false;
         $scope.loading = "visible";
-        $scope.loadRequests = function(){
+        $rootScope.loadRequests = function(){
+            console.log("loadRequests");
             var RequestDetail = Parse.Object.extend("request_detail");
             var Request = Parse.Object.extend("request");
             var Tran = Parse.Object.extend("transaction");
@@ -582,7 +605,7 @@ angular.module('starter.controllers', [])
             $scope.loadIncomingRequests();
             //$scope.loadArchive();
         }
-        $scope.loadRefresh = function(){
+        $scope.loadRequestRefresh = function(){
             $scope.loadRequests();
             $scope.loadIncomingRequests();
 
@@ -649,16 +672,19 @@ angular.module('starter.controllers', [])
         }
         $scope.goToArchDetail=function(request){
             if (request.isPayment){
+                console.log("isPayment");
                 $rootScope.selectedIncomingPayment = request;
                 $state.go('tab.payment-detail');
             }
 
             if (request.isRequest){
+                console.log("isRequest");
                 if (request.isOutgoing){
                     $rootScope.selectedRequest = request.get('parent');
                     $state.go('tab.requests-detail');
                 }
                 if (request.isIncoming){
+
                     $rootScope.selectedIncomingRequest = request;
                     $state.go('tab.incomingrequest-detail');
                 }
@@ -717,25 +743,25 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalCurrencySelect = modal;
         });
-        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $scope.modalPhotoNote = modal;
-        });
-        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $scope.modalFriendRequestSelect = modal;
-        });
+
+//        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
+//            scope:$scope
+//        }).then(function(modal) {
+//            $scope.modalFriendRequestSelect = modal;
+//        });
         $ionicModal.fromTemplateUrl('templates/select-place.html',{
             scope:$scope
         }).then(function(modal) {
             $scope.modalPlaceSelect = modal;
         });
 
-        $scope.openMap = function(name, address){
-            openGoogleMap(name, address);
+        $scope.openPlaceSearch = function(searchText){
+            console.log("openPlaceSearch "+ searchText);
+            //$rootScope.placeSearhInitText = searchText;
+            $rootScope.loadPlace(searchText);
+            $scope.modalPlaceSelect.show();
         }
+
         $scope.selectACurrency = function(curr){
             console.log("select currency");
             $rootScope.selectedRequest.set('currency', curr);
@@ -750,7 +776,24 @@ angular.module('starter.controllers', [])
         $scope.clear = function(){
             $rootScope.selectedRequest.set('group', undefined);
         }
+        $scope.goToRequestFriendDetail = function(requestdetail){
+            $rootScope.selectedRequestDetail = requestdetail;
+            $state.go('tab.requests-detail-friend-detail');
+        }
 
+        $rootScope.addFriendToRequestDetail = function(user){
+            console.log("addFriendToRequestDetail");
+            var RequestDetail = Parse.Object.extend("request_detail");
+
+            $rootScope.selectedRequestDetail = new RequestDetail();
+            $rootScope.selectedRequestDetail.set('parent',$rootScope.selectedRequest);
+            $rootScope.selectedRequestDetail.set('user',user);
+//            $scope.requestdetails.push($rootScope.selectedRequestDetail);
+//            $scope.$apply();
+            $state.go('tab.requests-detail-friend-detail');
+
+
+        }
         $scope.loadRequestDetails=function(){
 
             var RequestDetail = Parse.Object.extend("request_detail");
@@ -762,89 +805,109 @@ angular.module('starter.controllers', [])
                 success:function(details){
 
                     console.log("loadRequestDetails count = "+details.length);
-                    $scope.requestdetails=details;
+                    $rootScope.requestdetails=details;
                     for (var i in $scope.requestdetails){
-                        $scope.requestdetails[i].amount = $scope.requestdetails[i].get('amount');
+                        $rootScope.requestdetails[i].amount = $rootScope.requestdetails[i].get('amount');
                         var paidAmount = 0;
                         var ownAmount = 0;
-                        ownAmount = $scope.requestdetails[i].get('amount');
-                        if ($scope.requestdetails[i].get('tran')){
-                            paidAmount = $scope.requestdetails[i].get('tran').get('amount');
+                        ownAmount = $rootScope.requestdetails[i].get('amount');
+                        if ($rootScope.requestdetails[i].get('tran')){
+                            paidAmount = $rootScope.requestdetails[i].get('tran').get('amount');
                         }
-                        $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
+                        $rootScope.requestdetails[i].set('balance', ownAmount-paidAmount);
                     }
 
-                    $scope.$apply();
+                    $rootScope.$apply();
                     $rootScope.hideLoading();
                 }
             });
         }
-
-        $scope.calcTotalAmount = function(){
-            var amount = 0;
-            for (var i in $scope.requestdetails){
-                amount += $scope.requestdetails[i].amount;
-                var paidAmount = 0;
-                var ownAmount = 0;
-                ownAmount = $scope.requestdetails[i].amount;
-                if ($scope.requestdetails[i].get('tran')){
-                    paidAmount = $scope.requestdetails[i].get('tran').get('amount');
-                }
-                $scope.requestdetails[i].set('balance', ownAmount-paidAmount);
-                $scope.$apply();
-            }
-            $rootScope.selectedRequest.amount = amount;
+        $scope.clearLocationDetail = function(){
+            $rootScope.selectedRequest.set('location_detail',undefined);
         }
 
-        $scope.addFriendToRequest = function(user){
+        $scope.calcTotalAmount = function(){
+            console.log("calcTotalAmount "+$rootScope.requestdetails.length);
+            var amount = 0;
+            for (var i in $rootScope.requestdetails){
+                console.log("calcTotalAmount "+$rootScope.requestdetails[i].get('user').getUsername());
+                amount += $rootScope.requestdetails[i].amount;
+                var paidAmount = 0;
+                var ownAmount = 0;
+                ownAmount = $rootScope.requestdetails[i].amount;
+                if ($rootScope.requestdetails[i].get('tran')){
+                    paidAmount = $rootScope.requestdetails[i].get('tran').get('amount');
+                }
+                $rootScope.requestdetails[i].set('balance', ownAmount-paidAmount);
+
+            }
+            console.log("calcTotalAmount "+amount);
+            $rootScope.selectedRequest.amount = amount;
+            $rootScope.selectedRequest.set('amount', amount);
+
+        }
+
+        $rootScope.addFriendToRequest = function(user){
             console.log("addFriendToRequest");
             var RequestDetail = Parse.Object.extend("request_detail");
             var rd = new RequestDetail();
             rd.set('parent',$rootScope.selectedRequest);
             rd.set('user', user);
-            $scope.requestdetails.push(rd);
-            $scope.$apply();
+            $rootScope.requestdetails.push(rd);
+            $rootScope.$apply();
             $scope.modalFriendRequestSelect.hide();
 
         }
-        $scope.removeDetail = function(detail){
+        $scope.removeRequestDetail = function(detail){
+            console.log("removeRequestDetail");
+            console.log("removeRequestDetail detail" + detail.get('user').getUsername());
+            console.log("removeRequestDetail requestdetails = "+$rootScope.requestdetails.length);
 
-            $scope.requestdetails.splice($scope.requestdetails.indexOf(detail),1);
-
+            $rootScope.requestdetails.splice($rootScope.requestdetails.indexOf(detail),1);
+            $scope.calcTotalAmount();
+            console.log("removeRequestDetail splice");
             if (detail.id){
                 detail.destroy({
                     success:function(r){
-                        $scope.$apply();
+                        console.log("removeRequestDetail destroyed");
+                        $rootScope.$apply();
+                        $state.go('tab.requests-detail');
                     }
                 });
+            }else{
+                $state.go('tab.requests-detail');
             }
-
         }
-        $scope.openPhotoNote = function(imageSrc){
-            var fileTransfer = new FileTransfer();
-            var uri = encodeURI(imageSrc);
-            var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
-            var fileURL = "cdvfile://localhost/persistent/photo.jpg";
-            fileTransfer.download(
-                uri,
-                fileURL,
-                function(entry) {
-                    console.log("download complete: " + entry.toURL());
-                    FullScreenImage.showImageURL("Documents/photo.jpg");
-                },
-                function(error) {
-                    console.log("download error source " + error.source);
-                    console.log("download error target " + error.target);
-                    console.log("upload error code" + error.code);
-                }
-//                ,
-//                false,
-//                {
-//                    headers: {
-//                        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-//                    }
-//                }
-            );
+        //$scope.openPhotoNote = function(imageSrc){
+        //    var fileTransfer = new FileTransfer();
+        //    var uri = encodeURI(imageSrc);
+        //    var filename = uri.substring(uri.lastIndexOf("/"),uri.length);
+        //    var fileURL = "cdvfile://localhost/persistent/photo.jpg";
+        //    fileTransfer.download(
+        //        uri,
+        //        fileURL,
+        //        function(entry) {
+        //            console.log("download complete: " + entry.toURL());
+        //            FullScreenImage.showImageURL("Documents/photo.jpg");
+        //        },
+        //        function(error) {
+        //            console.log("download error source " + error.source);
+        //            console.log("download error target " + error.target);
+        //            console.log("upload error code" + error.code);
+        //        }
+        //
+        //    );
+        //
+        //}
+
+        $scope.selectRequestUser = function(){
+            console.log("selectRequestUser ");
+            if ($rootScope.selectedRequest.get('group')){
+                $rootScope.goToRequestGroupDetail($rootScope.selectedRequest.get('group'));
+//                $state.go('tab.friends-request-group');
+            }else{
+                $state.go('tab.friends-request');
+            }
 
         }
 
@@ -855,6 +918,33 @@ angular.module('starter.controllers', [])
             msg += " for " +$rootScope.selectedRequest.get('title');
             sendPushMessage(msg, "P_"+detail.get('user').id);
             $rootScope.alert("Reminder sent to "+detail.get('user').getUsername(),msg);
+        }
+        $scope.saveRequestDetail = function(detail){
+            console.log("saveRequestDetail");
+
+            $rootScope.selectedRequest.set('created_by', $rootScope.user);
+            $rootScope.selectedRequest.save(null,{
+                success:function(r){
+                    console.log("saveRequestDetail saved Request");
+                    detail.set('amount',detail.amount);
+                    detail.save(null, {
+                        success:function(d){
+                            console.log("saveRequestDetail saved detail");
+                            if (!$scope.requestdetails){
+                                $scope.requestdetails=[];
+                            }
+                            if ($rootScope.requestdetails.indexOf(detail)==-1){
+                                $scope.requestdetails.push(detail);
+                            }
+
+                            $scope.calcTotalAmount();
+                            $state.go('tab.requests-detail');
+                        }
+                    })
+                },error:function(obj,error){
+                    console.log(error.message);
+                }
+            })
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
@@ -869,32 +959,34 @@ angular.module('starter.controllers', [])
                 success:function (request){
                     console.log("Request saved");
                     $rootScope.selectedRequest = request;
-                    if ($scope.requestdetails){
-                        for (var i in $scope.requestdetails){
-                            $scope.requestdetails[i].set('parent',request);
+                    if ($rootScope.requestdetails){
+                        for (var i in $rootScope.requestdetails){
+                            $rootScope.requestdetails[i].set('parent',request);
 
-                            if (isNaN($scope.requestdetails[i].amount)){
-                                    $rootScope.alert("Invalid Amount");
+                            if (isNaN($rootScope.requestdetails[i].amount)){
+                                $rootScope.alert("Invalid Amount");
                                     throw ("invalid amount");
                             }
-                            $scope.requestdetails[i].set('amount',$scope.requestdetails[i].amount);
-                            $scope.requestdetails[i].save();
+                            $rootScope.requestdetails[i].set('amount',$rootScope.requestdetails[i].amount);
+                            $rootScope.requestdetails[i].save();
                             // send push if outstanding payment
-                            if ($scope.requestdetails[i].get('balance')!=0){
+                            if ($rootScope.requestdetails[i].get('balance')!=0){
                                 var msg = "Please pay " + $rootScope.user.getUsername();
-                                msg += " " + $filter('currency')($scope.requestdetails[i].amount,$rootScope.selectedRequest.get('currency').get('code')) ;
+                                msg += " " + $filter('currency')($rootScope.requestdetails[i].amount,$rootScope.selectedRequest.get('currency').get('code')) ;
                                 msg += " for " + $rootScope.selectedRequest.get('title');
-                                sendPushMessage(msg, "P_"+$scope.requestdetails[i].get('user').id);
+                                sendPushMessage(msg, "P_"+$rootScope.requestdetails[i].get('user').id);
                             }
 
                         }
 
                     }
-                    $scope.$apply();
+
                     $rootScope.$apply();
                     $rootScope.hideLoading();
+                    $rootScope.loadRequests();
+                    $rootScope.$apply();
+//                    $rootScope.loadRequestInit();
                     $state.go('tab.requests');
-
 
                 },error:function(obj, error){
                     console.log('error '+error.message);
@@ -906,6 +998,7 @@ angular.module('starter.controllers', [])
         $scope.selectedPlace = function(place){
             console.log("selectedPlace");
             $rootScope.selectedRequest.title = place.getElementsByTagName('name')[0].childNodes[0].nodeValue;
+            $rootScope.selectedRequest.set('title',$rootScope.selectedRequest.title);
             $rootScope.selectedRequest.set('location_detail',place.getElementsByTagName('formatted_address')[0].childNodes[0].nodeValue);
             var point = new Parse.GeoPoint({
                 latitude : Number(place.getElementsByTagName('lat')[0].childNodes[0].nodeValue),
@@ -921,20 +1014,22 @@ angular.module('starter.controllers', [])
                 var Request = Parse.Object.extend("request");
                 $rootScope.selectedRequest = new Request();
                 $rootScope.selectedRequest.set('currency',$rootScope.user.get('default_currency'));
-                if (!$scope.requestdetails){
-                    console.log("$scope.requestdetails empty and it's init");
-                    $scope.requestdetails = [];
-                }
+                $rootScope.requestdetails = [];
+//                if (!$rootScope.requestdetails){
+//                    console.log("$scope.requestdetails empty and it's init");
+//                    $rootScope.requestdetails = [];
+//                }
                 console.log("create selectedRequest");
             }else{
                 //Refresh Request object for Display
-                $rootScope.showLoading("Loading...");
+//                $rootScope.showLoading("Loading...");
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
                 if ($rootScope.selectedRequest.get('currency')){
                     $rootScope.selectedRequest.get('currency').fetch({
                         success:function(r){
+                            $scope.loadRequestDetails();
                             $rootScope.$apply();
                         }
                     });
@@ -947,13 +1042,13 @@ angular.module('starter.controllers', [])
                     });
                 }
 
-                $scope.loadRequestDetails();
-                $rootScope.hideLoading();
+
+//                $rootScope.hideLoading();
             }
 
         }
 
-        $scope.init();
+//        $scope.init();
 
 
         $scope.openCamera = function(){
@@ -963,11 +1058,12 @@ angular.module('starter.controllers', [])
                 sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                 encodingType: 0     // 0=JPG 1=PNG
             }
-//            $rootScope.showLoading('Loading...')
+
 
             navigator.camera.getPicture(onSuccess,onFail,options);
         }
         var onSuccess = function(FILE_URI) {
+                        $rootScope.showLoading('Loading...')
             resizeImageForPhotoNote(FILE_URI, function(data){
                 console.log("success got pic");
                 var file = new Parse.File("photo.jpg", {base64:data});
@@ -978,9 +1074,9 @@ angular.module('starter.controllers', [])
                         success:function(request){
                             console.log("Photo Note saved");
                             $rootScope.$apply();
-//                            $rootScope.hideLoading();
+                            $rootScope.hideLoading();
                         },error:function(obj,error){
-//                            $rootScope.hideLoading();
+                            $rootScope.hideLoading();
                             throw (error.message);
                         }
                     }
@@ -992,9 +1088,6 @@ angular.module('starter.controllers', [])
             console.log("On fail " + e);
             $rootScope.hideLoading();
         }
-
-})
-.controller('PaymentDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
 
 })
 .controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
@@ -1013,6 +1106,7 @@ angular.module('starter.controllers', [])
             var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
             var note = irequest.get('parent').get('title');
+            console.log("payback note "+note);
             var location = irequest.get('parent').get('location');
             var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
@@ -1082,95 +1176,6 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
-
-        $ionicModal.fromTemplateUrl('templates/select-group.html',{
-            scope:$scope
-        }).then(function(modal) {
-            $rootScope.modalGroupSelect = modal;
-        });
-
-        $rootScope.badges = {
-            request : 0
-        };
-
-        $scope.loadIncomingRequestsCount = function(){
-
-            var RequestDetail = Parse.Object.extend("request_detail");
-            var Request = Parse.Object.extend("request");
-            var Tran = Parse.Object.extend("transaction");
-            var queryTran = new Parse.Query(Tran);
-            var queryIR = new Parse.Query(RequestDetail);
-            var queryTranR = new Parse.Query(Request);
-            var queryTranIR = new Parse.Query(RequestDetail);
-
-            queryTran.notEqualTo('read', true);
-            queryTranR.equalTo('created_by', Parse.User.current());
-            queryTranIR.exists('tran');
-            queryTranIR.matchesQuery('parent',queryTranR);
-            queryTranIR.matchesQuery('tran',queryTran);
-
-            queryIR.equalTo('user', Parse.User.current());
-            queryIR.notEqualTo('balance', 0);
-
-            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
-            mainQuery.count({
-                success:function(count){
-                    console.log("loadIncomingRequestsCount = "+count);
-                    $rootScope.badges.request = count;
-                }
-            })
-        }
-
-        $scope.loadIncomingRequestsCount();
-
-        $rootScope.alert = function(title, message){
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: message
-            });
-            alertPopup.then(function(res) {
-            });
-        }
-        $rootScope.back = function(){
-            history.go(-1);
-        }
-        $rootScope.goToIntro = function(){
-            $state.go('intro');
-        }
-        $rootScope.showLoading = function(message){
-            $ionicLoading.show({
-                template: message
-            });
-        }
-
-
-        $rootScope.goToUserSetup = function(){
-            $state.go('tab.setupuser');
-        }
-        $rootScope.hideLoading = function(){
-            $ionicLoading.hide();
-        }
-
-        $rootScope.goToBalanceOverview = function(){
-            $state.go('tab.balance-overview');
-        }
-
-        $rootScope.goToBalanceGroup = function(){
-            $state.go('tab.balance-group');
-        }
-
-        $rootScope.selectedGroup = undefined;
-
-        //$rootScope.openCurrencies = function(currentState, data){
-        //    $rootScope.data = data;
-        //    console.log("openCurrencies");
-        //    //$rootScope.currentState = currentState;
-        //    //$state.go('currencies');
-        //
-        //}
-
-    })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
         console.log("controller - BalanceOverviewCtrl start");
         //Google Anaytics
@@ -1328,22 +1333,24 @@ angular.module('starter.controllers', [])
             $scope.loadTran();
         }
 
-        $scope.tranStillHaveRecord = true;
+        $scope.tranStillHaveRecord = false;
         $scope.tranSkipNo = 0;
         $scope.tranPageSize = 5;
         $scope.loadTran = function(){
             //Load recent transactions
-            $scope.tranSkipNo = 0;
-            $scope.tranStillHaveRecord = true;
+            //$scope.tranSkipNo = 0;
+            //$scope.tranStillHaveRecord = true;
             var tran = new Transaction();
             tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,0, function(transactions){
-                $scope.tranSkipNo += transactions.length;
+                if (transactions.length!=0){
+                    $scope.tranStillHaveRecord = true;
+                }
+                $scope.tranSkipNo = transactions.length;
                 $scope.transactions = transactions;
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.$apply();
-
             })
         }
 
@@ -1437,7 +1444,7 @@ angular.module('starter.controllers', [])
         $scope.loadGroup();
 
 })
-.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter,$ionicModal) {
+.controller('SendCtrl', function($rootScope,$scope, $location, ParseService, Common, $state,$filter,$ionicModal, $stateParams) {
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Send');
@@ -1480,12 +1487,11 @@ angular.module('starter.controllers', [])
             $rootScope.selectedFriend = undefined;
 
         }
-        $scope.selectUser = function(sendform){
-            console.log("SendCtrl - sendform :"+sendform);
-            $scope.sendform = sendform;
-//            $state.go('tab.send-selectuser');
+        $scope.selectUser = function(){
+            console.log("selectUser ");
             $state.go('tab.friends');
         }
+
 
         var qrcode;
         $scope.initQRcode = function(){
@@ -2149,7 +2155,8 @@ angular.module('starter.controllers', [])
                 $rootScope.alert('Congrats!',"You're now a 'Setters'");
 
                 $rootScope.user = user;
-                $state.go('tab.balance-overview');
+                $state.go('tab.friends');
+                //$state.go('tab.balance-overview');
             })
         };
 })
@@ -2163,6 +2170,7 @@ angular.module('starter.controllers', [])
         //$scope.user = $rootScope.user;
         $scope.user.username =  $rootScope.user.getUsername();
         $scope.user.email =  $rootScope.user.getEmail();
+        $scope.user.advance =  $rootScope.user.get('advance_mode');
         $scope.refreshUser = function(){
             if ($rootScope.user.get('default_currency')){
                 $rootScope.user.get('default_currency').fetch({
@@ -2209,6 +2217,7 @@ angular.module('starter.controllers', [])
 
             $rootScope.user.set('username',userp.username);
             $rootScope.user.set('email',userp.email);
+            $rootScope.user.set('advance_mode',userp.advance);
             //$rootScope.user.set('default_currency',$rootScope.user.get('default_currency'));
             $rootScope.user.save(null,{
                 success: function(user){
@@ -2320,14 +2329,18 @@ angular.module('starter.controllers', [])
 
         $scope.loadCurrencies();
 })
-    .controller('PlaceCtrl', function($rootScope,$scope, $state) {
+.controller('PlaceCtrl', function($rootScope,$scope, $state) {
         console.log("Place Ctrl");
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Place Search');
         }
-        $scope.loadPlace = function(){
-            $scope.Places = [];
+        $rootScope.loadPlace = function(searchTxt){
+            console.log("loadPlace "+searchTxt);
+            if (searchTxt){
+                $scope.Places = placeAPI(searchTxt, $rootScope.countryName);
+            }
+
         }
 
         $scope.searchPlace = function(txt){
@@ -2443,7 +2456,8 @@ angular.module('starter.controllers', [])
             $rootScope.modalFriendSelect = modal;
         });
 
-        $scope.addFriendToGroup = function(){
+        $rootScope.openFriendToGroup = function(){
+            console.log("openFriendToGroup");
             $rootScope.modalFriendSelect.show();
 
         }
@@ -2558,14 +2572,16 @@ angular.module('starter.controllers', [])
                     subscribeAllGroups(user.id);
                 }
 
-                $state.go('tab.balance-overview');
+                $state.go('tab.friends');
+                //$state.go('tab.balance-overview');
 //                $rootScope.loadGroup();
                 console.log("controller - redirected success login");
             });
         }
 
         if (ParseService.getUser()){
-            $state.go('tab.balance-overview');
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         }
 
 
@@ -2587,7 +2603,9 @@ angular.module('starter.controllers', [])
         }
         //Check if user already logIn
         if (ParseService.getUser()){
-            $state.go('tab.balance-overview');
+            console.log("go to Initial page");
+            $state.go('tab.friends');
+            //$state.go('tab.balance-overview');
         }else{
             if (!window.navigator) {
                 $state.go('login');
@@ -2640,7 +2658,8 @@ angular.module('starter.controllers', [])
         $scope.sendVerifyCode = function (form){
             var User = Parse.Object.extend("User");
             var query = new Parse.Query(User);
-            query.equalTo("phone_number",$scope.phone_number);
+            query.equalTo("phone_number",form.phone_number);
+            //query.equalTo("phone_number",$scope.phone_number);
             query.first({
                 success:function(user){
                     user.set('password',form.verifycode);
@@ -2653,7 +2672,8 @@ angular.module('starter.controllers', [])
                             if (r.getUsername()== r.get('phone_number')){
                                 $ionicSlideBoxDelegate.next();
                             }else{
-                                $state.go('tab.balance-overview');
+                                $state.go('tab.friends');
+                                //$state.go('tab.balance-overview');
                             }
                         },error:function(obj, error){
                             console.log("login failed: invalid verification code");
@@ -2672,7 +2692,8 @@ angular.module('starter.controllers', [])
             $rootScope.user.set('email',form.email);
             $rootScope.user.save(null,{
                 success:function(r){
-                    $state.go('tab.balance-overview');
+                    $state.go('tab.friends');
+                    //$state.go('tab.balance-overview');
                 },error:function(obj, error){
                     console.log("updateUser failed error = "+error.message);
                     $rootScope.alert("Problem", error.message);
@@ -2696,4 +2717,117 @@ angular.module('starter.controllers', [])
 
         };
     }
-);
+)
+.controller('NavCtrl', function($rootScope, $scope, $state, $stateParams,$ionicSideMenuDelegate,$ionicPopup,ParseService,$ionicLoading,$ionicModal ) {
+
+        $ionicModal.fromTemplateUrl('templates/select-group.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $rootScope.modalGroupSelect = modal;
+        });
+
+        $rootScope.badges = {
+            request : 0
+        };
+
+        $scope.loadIncomingRequestsCount = function(){
+
+            var RequestDetail = Parse.Object.extend("request_detail");
+            var Request = Parse.Object.extend("request");
+            var Tran = Parse.Object.extend("transaction");
+            var queryTran = new Parse.Query(Tran);
+            var queryIR = new Parse.Query(RequestDetail);
+            var queryTranR = new Parse.Query(Request);
+            var queryTranIR = new Parse.Query(RequestDetail);
+
+            queryTran.notEqualTo('read', true);
+            queryTranR.equalTo('created_by', Parse.User.current());
+            queryTranIR.exists('tran');
+            queryTranIR.matchesQuery('parent',queryTranR);
+            queryTranIR.matchesQuery('tran',queryTran);
+
+            queryIR.equalTo('user', Parse.User.current());
+            queryIR.notEqualTo('balance', 0);
+
+            var mainQuery = Parse.Query.or(queryIR, queryTranIR);
+            mainQuery.count({
+                success:function(count){
+                    console.log("loadIncomingRequestsCount = "+count);
+                    $rootScope.badges.request = count;
+                }
+            })
+        }
+
+        $scope.loadIncomingRequestsCount();
+
+        $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
+            scope:$scope
+        }).then(function(modal) {
+            $scope.modalPhotoNote = modal;
+
+        });
+        $rootScope.openPhotoNote = function(photoURL){
+            console.log("openPhotoNote " + photoURL);
+            $scope.photoURL = photoURL;
+            $scope.modalPhotoNote.show();
+        }
+
+        $rootScope.alert = function(title, message){
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: message
+            });
+            alertPopup.then(function(res) {
+            });
+        }
+        $rootScope.back = function(){
+            history.go(-1);
+        }
+        $rootScope.goToIntro = function(){
+            $state.go('intro');
+        }
+        $rootScope.showLoading = function(message){
+            $ionicLoading.show({
+                template: message
+            });
+        }
+        $rootScope.openMap = function(name, address){
+            openGoogleMap(name, address);
+        }
+
+
+        $rootScope.goToUserSetup = function(){
+            $state.go('tab.setupuser');
+        }
+        $rootScope.hideLoading = function(){
+            $ionicLoading.hide();
+        }
+
+        $rootScope.goToBalanceOverview = function(){
+            $state.go('tab.balance-overview');
+        }
+
+        $rootScope.goToBalanceGroup = function(){
+            $state.go('tab.balance-group');
+        }
+
+        $rootScope.goToRequest = function(){
+            $state.go('tab.requests');
+        }
+        $rootScope.goToFriendRequest = function(){
+            $state.go('tab.friends-request');
+        }
+        $rootScope.goToRequestDetail = function(){
+            $state.go('tab.requests-detail');
+        }
+        $rootScope.selectedGroup = undefined;
+
+        //$rootScope.openCurrencies = function(currentState, data){
+        //    $rootScope.data = data;
+        //    console.log("openCurrencies");
+        //    //$rootScope.currentState = currentState;
+        //    //$state.go('currencies');
+        //
+        //}
+//        setTimeout($rootScope.loadFriendsInit(),5000);
+    });

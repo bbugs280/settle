@@ -14,7 +14,7 @@
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
                   refreshing-icon="icon ion-loading-c"
-                  on-refresh="loadRefresh()">
+                  on-refresh="loadRequestRefresh()">
           </ion-refresher>
 
           <ion-item class="item item-divider " >
@@ -84,7 +84,7 @@
           </ion-item>
           <!--________________________________outgoing request and payment__________________________________________________________-->
           <!--______________________________________________________________________________________________________________________-->
-          <ion-item class="item item-light item-icon-right"  ng-repeat="request in RequestsFiltered" style="font-size: small" ng-click="goToRequestDetail(request)">
+          <ion-item class="item item-light item-icon-right"  ng-repeat="request in RequestsFiltered" style="background-color:lightblue;font-size: small" ng-click="goToRequestDetail(request)">
 
               <!--To User-->
               <!--Outgoing payment-->
@@ -137,7 +137,7 @@
               <i class="ion-android-archive"></i>
               Done / Old Archive ({{ArchiveRequestsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-dark item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="font-size: small;" ng-click="goToArchDetail(request)">
+          <ion-item class="item item-icon-right"  ng-repeat="request in ArchiveRequestsFiltered" style="background-color:lightgray;font-size: small;" ng-click="goToArchDetail(request)">
               <!--To User-->
               <!--Outgoing payment-->
               <!--condition -->
@@ -176,7 +176,7 @@
               </span>
 
               <!--Date Time-->
-              <span class="item-note" style="font-size: x-small">
+              <span class="item-note" style="font-size: x-small;color:dimgrey">
               <b>{{request.updatedAt.toLocaleString()}} </b>
               </span>
 

@@ -309,7 +309,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
       .state('tab.send-remote', {
           url: '/send-remote',
           views: {
-              'tab-send': {
+              'tab-friends': {
                   templateUrl: 'templates/tab-send-remote.html',
                   controller: 'SendCtrl'
               }

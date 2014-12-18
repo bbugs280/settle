@@ -6,6 +6,10 @@
         </button>
     </ion-header-bar>
     <ion-content scroll="true" class="has-header">
-        <img src="{{selectedRequest.get('photo').url()}}" width="100%" class="rotate90">
+        <ion-list>
+            <ion-item style="height:100%;">
+                <img src="{{photoURL}}" class="rotate90" style="width:100%;">
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-modal-view>
