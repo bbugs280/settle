@@ -366,8 +366,9 @@ angular.module('starter.controllers', [])
             var queryTran = new Parse.Query(Tran);
             queryTran.notEqualTo('read', true);
             queryOutgoingPayment.exists('tran');
-            queryOutgoingPayment.matchesQuery('tran',queryTran);
             queryOutgoingPayment.equalTo('user',$rootScope.user);
+            queryOutgoingPayment.matchesQuery('tran',queryTran);
+
 
             var mainQuery = Parse.Query.or(queryOutgoingRequestDetail, queryOutgoingPayment);
             mainQuery.include('parent');
@@ -981,9 +982,8 @@ angular.module('starter.controllers', [])
 
                     }
 
-                    $rootScope.$apply();
                     $rootScope.hideLoading();
-                    $rootScope.loadRequests();
+//                    $rootScope.loadRequests();
                     $rootScope.$apply();
 //                    $rootScope.loadRequestInit();
                     $state.go('tab.requests');

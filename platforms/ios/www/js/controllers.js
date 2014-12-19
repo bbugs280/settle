@@ -365,7 +365,7 @@ angular.module('starter.controllers', [])
             var queryOutgoingPayment = new Parse.Query(RequestDetail);
             var queryTran = new Parse.Query(Tran);
             queryTran.notEqualTo('read', true);
-            queryOutgoingPayment.exists('tran');
+//            queryOutgoingPayment.exists('tran');
             queryOutgoingPayment.matchesQuery('tran',queryTran);
             queryOutgoingPayment.equalTo('user',$rootScope.user);
 
@@ -422,7 +422,7 @@ angular.module('starter.controllers', [])
 
             queryTran.notEqualTo('read', true);
             queryTranR.equalTo('created_by', $rootScope.user);
-            queryTranIR.exists('tran');
+//            queryTranIR.exists('tran');
             queryTranIR.matchesQuery('parent',queryTranR);
             queryTranIR.matchesQuery('tran',queryTran);
 
@@ -981,9 +981,8 @@ angular.module('starter.controllers', [])
 
                     }
 
-                    $rootScope.$apply();
                     $rootScope.hideLoading();
-                    $rootScope.loadRequests();
+//                    $rootScope.loadRequests();
                     $rootScope.$apply();
 //                    $rootScope.loadRequestInit();
                     $state.go('tab.requests');
