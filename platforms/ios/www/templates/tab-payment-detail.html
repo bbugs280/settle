@@ -25,7 +25,7 @@
             </ion-item>
             <ion-item class="item">
                 <b>Date Time</b>
-                <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').createdAt.toLocaleString()}}</span>
+                <span class="item-note" style="color:black;font-size: small">{{selectedIncomingPayment.get('tran').createdAt.toLocaleString()}}</span>
             </ion-item>
             <ion-item class="item">
                 <b>Paid To</b>
@@ -35,14 +35,24 @@
                 <b>Paid by</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('tran').get('fromuser').getUsername()}}</span>
             </ion-item>
-            <ion-item class="item item-button-right">
+            <ion-item class="item">
                 <b>Title</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('title')}}</span>
-                <button class="button button-clear" ng-click="openMap(selectedIncomingPayment.get('parent').get('title'), selectedIncomingPayment.get('parent').get('location_detail'))" ng-if="selectedIncomingPayment.get('parent').get('location_detail')!=undefined">
+                <!--<button class="button button-clear" ng-click="openMap(selectedIncomingPayment.get('parent').get('title'), selectedIncomingPayment.get('parent').get('location_detail'))" ng-if="selectedIncomingPayment.get('parent').get('location_detail')!=undefined">-->
+                    <!--<i class="icon ion-map"></i>-->
+                <!--</button>-->
+            </ion-item>
+            <ion-item class="item item-button-right" ng-if="selectedIncomingPayment.get('parent').get('location_detail')!=undefined">
+                <span style="font-size: small">
+                    {{selectedIncomingPayment.get('parent').get('location_detail')}}
+                </span>
+
+
+                <button class="button button-clear" ng-click="openMap(selectedIncomingPayment.get('parent').get('title'), selectedIncomingPayment.get('parent').get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
-            </ion-item>
 
+            </ion-item>
             <ion-item class="item">
                 <b>Note</b>
                 <span class="item-note" style="color:black">{{selectedIncomingPayment.get('parent').get('note')}}</span>

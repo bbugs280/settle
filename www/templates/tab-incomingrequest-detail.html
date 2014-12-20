@@ -22,26 +22,37 @@
                 <!--<p ng-if="selectedRequest.get('group')==undefined">Select Group (optional)</p>-->
 
                 <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->
-            </ion-item>
-            <ion-item class="item">
+            </ion-item >
+            <ion-item class="item"  style="font-size: small">
                 <b>Date Time</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').createdAt.toLocaleString()}}</span>
             </ion-item>
-            <ion-item class="item">
+            <ion-item class="item"  style="font-size: small">
                 <b>Requested by</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('created_by').getUsername()}}</span>
             </ion-item>
-            <ion-item class="item item-button-right" >
-                <b>Title</b>
+            <ion-item class="item "  style="font-size: small">
+                <b>Title/Place</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('title')}}</span>
-                <button class="button button-clear" ng-click="openMap(selectedIncomingRequest.title, selectedIncomingRequest.get('parent').get('location_detail'))" ng-if="selectedIncomingRequest.get('parent').get('location_detail')!=undefined">
+                <!--<button class="button button-clear" ng-click="openMap(selectedIncomingRequest.title, selectedIncomingRequest.get('parent').get('location_detail'))" ng-if="selectedIncomingRequest.get('parent').get('location_detail')!=undefined">-->
+                    <!--<i class="icon ion-map"></i>-->
+                <!--</button>-->
+            </ion-item >
+            <ion-item class="item item-button-right" style="font-size: small" ng-if="selectedIncomingRequest.get('parent').get('location_detail')!=undefined">
+                <span style="font-size: small">
+                    {{selectedIncomingRequest.get('parent').get('location_detail')}}
+                </span>
+
+
+                <button class="button button-clear" ng-click="openMap(selectedIncomingRequest.get('parent').get('title'), selectedIncomingRequest.get('parent').get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
+
             </ion-item>
             <!--<ion-item class="item">-->
                 <!--{{selectedIncomingRequest.get('parent').get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}-->
             <!--</ion-item>-->
-            <ion-item class="item">
+            <ion-item class="item"  style="font-size: small">
                 <b>Note</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('note')}}</span>
             </ion-item>
@@ -49,7 +60,7 @@
                 Photo Note
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>
-            <ion-item class="item">
+            <ion-item class="item"  style="font-size: small">
                 <b>Owing amount</b>
                 <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 

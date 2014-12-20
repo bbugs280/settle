@@ -383,6 +383,11 @@ angular.module('starter.controllers', [])
             mainQuery.find({
                 success:function(requests){
                     for (var i in requests){
+                        if (requests[i].get('parent').get('title')){
+                            requests[i].title = requests[i].get('parent').get('title');
+                        }else{
+                            requests[i].title = '';
+                        }
                         if (requests[i].get('user').id == $rootScope.user.id){
                             //isPayment
                             requests[i].isPayment = true;
@@ -393,7 +398,7 @@ angular.module('starter.controllers', [])
                             requests[i].user = requests[i].get('user').getUsername();
 
                         }
-                        requests[i].title = requests[i].get('parent').get('title');
+//                        requests[i].title = requests[i].get('parent').get('title');
                         requests[i].amount = requests[i].get('amount');
                         requests[i].currencyCode = requests[i].get('parent').get('currency').get('code');
                         if (requests[i].get('parent').get('group')){
@@ -443,6 +448,11 @@ angular.module('starter.controllers', [])
             mainQuery.find({
                 success:function(requestdetails){
                     for (var i in requestdetails){
+                        if (requestdetails[i].get('parent').get('title')){
+                            requestdetails[i].title = requestdetails[i].get('parent').get('title');
+                        }else{
+                            requestdetails[i].title = '';
+                        }
                         if (requestdetails[i].get('user').id == $rootScope.user.id){
                             //isRequest
                             requestdetails[i].isRequest = true;
@@ -453,7 +463,7 @@ angular.module('starter.controllers', [])
                             requestdetails[i].isPayment = true;
                             requestdetails[i].user = requestdetails[i].get('user').getUsername();
                         }
-                        requestdetails[i].title = requestdetails[i].get('parent').get('title');
+
                         requestdetails[i].amount = requestdetails[i].get('amount');
                         requestdetails[i].currencyCode = requestdetails[i].get('parent').get('currency').get('code');
                         if (requestdetails[i].get('parent').get('group')){
@@ -480,8 +490,6 @@ angular.module('starter.controllers', [])
         //$scope.archiveLastDate = new Date();
         $scope.loadArchive = function(){
 
-
-            console.log("loadArchive start with = "+$scope.archiveLastDate);
             console.log("loadArchive start with archiveRecordCount = "+$scope.archiveRecordCount);
             var RequestDetail = Parse.Object.extend("request_detail");
             var Request = Parse.Object.extend("request");
@@ -525,6 +533,7 @@ angular.module('starter.controllers', [])
             mainQuery.include('tran');
             mainQuery.include(['tran.touser']);
             mainQuery.include(['tran.fromuser']);
+            mainQuery.include(['tran.group']);
             mainQuery.include(['parent.created_by']);
             mainQuery.include(['parent.group']);
             mainQuery.include(['parent.currency']);
@@ -546,6 +555,11 @@ angular.module('starter.controllers', [])
                     console.log("$scope.archiveLastDate "+$scope.archiveLastDate);
                     for (var i in requests){
 
+                        if (requests[i].get('parent').get('title')){
+                            requests[i].title = requests[i].get('parent').get('title');
+                        }else{
+                            requests[i].title = '';
+                        }
                         if (requests[i].get('user').id == $rootScope.user.id){
                             // isPayment
                             requests[i].isPayment = true;
@@ -558,10 +572,16 @@ angular.module('starter.controllers', [])
                                 requests[i].isIncoming = true;
                                 requests[i].user = requests[i].get('tran').get('fromuser').getUsername();
                             }
-                            requests[i].title = requests[i].get('parent').get('title');
+
+
                             requests[i].amount = requests[i].get('tran').get('amount');
                             requests[i].currencyCode = requests[i].get('tran').get('currency').get('code');
-                            requests[i].groupName = requests[i].get('tran').get('group').get('group');
+                            if (requests[i].get('parent').get('group')){
+                                requests[i].groupName = requests[i].get('parent').get('group').get('group');
+                            }else{
+                                requests[i].groupName = "";
+                            }
+
                             requests[i].updateAt = requests[i].updatedAt.toLocaleString();
 
 
@@ -577,7 +597,7 @@ angular.module('starter.controllers', [])
                                 requests[i].isIncoming = true;
                                 requests[i].user = requests[i].get('parent').get('created_by').getUsername();
                             }
-                            requests[i].title = requests[i].get('parent').get('title');
+//                            requests[i].title = requests[i].get('parent').get('title');
                             requests[i].amount = requests[i].get('amount');
                             requests[i].currencyCode = requests[i].get('parent').get('currency').get('code');
                             if (requests[i].get('parent').get('group')){
@@ -641,8 +661,11 @@ angular.module('starter.controllers', [])
             $scope.IncomingRequestsFiltered = result;
         }
         $scope.searchArchive = function(txt){
+
             var result = [];
-            for (var i in $rootScope.Requests){
+            for (var i in $rootScope.ArchiveRequests){
+                console.log("searchArchive" + $rootScope.ArchiveRequests[i].title);
+                console.log("searchArchive" + $rootScope.ArchiveRequests[i].groupName);
                 if ($rootScope.ArchiveRequests[i].title.toLowerCase().indexOf(txt.toLowerCase())!=-1||
                     $rootScope.ArchiveRequests[i].user.toLowerCase().indexOf(txt.toLowerCase())!=-1 ||
                     $rootScope.ArchiveRequests[i].groupName.toLowerCase().indexOf(txt.toLowerCase())!=-1 ){

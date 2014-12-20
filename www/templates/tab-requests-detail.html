@@ -22,7 +22,7 @@
                     {{selectedRequest.get('location_detail')}}
                 </span>
                 <br>
-                <span style="font-size:x-small">on {{selectedRequest.createdAt.toLocaleString()}}</span>
+                <span style="font-size:x-small" ng-if="selectedRequest.createdAt">on {{selectedRequest.createdAt.toLocaleString()}}</span>
                 <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
