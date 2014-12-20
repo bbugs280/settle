@@ -42,8 +42,6 @@
                 <span style="font-size: small">
                     {{selectedIncomingRequest.get('parent').get('location_detail')}}
                 </span>
-
-
                 <button class="button button-clear" ng-click="openMap(selectedIncomingRequest.get('parent').get('title'), selectedIncomingRequest.get('parent').get('location_detail'))">
                     <i class="icon ion-map"></i>
                 </button>
@@ -65,17 +63,16 @@
                 <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 
             </ion-item>
+            <!--<ion-item class="item"  style="font-size: small">-->
+                <!--<b>Rating</b>-->
+            <!--</ion-item>-->
+            <!--<ion-item class="item"  style="font-size: small">-->
+                <!--<b>Comments</b>-->
+            <!--</ion-item>-->
+            <ion-item class="item item-stable" style="font-size: small;text-align: center" ng-click="payBack(selectedIncomingRequest)" ng-if="selectedIncomingRequest.get('balance')!=0">
 
-            <button class="button button-block button-stable" ng-click="payBack(selectedIncomingRequest)" ng-disabled="selectedIncomingRequest.get('balance')==0">
-
-                <span ng-if="selectedIncomingRequest.get('balance')!=0">
-                    <i class="icon ion-card"></i>
-                    Pay
-                </span>
-                <span style="color:blue" ng-if="selectedIncomingRequest.get('balance')==0">
-                    <i class="icon ion-thumbsup"></i>
-                    Paid
-                </span>
+                <b>Pay</b>
+            </ion-item>
         </ion-list>
 
 
