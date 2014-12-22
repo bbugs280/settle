@@ -109,7 +109,7 @@
             </ion-item>
             <ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>
-                <rating ng-model="selectedRequest.avgrate" max="5"></rating>
+                <rating ng-model="selectedRequest.avgrate" max="5" ng-disabled="true"></rating>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:95%;top:15px"></i>
             </ion-item>
         </ion-list>

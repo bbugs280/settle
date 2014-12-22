@@ -12,6 +12,14 @@
                 on-refresh="viewRatingComment(selectedRequest)">
         </ion-refresher>
         <ion-list class="list list-inset " style="font-size: small" >
+            <ion-item class="item" style="font-size: small;font-weight: bold">
+                {{selectedRequest.get('title')}}
+            </ion-item>
+            <ion-item class="item item-input "  style="font-size: small">
+                <span class="input-label"  style="font-size: small;font-weight: bold">Average Rating</span>
+                <rating ng-model="selectedRequest.avgrate" max="5" ng-disabled="true"></rating>
+
+            </ion-item>
             <ion-item class="item item-avatar"  style="font-size: small" ng-repeat="requestcomment in RequestComments">
                 <!--personal icon-->
                 <img src="{{requestcomment.get('created_by').get('icon').url()}}"
