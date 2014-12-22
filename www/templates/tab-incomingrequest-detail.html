@@ -5,14 +5,14 @@
                 </button>
     </ion-nav-buttons>
 
-    <ion-content class="has-header">
+    <ion-content class="has-header"  data-ng-controller="RequestsDetailCtrl">
 
         <ion-list class="list" style="font-size: small">
             <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
 
             <!--</ion-item>-->
             <ion-item class="item item-avatar item-icon-right"
-                      style="font-size: normal"
+                      style="font-size: small"
                       ng-if="selectedIncomingRequest.get('parent').get('group')!=undefined"
                       ng-class="{'item-calm':selectedIncomingRequest.get('parent').get('group')!=undefined,'item-stable':selectedIncomingRequest.get('parent').get('group')==undefined}">
                 <img src="./img/group.png" width="30px" style="border-radius: 10px" ng-if="selectedIncomingRequest.get('parent').get('group')==undefined || selectedIncomingRequest.get('parent').get('group').get('icon')==undefined">
@@ -50,7 +50,7 @@
             <!--<ion-item class="item">-->
                 <!--{{selectedIncomingRequest.get('parent').get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}-->
             <!--</ion-item>-->
-            <ion-item class="item"  style="font-size: small">
+            <ion-item class="item"  style="font-size: small" ng-if="selectedIncomingRequest.get('parent').get('note') && selectedIncomingRequest.get('parent').get('note')!=''">
                 <b>Note</b>
                 <span class="item-note" style="color:black">{{selectedIncomingRequest.get('parent').get('note')}}</span>
             </ion-item>
@@ -63,16 +63,28 @@
                 <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 
             </ion-item>
-            <!--<ion-item class="item"  style="font-size: small">-->
-                <!--<b>Rating</b>-->
-            <!--</ion-item>-->
-            <!--<ion-item class="item"  style="font-size: small">-->
-                <!--<b>Comments</b>-->
-            <!--</ion-item>-->
-            <ion-item class="item item-stable" style="font-size: small;text-align: center" ng-click="payBack(selectedIncomingRequest)" ng-if="selectedIncomingRequest.get('balance')!=0">
-
-                <b>Pay</b>
+            <ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
+                <span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>
+                <rating ng-model="selectedRequest.avgrate" max="5"></rating>
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:95%;top:15px"></i>
             </ion-item>
+            <!--<form name="comment_form" ng-submit="payBack(selectedIncomingRequest)">-->
+                <!--<ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedIncomingRequest.get('parent'))">-->
+                    <!--<span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>-->
+                    <!--<rating ng-model="selectedRequest.avgrate" max="5"></rating>-->
+                    <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:95%;top:15px"></i>-->
+                <!--</ion-item>-->
+                <!--<ion-item class="item item-input item-stacked-label">-->
+                    <!--<span class="input-label" style="font-size: small;font-weight: bold">Comments</span>-->
+                    <!--<textarea  ng-model="selectedIncomingRequest.comments" style="font-size: small" placeholder="e.g. This is a great place / event. Was it fun? Any Improvements?"></textarea>-->
+                <!--</ion-item>-->
+                <ion-item class="item item-stable" style="font-size: small;text-align: center"  ng-click="payBack(selectedIncomingRequest)" ng-if="selectedIncomingRequest.get('balance')!=0">
+                    <!--<button class="button button-clear" type="submit" style="color:black">-->
+                        <b>Pay</b>
+                    <!--</button>-->
+
+                </ion-item>
+            <!--</form>-->
         </ion-list>
 
 

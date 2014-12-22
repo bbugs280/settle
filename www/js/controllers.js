@@ -695,6 +695,13 @@ angular.module('starter.controllers', [])
             }
         }
         $scope.goToArchDetail=function(request){
+
+            $rootScope.selectedRequest = request.get('parent');
+            getAverageRating($rootScope.selectedRequest, function(avgRating){
+                $rootScope.selectedRequest.avgrate = avgRating;
+                $rootScope.$apply();
+            });
+
             if (request.isPayment){
                 console.log("isPayment");
                 $rootScope.selectedIncomingPayment = request;
@@ -715,6 +722,11 @@ angular.module('starter.controllers', [])
             }
         }
         $scope.goToIncomingRequestDetail = function(irequest){
+            $rootScope.selectedRequest = irequest.get('parent');
+            getAverageRating($rootScope.selectedRequest, function(avgRating){
+                $rootScope.selectedRequest.avgrate = avgRating;
+                $rootScope.$apply();
+            });
             //Payment
             if (irequest.isPayment){
                 var tran = irequest.get('tran');
@@ -741,6 +753,11 @@ angular.module('starter.controllers', [])
 
         }
         $scope.goToRequestDetail = function(requestdetail){
+            $rootScope.selectedRequest = requestdetail.get('parent');
+            getAverageRating($rootScope.selectedRequest, function(avgRating){
+                $rootScope.selectedRequest.avgrate = avgRating;
+                $rootScope.$apply();
+            });
             //If payment
             if (requestdetail.isPayment){
                 $rootScope.selectedIncomingPayment = requestdetail;
@@ -768,11 +785,6 @@ angular.module('starter.controllers', [])
             $scope.modalCurrencySelect = modal;
         });
 
-//        $ionicModal.fromTemplateUrl('templates/tab-friends-request-select.html',{
-//            scope:$scope
-//        }).then(function(modal) {
-//            $scope.modalFriendRequestSelect = modal;
-//        });
         $ionicModal.fromTemplateUrl('templates/select-place.html',{
             scope:$scope
         }).then(function(modal) {
@@ -1032,6 +1044,8 @@ angular.module('starter.controllers', [])
             $scope.modalPlaceSelect.hide();
         }
 
+
+
         $scope.init = function(){
             if (!$rootScope.selectedRequest){
                 var Request = Parse.Object.extend("request");
@@ -1049,6 +1063,11 @@ angular.module('starter.controllers', [])
                 $rootScope.selectedRequest.title = $rootScope.selectedRequest.get('title');
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
+
+                getAverageRating($rootScope.selectedRequest, function(avgRating){
+                    $rootScope.selectedRequest.avgrate = avgRating;
+                    $rootScope.$apply();
+                })
                 if ($rootScope.selectedRequest.get('currency')){
                     $rootScope.selectedRequest.get('currency').fetch({
                         success:function(r){
@@ -1065,13 +1084,10 @@ angular.module('starter.controllers', [])
                     });
                 }
 
-
-//                $rootScope.hideLoading();
             }
 
         }
 
-//        $scope.init();
 
 
         $scope.openCamera = function(){
@@ -1112,13 +1128,6 @@ angular.module('starter.controllers', [])
             $rootScope.hideLoading();
         }
 
-})
-.controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
-        //Google Anaytics
-        if (typeof analytics !== 'undefined') {
-            analytics.trackView('Incoming Request Detail');
-        }
-
         $scope.payBack = function(irequest){
             //save tran
             $rootScope.showLoading("Processing");
@@ -1129,7 +1138,6 @@ angular.module('starter.controllers', [])
             var fromuser = irequest.get('user');
             var touser = irequest.get('parent').get('created_by');
             var note = irequest.get('parent').get('title');
-            console.log("payback note "+note);
             var location = irequest.get('parent').get('location');
             var suser = irequest.get('user');
             var friend = irequest.get('parent').get('created_by');
@@ -1157,6 +1165,8 @@ angular.module('starter.controllers', [])
                     });
                 }
             }
+
+
 
             if (group){
                 console.log("payback - has group "+ group.get('group'));
@@ -1197,6 +1207,42 @@ angular.module('starter.controllers', [])
             });
 
         }
+        $scope.viewRatingComment = function(request){
+            //load all related Comments
+            console.log("viewRatingComment " + request.get("title"));
+            $rootScope.selectedRequest = request;
+            $rootScope.comment={};
+            loadRelatedComments(request, function(comments){
+                $rootScope.RequestComments = comments;
+                $rootScope.$apply();
+                $rootScope.$broadcast('scroll.refreshComplete');
+                $state.go('tab.requests-comments');
+            });
+        }
+        $scope.saveComment = function(form, request){
+
+            console.log("saveComment "+form.rate);
+            console.log("saveComment "+form.comments);
+            saveComment(form, request, $rootScope.user, function(comment){
+                $rootScope.RequestComments.push(comment);
+                $rootScope.comment={};
+                getAverageRating($rootScope.selectedRequest, function(avgRating){
+                    $rootScope.selectedRequest.avgrate = avgRating;
+                    $rootScope.$apply();
+                })
+//                $rootScope.$apply();
+            });
+        }
+
+
+
+})
+.controller('IncomingRequestDetailCtrl', function($rootScope, $scope, $state,$ionicModal, ParseService, Common, $filter){
+        //Google Anaytics
+        if (typeof analytics !== 'undefined') {
+            analytics.trackView('Incoming Request Detail');
+        }
+
 
 })
 .controller('BalanceOverviewCtrl', function($rootScope, $scope, $state,ParseService) {
