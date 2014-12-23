@@ -1209,7 +1209,7 @@ angular.module('starter.controllers', [])
         }
         $scope.viewRatingComment = function(request){
             //load all related Comments
-           
+
             $rootScope.selectedRequest = request;
             $rootScope.comment={};
             loadRelatedComments(request, function(comments){
