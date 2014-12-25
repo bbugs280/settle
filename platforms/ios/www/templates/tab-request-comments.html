@@ -15,10 +15,10 @@
             <ion-item class="item item-stable" style="font-size: small;font-weight: bold">
                 {{selectedRequest.get('title')}}
             </ion-item>
-            <ion-item class="item item-input "  style="font-size: small" ng-disabled="true" ng-if="RequestComments.length!=0">
+            <ion-item class="item item-input "  style="font-size: small" ng-if="RequestComments.length!=0">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Average Rating</span>
-                <rating ng-model="selectedRequest.avgrate" max="5"></rating>
 
+                <b>{{selectedRequest.avgrate}} / 5 </b>
             </ion-item>
             <ion-item class="item item-avatar"  style="font-size: small" ng-repeat="requestcomment in RequestComments">
                 <!--personal icon-->
@@ -41,14 +41,14 @@
             <form ng-model="comment" ng-submit="saveComment(comment,selectedRequest)">
                 <ion-item class="item item-input item-divider "  style="font-size: small">
                     <span class="input-label"  style="font-size: small;font-weight: bold">Your Rating</span>
-                    <rating ng-model="comment.rate" max="5"></rating>
+                    <rating ng-model="selectedRequest.rate" max="5"  ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
 
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <span class="input-label" style="font-size: small;font-weight: bold">Comments</span>
-                    <textarea  ng-model="comment.comments" style="font-size: small" placeholder="e.g. Is it a great place / event? Was it fun? Any Improvements?"></textarea>
+                    <textarea  ng-model="comment.comments" style="font-size: small" ng-change="onEditComment(comment)" placeholder="e.g. Is it a great place / event? Was it fun? Any Improvements?"></textarea>
                 </ion-item>
-                <button type="submit" class="button button-bar button-stable" >
+                <button type="submit" class="button button-bar button-stable" ng-disabled="commentSaving">
                     <span style="font-size: small">Post</span>
                 </button>
                 <!--<ion-item class="item item-stable" style="font-size: small;text-align: center" >-->

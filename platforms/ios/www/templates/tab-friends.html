@@ -40,6 +40,14 @@
                   <b>{{group.get('group')}}</b>  <br>
                   <span style="font-size: x-small">{{group.get('friend_userid').length}} Settlers in Group</span>
               </p>
+              <span class="item-note" style="color:black">
+                       <span ng-if="group.balance<0">
+                           <span style="color: red">{{group.balance |  currency:group.currencyCode}}</span>
+                        </span>
+                        <span ng-if="group.balance>=0">
+                           <span style="color:olivedrab">{{group.balance| currency:group.currencyCode}}</span>
+                        </span>
+              </span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="FriendsFiltered.length!=0">

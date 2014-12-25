@@ -37,9 +37,19 @@
                    class="avatar"
                    ng-if="group.get('icon')==undefined">
               <p>
-                  <b>{{group.get('group')}}</b>  <br>
+                  <b>{{group.get('group')}}</b>
+                  <span class="item-note" style="color:black">
+                       <span ng-if="group.balance<0">
+                           <span style="color: red">{{group.balance |  currency:group.currencyCode}}</span>
+                        </span>
+                        <span ng-if="group.balance>=0">
+                           <span style="color:olivedrab">{{group.balance| currency:group.currencyCode}}</span>
+                        </span>
+                    </span>
+                  <br>
                   <span style="font-size: x-small">{{group.get('friend_userid').length}} Settlers in Group</span>
               </p>
+
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="FriendsFiltered.length!=0">

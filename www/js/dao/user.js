@@ -241,6 +241,7 @@ var SUser = Parse.User.extend({
             success: function (result) {
                 // The object was retrieved successfully.
                 console.log("getFriendListAll - success count " + result.length);
+
                 callback(result);
             },
             error: function (object, error) {
@@ -254,7 +255,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friend_userid", userId);
-        //query.notEqualTo("ispersonal",true);
+        query.notEqualTo("ispersonal",true);
         query.notEqualTo("hidden", true);
         query.addAscending('group');
         query.find({

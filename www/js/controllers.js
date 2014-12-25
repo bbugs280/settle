@@ -109,32 +109,50 @@ angular.module('starter.controllers', [])
             user.getFriendListAll($rootScope.user.id, false, function(groups){
                 $rootScope.Groups = groups;
                 $scope.GroupsFiltered = groups;
+//                $scope.loadGroupsBalance();
+                $rootScope.$apply();
+                $scope.$apply();
                 $scope.loadFriends();
-            });
 
+            });
+        }
+        $scope.loadGroupsBalance = function(){
+
+            if ($rootScope.Groups){
+                for (var i=0; i < $rootScope.Groups.length;i++){
+                    console.log("group = index = "+ i );
+                    console.log("group = index total = "+ $rootScope.Groups.length );
+                    loadRelatedGroupUserBalance($rootScope.Groups[i], $rootScope.user, function(bal){
+
+                        if ($rootScope.Groups[i]){
+                            console.log(" valid group");
+
+                        }
+                        if (bal){
+//                            console.log("group = "+i+" : "+ $rootScope.Groups[i].get('group'));
+//                            $rootScope.Groups[i].balance = 0;
+//                            $rootScope.Groups[i].set('balance',bal.get('balance'));
+                            $rootScope.Groups[i].balance = bal.get('balance');
+                            console.log("group balance = "+i+" : "+ $rootScope.Groups[i].balance);
+                            $rootScope.Groups[i].currencyCode = bal.get('currency').get('code');
+                            $scope.GroupsFiltered[i] = $rootScope.Groups[i];
+                            $rootScope.$apply();
+                            $scope.$apply();
+                        }
+                    });
+                }
+            }
         }
         $scope.loadFromParse = function(phoneArray){
             //Now get user from Parse using Array
             $scope.loading = 'visible';
-            console.log("phoneArray ="+ phoneArray.length);
-            var User = Parse.Object.extend("User");
-            var query = new Parse.Query(User);
-            query.containedIn('phone_number', phoneArray);
-            query.addAscending('username');
-            query.find({
-                success:function(users){
-                    console.log("found user = "+users.length);
-
-                    $rootScope.Friends=users;
-                    $scope.FriendsFiltered=users;
-                    $scope.$apply();
-                    $scope.loading = 'hidden';
-                    $scope.$broadcast('scroll.refreshComplete');
-                }, error:function(obj, error){
-                    $scope.loading = 'hidden';
-                    console.log("error "+ error.message);
-                }
-            });
+            loadFriendsFromParse(phoneArray, function(users){
+                $rootScope.Friends=users;
+                $scope.FriendsFiltered=users;
+                $scope.$apply();
+                $scope.loading = 'hidden';
+                $scope.$broadcast('scroll.refreshComplete');
+            })
         }
 
         $scope.loadFriendsGroups = function(){
@@ -262,8 +280,6 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-
-
 
         $scope.getInfo = function(user){
 
@@ -770,7 +786,7 @@ angular.module('starter.controllers', [])
         }
 
 })
-.controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal,$filter){
+.controller('RequestsDetailCtrl', function($rootScope, $scope, $state,$ionicModal,$filter,Common, ParseService){
         //Google Anaytics
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Requests Detail');
@@ -1064,8 +1080,8 @@ angular.module('starter.controllers', [])
                 $rootScope.selectedRequest.amount = $rootScope.selectedRequest.get('amount');
                 $rootScope.selectedRequest.note = $rootScope.selectedRequest.get('note');
 
-                getAverageRating($rootScope.selectedRequest, function(avgRating){
-                    $rootScope.selectedRequest.avgrate = avgRating;
+                getUserRating($rootScope.selectedRequest, $rootScope.user, function(rating){
+                    $rootScope.selectedRequest.rate = rating;
                     $rootScope.$apply();
                 })
                 if ($rootScope.selectedRequest.get('currency')){
@@ -1214,23 +1230,45 @@ angular.module('starter.controllers', [])
             $rootScope.comment={};
             loadRelatedComments(request, function(comments){
                 $rootScope.RequestComments = comments;
-                $rootScope.$apply();
-                $rootScope.$broadcast('scroll.refreshComplete');
-                $state.go('tab.requests-comments');
+                getAverageRating($rootScope.selectedRequest, function(avgRating){
+                    $rootScope.selectedRequest.avgrate = avgRating;
+//                    sendCommentToFriends(message, request, $rootScope.user.id);
+                    $rootScope.$apply();
+                    $rootScope.$broadcast('scroll.refreshComplete');
+                    $state.go('tab.requests-comments');
+                })
+
+            });
+        }
+        $scope.onEditComment = function(form){
+            if (form.comments !=""){
+                $scope.commentSaving = false;
+            }
+        }
+        $scope.onEditRating = function(rate, request){
+            console.log("rating processing");
+            saveRating(rate, request, $rootScope.user, function(r){
+                console.log("rating saved in controller");
             });
         }
         $scope.saveComment = function(form, request){
-
-            console.log("saveComment "+form.rate);
-            console.log("saveComment "+form.comments);
+            $scope.commentSaving = true;
+            if (!form.comments || form.comments ===""){
+                throw ("Empty Comment");
+            }
+            var message = $rootScope.user.getUsername() + " commented on " + request.get('title') + ": ";
+            message += form.comments;
             saveComment(form, request, $rootScope.user, function(comment){
                 $rootScope.RequestComments.push(comment);
                 $rootScope.comment={};
+                $scope.commentSaving = false;
                 getAverageRating($rootScope.selectedRequest, function(avgRating){
                     $rootScope.selectedRequest.avgrate = avgRating;
+                    sendCommentToFriends(message, request, $rootScope.user.id);
                     $rootScope.$apply();
+
                 })
-//                $rootScope.$apply();
+
             });
         }
 

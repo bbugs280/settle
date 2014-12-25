@@ -254,7 +254,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friend_userid", userId);
-        //query.notEqualTo("ispersonal",true);
+        query.notEqualTo("ispersonal",true);
         query.notEqualTo("hidden", true);
         query.addAscending('group');
         query.find({

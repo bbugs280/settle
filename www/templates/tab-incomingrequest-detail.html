@@ -5,7 +5,7 @@
                 </button>
     </ion-nav-buttons>
 
-    <ion-content class="has-header"  data-ng-controller="RequestsDetailCtrl">
+    <ion-content class="has-header"  data-ng-controller="RequestsDetailCtrl" data-ng-init="init()">
 
         <ion-list class="list" style="font-size: small">
             <!--<ion-item class="item item-thumbnail-left item-icon-right" ng-click="openCamera()">-->
@@ -65,8 +65,8 @@
             </ion-item>
             <ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>
-                <rating ng-model="selectedRequest.avgrate" max="5"></rating>
-                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:95%;top:15px"></i>
+                <rating ng-model="selectedRequest.rate" max="5" ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
+                <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:90%;top:15px"></i>
             </ion-item>
             <!--<form name="comment_form" ng-submit="payBack(selectedIncomingRequest)">-->
                 <!--<ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedIncomingRequest.get('parent'))">-->
