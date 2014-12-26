@@ -132,7 +132,9 @@ angular.module('starter.controllers', [])
             loadFriendsFromParse(phoneArray, function(users){
                 $rootScope.Friends=users;
                 $scope.FriendsFiltered=users;
-                $scope.$apply();
+                updateGroupFriendsBalance(null, $rootScope.Friends, function(users){
+                    $scope.$apply();
+                });
                 $scope.loading = 'hidden';
                 $scope.$broadcast('scroll.refreshComplete');
             })
