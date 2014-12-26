@@ -33,18 +33,14 @@ function updateGroupUserBalance(groups, user, callback){
             if (bal){
                 for (var i in bal){
                     for (var j in groups){
-                        groups[j].balance = {
-                            amount:0,
-                            currencyCode: ''
-                        }
                         if (bal[i].get('group').id == groups[j].id){
-                            groups[j].balance.amount = bal[i].get('balance');
-                            groups[j].balance.currencyCode = bal[i].get('currency').get('code');
+                            groups[j].balance = bal[i].get('balance');
+                            groups[j].currencyCode = bal[i].get('currency').get('code');
                         }
                     }
                 }
             }
-            callback(bal);
+            callback(groups);
         }
     });
 }
@@ -63,19 +59,15 @@ function updateGroupFriendsBalance(group, users, callback){
             if (bal){
                 for (var i in bal){
                     for (var j in users){
-                        users[j].balance = {
-                            amount:0,
-                            currencyCode: ''
-                        }
                         if (bal[i].get('user').id == users[j].id){
-                            users[j].balance.amount = bal[i].get('balance');
-                            users[j].balance.currencyCode = bal[i].get('currency').get('code');
-                            console.log("amount "+users[j].balance.amount);
+                            users[j].balance = bal[i].get('balance');
+                            users[j].currencyCode = bal[i].get('currency').get('code');
+
                         }
                     }
                 }
             }
-            callback(bal);
+            callback(users);
         }
     });
 }

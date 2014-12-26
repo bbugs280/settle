@@ -118,8 +118,9 @@ angular.module('starter.controllers', [])
         }
         $scope.loadGroupsBalance = function(){
             if ($rootScope.Groups){
-                updateGroupUserBalance($rootScope.Groups, $rootScope.user, function(bal){
-                    $scope.GroupsFiltered = $rootScope.Groups;
+                updateGroupUserBalance($rootScope.Groups, $rootScope.user, function(groups){
+//                    $scope.GroupsFiltered = groups;
+//                    $rootScope.Groups = groups;
                     $rootScope.$apply();
                     $scope.$apply();
                 });
@@ -218,7 +219,7 @@ angular.module('starter.controllers', [])
                     $scope.loading = 'hidden';
                     $scope.$broadcast('scroll.refreshComplete');
                     //update Friends Balance here
-                    updateGroupFriendsBalance($rootScope.selectedGroup, $scope.GroupFriends, function(bal){
+                    updateGroupFriendsBalance($rootScope.selectedGroup, $scope.GroupFriends, function(users){
                         $scope.$apply();
                         $rootScope.$apply();
                     });
