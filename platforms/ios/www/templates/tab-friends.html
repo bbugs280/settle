@@ -38,7 +38,7 @@
                    ng-if="group.get('icon')==undefined">
               <p>
                   <b>{{group.get('group')}}</b>
-                  <span class="item-note" style="color:black;font-size: x-small" ng-if="group.balance!=0">
+                  <span class="item-note" style="color:black;font-size: small" ng-if="group.balance!=0">
 
                        <span ng-if="group.balance<0">
                            <span style="color: red">{{group.balance |  currency:group.currencyCode}}</span>
@@ -56,7 +56,7 @@
           <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="FriendsFiltered.length!=0">
               Friends ({{FriendsFiltered.length}})
           </ion-item>
-          <ion-item class="item item-avatar item-icon-right item-button-right" style="font-size: small" ng-repeat="friend in FriendsFiltered"  ng-if="friend.id!=user.id" ng-click="goToPay(friend)">
+          <ion-item class="item item-avatar" style="font-size: small" ng-repeat="friend in FriendsFiltered"  ng-if="friend.id!=user.id" ng-click="goToPay(friend)">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">
@@ -65,7 +65,7 @@
                    ng-if="friend.get('icon')==undefined">
                 <p>
                     <b>{{friend.get('username')}}</b> <span class="item-note" style="font-size: small"></span> <span style="font-size: x-small">{{friend.get('email')}} </span>
-                    <span class="item-note" style="color:black;font-size: x-small" >
+                    <span class="item-note" style="color:black;font-size: small" >
 
                        <span ng-if="friend.balance<0">
                            <span style="color: red">{{friend.balance |  currency:friend.currencyCode}}</span>
@@ -79,9 +79,9 @@
                     <span style="font-size:x-small"><b>{{friend.get('phone_number')}}</b></span>
                 </p>
 
-              <button class="button button-clear" style="color:black" ng-click="goToPay(friend)">
-                  <i class="icon ion-card"></i>
-              </button>
+              <!--<button class="button button-clear" style="color:black" ng-click="goToPay(friend)">-->
+                  <!--<i class="icon ion-card"></i>-->
+              <!--</button>-->
               <!--<br>-->
               <!--<button class="button button-clear"  ng-click="goToWhatsapp(friend)">-->
                   <!--<i class="icon ion-social-whatsapp-outline"></i>-->

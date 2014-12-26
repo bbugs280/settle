@@ -74,12 +74,34 @@ function updateGroupFriendsBalance(group, users, callback){
     });
 }
 
-
-function loadRelatedUserBalance(group, user, callback){
-    var Balance = Parse.Object.extend("balance");
+function updateFriendsBalance(you, users, callback){
     var FriendList = Parse.Object.extend("friendlist");
-    var queryBalance = new Parse.Query(Balance);
+    var Balance = Parse.Object.extend("balance");
     var queryGroup = new Parse.Query(FriendList);
+    var queryBalance = new Parse.Query(Balance);
 
+    queryGroup.equalTo('friend_userid',you.id);
+    queryGroup.equalTo('ispersonal',true);
+    queryBalance.include('currency');
+    //queryBalance.include('group');
+
+    queryBalance.containedIn('user', users);
     queryBalance.matchesQuery('group',queryGroup);
+    queryBalance.find({
+        success:function(bal){
+            console.log("updateGroupFriendsBalance length "+ bal.length);
+            if (bal){
+                for (var i in bal){
+                    for (var j in users){
+                        if (bal[i].get('user').id == users[j].id){
+                            users[j].balance = bal[i].get('balance');
+                            users[j].currencyCode = bal[i].get('currency').get('code');
+
+                        }
+                    }
+                }
+            }
+            callback(users);
+        }
+    });
 }
