@@ -107,21 +107,41 @@ angular.module('starter.controllers', [])
         $scope.loadGroup = function(){
             var user = new SUser();
             user.getFriendListAll($rootScope.user.id, false, function(groups){
-                if (groups){
-                    for (var i in groups){
-                        loadRelatedGroupUserBalance(groups[i], $rootScope.user, function(bal){
-                            if (bal){
-                                groups[i].balance = bal;
-                                groups[i].currencyCode = bal.get('currency').get('code');
-                            }
-                        });
-                    }
-                }
                 $rootScope.Groups = groups;
                 $scope.GroupsFiltered = groups;
+//                $scope.loadGroupsBalance();
+                $rootScope.$apply();
+                $scope.$apply();
                 $scope.loadFriends();
-            });
 
+            });
+        }
+        $scope.loadGroupsBalance = function(){
+
+            if ($rootScope.Groups){
+                for (var i=0; i < $rootScope.Groups.length;i++){
+                    console.log("group = index = "+ i );
+                    console.log("group = index total = "+ $rootScope.Groups.length );
+                    loadRelatedGroupUserBalance($rootScope.Groups[i], $rootScope.user, function(bal){
+
+                        if ($rootScope.Groups[i]){
+                            console.log(" valid group");
+
+                        }
+                        if (bal){
+//                            console.log("group = "+i+" : "+ $rootScope.Groups[i].get('group'));
+//                            $rootScope.Groups[i].balance = 0;
+//                            $rootScope.Groups[i].set('balance',bal.get('balance'));
+                            $rootScope.Groups[i].balance = bal.get('balance');
+                            console.log("group balance = "+i+" : "+ $rootScope.Groups[i].balance);
+                            $rootScope.Groups[i].currencyCode = bal.get('currency').get('code');
+                            $scope.GroupsFiltered[i] = $rootScope.Groups[i];
+                            $rootScope.$apply();
+                            $scope.$apply();
+                        }
+                    });
+                }
+            }
         }
         $scope.loadFromParse = function(phoneArray){
             //Now get user from Parse using Array

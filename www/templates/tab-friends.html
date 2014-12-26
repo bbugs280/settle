@@ -39,11 +39,12 @@
               <p>
                   <b>{{group.get('group')}}</b>
                   <span class="item-note" style="color:black">
-                       <span ng-if="group.balance<0">
-                           <span style="color: red">{{group.balance |  currency:group.currencyCode}}</span>
+
+                       <span ng-if="group.balance.amount<0">
+                           <span style="color: red">{{group.balance.amount |  currency:group.balance.currencyCode}}</span>
                         </span>
-                        <span ng-if="group.balance>=0">
-                           <span style="color:olivedrab">{{group.balance| currency:group.currencyCode}}</span>
+                        <span ng-if="group.balance.amount>=0">
+                           <span style="color:olivedrab">{{group.balance.amount| currency:group.balance.currencyCode}}</span>
                         </span>
                     </span>
                   <br>

@@ -241,6 +241,7 @@ var SUser = Parse.User.extend({
             success: function (result) {
                 // The object was retrieved successfully.
                 console.log("getFriendListAll - success count " + result.length);
+
                 callback(result);
             },
             error: function (object, error) {

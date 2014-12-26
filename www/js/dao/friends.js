@@ -20,7 +20,7 @@ function loadFriendsFromParse(phoneArray, callback){
 }
 
 
-function loadRelatedGroupUserBalance(group, user, callback){
+function loadRelatedGroupUserBalance(group, user, balance){
     var Balance = Parse.Object.extend("balance");
     var queryBalance = new Parse.Query(Balance);
     queryBalance.include('currency');
@@ -29,13 +29,17 @@ function loadRelatedGroupUserBalance(group, user, callback){
     queryBalance.equalTo('user', user);
     queryBalance.first({
         success:function(bal){
-//            if (bal){
-//                callback(bal.get('balance'));
-//            }
             console.log("bal "+ bal.get('group').get('group'));
             console.log("bal "+ bal.get('balance'));
-            callback(bal);
+//            callback(bal);
+            balance.amount = bal.get('balance');
+            balance.currencyCode = bal.get('currency').get('code');
+
+            console.log("ammount =  "+ balance.amount);
+            console.log("currencyCode =  "+ balance.currencyCode);
+
         }
+
     });
 }
 

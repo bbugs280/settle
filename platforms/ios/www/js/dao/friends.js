@@ -24,13 +24,17 @@ function loadRelatedGroupUserBalance(group, user, callback){
     var Balance = Parse.Object.extend("balance");
     var queryBalance = new Parse.Query(Balance);
     queryBalance.include('currency');
+    queryBalance.include('group');
     queryBalance.equalTo('group', group);
     queryBalance.equalTo('user', user);
     queryBalance.first({
         success:function(bal){
-            if (bal){
-                callback(bal.get('balance'));
-            }
+//            if (bal){
+//                callback(bal.get('balance'));
+//            }
+            console.log("bal "+ bal.get('group').get('group'));
+            console.log("bal "+ bal.get('balance'));
+            callback(bal);
         }
     });
 }
