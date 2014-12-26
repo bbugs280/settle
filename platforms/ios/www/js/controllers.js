@@ -109,7 +109,7 @@ angular.module('starter.controllers', [])
             user.getFriendListAll($rootScope.user.id, false, function(groups){
                 $rootScope.Groups = groups;
                 $scope.GroupsFiltered = groups;
-//                $scope.loadGroupsBalance();
+                $scope.loadGroupsBalance();
                 $rootScope.$apply();
                 $scope.$apply();
                 $scope.loadFriends();
@@ -117,30 +117,12 @@ angular.module('starter.controllers', [])
             });
         }
         $scope.loadGroupsBalance = function(){
-
             if ($rootScope.Groups){
-                for (var i=0; i < $rootScope.Groups.length;i++){
-                    console.log("group = index = "+ i );
-                    console.log("group = index total = "+ $rootScope.Groups.length );
-                    loadRelatedGroupUserBalance($rootScope.Groups[i], $rootScope.user, function(bal){
-
-                        if ($rootScope.Groups[i]){
-                            console.log(" valid group");
-
-                        }
-                        if (bal){
-//                            console.log("group = "+i+" : "+ $rootScope.Groups[i].get('group'));
-//                            $rootScope.Groups[i].balance = 0;
-//                            $rootScope.Groups[i].set('balance',bal.get('balance'));
-                            $rootScope.Groups[i].balance = bal.get('balance');
-                            console.log("group balance = "+i+" : "+ $rootScope.Groups[i].balance);
-                            $rootScope.Groups[i].currencyCode = bal.get('currency').get('code');
-                            $scope.GroupsFiltered[i] = $rootScope.Groups[i];
-                            $rootScope.$apply();
-                            $scope.$apply();
-                        }
-                    });
-                }
+                updateGroupUserBalance($rootScope.Groups, $rootScope.user, function(bal){
+                    $scope.GroupsFiltered = $rootScope.Groups;
+                    $rootScope.$apply();
+                    $scope.$apply();
+                });
             }
         }
         $scope.loadFromParse = function(phoneArray){
@@ -231,17 +213,24 @@ angular.module('starter.controllers', [])
             query.find({
                 success:function(users){
                     console.log("found user = "+users.length);
-
                     $scope.GroupFriends=users;
                     $scope.$apply();
                     $scope.loading = 'hidden';
                     $scope.$broadcast('scroll.refreshComplete');
+                    //update Friends Balance here
+                    updateGroupFriendsBalance($rootScope.selectedGroup, $scope.GroupFriends, function(bal){
+                        $scope.$apply();
+                        $rootScope.$apply();
+                    });
+
                 }, error:function(obj, error){
                     $scope.loading = 'hidden';
                     console.log("error "+ error.message);
                 }
             });
         }
+
+
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }

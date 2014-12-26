@@ -37,8 +37,18 @@
                    ng-if="friend.get('icon')==undefined">
                 <p>
                     <b>{{friend.get('username')}}</b> <span style="font-size: x-small">{{friend.get('email')}} </span>
+                    <span class="item-note" style="color:black" >
+
+                       <span ng-if="friend.balance.amount<0">
+                           <span style="color: red">{{friend.balance.amount |  currency:friend.balance.currencyCode}}</span>
+                        </span>
+                        <span ng-if="group.balance.amount>=0">
+                           <span style="color:olivedrab">{{friend.balance.amount| currency:friend.balance.currencyCode}}</span>
+                        </span>
+                    </span>
                     <br>
                     <span style="font-size: x-small"><b>{{friend.get('phone_number')}}</b></span>
+
                 </p>
 
               <!--<i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>-->

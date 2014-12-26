@@ -19,21 +19,62 @@ function loadFriendsFromParse(phoneArray, callback){
     });
 }
 
-
-function loadRelatedGroupUserBalance(group, user, callback){
+function updateGroupUserBalance(groups, user, callback){
     var Balance = Parse.Object.extend("balance");
     var queryBalance = new Parse.Query(Balance);
     queryBalance.include('currency');
     queryBalance.include('group');
-    queryBalance.equalTo('group', group);
+    queryBalance.containedIn('group', groups);
     queryBalance.equalTo('user', user);
-    queryBalance.first({
+
+    queryBalance.find({
         success:function(bal){
-//            if (bal){
-//                callback(bal.get('balance'));
-//            }
-            console.log("bal "+ bal.get('group').get('group'));
-            console.log("bal "+ bal.get('balance'));
+            console.log("updateGroupUserBalance length "+ bal.length);
+            if (bal){
+                for (var i in bal){
+                    for (var j in groups){
+                        groups[j].balance = {
+                            amount:0,
+                            currencyCode: ''
+                        }
+                        if (bal[i].get('group').id == groups[j].id){
+                            groups[j].balance.amount = bal[i].get('balance');
+                            groups[j].balance.currencyCode = bal[i].get('currency').get('code');
+                        }
+                    }
+                }
+            }
+            callback(bal);
+        }
+    });
+}
+
+function updateGroupFriendsBalance(group, users, callback){
+    var Balance = Parse.Object.extend("balance");
+    var queryBalance = new Parse.Query(Balance);
+    queryBalance.include('currency');
+    //queryBalance.include('group');
+    queryBalance.equalTo('group', group);
+    queryBalance.containedIn('user', users);
+
+    queryBalance.find({
+        success:function(bal){
+            console.log("updateGroupFriendsBalance length "+ bal.length);
+            if (bal){
+                for (var i in bal){
+                    for (var j in users){
+                        users[j].balance = {
+                            amount:0,
+                            currencyCode: ''
+                        }
+                        if (bal[i].get('user').id == users[j].id){
+                            users[j].balance.amount = bal[i].get('balance');
+                            users[j].balance.currencyCode = bal[i].get('currency').get('code');
+                            console.log("amount "+users[j].balance.amount);
+                        }
+                    }
+                }
+            }
             callback(bal);
         }
     });

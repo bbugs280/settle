@@ -38,7 +38,7 @@
                    ng-if="group.get('icon')==undefined">
               <p>
                   <b>{{group.get('group')}}</b>
-                  <span class="item-note" style="color:black">
+                  <span class="item-note" style="color:black" ng-if="group.balance.amount!=0">
 
                        <span ng-if="group.balance.amount<0">
                            <span style="color: red">{{group.balance.amount |  currency:group.balance.currencyCode}}</span>

@@ -117,19 +117,12 @@ angular.module('starter.controllers', [])
             });
         }
         $scope.loadGroupsBalance = function(){
-
             if ($rootScope.Groups){
-                for (var i=0; i < $rootScope.Groups.length;i++){
-
-                    $rootScope.Groups[i].balance = {
-                            amount: 0,
-                            currencyCode: ''
-                    }
-                    loadRelatedGroupUserBalance($rootScope.Groups[i], $rootScope.user, $rootScope.Groups[i].balance);
-                    setTimeout(console.log('check amount '+$rootScope.Groups[i].balance.amount), 5000);
+                updateGroupUserBalance($rootScope.Groups, $rootScope.user, function(bal){
+                    $scope.GroupsFiltered = $rootScope.Groups;
                     $rootScope.$apply();
                     $scope.$apply();
-                }
+                });
             }
         }
         $scope.loadFromParse = function(phoneArray){
@@ -220,17 +213,24 @@ angular.module('starter.controllers', [])
             query.find({
                 success:function(users){
                     console.log("found user = "+users.length);
-
                     $scope.GroupFriends=users;
                     $scope.$apply();
                     $scope.loading = 'hidden';
                     $scope.$broadcast('scroll.refreshComplete');
+                    //update Friends Balance here
+                    updateGroupFriendsBalance($rootScope.selectedGroup, $scope.GroupFriends, function(bal){
+                        $scope.$apply();
+                        $rootScope.$apply();
+                    });
+
                 }, error:function(obj, error){
                     $scope.loading = 'hidden';
                     console.log("error "+ error.message);
                 }
             });
         }
+
+
         $scope.goToWhatsapp = function(user){
             whatsappSendMessage(user.get('phone_number'), "");
         }

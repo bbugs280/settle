@@ -208,6 +208,7 @@ function resetBadge(){
 function sendPushMessage (message, channel){
     var query = new Parse.Query(Parse.Installation);
     if( typeof channel === 'string' ) {
+        //console.log("sendPushMessage typeof channel === 'string'" + typeof channel);
         query.equalTo('channels', channel); // Set our channel
     }else{
         query.containedIn('channels', channel); // Set our channel
