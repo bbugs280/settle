@@ -1,6 +1,6 @@
 var Transaction = Parse.Object.extend("transaction",{
 
-        getRelatedTran : function(groupId, user, size, skip, callback){
+        getRelatedTran : function( user, size, skip, callback){
             var fromQuery = new Parse.Query("transaction");
             fromQuery.equalTo("fromuser", user);
 
@@ -11,7 +11,7 @@ var Transaction = Parse.Object.extend("transaction",{
             mainQuery.include('currency');
             mainQuery.include('fromuser');
             mainQuery.include('touser');
-            mainQuery.equalTo("groupId", groupId);
+//            mainQuery.equalTo("groupId", groupId);
             mainQuery.addDescending("createdAt");
             mainQuery.limit(size);
             mainQuery.skip(skip);

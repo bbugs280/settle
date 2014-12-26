@@ -1406,9 +1406,9 @@ angular.module('starter.controllers', [])
         if (typeof analytics !== 'undefined') {
             analytics.trackView('Balance Detail');
         }
-        if (!$rootScope.selectedGroup){
-            $state.go('tab.balance-overview');
-        }
+//        if (!$rootScope.selectedGroup){
+//            $state.go('tab.balance-overview');
+//        }
         console.log("controller - BalanceDetailCtrl start | selectedGroup ");
         $scope.balance = Parse.Object.extend("balance");
         $scope.transactions = [];
@@ -1422,10 +1422,9 @@ angular.module('starter.controllers', [])
         $scope.initTran = function(){
             $scope.loading = 'visible';
             $scope.transactions=[];
-            user.getBalanceByGroupAndUser($rootScope.selectedGroup,$rootScope.user, function(balance){
-
+            user.getBalanceByUser($rootScope.user, function(balance){
                 $scope.balance = balance;
-                console.log("controller balance - Balance = "+$scope.balance.get('balance'));
+//                console.log("controller balance - Balance = "+$scope.balance.get('balance'));
                 $scope.$apply();
             })
 
@@ -1440,7 +1439,7 @@ angular.module('starter.controllers', [])
             //$scope.tranSkipNo = 0;
             //$scope.tranStillHaveRecord = true;
             var tran = new Transaction();
-            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,0, function(transactions){
+            tran.getRelatedTran($rootScope.user,$scope.tranPageSize,0, function(transactions){
                 if (transactions.length!=0){
                     $scope.tranStillHaveRecord = true;
                 }
@@ -1457,7 +1456,7 @@ angular.module('starter.controllers', [])
             //Load more recent transactions
             console.log("load more tran");
             var tran = new Transaction();
-            tran.getRelatedTran($rootScope.selectedGroup.id,$rootScope.user,$scope.tranPageSize,$scope.tranSkipNo, function(transactions){
+            tran.getRelatedTran($rootScope.user,$scope.tranPageSize,$scope.tranSkipNo, function(transactions){
                 $scope.tranSkipNo += transactions.length;
                 if (transactions.length==0){
                     $scope.tranStillHaveRecord = false;

@@ -1,20 +1,28 @@
-<ion-view title="Transactions"  hide-back-button="true">
-    <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="goToBalanceOverview()" ng-if="selectedFriend !=undefined && (selectedGroup.get('ispersonal') == true || selectedGroup == undefined)">
-            <i class="icon ion-ios7-arrow-back"></i>
-            <!--Back-->
-        </button>
-    </ion-nav-buttons>
-    <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click="goToBalanceGroup()" ng-if="selectedGroup != undefined && selectedGroup.get('ispersonal') != true">
-            <i class="icon ion-ios7-arrow-back"></i>
-            <!--Back-->
-        </button>
-    </ion-nav-buttons>
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="goToSend()">
-            <i class="icon ion-card"></i>
-            Pay
+<ion-view title="Balance & History"  hide-back-button="true">
+    <!--<ion-nav-buttons side="left">-->
+        <!--<button class="button button-clear" ng-click="goToBalanceOverview()" ng-if="selectedFriend !=undefined && (selectedGroup.get('ispersonal') == true || selectedGroup == undefined)">-->
+            <!--<i class="icon ion-ios7-arrow-back"></i>-->
+            <!--&lt;!&ndash;Back&ndash;&gt;-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <!--<ion-nav-buttons side="left">-->
+        <!--<button class="button button-clear" ng-click="goToBalanceGroup()" ng-if="selectedGroup != undefined && selectedGroup.get('ispersonal') != true">-->
+            <!--<i class="icon ion-ios7-arrow-back"></i>-->
+            <!--&lt;!&ndash;Back&ndash;&gt;-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <!--<ion-nav-buttons side="right">-->
+        <!--<button class="button button-clear" ng-click="goToSend()">-->
+            <!--<i class="icon ion-card"></i>-->
+            <!--Pay-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-nav-buttons side="right" >
+        <button class="button button-clear" ng-click="goToUserSetup(selectedGroup)">
+            <!--<span>-->
+            <img src="{{user.get('icon').url()}}" height="32px" style="border-radius: 50px" ng-if="user.get('icon')">
+            <img src="./img/people.png" height="32px" style="border-radius: 50px;background-color: grey" ng-if="user.get('icon')==undefined">
+            <!--</span>-->
         </button>
     </ion-nav-buttons>
     <ion-content  class="has-header" >
@@ -25,15 +33,16 @@
                     on-refresh="loadTran()">
             </ion-refresher>
             <ion-item class="item item-divider item-dark" style="font-size: small;">
-                Balance with <span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>
-                <span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>
+                Your Balance is
+                <!--<span ng-if="selectedFriend.getUsername()">{{selectedFriend.getUsername()}} </span>-->
+                <!--<span ng-if="selectedGroup.get('group')">{{selectedGroup.get('group')}}</span>-->
 
               <span class="item-note" style="color:black">
-                <span ng-if="balance.get('balance')<0">
-                    <span style="color: red">{{balance.get('balance')| currency:balance.get('currency').get('code')}}</span>
+                <span ng-if="balance<0">
+                    <span style="color: red">{{balance| currency:user.get('default_currency').get('code')}}</span>
                 </span>
-                <span ng-if="balance.get('balance')>=0">
-                    <span style="color:olivedrab">{{balance.get('balance')| currency:balance.get('currency').get('code')}}</span>
+                <span ng-if="balance>=0">
+                    <span style="color:olivedrab">{{balance| currency:user.get('default_currency').get('code')}}</span>
                 </span>
 
               </span>

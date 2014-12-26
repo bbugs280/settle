@@ -29,7 +29,7 @@
               Incoming ({{IncomingRequestsFiltered.length}})
 
           </ion-item>
-          <ion-item class="item item-icon-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" style="font-size: small" ng-click="goToIncomingRequestDetail(incomingrequest)">
+          <ion-item class="item item-icon-right"  ng-repeat="incomingrequest in IncomingRequestsFiltered" style="font-size: small;background-color: pink" ng-click="goToIncomingRequestDetail(incomingrequest)">
               <span ng-if="incomingrequest.get('parent').get('created_by').id == user.id">
                   <i class=" ion-record" style="color:dodgerblue" ng-if="incomingrequest.get('tran').get('read')!=true"></i>
               </span>
@@ -83,8 +83,8 @@
 
           </ion-item>
           <!--________________________________outgoing request and payment__________________________________________________________-->
-          <!--______________________________________________________________________________________________________________________-->
-          <ion-item class="item item-light item-icon-right"  ng-repeat="request in RequestsFiltered" style="background-color:lightblue;font-size: small" ng-click="goToRequestDetail(request)">
+
+          <ion-item class="item item-icon-right"  ng-repeat="request in RequestsFiltered" style="font-size: small;background-color:lightblue;" ng-click="goToRequestDetail(request)">
 
               <!--To User-->
               <!--Outgoing payment-->
@@ -132,7 +132,7 @@
           </ion-item>
           <!--________________________________Done / Archive__________________________________________________________-->
           <!--______________________________________________________________________________________________________________________-->
-          <ion-item class="item item-dark  item-divider" style="font-size: small" ng-if="ArchiveRequests.length!=0">
+          <ion-item class="item item-dark  item-divider" style="font-size: small;" ng-if="ArchiveRequests.length!=0">
               <i class="ion-loading-c" style="visibility: {{loading}}"></i>
               <i class="ion-android-archive"></i>
               Done / Old Archive ({{ArchiveRequestsFiltered.length}})

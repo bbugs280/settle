@@ -357,7 +357,7 @@ angular.module('starter', ['ionic','ionic.rating','starter.controllers', 'starte
     .state('tab.receive', {
           url: '/receive',
           views: {
-              'tab-receive': {
+              'tab-setup': {
                   templateUrl: 'templates/tab-receive.html',
                   controller: 'ReceiveCtrl'
               }
