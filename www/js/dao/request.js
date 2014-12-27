@@ -34,6 +34,7 @@ function loadRequests(user, callback){
     mainQuery.descending('updatedAt');
     mainQuery.find({
         success:function(requests){
+            console.log("Requests count = "+requests.length);
             for (var i in requests){
                 if (requests[i].get('parent').get('title')){
                     requests[i].title = requests[i].get('parent').get('title');
@@ -96,6 +97,7 @@ function loadIncomingRequests(user, callback){
     mainQuery.descending('updatedAt');
     mainQuery.find({
         success:function(requestdetails){
+            console.log("loadIncomingRequests count = "+requestdetails.length);
             for (var i in requestdetails){
                 if (requestdetails[i].get('parent').get('title')){
                     requestdetails[i].title = requestdetails[i].get('parent').get('title');
@@ -302,7 +304,7 @@ function getUserRating(request, user, callback){
     query.equalTo('created_by', user);
     query.first({
         success: function(rating){
-            if (rating.length!=0){
+            if (rating){
                console.log("user rating = "+rating.get('rating'));
                callback(rating.get('rating'));
             }
