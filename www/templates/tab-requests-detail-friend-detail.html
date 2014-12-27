@@ -46,7 +46,7 @@
                     {{selectedRequestDetail.get('amount')| currency:selectedRequest.get('currency').get('code')}}
                 </ion-item>
 
-            <ion-item class="item item-stable" style="font-size: small;text-align: center;" ng-click="saveRequestDetail(selectedRequestDetail)" ng-if="form.$valid && selectedRequestDetail.get('balance')!=0">
+            <ion-item class="item item-stable" style="font-size: small;text-align: center;" ng-click="saveRequestDetail(selectedRequestDetail)"  ng-if="form.$valid && selectedRequestDetail.get('balance')!=0 && !RequestDetailSaving">
                     Save
             </ion-item>
 

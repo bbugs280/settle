@@ -747,7 +747,7 @@ angular.module('starter.controllers', [])
         }
         $scope.saveRequestDetail = function(detail){
             console.log("saveRequestDetail");
-
+            $scope.RequestDetailSaving = true;
             $rootScope.selectedRequest.set('created_by', $rootScope.user);
             $rootScope.selectedRequest.save(null,{
                 success:function(r){
@@ -764,16 +764,19 @@ angular.module('starter.controllers', [])
                             }
 
                             $scope.calcTotalAmount();
+                            $scope.RequestDetailSaving = false;
                             $state.go('tab.requests-detail');
                         }
                     })
                 },error:function(obj,error){
+                    $scope.RequestDetailSaving = false;
                     console.log(error.message);
                 }
             })
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
+            $scope.RequestDetailSaving = true;
             $rootScope.showLoading('Saving');
             $rootScope.selectedRequest.set('title', request.title);
             $rootScope.selectedRequest.set('amount', request.amount);
@@ -806,7 +809,7 @@ angular.module('starter.controllers', [])
                         }
 
                     }
-
+                    $scope.RequestDetailSaving = false;
                     $rootScope.hideLoading();
 //                    $rootScope.loadRequests();
                     $rootScope.$apply();
