@@ -186,7 +186,7 @@ function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSk
     mainQuery.skip(archiveRecordToSkip);
     mainQuery.find({
         success:function(requests){
-            console.log("requests.length " +requests.length);
+            console.log("archived requests.length " +requests.length);
             if (requests.length==0){
 
                 callback(null);

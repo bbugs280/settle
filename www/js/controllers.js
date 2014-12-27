@@ -720,6 +720,14 @@ angular.module('starter.controllers', [])
 
         $scope.selectRequestUser = function(){
             console.log("selectRequestUser ");
+            console.log("selectRequestUser $rootScope.selectedRequest.title = " + $rootScope.selectedRequest.title);
+
+            if ($rootScope.selectedRequest.title)
+                $rootScope.selectedRequest.set('title', $rootScope.selectedRequest.title);
+
+            if ($rootScope.selectedRequest.note)
+                $rootScope.selectedRequest.set('note', $rootScope.selectedRequest.note);
+
             if ($rootScope.selectedRequest.get('group')){
                 $rootScope.goToRequestGroupDetail($rootScope.selectedRequest.get('group'));
 //                $state.go('tab.friends-request-group');

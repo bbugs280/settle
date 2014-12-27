@@ -3,7 +3,7 @@
  */
 
 function loadRequests(user, callback){
-    console.log("loadRequests");
+
     var RequestDetail = Parse.Object.extend("request_detail");
     var Request = Parse.Object.extend("request");
     var Tran = Parse.Object.extend("transaction");
@@ -34,6 +34,7 @@ function loadRequests(user, callback){
     mainQuery.descending('updatedAt');
     mainQuery.find({
         success:function(requests){
+            console.log("Requests count = "+requests.length);
             for (var i in requests){
                 if (requests[i].get('parent').get('title')){
                     requests[i].title = requests[i].get('parent').get('title');
@@ -96,6 +97,7 @@ function loadIncomingRequests(user, callback){
     mainQuery.descending('updatedAt');
     mainQuery.find({
         success:function(requestdetails){
+            console.log("loadIncomingRequests count = "+requestdetails.length);
             for (var i in requestdetails){
                 if (requestdetails[i].get('parent').get('title')){
                     requestdetails[i].title = requestdetails[i].get('parent').get('title');
@@ -129,7 +131,7 @@ function loadIncomingRequests(user, callback){
 }
 
 
-function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSkip, archiveStillHaveRecord,callback){
+function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSkip,callback){
     console.log("loadArchive start with archiveRecordCount = "+archiveRecordCount);
     var RequestDetail = Parse.Object.extend("request_detail");
     var Request = Parse.Object.extend("request");
@@ -184,9 +186,8 @@ function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSk
     mainQuery.skip(archiveRecordToSkip);
     mainQuery.find({
         success:function(requests){
-            console.log("requests.length " +requests.length);
+            console.log("archived requests.length " +requests.length);
             if (requests.length==0){
-                archiveStillHaveRecord = false;
 
                 callback(null);
                 throw ("no recorder");
@@ -250,9 +251,6 @@ function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSk
                 }
                 ArchiveRequests.push(requests[i]);
             }
-//            console.log("archiveRecordToSkip = "+archiveRecordToSkip);
-//            archiveRecordToSkip +=archiveRecordCount;
-            console.log("archiveRecordToSkip = "+archiveRecordToSkip);
 
             callback(requests);
 
@@ -306,7 +304,7 @@ function getUserRating(request, user, callback){
     query.equalTo('created_by', user);
     query.first({
         success: function(rating){
-            if (rating.length!=0){
+            if (rating){
                console.log("user rating = "+rating.get('rating'));
                callback(rating.get('rating'));
             }

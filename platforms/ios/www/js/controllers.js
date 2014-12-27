@@ -387,10 +387,15 @@ angular.module('starter.controllers', [])
 
         $scope.loadArchive = function(){
             console.log("$scope.archiveRecordToSkip = "+$scope.archiveRecordToSkip);
-            loadArchive($rootScope.user, $rootScope.ArchiveRequests,$scope.archiveRecordCount, $scope.archiveRecordToSkip,$scope.archiveStillHaveRecord, function(requests){
+            loadArchive($rootScope.user, $rootScope.ArchiveRequests,$scope.archiveRecordCount, $scope.archiveRecordToSkip, function(requests){
 //                $rootScope.ArchiveRequests = requests;
-                $scope.ArchiveRequestsFiltered = $rootScope.ArchiveRequests;
-                $scope.archiveRecordToSkip += requests.length;
+                if (requests){
+                    $scope.ArchiveRequestsFiltered = $rootScope.ArchiveRequests;
+                    $scope.archiveRecordToSkip += requests.length;
+                }else{
+                    $scope.archiveStillHaveRecord = false;
+                }
+
                 $scope.loading = "hidden";
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.$apply();
@@ -715,6 +720,14 @@ angular.module('starter.controllers', [])
 
         $scope.selectRequestUser = function(){
             console.log("selectRequestUser ");
+            console.log("selectRequestUser $rootScope.selectedRequest.title = " + $rootScope.selectedRequest.title);
+
+            if ($rootScope.selectedRequest.title)
+                $rootScope.selectedRequest.set('title', $rootScope.selectedRequest.title);
+
+            if ($rootScope.selectedRequest.note)
+                $rootScope.selectedRequest.set('note', $rootScope.selectedRequest.note);
+
             if ($rootScope.selectedRequest.get('group')){
                 $rootScope.goToRequestGroupDetail($rootScope.selectedRequest.get('group'));
 //                $state.go('tab.friends-request-group');

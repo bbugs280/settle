@@ -9,10 +9,10 @@
         <!--</button>-->
     <!--</ion-nav-buttons>-->
     <ion-content class="has-header" data-ng-init="init()" data-ng-controller="RequestsDetailCtrl" >
-        <form name="form" ng-model="selectedRequest">
+        <form name="form" ng-model="selectedRequest" ng-submit="saveRequest(selectedRequest)">
         <ion-list class="list" can-swipe="true">
             <ion-item class="item item-input item-button-right">
-                <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title">
+                <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title" required>
                 <button class="button button-clear" ng-click="openPlaceSearch(selectedRequest.title)">
                     <i class="icon ion-search"></i>
                 </button>
@@ -112,11 +112,11 @@
                 <rating ng-model="selectedRequest.rate" max="5" ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:90%;top:15px"></i>
             </ion-item>
-        </ion-list>
 
-            <ion-item class="item item-stable" style="font-size: small;text-align: center;"  ng-click="saveRequest(selectedRequest)" ng-if="form.$valid">
+
+            <button class="button button-block button-stable" type="submit" style="font-size: small;text-align: center;"  ng-if="form.$valid">
                 Save & Send
-            </ion-item>
+            </button>
         </ion-list>
         </form>
 
