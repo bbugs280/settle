@@ -63,9 +63,10 @@
                 <span class="item-note" style="color:red">{{selectedIncomingRequest.get('amount')|currency:selectedIncomingRequest.get('parent').get('currency').get('code')}}</span>
 
             </ion-item>
-            <ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
+            <ion-item class="item item-input"  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>
                 <rating ng-model="selectedRequest.rate" max="5" ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
+                <span class="badge badge-positive" style="font-size: x-small;top:0px;left:5px;width: 22px" ng-if="selectedIncomingRequest.commentUnreadCount">{{selectedIncomingRequest.commentUnreadCount}}</span>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:90%;top:15px"></i>
             </ion-item>
             <!--<form name="comment_form" ng-submit="payBack(selectedIncomingRequest)">-->

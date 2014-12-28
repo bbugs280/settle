@@ -359,24 +359,44 @@ angular.module('starter.controllers', [])
         $rootScope.intro = false;
         $scope.loading = "visible";
         $rootScope.loadRequests = function(){
+            console.log("loadRequests");
             loadRequests($rootScope.user, function(requests){
                 $rootScope.Requests = requests;
-                $scope.RequestsFiltered = requests;
-                $scope.loading = "hidden";
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.$apply();
-                $rootScope.$apply();
+                for (var i in $rootScope.Requests){
+                    getUnreadCommentCount($rootScope.Requests[i], $rootScope.user, function(c){
+                        $scope.RequestsFiltered=$rootScope.Requests;
+                        $scope.loading = "hidden";
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.$apply();
+                        $rootScope.$apply();
+                    });
+                }
+//                $scope.RequestsFiltered = requests;
+//                $scope.loading = "hidden";
+//                $scope.$broadcast('scroll.refreshComplete');
+//                $scope.$apply();
+//                $rootScope.$apply();
             });
         }
         $scope.loadIncomingRequests = function(){
             loadIncomingRequests($rootScope.user,function(requestdetails){
                 $rootScope.badges.request = requestdetails.length;
                 $rootScope.IncomingRequests = requestdetails;
-                $scope.IncomingRequestsFiltered = requestdetails;
-                $scope.loading = "hidden";
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.$apply();
-                $rootScope.$apply();
+                for (var i in $rootScope.IncomingRequests){
+                    getUnreadCommentCount($rootScope.IncomingRequests[i], $rootScope.user, function(c){
+//                        $scope.IncomingRequestsFiltered.push($rootScope.IncomingRequests[i]);
+                        $scope.IncomingRequestsFiltered=$rootScope.IncomingRequests;
+                        $scope.loading = "hidden";
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.$apply();
+                        $rootScope.$apply();
+                    });
+                }
+//                $scope.IncomingRequestsFiltered = $rootScope.IncomingRequests;
+//                $scope.loading = "hidden";
+//                $scope.$broadcast('scroll.refreshComplete');
+//                $scope.$apply();
+//                $rootScope.$apply();
             });
 
         }
@@ -387,6 +407,9 @@ angular.module('starter.controllers', [])
 
         $scope.loadArchive = function(){
             console.log("$scope.archiveRecordToSkip = "+$scope.archiveRecordToSkip);
+            if (!$rootScope.ArchiveRequests)
+               $rootScope.ArchiveRequests=[];
+
             loadArchive($rootScope.user, $rootScope.ArchiveRequests,$scope.archiveRecordCount, $scope.archiveRecordToSkip, function(requests){
 //                $rootScope.ArchiveRequests = requests;
                 if (requests){
@@ -395,21 +418,29 @@ angular.module('starter.controllers', [])
                 }else{
                     $scope.archiveStillHaveRecord = false;
                 }
-
-                $scope.loading = "hidden";
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-                $scope.$apply();
-                $rootScope.$apply();
+                for (var i in $rootScope.ArchiveRequests){
+                    getUnreadCommentCount($rootScope.ArchiveRequests[i], $rootScope.user, function(c){
+//                        $scope.ArchiveRequestsFiltered=$rootScope.ArchiveRequests;
+                        $scope.loading = "hidden";
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.$apply();
+                        $rootScope.$apply();
+                    });
+                }
+//                $scope.loading = "hidden";
+//                $scope.$broadcast('scroll.infiniteScrollComplete');
+//                $scope.$apply();
+//                $rootScope.$apply();
             });
 
         }
         $scope.loadBoth = function(){
-            $scope.loadRequests();
+            $rootScope.loadRequests();
             $scope.loadIncomingRequests();
-            //$scope.loadArchive();
+//            $scope.loadArchive();
         }
         $scope.loadRequestRefresh = function(){
-            $scope.loadRequests();
+            $rootScope.loadRequests();
             $scope.loadIncomingRequests();
 
         }
@@ -536,6 +567,8 @@ angular.module('starter.controllers', [])
         }
         $scope.goToRequestDetail = function(requestdetail){
             $rootScope.selectedRequest = requestdetail.get('parent');
+            console.log("goToRequestDetail requestdetail.commentUnreadCount= "+requestdetail.commentUnreadCount);
+            $rootScope.selectedRequest.commentUnreadCount = requestdetail.commentUnreadCount;
             getAverageRating($rootScope.selectedRequest, function(avgRating){
                 $rootScope.selectedRequest.avgrate = avgRating;
                 $rootScope.$apply();
@@ -776,6 +809,7 @@ angular.module('starter.controllers', [])
         }
         $scope.saveRequest = function(request){
             console.log("RequestDetail - saveRequest");
+            console.log($rootScope.Requests.indexOf(request));
             $scope.RequestDetailSaving = true;
             $rootScope.showLoading('Saving');
             $rootScope.selectedRequest.set('title', request.title);
@@ -809,9 +843,12 @@ angular.module('starter.controllers', [])
                         }
 
                     }
+
                     $scope.RequestDetailSaving = false;
                     $rootScope.hideLoading();
-//                    $rootScope.loadRequests();
+//                    setTimeout($rootScope.loadRequests(),1000);
+
+//                    $scope.loadBoth();
                     $rootScope.$apply();
 //                    $rootScope.loadRequestInit();
                     $state.go('tab.requests');
@@ -1006,7 +1043,9 @@ angular.module('starter.controllers', [])
             $rootScope.selectedRequest = request;
             $rootScope.comment={};
             loadRelatedComments(request, function(comments){
+
                 $rootScope.RequestComments = comments;
+
                 getAverageRating($rootScope.selectedRequest, function(avgRating){
                     $rootScope.selectedRequest.avgrate = avgRating;
 //                    sendCommentToFriends(message, request, $rootScope.user.id);
@@ -1014,6 +1053,15 @@ angular.module('starter.controllers', [])
                     $rootScope.$broadcast('scroll.refreshComplete');
                     $state.go('tab.requests-comments');
                 })
+                //Update Readby User
+                for (var i in $rootScope.RequestComments){
+                    $rootScope.RequestComments[i].addUnique('readby_userid', $rootScope.user.id);
+                    $rootScope.RequestComments[i].save(null,{
+                       success:function(comment){
+                           console.log('comment added unique user');
+                       }
+                    });
+                }
 
             });
         }

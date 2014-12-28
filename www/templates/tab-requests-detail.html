@@ -110,6 +110,7 @@
             <ion-item class="item item-input "  style="font-size: small" ng-click="viewRatingComment(selectedRequest)">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Rating & Comments</span>
                 <rating ng-model="selectedRequest.rate" max="5" ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
+                <span class="badge badge-positive" style="font-size: x-small;top:0px;left:5px;width: 22px" ng-if="selectedRequest.commentUnreadCount">{{selectedRequest.commentUnreadCount}}</span>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:90%;top:15px"></i>
             </ion-item>
             <ion-item class="item item-stable" ng-click="saveRequest(selectedRequest)" style="font-size: small;text-align: center;"  ng-if="form.$valid && !RequestDetailSaving">

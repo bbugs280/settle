@@ -9,7 +9,7 @@
             <i class="icon ion-ios7-plus-empty"></i>
         </button>
     </ion-nav-buttons>
-  <ion-content data-ng-controller="RequestsCtrl" data-ng-init="loadRequestInit()">
+  <ion-content data-ng-controller="RequestsCtrl" data-ng-init="loadBoth()">
       <ion-list can-swipe="true">
           <ion-refresher
                   pulling-icon="icon ion-arrow-down-c"
@@ -58,8 +58,8 @@
                     <b>{{incomingrequest.title}}</b>
               </span>
               <!--Amount-->
-              <span class="item-note" style="color:black">
-                    <b>{{incomingrequest.amount| currency:incomingrequest.currencyCode}}</b>
+              <span class="item-note"  style="color:olivedrab;font-size:small">
+                    {{incomingrequest.amount| currency:incomingrequest.currencyCode}}
               </span>
               <br>
 
@@ -72,6 +72,7 @@
                   <b>{{incomingrequest.updatedAt.toLocaleString()}} </b>
               </span>
 
+              <span class="badge badge-positive" style="font-size: x-small;top:55%;width:22px" ng-if="incomingrequest.commentUnreadCount">{{incomingrequest.commentUnreadCount}}</span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
 
@@ -108,8 +109,8 @@
                     <b>{{request.title}}</b>
               </span>
               <!--Amount-->
-              <span class="item-note" style="color:black">
-                    <b>{{request.amount| currency:request.currencyCode}}</b>
+              <span class="item-note" style="color:olivedrab;font-size:small">
+                    {{request.amount| currency:request.currencyCode}}
               </span>
               <br>
               <!--Group-->
@@ -122,6 +123,7 @@
               <b>{{request.updatedAt.toLocaleString()}} </b>
               </span>
 
+              <span class="badge badge-positive" style="font-size: x-small;top:55%;width: 22px" ng-if="request.commentUnreadCount">{{request.commentUnreadCount}}</span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
               <ion-option-button class="button-assertive"
                                  ng-click="chaseDetail(detail)"
@@ -166,8 +168,8 @@
                     <b>{{request.title}}</b>
               </span>
               <!--Amount-->
-              <span class="item-note" style="color:black">
-                    <b>{{request.get('amount')| currency:request.get('parent').get('currency').get('code')}}</b>
+              <span class="item-note" style="color:olivedrab;font-size:small">
+                    {{request.get('amount')| currency:request.get('parent').get('currency').get('code')}}
               </span>
               <br>
               <!--Group-->
@@ -179,7 +181,7 @@
               <span class="item-note" style="font-size: x-small;color:dimgrey">
               <b>{{request.updatedAt.toLocaleString()}} </b>
               </span>
-
+              <span class="badge badge-positive" style="font-size: x-small;top:55%;width: 22px" ng-if="request.commentUnreadCount">{{request.commentUnreadCount}}</span>
               <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
           </ion-item>
           <ion-item class="item " style="text-align: center;font-weight: bold;font-size: small" ng-if="IncomingRequests.length == 0 && Requests.length == 0 && ArchiveRequests.length == 0">

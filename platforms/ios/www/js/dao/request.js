@@ -123,6 +123,8 @@ function loadIncomingRequests(user, callback){
                     requestdetails[i].groupName = "";
                 }
                 requestdetails[i].updateAt = requestdetails[i].updatedAt.toLocaleString();
+
+//                getUnreadCommentCount(requestdetails[i],user);
             }
 
             callback(requestdetails);
@@ -294,6 +296,24 @@ function getAverageRating(request, callback){
             callback(totalRating);
         }
     });
+}
+
+function getUnreadCommentCount(requestdetail,user,callback){
+    var RequestDetail = Parse.Object.extend("request_detail");
+    var Request = Parse.Object.extend("request");
+    var RequestComment = Parse.Object.extend("request_comment");
+
+    var queryRequestComment = new Parse.Query(RequestComment);
+    queryRequestComment.equalTo('parent',requestdetail.get('parent'));
+    queryRequestComment.notEqualTo('readby_userid',user.id);
+    queryRequestComment.count({
+        success:function(c){
+            console.log("getUnreadCommentCount = "+ c);
+            requestdetail.commentUnreadCount = c;
+            callback(c);
+        }
+    })
+
 }
 
 function getUserRating(request, user, callback){
