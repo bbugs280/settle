@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'ng-currency'])
+angular.module('starter', ['ionic','ionic.rating','starter.controllers', 'starter.services', 'ng-currency'])
 
 .run(function($ionicPlatform,$rootScope,$state) {
   $ionicPlatform.ready(function() {
@@ -269,12 +269,24 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
               authenticate: true
           }
       })
+      .state('tab.requests-comments', {
+          url: '/requests-comments',
+          views: {
+              'tab-requests': {
+                  templateUrl: 'templates/tab-request-comments.html',
+                  controller: 'RequestsDetailCtrl'
+              }
+          },
+          data: {
+              authenticate: true
+          }
+      })
     .state('tab.incomingrequest-detail', {
           url: '/incomingrequest-detail',
           views: {
               'tab-requests': {
                   templateUrl: 'templates/tab-incomingrequest-detail.html',
-                  controller: 'IncomingRequestDetailCtrl'
+                  controller: 'RequestsDetailCtrl'
               }
           },
           data: {
@@ -297,7 +309,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     .state('tab.send', {
       url: '/send',
       views: {
-        'tab-send': {
+        'tab-friends': {
           templateUrl: 'templates/tab-send.html',
           controller: 'SendCtrl'
         }
@@ -345,7 +357,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'n
     .state('tab.receive', {
           url: '/receive',
           views: {
-              'tab-receive': {
+              'tab-setup': {
                   templateUrl: 'templates/tab-receive.html',
                   controller: 'ReceiveCtrl'
               }

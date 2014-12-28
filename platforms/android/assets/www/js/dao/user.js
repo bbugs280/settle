@@ -101,6 +101,31 @@ var SUser = Parse.User.extend({
             }
         });
     },
+    getBalanceByUser : function(user, callback){
+        var Balance = Parse.Object.extend("balance");
+        var query = new Parse.Query(Balance);
+        var balance = 0;
+        var currencyCode = user.get('default_currency').get('code');
+        var exchangeRate = 1;
+        query.include('currency');
+        query.equalTo("user", user);
+        query.find({
+            success:function(bals){
+                if (bals){
+                    for (var i in bals){
+                        if (bals[i].get('currency').get('code') != currencyCode){
+                            exchangeRate = getFXRate(bals[i].get('currency').get('code'),currencyCode);
+                        }else{
+                            exchangeRate = 1;
+                        }
+//                        console.log("exchangeRate = "+exchangeRate);
+                        balance += bals[i].get('balance') * exchangeRate;
+                    }
+                }
+                callback(balance);
+            }
+        });
+    },
     getBalanceByGroupAndUser : function (group, user, callback) {
     console.log("getBalanceByGroupAndUser - start");
     var Balance = Parse.Object.extend("balance");
@@ -241,6 +266,7 @@ var SUser = Parse.User.extend({
             success: function (result) {
                 // The object was retrieved successfully.
                 console.log("getFriendListAll - success count " + result.length);
+
                 callback(result);
             },
             error: function (object, error) {
@@ -254,7 +280,7 @@ var SUser = Parse.User.extend({
 
         var query = new Parse.Query(Friendlist);
         query.equalTo("friend_userid", userId);
-        //query.notEqualTo("ispersonal",true);
+        query.notEqualTo("ispersonal",true);
         query.notEqualTo("hidden", true);
         query.addAscending('group');
         query.find({

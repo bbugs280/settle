@@ -9,7 +9,7 @@
         <!--</button>-->
     <!--</ion-nav-buttons>-->
     <ion-content class="has-header" data-ng-init="init()" data-ng-controller="RequestsDetailCtrl" >
-        <form name="form" ng-model="selectedRequest" ng-submit="saveRequest(selectedRequest)">
+        <form name="form" ng-model="selectedRequest">
         <ion-list class="list" can-swipe="true">
             <ion-item class="item item-input item-button-right">
                 <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title" required>
@@ -112,11 +112,14 @@
                 <rating ng-model="selectedRequest.rate" max="5" ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger;position: absolute;left:90%;top:15px"></i>
             </ion-item>
-
-
-            <button class="button button-block button-stable" type="submit" style="font-size: small;text-align: center;" ng-disabled="RequestDetailSaving"  ng-if="form.$valid">
+            <ion-item class="item item-stable" ng-click="saveRequest(selectedRequest)" style="font-size: small;text-align: center;"  ng-if="form.$valid && !RequestDetailSaving">
                 Save & Send
-            </button>
+            </ion-item>
+
+
+            <!--<button class="button button-block button-stable" type="submit" style="font-size: small;text-align: center;" ng-disabled="RequestDetailSaving"  ng-if="form.$valid">-->
+                <!--Save & Send-->
+            <!--</button>-->
         </ion-list>
         </form>
 

@@ -141,7 +141,9 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/whatsapp.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/common.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/friends.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/password-check.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/request.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/transaction.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/dao/user.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/js/sound/beep-07.wav \
@@ -156,6 +158,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/collide \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/crypto \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-cordova.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ngCordova \
@@ -1008,6 +1011,15 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/_ionicons-icons.scss \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/_ionicons-variables.scss \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic/scss/ionicons/ionicons.scss \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/bower.json \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/ionic-rating.coffee \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/ionic-rating.css \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/ionic-rating.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/ionic-rating.min.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/LICENSE \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/Makefile \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/package.json \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ionic-rating/README.md \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/bower.json \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/dist \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/ng-currency/README.md \
@@ -1142,6 +1154,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-incomingrequest-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-payment-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-receive.html \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-request-comments.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail-friend-detail.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail-photo.html \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/templates/tab-requests-detail.html \

@@ -1,0 +1,65 @@
+<ion-view title="Rating & Comments" hide-back-button="true">
+    <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear icon ion-ios7-arrow-back" ng-click="back()">
+
+                </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header" padding="true" data-ng-controller="RequestsDetailCtrl">
+        <ion-refresher
+                pulling-icon="icon ion-arrow-down-c"
+                refreshing-icon="icon ion-loading-c"
+                on-refresh="viewRatingComment(selectedRequest)">
+        </ion-refresher>
+        <ion-list class="list list-inset " style="font-size: small" >
+            <ion-item class="item item-stable" style="font-size: small;font-weight: bold">
+                {{selectedRequest.get('title')}}
+            </ion-item>
+            <ion-item class="item item-input "  style="font-size: small" ng-if="RequestComments.length!=0">
+                <span class="input-label"  style="font-size: small;font-weight: bold">Average Rating</span>
+
+                <b>{{selectedRequest.avgrate}} / 5 </b>
+            </ion-item>
+            <ion-item class="item item-avatar"  style="font-size: small" ng-repeat="requestcomment in RequestComments">
+                <!--personal icon-->
+                <img src="{{requestcomment.get('created_by').get('icon').url()}}"
+                     class="avatar"
+                     ng-if="requestcomment.get('created_by').get('icon')">
+                <img src="./img/people.png"
+                     class="avatar"
+                     ng-if="!requestcomment.get('created_by').get('icon')">
+                <b>{{requestcomment.get('created_by').getUsername()}}</b>
+                <!--<span class="input-label"  style="font-size: small;font-weight: bold">Rating </span>-->
+                <!--<rating ng-model="requestcomment.get('rating')" max="5"></rating>-->
+                <br>
+                {{requestcomment.get('comment')}}
+                <br>
+                <span style="font-size: x-small">{{requestcomment.updatedAt.toLocaleString()}}</span>
+            </ion-item>
+
+
+            <form ng-model="comment" ng-submit="saveComment(comment,selectedRequest)">
+                <ion-item class="item item-input item-divider "  style="font-size: small">
+                    <span class="input-label"  style="font-size: small;font-weight: bold">Your Rating</span>
+                    <rating ng-model="selectedRequest.rate" max="5"  ng-change="onEditRating(selectedRequest.rate, selectedRequest)"></rating>
+
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <span class="input-label" style="font-size: small;font-weight: bold">Comments</span>
+                    <textarea  ng-model="comment.comments" style="font-size: small" ng-change="onEditComment(comment)" placeholder="e.g. Is it a great place / event? Was it fun? Any Improvements?"></textarea>
+                </ion-item>
+                <button type="submit" class="button button-bar button-stable" ng-disabled="commentSaving">
+                    <span style="font-size: small">Post</span>
+                </button>
+                <!--<ion-item class="item item-stable" style="font-size: small;text-align: center" >-->
+                    <!--&lt;!&ndash;<button class="button button-clear" type="submit" style="color:black">&ndash;&gt;-->
+                        <!--<b>Post</b>-->
+                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+
+                <!--</ion-item>-->
+            </form>
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
