@@ -2697,13 +2697,13 @@ angular.module('starter.controllers', [])
         $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
             scope:$scope
         }).then(function(modal) {
-            $scope.modalPhotoNote = modal;
+            $rootScope.modalPhotoNote = modal;
 
         });
         $rootScope.openPhotoNote = function(photoURL){
             console.log("openPhotoNote " + photoURL);
             $scope.photoURL = photoURL;
-            $scope.modalPhotoNote.show();
+            $rootScope.modalPhotoNote.show();
         }
 
         $rootScope.alert = function(title, message){

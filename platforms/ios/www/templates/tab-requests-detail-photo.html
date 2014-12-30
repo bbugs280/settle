@@ -5,11 +5,19 @@
             <i class="icon ion-ios7-close-empty"></i>
         </button>
     </ion-header-bar>
-    <ion-content scroll="true" class="has-header">
-        <ion-list>
-            <ion-item style="height:100%;">
-                <img src="{{photoURL}}" class="rotate90" style="width:100%;">
-            </ion-item>
-        </ion-list>
+    <!--<ion-content scroll="false" class="has-header">-->
+        <!--<ion-list>-->
+            <!--<ion-item style="height:100%;">-->
+                <!--<img src="{{photoURL}}" class="rotate90" style="width:100%;">-->
+            <!--</ion-item>-->
+        <!--</ion-list>-->
+    <!--</ion-content>-->
+
+    <ion-content  class="has-header" padding="true" scroll="false">
+        <div id="container" style="position:fixed;display:inline;top:0;right:0;bottom:45px;left:0;">
+            <div id="content" style="position:fixed;display:inline;right:0;left:0;top:0;bottom:45px;-webkit-transform-origin: 0 0;margin-top:45px;">
+                <img src="{{photoURL}}" width="100%" style="top:50px" class="rotate90" zoomable id="image-scrollable">
+            </div>
+        </div>
     </ion-content>
 </ion-modal-view>
