@@ -308,7 +308,7 @@ function getUnreadCommentCount(requestdetail,user,callback){
     queryRequestComment.notEqualTo('readby_userid',user.id);
     queryRequestComment.count({
         success:function(c){
-            console.log("getUnreadCommentCount = "+ c);
+//            console.log("getUnreadCommentCount = "+ c);
             requestdetail.commentUnreadCount = c;
             callback(c);
         }

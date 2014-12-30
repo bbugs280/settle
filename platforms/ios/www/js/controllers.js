@@ -371,6 +371,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.refreshComplete');
 //                $scope.RequestsFiltered = requests;
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.refreshComplete');
@@ -392,6 +393,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.refreshComplete');
 //                $scope.IncomingRequestsFiltered = $rootScope.IncomingRequests;
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.refreshComplete');
@@ -427,6 +429,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.infiniteScrollComplete');
 //                $scope.$apply();
