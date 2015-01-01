@@ -406,7 +406,7 @@ angular.module('starter.controllers', [])
         $scope.archiveRecordCount = 3;
         $scope.archiveRecordToSkip = 0;
         $scope.archiveStillHaveRecord = true;
-
+        $rootScope.ArchiveRequests=[];
         $scope.loadArchive = function(){
             console.log("$scope.archiveRecordToSkip = "+$scope.archiveRecordToSkip);
             if (!$rootScope.ArchiveRequests)
@@ -417,7 +417,11 @@ angular.module('starter.controllers', [])
                 if (requests){
                     $scope.ArchiveRequestsFiltered = $rootScope.ArchiveRequests;
                     $scope.archiveRecordToSkip += requests.length;
+                    if (requests.length<$scope.archiveRecordCount){
+                        $scope.archiveStillHaveRecord = false;
+                    }
                 }else{
+
                     $scope.archiveStillHaveRecord = false;
                 }
                 for (var i in $rootScope.ArchiveRequests){
@@ -718,12 +722,13 @@ angular.module('starter.controllers', [])
             console.log("removeRequestDetail requestdetails = "+$rootScope.requestdetails.length);
 
             $rootScope.requestdetails.splice($rootScope.requestdetails.indexOf(detail),1);
-            $scope.calcTotalAmount();
+
             console.log("removeRequestDetail splice");
             if (detail.id){
                 detail.destroy({
                     success:function(r){
                         console.log("removeRequestDetail destroyed");
+                        $scope.calcTotalAmount();
                         $rootScope.$apply();
                         $state.go('tab.requests-detail');
                     }

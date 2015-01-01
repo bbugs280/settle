@@ -14,7 +14,9 @@ angular.module('starter', ['ionic','ionic.rating','starter.controllers', 'starte
     console.log("ionicPlatform ready!!");
 
     Parse.initialize("eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G", "utWyZ9iKkrZtoi3N30etMGrChUrRG8wTNesAzOvZ");
-
+      console.log("device:",ionic.Platform.device());
+      console.log("plaform:",ionic.Platform.platform());
+      console.log("version:",ionic.Platform.version());
       var appId ="eMt8xkAjx5hcAWMmL8HlNIUq3J0VQH2gf8b0TC8G";
       var clientKey = "tYR8nY2IyLBXNCHboJTLORSwHLZwjaCeYzGFHO9b";
       if(window.plugins){
