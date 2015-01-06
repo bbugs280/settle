@@ -167,6 +167,7 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode2 \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/scroller \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/spin.min.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/angular/angular-csp.css \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/angular/angular.js \
@@ -1047,6 +1048,8 @@
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcode2/qrcode.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/html5-qrcode.min.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/qrcodereader/jsqrcode-combined.min.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/scroller/Animate.js \
+/Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/lib/scroller/Scroller.js \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.danielcwilson.plugins.googleanalytics \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.ionic.keyboard \
 /Users/vincent/Documents/SoftDev/settle/platforms/android/assets/www/plugins/com.jcjee.plugins.emailcomposer \

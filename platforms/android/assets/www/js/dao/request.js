@@ -182,7 +182,6 @@ function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSk
     mainQuery.include(['parent.group']);
     mainQuery.include(['parent.currency']);
     mainQuery.descending('updatedAt');
-    //mainQuery.lessThan('updatedAt', $scope.archiveLastDate);
 
     mainQuery.limit(archiveRecordCount);
     mainQuery.skip(archiveRecordToSkip);
@@ -192,7 +191,7 @@ function loadArchive(user,ArchiveRequests, archiveRecordCount, archiveRecordToSk
             if (requests.length==0){
 
                 callback(null);
-                throw ("no recorder");
+                throw ("no more record");
             }
 
 

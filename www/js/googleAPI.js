@@ -5,7 +5,9 @@
 function placeAPI(text, country){
     var xmlhttp = new XMLHttpRequest();
     var result;
-    country = country.replace(" ","+");
+//    if (country)
+        country = country.replace(" ","+");
+
     var url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?query="+text+"+in+"+country+"&key=AIzaSyCvyJk8GZJaJkKtOMutktGtNyo27NBGYMA";
     console.log(url);
 

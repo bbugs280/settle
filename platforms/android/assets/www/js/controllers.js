@@ -371,6 +371,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.refreshComplete');
 //                $scope.RequestsFiltered = requests;
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.refreshComplete');
@@ -392,6 +393,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.refreshComplete');
 //                $scope.IncomingRequestsFiltered = $rootScope.IncomingRequests;
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.refreshComplete');
@@ -404,7 +406,7 @@ angular.module('starter.controllers', [])
         $scope.archiveRecordCount = 3;
         $scope.archiveRecordToSkip = 0;
         $scope.archiveStillHaveRecord = true;
-
+        $rootScope.ArchiveRequests=[];
         $scope.loadArchive = function(){
             console.log("$scope.archiveRecordToSkip = "+$scope.archiveRecordToSkip);
             if (!$rootScope.ArchiveRequests)
@@ -415,7 +417,11 @@ angular.module('starter.controllers', [])
                 if (requests){
                     $scope.ArchiveRequestsFiltered = $rootScope.ArchiveRequests;
                     $scope.archiveRecordToSkip += requests.length;
+                    if (requests.length<$scope.archiveRecordCount){
+                        $scope.archiveStillHaveRecord = false;
+                    }
                 }else{
+
                     $scope.archiveStillHaveRecord = false;
                 }
                 for (var i in $rootScope.ArchiveRequests){
@@ -427,6 +433,7 @@ angular.module('starter.controllers', [])
                         $rootScope.$apply();
                     });
                 }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
 //                $scope.loading = "hidden";
 //                $scope.$broadcast('scroll.infiniteScrollComplete');
 //                $scope.$apply();
@@ -715,12 +722,13 @@ angular.module('starter.controllers', [])
             console.log("removeRequestDetail requestdetails = "+$rootScope.requestdetails.length);
 
             $rootScope.requestdetails.splice($rootScope.requestdetails.indexOf(detail),1);
-            $scope.calcTotalAmount();
+
             console.log("removeRequestDetail splice");
             if (detail.id){
                 detail.destroy({
                     success:function(r){
                         console.log("removeRequestDetail destroyed");
+                        $scope.calcTotalAmount();
                         $rootScope.$apply();
                         $state.go('tab.requests-detail');
                     }
@@ -818,6 +826,7 @@ angular.module('starter.controllers', [])
             //$rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
 //            $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
             $rootScope.selectedRequest.set('created_by', $rootScope.user);
+            $scope.calcTotalAmount();
             $rootScope.selectedRequest.save(null,{
                 success:function (request){
                     console.log("Request saved");
@@ -2694,13 +2703,13 @@ angular.module('starter.controllers', [])
         $ionicModal.fromTemplateUrl('templates/tab-requests-detail-photo.html',{
             scope:$scope
         }).then(function(modal) {
-            $scope.modalPhotoNote = modal;
+            $rootScope.modalPhotoNote = modal;
 
         });
         $rootScope.openPhotoNote = function(photoURL){
             console.log("openPhotoNote " + photoURL);
             $scope.photoURL = photoURL;
-            $scope.modalPhotoNote.show();
+            $rootScope.modalPhotoNote.show();
         }
 
         $rootScope.alert = function(title, message){

@@ -18,7 +18,7 @@
             <ion-item class="item item-input "  style="font-size: small" ng-if="RequestComments.length!=0">
                 <span class="input-label"  style="font-size: small;font-weight: bold">Average Rating</span>
 
-                <b>{{selectedRequest.avgrate}} / 5 </b>
+                <b>{{selectedRequest.avgrate | number : 0}} / 5 </b>
             </ion-item>
             <ion-item class="item item-avatar"  style="font-size: small" ng-repeat="requestcomment in RequestComments">
                 <!--personal icon-->

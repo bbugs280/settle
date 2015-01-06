@@ -66,7 +66,7 @@
                 </span>
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
                 <ion-option-button class="button-assertive"
-                                   ng-click="removeDetail(detail)"
+                                   ng-click="removeRequestDetail(detail)"
                                    ng-if="detail.get('balance')!=0">
                     Remove
                 </ion-option-button>
@@ -103,7 +103,7 @@
                     <i class="icon ion-camera"></i>
                 </button>
             </ion-item>
-            <ion-item class="item item-icon-right" style="font-size: small" ng-if="selectedRequest.get('photo')!=undefined" ng-click="openPhotoNote(selectedRequest.get('photo').url())">
+            <ion-item class="item item-icon-right" style="font-size: small" ng-if="selectedRequest.get('photo')" ng-click="openPhotoNote(selectedRequest.get('photo').url())">
                 Photo Note
                 <i class="icon ion-ios7-arrow-forward" style="color: gray; font-size: larger"></i>
             </ion-item>

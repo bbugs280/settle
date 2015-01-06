@@ -826,6 +826,7 @@ angular.module('starter.controllers', [])
             //$rootScope.selectedRequest.set('currency', $rootScope.selectedCurrency);
 //            $rootScope.selectedRequest.set('group', $rootScope.selectedGroup);
             $rootScope.selectedRequest.set('created_by', $rootScope.user);
+            $scope.calcTotalAmount();
             $rootScope.selectedRequest.save(null,{
                 success:function (request){
                     console.log("Request saved");
