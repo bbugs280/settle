@@ -58,6 +58,7 @@
               <span ng-if="tran.get('fromuser').id==user.id">
                   <span >
                     To <b>{{tran.get('touser').get('username')}}</b>
+                     <span ng-if="tran.get('group').get('group')"> - {{tran.get('group').get('group')}} </span>
                   </span>
 
                 <span class="item-note" style="color:black">Paid</span>
@@ -75,6 +76,7 @@
               <span ng-if="tran.get('touser').id==user.id">
                   <span>
                     From <b>{{tran.get('fromuser').get('username')}}</b>
+                      <span ng-if="tran.get('group').get('group')"> - {{tran.get('group').get('group')}} </span>
                   </span>
 
                   <span class="item-note" style="color:black">
