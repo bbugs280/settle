@@ -44,10 +44,7 @@
                 <span ng-if="balance>=0">
                     <span style="color:olivedrab">{{balance| currency:user.get('default_currency').get('code')}}</span>
                 </span>
-
               </span>
-
-
             </ion-item>
             <ion-item class="item item-divider item-icon-right" style="font-size:small;font-weight: normal">
                 Recent transactions ({{transactions.length}})
@@ -57,7 +54,9 @@
             <ion-item class="item " style="font-size: small;" ng-repeat="tran in transactions">
               <span ng-if="tran.get('fromuser').id==user.id">
                   <span >
-                    To <b>{{tran.get('touser').get('username')}}</b>
+                    To
+                      <b> <span ng-if="tran.get('group').get('group')">{{tran.get('group').get('group')}} > </span> {{tran.get('touser').get('username')}}</b>
+
                   </span>
 
                 <span class="item-note" style="color:black">Paid</span>
@@ -74,7 +73,8 @@
               </span>
               <span ng-if="tran.get('touser').id==user.id">
                   <span>
-                    From <b>{{tran.get('fromuser').get('username')}}</b>
+                    From <b><span ng-if="tran.get('group').get('group')">{{tran.get('group').get('group')}} > </span> {{tran.get('fromuser').get('username')}}</b>
+                      <!--<span ng-if="tran.get('group').get('group')"> - {{tran.get('group').get('group')}} </span>-->
                   </span>
 
                   <span class="item-note" style="color:black">

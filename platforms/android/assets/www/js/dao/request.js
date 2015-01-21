@@ -99,6 +99,7 @@ function loadIncomingRequests(user, callback){
         success:function(requestdetails){
             console.log("loadIncomingRequests count = "+requestdetails.length);
             for (var i in requestdetails){
+//                console.log("loadIncomingRequests user = "+requestdetails[i].get('parent').get('created_by').getUsername());
                 if (requestdetails[i].get('parent').get('title')){
                     requestdetails[i].title = requestdetails[i].get('parent').get('title');
                 }else{
