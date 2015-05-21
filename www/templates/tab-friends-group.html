@@ -28,7 +28,8 @@
                <!--</label>-->
           <!--</ion-item>-->
 
-          <ion-item class="item item-avatar " style="font-size: small" ng-repeat="friend in GroupFriends"  ng-click="goToPayGroup(friend)" ng-if="friend.id!=user.id">
+          <!--<ion-item class="item item-avatar " style="font-size: small" ng-repeat="friend in GroupFriends"  ng-click="goToPayGroup(friend)" ng-if="friend.id!=user.id">-->
+          <ion-item class="item item-avatar " style="font-size: small" ng-repeat="friend in GroupFriends"  ng-click="showGroupClickOptions(selectedGroup,friend)" ng-if="friend.id!=user.id">
               <img src="{{friend.get('icon').url()}}"
                    class="avatar"
                    ng-if="friend.get('icon')!=undefined">

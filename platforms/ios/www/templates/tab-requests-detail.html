@@ -11,26 +11,7 @@
     <ion-content class="has-header" data-ng-init="init()" data-ng-controller="RequestsDetailCtrl" >
         <form name="form" ng-model="selectedRequest">
         <ion-list class="list" can-swipe="true">
-            <ion-item class="item item-input item-button-right">
-                <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title" required>
-                <button class="button button-clear" ng-click="openPlaceSearch(selectedRequest.title)">
-                    <i class="icon ion-search"></i>
-                </button>
-            </ion-item>
-            <ion-item class="item item-input item-button-right" ng-if="selectedRequest.get('location_detail')!=undefined">
-                <span style="font-size: small">
-                    {{selectedRequest.get('location_detail')}}
-                </span>
-                <br>
-                <span style="font-size:x-small" ng-if="selectedRequest.createdAt">on {{selectedRequest.createdAt.toLocaleString()}}</span>
-                <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))">
-                    <i class="icon ion-map"></i>
-                </button>
-                <ion-option-button class="button button-assertive"
-                                   ng-click="clearLocationDetail()">
-                    Clear
-                </ion-option-button>
-            </ion-item>
+
             <ion-item class="item item-avatar item-button-right"
                       style="font-size: medium"
                       ng-if="selectedRequest.get('group')!=undefined"
@@ -95,6 +76,28 @@
                     <input type="tel" disabled placeholder="Total Amount" ng-model="selectedRequest.amount"  ng-model-options="{ getterSetter: true }" style="font-size: large" ng-currency required>
                 </label>
             </ion-item>
+            <ion-item class="item item-input item-button-right">
+                <input type="text"  placeholder="Title / Place" ng-model="selectedRequest.title" required>
+                <button class="button button-clear" ng-click="openPlaceSearch(selectedRequest.title)">
+                    <i class="icon ion-search"></i>
+                </button>
+            </ion-item>
+
+            <ion-item class="item item-input item-button-right" ng-if="selectedRequest.get('location_detail')!=undefined">
+                <span style="font-size: small">
+                    {{selectedRequest.get('location_detail')}}
+                </span>
+                <br>
+                <span style="font-size:x-small" ng-if="selectedRequest.createdAt">on {{selectedRequest.createdAt.toLocaleString()}}</span>
+                <button class="button button-clear" ng-click="openMap(selectedRequest.title, selectedRequest.get('location_detail'))">
+                    <i class="icon ion-map"></i>
+                </button>
+                <ion-option-button class="button button-assertive"
+                                   ng-click="clearLocationDetail()">
+                    Clear
+                </ion-option-button>
+            </ion-item>
+
             <ion-item class="item item-input item-button-right">
 
                     <input type="text" placeholder="Note" ng-model="selectedRequest.note" maxlength="40">

@@ -265,7 +265,7 @@ function loadRelatedComments(request, callback){
     var query = new Parse.Query(Comment);
     query.include('created_by');
     query.equalTo('parent', request);
-    query.ascending('updatedAt');
+    query.ascending('createdAt');
     query.find({
         success: function(comments){
             console.log("loadRelatedComments "+comments.length);

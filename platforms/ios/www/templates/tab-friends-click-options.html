@@ -1,0 +1,25 @@
+<ion-modal-view style="width: 94%;top: 60%; left:3%;right:3%;bottom:3%">
+    <!--<ion-header-bar class="bar bar-header bar-light">-->
+        <!--<h3 class="title">Invite by</h3>-->
+    <!--</ion-header-bar>-->
+    <ion-content padding="false" scroll="false">
+        <div class="list">
+            //TODO change to selectedFriend
+            <a class="item" style="text-align: center;font-size:small" ng-click="goToPay(friend)">
+                Pay by Settle Credit
+            </a>
+            <a class="item" style="text-align: center;font-size:small" ng-click="addRequest(friend)">
+                Request a Payment
+            </a>
+            <a class="item" style="text-align: center;font-size:small" ng-click="inviteByWhatsapp()">
+                Settle your Balance
+            </a>
+            <button class="button button-block button-stable" ng-click="hideClickOptions()">
+                Cancel
+            </button>
+            <!--<a class="item" ng-click="hideInviteOptions()">-->
+
+            </a>
+        </div>
+    </ion-content>
+</ion-modal-view>

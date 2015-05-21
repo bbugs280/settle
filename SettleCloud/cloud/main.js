@@ -2,7 +2,7 @@
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 
-var twilio = require('twilio')('AC10c255c149d5fc1d56da52209d50a3b1', '87bc027121a25874b06748aa7dff29a7');
+var twilio = require('twilio')('AC10c255c149d5fc1d56da52209d50a3b1', 'Enter Token');
 
 Parse.Cloud.define("sendVerificationCode", function(request, response) {
   var verificationCode = Math.floor(Math.random()*999999);
